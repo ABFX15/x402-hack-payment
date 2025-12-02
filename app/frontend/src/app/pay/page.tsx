@@ -28,8 +28,16 @@ import {
   Zap,
   ArrowLeft,
   AlertCircle,
+  Fuel,
 } from "lucide-react";
 import Link from "next/link";
+import {
+  loadOctaneConfig,
+  buildTransactionWithAccountCheck,
+  transferTokenWithFee,
+  TokenFee,
+  OctaneConfig,
+} from "@/lib/octane";
 
 // Dynamically import WalletMultiButton to avoid SSR hydration issues
 const WalletButton = dynamic(
@@ -63,6 +71,9 @@ function PaymentPageContent() {
   const [status, setStatus] = useState<PaymentStatus>("idle");
   const [txSignature, setTxSignature] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [useGasless, setUseGasless] = useState(true); // Default to gasless
+  const [octaneConfig, setOctaneConfig] = useState<OctaneConfig | null>(null);
+  const [octaneFee, setOctaneFee] = useState<TokenFee | null>(null);
 
   // Parse URL params
   const amount = searchParams.get("amount") || "10.00";
@@ -71,10 +82,105 @@ function PaymentPageContent() {
 
   useEffect(() => {
     setMounted(true);
+    // Load Octane config
+    loadOctaneConfig()
+      .then((config) => {
+        setOctaneConfig(config);
+        // Find USDC fee
+        const usdcFee = config.endpoints?.transfer?.tokens?.find(
+          (t) => t.mint === USDC_MINT_DEVNET.toBase58()
+        );
+        if (usdcFee) {
+          setOctaneFee(usdcFee);
+        }
+      })
+      .catch((err) => {
+        console.log("Octane not available:", err);
+        setUseGasless(false);
+      });
   }, []);
 
-  // Process actual payment
+  // Process gasless payment via Octane
+  const handleGaslessPayment = useCallback(async () => {
+    if (
+      !connected ||
+      !publicKey ||
+      !signTransaction ||
+      !octaneConfig ||
+      !octaneFee
+    ) {
+      setError("Gasless payment not available");
+      return;
+    }
+
+    setStatus("processing");
+    setError(null);
+
+    try {
+      const amountInLamports = parseFloat(amount) * 1_000_000;
+
+      // Check balance (need amount + Octane fee)
+      const senderAta = await getAssociatedTokenAddress(
+        USDC_MINT_DEVNET,
+        publicKey
+      );
+      const senderAccount = await getAccount(connection, senderAta);
+      const balance = Number(senderAccount.amount);
+      const totalNeeded = amountInLamports + octaneFee.fee;
+
+      if (balance < totalNeeded) {
+        throw new Error(
+          `Insufficient USDC. Need ${(totalNeeded / 1_000_000).toFixed(
+            4
+          )} USDC (includes ${(octaneFee.fee / 1_000_000).toFixed(4)} gas fee)`
+        );
+      }
+
+      // Build transaction with Octane fee
+      const tx = await buildTransactionWithAccountCheck(
+        connection,
+        new PublicKey(octaneConfig.feePayer),
+        octaneFee,
+        USDC_MINT_DEVNET,
+        publicKey,
+        DEMO_MERCHANT_WALLET,
+        amountInLamports
+      );
+
+      // Sign the transaction (user signs, Octane will add fee payer signature)
+      const signedTx = await signTransaction(tx);
+
+      // Submit to Octane
+      const signature = await transferTokenWithFee(signedTx);
+
+      setTxSignature(signature);
+      setStatus("success");
+    } catch (err: any) {
+      console.error("Gasless payment error:", err);
+      setError(err.message || "Gasless payment failed");
+      setStatus("error");
+      setTimeout(() => {
+        setStatus("idle");
+        setError(null);
+      }, 8000);
+    }
+  }, [
+    connected,
+    publicKey,
+    signTransaction,
+    connection,
+    amount,
+    octaneConfig,
+    octaneFee,
+  ]);
+
+  // Process actual payment (standard, with SOL gas)
   const handlePayment = useCallback(async () => {
+    // Use gasless if available and enabled
+    if (useGasless && octaneConfig && octaneFee) {
+      return handleGaslessPayment();
+    }
+
     if (!connected || !publicKey || !signTransaction) {
       setError("Please connect your wallet first");
       return;
@@ -377,9 +483,49 @@ function PaymentPageContent() {
                       <WalletButton />
                     </div>
 
+                    {/* Gasless Toggle */}
+                    <div className="flex items-center justify-between p-4 rounded-xl bg-[var(--card)] border border-[var(--border)]">
+                      <div className="flex items-center gap-3">
+                        <Zap
+                          className={`w-5 h-5 ${
+                            useGasless
+                              ? "text-[var(--secondary)]"
+                              : "text-[var(--text-muted)]"
+                          }`}
+                        />
+                        <div>
+                          <p className="text-sm font-medium text-[var(--text-primary)]">
+                            Zero Gas Fees
+                          </p>
+                          <p className="text-xs text-[var(--text-muted)]">
+                            {useGasless
+                              ? "Pay small USDC fee instead of SOL"
+                              : "Requires SOL for gas"}
+                          </p>
+                        </div>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => setUseGasless(!useGasless)}
+                        className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+                          useGasless
+                            ? "bg-[var(--secondary)]"
+                            : "bg-[var(--border)]"
+                        }`}
+                      >
+                        <span
+                          className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                            useGasless ? "translate-x-6" : "translate-x-1"
+                          }`}
+                        />
+                      </button>
+                    </div>
+
                     {/* Pay Button */}
                     <button
-                      onClick={handlePayment}
+                      onClick={
+                        useGasless ? handleGaslessPayment : handlePayment
+                      }
                       disabled={status === "processing"}
                       className="btn-primary w-full flex items-center justify-center gap-3 text-lg"
                     >
@@ -392,6 +538,11 @@ function PaymentPageContent() {
                         <>
                           <CreditCard className="w-5 h-5" />
                           Pay ${amount} USDC
+                          {useGasless && (
+                            <span className="text-xs opacity-75">
+                              (No SOL needed)
+                            </span>
+                          )}
                           <ArrowRight className="w-5 h-5" />
                         </>
                       )}
