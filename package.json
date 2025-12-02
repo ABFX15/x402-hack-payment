@@ -1,6 +1,7 @@
 {
   "license": "ISC",
   "scripts": {
+    "build": "cd app/frontend && npm install && npm run build",
     "lint:fix": "prettier */*.js \"*/**/*{.js,.ts}\" -w",
     "lint": "prettier */*.js \"*/**/*{.js,.ts}\" --check"
   },
