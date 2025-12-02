@@ -33,10 +33,15 @@ export async function loadOctaneConfig(): Promise<OctaneConfig> {
     return response.json();
 }
 
-// Helper to encode transaction to base58
+// Helper to encode transaction to base64
 function encodeTransaction(transaction: Transaction): string {
     const serialized = transaction.serialize({ requireAllSignatures: false });
-    return Buffer.from(serialized).toString('base64');
+    // Use btoa for browser compatibility (Buffer may not be available)
+    if (typeof Buffer !== 'undefined') {
+        return Buffer.from(serialized).toString('base64');
+    }
+    // Fallback for browser
+    return btoa(String.fromCharCode(...serialized));
 }
 
 export async function createAssociatedTokenAccount(transaction: Transaction): Promise<string> {
