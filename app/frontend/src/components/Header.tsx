@@ -1,6 +1,15 @@
 "use client";
 
-import { History, Plus, Home, Wallet, Menu, X, Store } from "lucide-react";
+import {
+  History,
+  Plus,
+  Home,
+  Wallet,
+  Menu,
+  X,
+  Store,
+  ArrowDownToLine,
+} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -12,6 +21,7 @@ import { motion, AnimatePresence } from "framer-motion";
 const navLinks = [
   { href: "/", icon: Home, label: "Home" },
   { href: "/create", icon: Plus, label: "Create Payment" },
+  { href: "/offramp", icon: ArrowDownToLine, label: "Cash Out" },
   { href: "/history", icon: History, label: "History" },
   { href: "/merchant", icon: Store, label: "Merchant" },
 ];

@@ -14,6 +14,7 @@ import {
   DollarSign,
   Store,
   Users,
+  ArrowDownToLine,
 } from "lucide-react";
 
 export default function LandingPage() {
@@ -72,6 +73,13 @@ export default function LandingPage() {
               <QrCode className="w-5 h-5" />
               Create Payment Link
               <ArrowRight className="w-5 h-5" />
+            </Link>
+            <Link
+              href="/offramp"
+              className="btn-secondary flex items-center gap-2"
+            >
+              <ArrowDownToLine className="w-5 h-5" />
+              Cash Out
             </Link>
             <Link href="/demo" className="btn-ghost flex items-center gap-2">
               Try Demo

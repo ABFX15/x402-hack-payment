@@ -125,6 +125,28 @@ body {
   color: var(--text-primary);
 }
 
+/* Secondary button (outlined with color) */
+.btn-secondary {
+  background: transparent;
+  color: var(--secondary);
+  font-weight: 600;
+  padding: 12px 24px;
+  border-radius: 12px;
+  border: 2px solid var(--secondary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-secondary:hover {
+  background: var(--secondary);
+  color: white;
+  transform: translateY(-1px);
+}
+
+.btn-secondary:active {
+  transform: translateY(0);
+}
+
 /* Input styling */
 .input {
   background: var(--card);
