@@ -118,20 +118,15 @@ export default function CreatePaymentPage() {
               <DollarSign className="w-4 h-4 inline mr-1" />
               Amount (USDC) *
             </label>
-            <div className="relative">
-              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-2xl text-[var(--text-primary)] font-bold pointer-events-none">
-                $
-              </span>
-              <input
-                type="number"
-                value={amount}
-                onChange={(e) => setAmount(e.target.value)}
-                className="input text-2xl font-bold pl-12"
-                placeholder="0.00"
-                step="0.01"
-                min="0"
-              />
-            </div>
+            <input
+              type="number"
+              value={amount}
+              onChange={(e) => setAmount(e.target.value)}
+              className="input text-2xl font-bold"
+              placeholder="$0.00"
+              step="0.01"
+              min="0"
+            />
             {/* Quick amounts */}
             <div className="flex gap-2 mt-3">
               {presetAmounts.map((preset) => (
