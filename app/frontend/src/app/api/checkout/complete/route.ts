@@ -1,5 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { checkoutSessions, CheckoutSession } from "../sessions/route";
+import {
+    getCheckoutSession,
+    updateCheckoutSession,
+    createPayment,
+    Payment,
+} from "@/lib/db";
 
 /**
  * POST /api/checkout/complete
@@ -25,7 +31,11 @@ export async function POST(request: NextRequest) {
             );
         }
 
-        const session = checkoutSessions.get(sessionId);
+        // Try database first, then fallback to in-memory
+        let session = await getCheckoutSession(sessionId);
+        if (!session) {
+            session = checkoutSessions.get(sessionId) || null;
+        }
 
         if (!session) {
             return NextResponse.json(
@@ -41,22 +51,44 @@ export async function POST(request: NextRequest) {
             );
         }
 
-        // Update session
+        // Update session status
+        await updateCheckoutSession(sessionId, { status: "completed" });
+
+        // Also update legacy in-memory store
         session.status = "completed";
         session.paymentSignature = signature;
         session.customerWallet = customerWallet;
         session.completedAt = Date.now();
         checkoutSessions.set(sessionId, session);
 
+        // Create payment record using database layer
+        const payment = await createPayment({
+            sessionId: session.id,
+            merchantId: session.merchantId,
+            merchantName: session.merchantName,
+            merchantWallet: session.merchantWallet,
+            customerWallet: customerWallet,
+            amount: session.amount,
+            currency: session.currency,
+            description: session.description,
+            metadata: session.metadata,
+            txSignature: signature,
+            explorerUrl: `https://explorer.solana.com/tx/${signature}?cluster=devnet`,
+            createdAt: session.createdAt,
+            completedAt: Date.now(),
+            status: "completed",
+        });
+
         // Trigger webhook asynchronously
         if (session.webhookUrl) {
-            triggerWebhook(session).catch(err => {
+            triggerWebhook(session, payment.id).catch(err => {
                 console.error("Webhook delivery failed:", err);
             });
         }
 
         return NextResponse.json({
             success: true,
+            paymentId: payment.id,
             sessionId,
             signature,
             successUrl: session.successUrl,
@@ -74,12 +106,13 @@ export async function POST(request: NextRequest) {
 /**
  * Trigger webhook to merchant's endpoint
  */
-async function triggerWebhook(session: CheckoutSession): Promise<void> {
+async function triggerWebhook(session: CheckoutSession, paymentId: string): Promise<void> {
     if (!session.webhookUrl) return;
 
     const webhookPayload = {
-        event: "checkout.completed",
+        event: "payment.completed",
         data: {
+            paymentId: paymentId,
             sessionId: session.id,
             merchantId: session.merchantId,
             amount: session.amount,
@@ -89,6 +122,7 @@ async function triggerWebhook(session: CheckoutSession): Promise<void> {
             description: session.description,
             metadata: session.metadata,
             completedAt: session.completedAt,
+            receiptUrl: `/receipts/${paymentId}`,
         },
         timestamp: Date.now(),
     };

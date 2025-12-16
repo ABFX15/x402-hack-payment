@@ -1,29 +1,19 @@
 import { NextRequest, NextResponse } from "next/server";
 import { PublicKey } from "@solana/web3.js";
+import {
+    createCheckoutSession,
+    getCheckoutSession,
+    updateCheckoutSession,
+    CheckoutSession,
+} from "@/lib/db";
 
-// In production, use a database (Redis, PostgreSQL, etc.)
-// For demo, we use an in-memory store
+// Re-export CheckoutSession type for other routes
+export type { CheckoutSession };
+
+// Legacy in-memory store for backwards compatibility during migration
+// TODO: Remove after full migration to Supabase
 const checkoutSessions = new Map<string, CheckoutSession>();
-
-export interface CheckoutSession {
-    id: string;
-    merchantId: string;
-    merchantName: string;
-    merchantWallet: string;
-    amount: number; // in USDC (human readable, e.g., 29.99)
-    currency: string;
-    description?: string;
-    metadata?: Record<string, string>;
-    successUrl: string;
-    cancelUrl: string;
-    webhookUrl?: string;
-    status: "pending" | "completed" | "expired" | "cancelled";
-    paymentSignature?: string;
-    customerWallet?: string;
-    createdAt: number;
-    expiresAt: number;
-    completedAt?: number;
-}
+export { checkoutSessions };
 
 // Generate a unique checkout session ID
 function generateSessionId(): string {
@@ -91,13 +81,11 @@ export async function POST(request: NextRequest) {
             );
         }
 
-        // Create checkout session
-        const sessionId = generateSessionId();
+        // Create checkout session using database layer
         const now = Date.now();
         const expiresAt = now + 30 * 60 * 1000; // 30 minutes expiry
 
-        const session: CheckoutSession = {
-            id: sessionId,
+        const session = await createCheckoutSession({
             merchantId,
             merchantName,
             merchantWallet,
@@ -108,25 +96,20 @@ export async function POST(request: NextRequest) {
             successUrl,
             cancelUrl,
             webhookUrl,
-            status: "pending",
-            createdAt: now,
             expiresAt,
-        };
+        });
 
-        // Store session
-        checkoutSessions.set(sessionId, session);
-
-        // Clean up expired sessions periodically
-        cleanupExpiredSessions();
+        // Also store in legacy map for backwards compatibility
+        checkoutSessions.set(session.id, session);
 
         // Build checkout URL
         const baseUrl = request.nextUrl.origin;
-        const checkoutUrl = `${baseUrl}/checkout/${sessionId}`;
+        const checkoutUrl = `${baseUrl}/checkout/${session.id}`;
 
         return NextResponse.json({
-            id: sessionId,
+            id: session.id,
             url: checkoutUrl,
-            expiresAt,
+            expiresAt: session.expiresAt,
             status: "pending",
         });
 
@@ -154,7 +137,13 @@ export async function GET(request: NextRequest) {
         );
     }
 
-    const session = checkoutSessions.get(sessionId);
+    // Try database first, then fallback to in-memory
+    let session = await getCheckoutSession(sessionId);
+
+    if (!session) {
+        // Fallback to legacy in-memory store
+        session = checkoutSessions.get(sessionId) || null;
+    }
 
     if (!session) {
         return NextResponse.json(
@@ -166,13 +155,14 @@ export async function GET(request: NextRequest) {
     // Check if expired
     if (session.status === "pending" && Date.now() > session.expiresAt) {
         session.status = "expired";
+        await updateCheckoutSession(sessionId, { status: "expired" });
         checkoutSessions.set(sessionId, session);
     }
 
     return NextResponse.json(session);
 }
 
-// Clean up expired sessions
+// Clean up expired sessions (legacy, keep for backwards compatibility)
 function cleanupExpiredSessions() {
     const now = Date.now();
     for (const [id, session] of checkoutSessions.entries()) {
@@ -186,6 +176,3 @@ function cleanupExpiredSessions() {
         }
     }
 }
-
-// Export for use by other routes
-export { checkoutSessions };

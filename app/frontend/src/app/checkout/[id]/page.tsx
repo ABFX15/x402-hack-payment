@@ -84,6 +84,7 @@ export default function CheckoutPage() {
   const [status, setStatus] = useState<PageStatus>("loading");
   const [error, setError] = useState<string | null>(null);
   const [txSignature, setTxSignature] = useState<string | null>(null);
+  const [paymentId, setPaymentId] = useState<string | null>(null);
   const [useGasless, setUseGasless] = useState(true);
   const [octaneConfig, setOctaneConfig] = useState<OctaneConfig | null>(null);
   const [octaneFee, setOctaneFee] = useState<TokenFee | null>(null);
@@ -255,7 +256,7 @@ export default function CheckoutPage() {
       setTxSignature(signature);
 
       // Notify backend of completion
-      await fetch("/api/checkout/complete", {
+      const completeResponse = await fetch("/api/checkout/complete", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -265,12 +266,16 @@ export default function CheckoutPage() {
         }),
       });
 
+      const completeData = await completeResponse.json();
+      setPaymentId(completeData.paymentId);
+
       setStatus("success");
 
       // Redirect to success URL after a short delay
       setTimeout(() => {
         const successUrl = new URL(session.successUrl);
         successUrl.searchParams.set("session_id", session.id);
+        successUrl.searchParams.set("payment_id", completeData.paymentId);
         successUrl.searchParams.set("signature", signature);
         window.location.href = successUrl.toString();
       }, 3000);
@@ -393,16 +398,33 @@ export default function CheckoutPage() {
             Your payment of ${session?.amount.toFixed(2)} USDC has been
             confirmed.
           </p>
-          {txSignature && (
-            <a
-              href={`https://explorer.solana.com/tx/${txSignature}?cluster=devnet`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-[var(--primary)] text-sm hover:underline block mb-6 font-semibold"
-            >
-              View on Explorer →
-            </a>
-          )}
+
+          <div className="flex items-center justify-center gap-4 mb-6">
+            {txSignature && (
+              <a
+                href={`https://explorer.solana.com/tx/${txSignature}?cluster=devnet`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[var(--primary)] text-sm hover:underline font-semibold"
+              >
+                View on Explorer →
+              </a>
+            )}
+            {paymentId && (
+              <>
+                <span className="text-gray-300">|</span>
+                <a
+                  href={`/receipts/${paymentId}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[var(--primary)] text-sm hover:underline font-semibold"
+                >
+                  View Receipt →
+                </a>
+              </>
+            )}
+          </div>
+
           <p className="text-sm text-gray-500">Redirecting you back...</p>
         </motion.div>
       </div>
