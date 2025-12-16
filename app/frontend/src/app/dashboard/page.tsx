@@ -60,15 +60,24 @@ export default function DashboardPage() {
         if (res.ok) {
           const data = await res.json();
           setPayments(data.payments || []);
-          
+
           // Calculate stats
-          const total = data.payments?.reduce((sum: number, p: PaymentRecord) => sum + p.amount, 0) || 0;
+          const total =
+            data.payments?.reduce(
+              (sum: number, p: PaymentRecord) => sum + p.amount,
+              0
+            ) || 0;
           const count = data.payments?.length || 0;
           const today = new Date().toDateString();
-          const todayPayments = data.payments?.filter((p: PaymentRecord) => 
-            new Date(p.completedAt).toDateString() === today
-          ) || [];
-          const todayTotal = todayPayments.reduce((sum: number, p: PaymentRecord) => sum + p.amount, 0);
+          const todayPayments =
+            data.payments?.filter(
+              (p: PaymentRecord) =>
+                new Date(p.completedAt).toDateString() === today
+            ) || [];
+          const todayTotal = todayPayments.reduce(
+            (sum: number, p: PaymentRecord) => sum + p.amount,
+            0
+          );
 
           setStats({
             totalVolume: total,
@@ -122,7 +131,7 @@ export default function DashboardPage() {
             <div>
               <h1 className="text-4xl font-bold mb-2">Merchant Dashboard</h1>
               <p className="text-zinc-400">
-                {connected 
+                {connected
                   ? `Connected: ${formatAddress(publicKey!.toString())}`
                   : "Connect wallet to view your payments"}
               </p>
@@ -157,7 +166,10 @@ export default function DashboardPage() {
           {[
             {
               label: "Total Volume",
-              value: `$${stats.totalVolume.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`,
+              value: `$${stats.totalVolume.toLocaleString(undefined, {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}`,
               icon: DollarSign,
               color: "from-emerald-500 to-emerald-600",
               change: "+12.5%",
@@ -192,7 +204,9 @@ export default function DashboardPage() {
               className="pop-card p-6"
             >
               <div className="flex items-start justify-between mb-4">
-                <div className={`p-3 rounded-xl bg-gradient-to-br ${stat.color}`}>
+                <div
+                  className={`p-3 rounded-xl bg-gradient-to-br ${stat.color}`}
+                >
                   <stat.icon className="w-5 h-5 text-white" />
                 </div>
                 <span className="text-emerald-400 text-sm font-medium flex items-center gap-1">
@@ -214,21 +228,24 @@ export default function DashboardPage() {
               description: "Create Stripe-like checkout pages",
               icon: Globe,
               href: "/create",
-              color: "bg-blue-500/10 border-blue-500/30 hover:border-blue-500/50",
+              color:
+                "bg-blue-500/10 border-blue-500/30 hover:border-blue-500/50",
             },
             {
               title: "Gasless Payments",
               description: "Customers pay zero gas fees",
               icon: Zap,
               href: "/demo",
-              color: "bg-amber-500/10 border-amber-500/30 hover:border-amber-500/50",
+              color:
+                "bg-amber-500/10 border-amber-500/30 hover:border-amber-500/50",
             },
             {
               title: "API Integration",
               description: "npm install @settlr/sdk",
               icon: Shield,
               href: "https://github.com/ABFX15/x402-hack-payment",
-              color: "bg-purple-500/10 border-purple-500/30 hover:border-purple-500/50",
+              color:
+                "bg-purple-500/10 border-purple-500/30 hover:border-purple-500/50",
             },
           ].map((action, i) => (
             <Link key={action.title} href={action.href}>
@@ -244,7 +261,9 @@ export default function DashboardPage() {
                     <action.icon className="w-8 h-8 text-white" />
                     <div>
                       <h3 className="font-semibold text-lg">{action.title}</h3>
-                      <p className="text-zinc-400 text-sm">{action.description}</p>
+                      <p className="text-zinc-400 text-sm">
+                        {action.description}
+                      </p>
                     </div>
                   </div>
                   <ChevronRight className="w-5 h-5 text-zinc-500 group-hover:text-white transition-colors" />
@@ -263,7 +282,10 @@ export default function DashboardPage() {
         >
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-xl font-bold">Recent Payments</h2>
-            <Link href="/history" className="text-zinc-400 hover:text-white text-sm flex items-center gap-1">
+            <Link
+              href="/history"
+              className="text-zinc-400 hover:text-white text-sm flex items-center gap-1"
+            >
               View all <ChevronRight className="w-4 h-4" />
             </Link>
           </div>
@@ -275,7 +297,9 @@ export default function DashboardPage() {
           ) : !connected ? (
             <div className="text-center py-12">
               <Wallet className="w-12 h-12 text-zinc-600 mx-auto mb-4" />
-              <p className="text-zinc-400">Connect your wallet to view payments</p>
+              <p className="text-zinc-400">
+                Connect your wallet to view payments
+              </p>
             </div>
           ) : payments.length === 0 ? (
             <div className="text-center py-12">
@@ -315,7 +339,9 @@ export default function DashboardPage() {
                             {payment.id.slice(0, 12)}...
                           </code>
                           <button
-                            onClick={() => copyToClipboard(payment.id, `id-${payment.id}`)}
+                            onClick={() =>
+                              copyToClipboard(payment.id, `id-${payment.id}`)
+                            }
                             className="text-zinc-500 hover:text-white"
                           >
                             {copied === `id-${payment.id}` ? (
@@ -338,13 +364,15 @@ export default function DashboardPage() {
                         <span className="text-zinc-500 text-sm ml-1">USDC</span>
                       </td>
                       <td className="py-4">
-                        <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                          payment.status === "completed"
-                            ? "bg-emerald-500/20 text-emerald-400"
-                            : payment.status === "refunded"
-                            ? "bg-amber-500/20 text-amber-400"
-                            : "bg-zinc-500/20 text-zinc-400"
-                        }`}>
+                        <span
+                          className={`px-2 py-1 rounded-full text-xs font-medium ${
+                            payment.status === "completed"
+                              ? "bg-emerald-500/20 text-emerald-400"
+                              : payment.status === "refunded"
+                              ? "bg-amber-500/20 text-amber-400"
+                              : "bg-zinc-500/20 text-zinc-400"
+                          }`}
+                        >
                           {payment.status}
                         </span>
                       </td>
@@ -386,17 +414,22 @@ export default function DashboardPage() {
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-xl font-bold">Quick Integration</h2>
             <button
-              onClick={() => copyToClipboard(`const session = await fetch('/api/checkout/sessions', {
+              onClick={() =>
+                copyToClipboard(
+                  `const session = await fetch('/api/checkout/sessions', {
   method: 'POST',
   body: JSON.stringify({
     merchantId: 'your-store',
-    merchantWallet: '${publicKey?.toString() || 'YOUR_WALLET'}',
+    merchantWallet: '${publicKey?.toString() || "YOUR_WALLET"}',
     amount: 29.99,
     successUrl: 'https://yoursite.com/success',
     cancelUrl: 'https://yoursite.com/cancel'
   })
 });
-// Redirect to session.url`, "code")}
+// Redirect to session.url`,
+                  "code"
+                )
+              }
               className="flex items-center gap-2 text-sm text-zinc-400 hover:text-white"
             >
               {copied === "code" ? (
@@ -412,17 +445,17 @@ export default function DashboardPage() {
           </div>
           <pre className="bg-zinc-900 rounded-xl p-4 overflow-x-auto text-sm">
             <code className="text-zinc-300">
-              <span className="text-purple-400">const</span> session = <span className="text-purple-400">await</span> <span className="text-blue-400">fetch</span>(<span className="text-emerald-400">&apos;/api/checkout/sessions&apos;</span>, {"{"}{"\n"}
-              {"  "}method: <span className="text-emerald-400">&apos;POST&apos;</span>,{"\n"}
-              {"  "}body: JSON.<span className="text-blue-400">stringify</span>({"{"}{"\n"}
-              {"    "}merchantId: <span className="text-emerald-400">&apos;your-store&apos;</span>,{"\n"}
-              {"    "}merchantWallet: <span className="text-emerald-400">&apos;{publicKey?.toString().slice(0, 20) || "YOUR_WALLET"}...&apos;</span>,{"\n"}
-              {"    "}amount: <span className="text-amber-400">29.99</span>,{"\n"}
-              {"    "}successUrl: <span className="text-emerald-400">&apos;https://yoursite.com/success&apos;</span>,{"\n"}
-              {"    "}cancelUrl: <span className="text-emerald-400">&apos;https://yoursite.com/cancel&apos;</span>{"\n"}
-              {"  "}{"}"}{")"{"\n"}
-              {"}"});{"\n"}
-              <span className="text-zinc-500">// Redirect customer to session.url</span>
+              {`const session = await fetch('/api/checkout/sessions', {
+  method: 'POST',
+  body: JSON.stringify({
+    merchantId: 'your-store',
+    merchantWallet: '${publicKey?.toString().slice(0, 20) || "YOUR_WALLET"}...',
+    amount: 29.99,
+    successUrl: 'https://yoursite.com/success',
+    cancelUrl: 'https://yoursite.com/cancel'
+  })
+});
+// Redirect customer to session.url`}
             </code>
           </pre>
         </motion.div>
