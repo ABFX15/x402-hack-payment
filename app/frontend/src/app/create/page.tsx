@@ -119,7 +119,7 @@ export default function CreatePaymentPage() {
               Amount (USDC) *
             </label>
             <div className="relative">
-              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-xl text-[var(--text-muted)]">
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-xl text-[var(--text-primary)] font-bold pointer-events-none">
                 $
               </span>
               <input
