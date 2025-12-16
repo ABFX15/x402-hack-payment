@@ -67,19 +67,19 @@ export default function LandingPage() {
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Link
-              href="/create"
+              href="/dashboard"
               className="btn-primary flex items-center gap-2 text-lg"
             >
-              <QrCode className="w-5 h-5" />
-              Create Payment Link
+              <Store className="w-5 h-5" />
+              Merchant Dashboard
               <ArrowRight className="w-5 h-5" />
             </Link>
             <Link
-              href="/offramp"
+              href="/create"
               className="btn-secondary flex items-center gap-2"
             >
-              <ArrowDownToLine className="w-5 h-5" />
-              Cash Out
+              <QrCode className="w-5 h-5" />
+              Create Payment
             </Link>
             <Link href="/demo" className="btn-ghost flex items-center gap-2">
               Try Demo

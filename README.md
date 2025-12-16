@@ -10,8 +10,11 @@ Settlr is a Stripe-like payment platform built on Solana, enabling merchants to 
 
 - **Payment Links**: Generate QR codes and payment links in seconds
 - **Instant Settlement**: Payments confirm in under a second on Solana
-- **Low Fees**: Platform fee of 1% with minimum payment threshold
+- **Low Fees**: Platform fee of 2% with minimum payment threshold
 - **Non-Custodial**: Funds go directly to merchant wallets
+- **Hosted Checkout**: Stripe-like checkout pages
+- **Webhooks**: Real-time payment notifications
+- **Receipts**: PDF receipt generation
 - **Transaction History**: Track all payments and refunds
 - **Easy Refunds**: One-click refund processing
 
@@ -259,11 +262,36 @@ cd app/frontend
 npm run dev
 ```
 
+## SDK
+
+Integrate payments in 7 lines of code:
+
+```bash
+npm install @settlr/sdk
+```
+
+```typescript
+import { Settlr } from "@settlr/sdk";
+
+const settlr = new Settlr({
+  merchant: { name: "My Store", walletAddress: "YOUR_WALLET" },
+});
+
+const payment = await settlr.createPayment({ amount: 29.99 });
+window.location.href = payment.checkoutUrl;
+```
+
+See [SDK Documentation](./packages/sdk/README.md) for full API reference.
+
 ## Roadmap
 
+- [x] Hosted checkout pages
+- [x] Merchant dashboard
+- [x] Analytics
+- [x] Webhooks
+- [x] Receipts
 - [ ] Multi-currency support (USDT, SOL)
 - [ ] Subscription payments
-- [ ] Merchant analytics dashboard
 - [ ] Mobile app
 - [ ] Mainnet deployment
 
