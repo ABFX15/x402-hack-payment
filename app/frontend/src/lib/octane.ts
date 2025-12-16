@@ -7,26 +7,28 @@ import {
 
 export type TokenFee = {
     mint: string;
-    account: string;
+    account?: string; // Optional - will be derived from feePayer if not provided
+    symbol?: string;
     decimals: number;
     fee: number;
 };
 
 export type OctaneConfig = {
     feePayer: string;
-    rpcUrl: string;
-    maxSignatures: number;
-    lamportsPerSignature: number;
-    corsOrigin: boolean;
-    endpoints: {
-        transfer: { tokens: TokenFee[] },
-        createAssociatedAccount: { token: TokenFee[] },
-        whirlpoolSwap: { token: TokenFee[] }
+    rpcUrl?: string;
+    rateLimit?: number;
+    maxSignatures?: number;
+    lamportsPerSignature?: number;
+    corsOrigin?: boolean;
+    endpoints?: {
+        transfer?: { tokens: TokenFee[] },
+        createAssociatedAccount?: { token: TokenFee[] },
+        whirlpoolSwap?: { token: TokenFee[] }
     };
 };
 
 // Use public Octane devnet endpoint or your own
-const OCTANE_ENDPOINT = process.env.NEXT_PUBLIC_OCTANE_ENDPOINT || 'https://octane-devnet.breakroom.show/api';
+const OCTANE_ENDPOINT = process.env.NEXT_PUBLIC_OCTANE_ENDPOINT || 'https://octane-relay.vercel.app/api';
 
 export async function loadOctaneConfig(): Promise<OctaneConfig> {
     const response = await fetch(OCTANE_ENDPOINT);
@@ -80,9 +82,14 @@ export async function buildTransaction(
     recipient: PublicKey,
     transferAmountInDecimals: number,
 ): Promise<Transaction> {
+    // Fee account is either explicit or derive from feePayer's ATA
+    const feeAccount = fee.account
+        ? new PublicKey(fee.account)
+        : await getAssociatedTokenAddress(mint, feePayer);
+
     const feeIx = createTransferInstruction(
         await getAssociatedTokenAddress(mint, sender),
-        new PublicKey(fee.account),
+        feeAccount,
         sender,
         fee.fee
     );
@@ -106,9 +113,14 @@ export async function buildTransactionToCreateAccount(
     sender: PublicKey,
     recipient: PublicKey
 ): Promise<Transaction> {
+    // Fee account is either explicit or derive from feePayer's ATA
+    const feeAccount = fee.account
+        ? new PublicKey(fee.account)
+        : await getAssociatedTokenAddress(mint, feePayer);
+
     const feeInstruction = createTransferInstruction(
         await getAssociatedTokenAddress(mint, sender),
-        new PublicKey(fee.account),
+        feeAccount,
         sender,
         fee.fee
     );
@@ -136,6 +148,11 @@ export async function buildTransactionWithAccountCheck(
     const recipientAta = await getAssociatedTokenAddress(mint, recipient);
     const accountInfo = await connection.getAccountInfo(recipientAta);
 
+    // Fee account is either explicit or derive from feePayer's ATA
+    const feeAccount = fee.account
+        ? new PublicKey(fee.account)
+        : await getAssociatedTokenAddress(mint, feePayer);
+
     const tx = new Transaction({
         recentBlockhash: (await connection.getLatestBlockhashAndContext()).value.blockhash,
         feePayer: feePayer,
@@ -144,7 +161,7 @@ export async function buildTransactionWithAccountCheck(
     // Fee instruction first (Octane requirement)
     tx.add(createTransferInstruction(
         await getAssociatedTokenAddress(mint, sender),
-        new PublicKey(fee.account),
+        feeAccount,
         sender,
         fee.fee
     ));
