@@ -9,6 +9,7 @@ import {
   X,
   Store,
   ArrowDownToLine,
+  BarChart3,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -23,6 +24,7 @@ const navLinks = [
   { href: "/create", icon: Plus, label: "Create Payment" },
   { href: "/offramp", icon: ArrowDownToLine, label: "Cash Out" },
   { href: "/history", icon: History, label: "History" },
+  { href: "/analytics", icon: BarChart3, label: "Analytics" },
   { href: "/merchant", icon: Store, label: "Merchant" },
 ];
 

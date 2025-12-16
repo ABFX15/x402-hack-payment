@@ -219,6 +219,35 @@ declare class Settlr {
      */
     getPaymentStatus(signature: string): Promise<'pending' | 'completed' | 'failed'>;
     /**
+     * Create a hosted checkout session (like Stripe Checkout)
+     *
+     * @example
+     * ```typescript
+     * const session = await settlr.createCheckoutSession({
+     *   amount: 29.99,
+     *   description: 'Premium Plan',
+     *   successUrl: 'https://mystore.com/success',
+     *   cancelUrl: 'https://mystore.com/cancel',
+     *   webhookUrl: 'https://mystore.com/api/webhooks/settlr',
+     * });
+     *
+     * // Redirect customer to hosted checkout
+     * window.location.href = session.url;
+     * ```
+     */
+    createCheckoutSession(options: {
+        amount: number;
+        description?: string;
+        metadata?: Record<string, string>;
+        successUrl: string;
+        cancelUrl: string;
+        webhookUrl?: string;
+    }): Promise<{
+        id: string;
+        url: string;
+        expiresAt: number;
+    }>;
+    /**
      * Get merchant's USDC balance
      */
     getMerchantBalance(): Promise<number>;

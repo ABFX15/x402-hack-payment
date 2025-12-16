@@ -354,6 +354,72 @@ export class Settlr {
     }
 
     /**
+     * Create a hosted checkout session (like Stripe Checkout)
+     * 
+     * @example
+     * ```typescript
+     * const session = await settlr.createCheckoutSession({
+     *   amount: 29.99,
+     *   description: 'Premium Plan',
+     *   successUrl: 'https://mystore.com/success',
+     *   cancelUrl: 'https://mystore.com/cancel',
+     *   webhookUrl: 'https://mystore.com/api/webhooks/settlr',
+     * });
+     * 
+     * // Redirect customer to hosted checkout
+     * window.location.href = session.url;
+     * ```
+     */
+    async createCheckoutSession(options: {
+        amount: number;
+        description?: string;
+        metadata?: Record<string, string>;
+        successUrl: string;
+        cancelUrl: string;
+        webhookUrl?: string;
+    }): Promise<{
+        id: string;
+        url: string;
+        expiresAt: number;
+    }> {
+        const { amount, description, metadata, successUrl, cancelUrl, webhookUrl } = options;
+
+        if (amount <= 0) {
+            throw new Error('Amount must be greater than 0');
+        }
+
+        const baseUrl = this.config.testMode
+            ? 'http://localhost:3000'
+            : 'https://settlr.dev';
+
+        const response = await fetch(`${baseUrl}/api/checkout/sessions`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                ...(this.config.apiKey && { 'Authorization': `Bearer ${this.config.apiKey}` }),
+            },
+            body: JSON.stringify({
+                merchantId: this.config.merchant.name.toLowerCase().replace(/\s+/g, '-'),
+                merchantName: this.config.merchant.name,
+                merchantWallet: this.config.merchant.walletAddress,
+                amount,
+                description,
+                metadata,
+                successUrl,
+                cancelUrl,
+                webhookUrl,
+            }),
+        });
+
+        if (!response.ok) {
+            const error = await response.json().catch(() => ({ error: 'Unknown error' }));
+            throw new Error(error.error || 'Failed to create checkout session');
+        }
+
+        return response.json();
+    }
+
+    /**
      * Get merchant's USDC balance
      */
     async getMerchantBalance(): Promise<number> {

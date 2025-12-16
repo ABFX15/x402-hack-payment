@@ -199,6 +199,76 @@ const status = await settlr.getPaymentStatus("5KtP...");
 // Returns: 'pending' | 'completed' | 'failed'
 ```
 
+##### `createCheckoutSession(options)` ⭐ NEW
+
+Create a hosted checkout session (like Stripe Checkout).
+
+```typescript
+const session = await settlr.createCheckoutSession({
+  amount: 29.99,
+  description: 'Premium Plan',
+  successUrl: 'https://mystore.com/success?session_id={CHECKOUT_SESSION_ID}',
+  cancelUrl: 'https://mystore.com/cancel',
+  webhookUrl: 'https://mystore.com/api/webhooks/settlr', // Optional
+  metadata: { orderId: 'order_123' }, // Optional
+});
+
+// Redirect to hosted checkout
+window.location.href = session.url;
+
+// Returns
+{
+  id: 'cs_abc123...',
+  url: 'https://settlr.dev/checkout/cs_abc123...',
+  expiresAt: 1702659600000, // 30 min expiry
+}
+```
+
+## Webhooks
+
+When a payment completes, Settlr sends a POST request to your `webhookUrl`:
+
+```typescript
+// Your webhook handler (e.g., /api/webhooks/settlr)
+export async function POST(request: Request) {
+  const signature = request.headers.get("X-Settlr-Signature");
+  const body = await request.json();
+
+  // Verify signature (recommended in production)
+  // ...
+
+  if (body.event === "checkout.completed") {
+    const { sessionId, amount, customerWallet, paymentSignature, metadata } =
+      body.data;
+
+    // Fulfill the order
+    await fulfillOrder(metadata.orderId);
+  }
+
+  return new Response("OK", { status: 200 });
+}
+```
+
+### Webhook Payload
+
+```json
+{
+  "event": "checkout.completed",
+  "data": {
+    "sessionId": "cs_abc123...",
+    "merchantId": "my-store",
+    "amount": 29.99,
+    "currency": "USDC",
+    "customerWallet": "7xKX...3mPq",
+    "paymentSignature": "5KtP...",
+    "description": "Premium Plan",
+    "metadata": { "orderId": "order_123" },
+    "completedAt": 1702659600000
+  },
+  "timestamp": 1702659600000
+}
+```
+
 ##### `getMerchantBalance()`
 
 Get merchant's USDC balance.

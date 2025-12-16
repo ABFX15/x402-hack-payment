@@ -128,7 +128,7 @@ Visit `http://localhost:3000` to see the app.
 
 ### Platform Config
 
-- **Fee Percentage**: 1% (100 basis points)
+- **Fee Percentage**: 2% (200 basis points)
 - **Min Payment**: 10,000 USDC (0.01 USDC)
 - **Treasury**: Collects platform fees
 - **PDA Seed**: `["platform_config"]`
@@ -274,7 +274,6 @@ npm run dev
 - Refunds can only be initiated by the merchant who received the payment
 - Amount checks prevent overflow/underflow
 - PDA-based authentication for merchants
-
 
 ## License
 
