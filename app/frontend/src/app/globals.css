@@ -1,13 +1,13 @@
 @import "tailwindcss";
 
 :root {
-  /* Core colors - sleek dark theme */
-  --background: #09090b;
+  /* Core colors - dark theme matching homepage */
+  --background: #0a0a12;
   --foreground: #fafafa;
-  --card: #18181b;
-  --card-hover: #27272a;
-  --border: #27272a;
-  --border-hover: #3f3f46;
+  --card: #12121a;
+  --card-hover: #1a1a24;
+  --border: rgba(255, 255, 255, 0.1);
+  --border-hover: rgba(255, 255, 255, 0.2);
 
   /* NEW: Pop card style - white cards with dark borders */
   --card-pop: #ffffff;
@@ -15,12 +15,12 @@
   --card-pop-text: #000000;
   --card-pop-text-secondary: #52525b;
 
-  /* Brand gradient - purple/blue crypto vibes */
-  --primary: #8b5cf6;
-  --primary-hover: #a78bfa;
-  --primary-glow: rgba(139, 92, 246, 0.4);
-  --secondary: #06b6d4;
-  --secondary-hover: #22d3ee;
+  /* Brand gradient - pink/cyan neon theme */
+  --primary: #f472b6;
+  --primary-hover: #f9a8d4;
+  --primary-glow: rgba(244, 114, 182, 0.4);
+  --secondary: #67e8f9;
+  --secondary-hover: #a5f3fc;
 
   /* Status colors */
   --success: #22c55e;
@@ -29,13 +29,13 @@
   --warning: #f59e0b;
 
   /* Text hierarchy */
-  --text-primary: #fafafa;
+  --text-primary: #ffffff;
   --text-secondary: #a1a1aa;
   --text-muted: #71717a;
 
   /* Glassmorphism */
-  --glass: rgba(24, 24, 27, 0.7);
-  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass: rgba(18, 18, 26, 0.8);
+  --glass-border: rgba(255, 255, 255, 0.1);
 }
 
 @theme inline {

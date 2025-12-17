@@ -116,13 +116,13 @@ const faqs = [
 
 export default function PricingPage() {
   return (
-    <main className="min-h-screen">
+    <main className="min-h-screen bg-[#0a0a12]">
       {/* Header */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-[var(--background)]/80 backdrop-blur-lg border-b border-[var(--border)]">
+      <header className="fixed top-0 left-0 right-0 z-50 bg-[#0a0a12]/90 backdrop-blur-lg border-b border-white/10">
         <div className="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
           <Link href="/">
             <Image
-              src="/logo.png"
+              src="/logo-new.png"
               alt="Settlr"
               width={90}
               height={24}
@@ -374,15 +374,15 @@ export default function PricingPage() {
       </section>
 
       {/* Footer */}
-      <footer className="py-8 px-4 border-t border-[var(--border)]">
+      <footer className="py-8 px-4 border-t border-white/10">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
           <Image
-            src="/logo.png"
+            src="/logo-new.png"
             alt="Settlr"
             width={90}
             height={24}
             quality={100}
-            className="object-contain"
+            className="object-contain opacity-80"
           />
           <div className="flex items-center gap-6">
             <Link

@@ -3,236 +3,169 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
-import {
-  Zap,
-  Shield,
-  RefreshCw,
-  ArrowRight,
-  QrCode,
-  Smartphone,
-  Globe,
-  DollarSign,
-  Store,
-  Users,
-  ArrowDownToLine,
-  Check,
-} from "lucide-react";
+import { Zap, Shield, ArrowRight, Code, Clock, DollarSign } from "lucide-react";
 
 export default function LandingPage() {
   return (
-    <main className="min-h-screen">
-      {/* Header */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-[var(--background)]/80 backdrop-blur-lg border-b border-[var(--border)]">
-        <div className="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
-          <Link href="/">
-            <Image
-              src="/logo.png"
-              alt="Settlr"
-              width={90}
-              height={24}
-              quality={100}
-              className="object-contain"
-            />
-          </Link>
-          <nav className="flex items-center gap-6">
-            <Link
-              href="/pricing"
-              className="text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors"
-            >
-              Pricing
-            </Link>
-            <Link
-              href="/dashboard"
-              className="text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors"
-            >
-              Dashboard
-            </Link>
-            <Link href="/create" className="btn-primary text-sm">
-              Create Payment
-            </Link>
-          </nav>
-        </div>
-      </header>
-
-      {/* Hero Section */}
-      <section className="min-h-screen flex flex-col items-center justify-center p-4 md:p-8 relative overflow-hidden pt-20">
-        {/* Animated background orbs */}
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[var(--primary)] rounded-full blur-[128px] opacity-20 animate-pulse" />
+    <main className="min-h-screen bg-[#0a0a12] overflow-hidden">
+      {/* Hero Section with background image */}
+      <section className="relative min-h-screen flex flex-col">
+        {/* Background Image */}
         <div
-          className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-[var(--secondary)] rounded-full blur-[128px] opacity-20 animate-pulse"
-          style={{ animationDelay: "1s" }}
-        />
-
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="text-center max-w-4xl mx-auto relative z-10"
+          className="absolute inset-0 z-0"
+          style={{
+            backgroundImage: `url('/hero-bg.png')`,
+            backgroundSize: "cover",
+            backgroundPosition: "center bottom",
+          }}
         >
-          {/* Badge */}
-          <motion.div
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{ type: "spring", delay: 0.2 }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--card)] border border-[var(--border)] mb-6"
-          >
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--success)] opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-[var(--success)]"></span>
-            </span>
-            <span className="text-sm text-[var(--text-secondary)]">
-              Now Live on Solana
-            </span>
-          </motion.div>
+          {/* Gradient overlay */}
+          <div className="absolute inset-0 bg-gradient-to-b from-[#0a0a12]/90 via-[#0a0a12]/70 to-[#0a0a12]" />
+        </div>
 
-          {/* Main heading */}
-          <h1 className="text-5xl md:text-7xl font-bold text-[var(--text-primary)] mb-6 leading-tight">
-            Payments on Solana,{" "}
-            <span className="bg-gradient-to-r from-[var(--primary)] to-[var(--secondary)] bg-clip-text text-transparent">
-              simplified
-            </span>
-          </h1>
-
-          <p className="text-xl md:text-2xl text-[var(--text-muted)] mb-8 max-w-2xl mx-auto">
-            Accept USDC payments instantly. No gas fees for your customers.
-            Generate payment links in seconds.
-          </p>
-
-          {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <Link
-              href="/waitlist"
-              className="btn-primary flex items-center gap-2 text-lg"
-            >
-              <Zap className="w-5 h-5" />
-              Join Waitlist
-              <ArrowRight className="w-5 h-5" />
+        {/* Header */}
+        <header className="fixed top-0 left-0 right-0 z-50 py-4 px-4 md:px-8 bg-black/20 backdrop-blur-md border-b border-white/10">
+          <div className="max-w-6xl mx-auto flex justify-between items-center">
+            <Link href="/" className="flex items-center gap-2">
+              <Image
+                src="/logo-new.png"
+                alt="Settlr"
+                width={100}
+                height={28}
+                quality={100}
+                className="object-contain"
+              />
             </Link>
-            <Link
-              href="/demo"
-              className="btn-secondary flex items-center gap-2"
-            >
-              <QrCode className="w-5 h-5" />
-              Try Demo
-            </Link>
-            <Link href="/pricing" className="btn-ghost flex items-center gap-2">
-              View Pricing
-            </Link>
-          </div>
-        </motion.div>
-
-        {/* Scroll indicator */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1 }}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2"
-        >
-          <div className="w-6 h-10 rounded-full border-2 border-[var(--border)] flex items-start justify-center p-2">
-            <motion.div
-              animate={{ y: [0, 8, 0] }}
-              transition={{ repeat: Infinity, duration: 1.5 }}
-              className="w-1.5 h-1.5 bg-[var(--text-muted)] rounded-full"
-            />
-          </div>
-        </motion.div>
-      </section>
-
-      {/* Features Section */}
-      <section className="py-24 px-4 md:px-8">
-        <div className="max-w-6xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-3xl md:text-4xl font-bold text-[var(--text-primary)] mb-4">
-              Why Settlr?
-            </h2>
-            <p className="text-[var(--text-muted)] text-lg max-w-2xl mx-auto">
-              Everything you need to accept crypto payments, without the
-              complexity
-            </p>
-          </motion.div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            {[
-              {
-                icon: Zap,
-                title: "Instant Settlement",
-                description:
-                  "Payments confirm in under a second. No waiting for block confirmations.",
-                gradient: "from-yellow-500 to-orange-500",
-              },
-              {
-                icon: DollarSign,
-                title: "Gasless for Customers",
-                description:
-                  "Your customers pay zero gas fees. We handle the transaction costs.",
-                gradient: "from-green-500 to-emerald-500",
-              },
-              {
-                icon: Shield,
-                title: "Non-Custodial",
-                description:
-                  "Funds go directly to your wallet. We never hold your money.",
-                gradient: "from-blue-500 to-cyan-500",
-              },
-              {
-                icon: QrCode,
-                title: "Solana Pay Compatible",
-                description:
-                  "Works with any Solana Pay enabled wallet. Scan and pay.",
-                gradient: "from-purple-500 to-pink-500",
-              },
-              {
-                icon: RefreshCw,
-                title: "Easy Refunds",
-                description:
-                  "Issue refunds with one click. Built into the smart contract.",
-                gradient: "from-red-500 to-rose-500",
-              },
-              {
-                icon: Globe,
-                title: "Global Payments",
-                description:
-                  "Accept payments from anywhere in the world. No borders.",
-                gradient: "from-indigo-500 to-violet-500",
-              },
-            ].map(({ icon: Icon, title, description, gradient }, i) => (
-              <motion.div
-                key={title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                className="glass-card p-6 hover:border-[var(--border-hover)] transition-all group"
+            <nav className="flex items-center gap-6">
+              <Link
+                href="/pricing"
+                className="text-white/60 hover:text-white transition-colors text-sm"
               >
-                <div
-                  className={`w-12 h-12 rounded-xl bg-gradient-to-br ${gradient} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}
-                >
-                  <Icon className="w-6 h-6 text-white" />
-                </div>
-                <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">
-                  {title}
-                </h3>
-                <p className="text-[var(--text-muted)]">{description}</p>
-              </motion.div>
-            ))}
+                Pricing
+              </Link>
+              <Link
+                href="/waitlist"
+                className="px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white text-sm hover:bg-white/20 transition-all"
+              >
+                Join Waitlist
+              </Link>
+            </nav>
           </div>
+        </header>
+
+        {/* Hero Content */}
+        <div className="relative z-10 flex-1 flex flex-col items-center justify-center px-4 md:px-8 pt-32 pb-24">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="text-center max-w-4xl mx-auto"
+          >
+            {/* Main headline with neon glow */}
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-4 leading-tight">
+              End-to-End Stablecoin Payments
+            </h1>
+
+            {/* Tagline with neon colors */}
+            <p className="text-2xl md:text-3xl font-medium mb-8">
+              <span className="text-[#f472b6]">Fast.</span>{" "}
+              <span className="text-white">Stable.</span>{" "}
+              <span className="text-[#67e8f9]">Secure.</span>
+            </p>
+
+            <p className="text-lg md:text-xl text-white/60 mb-12 max-w-2xl mx-auto">
+              Accept USDC payments on Solana. Gasless for your users. Integrate
+              in 7 lines of code.
+            </p>
+
+            {/* CTA Buttons */}
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+              <Link
+                href="/waitlist"
+                className="group relative px-8 py-4 rounded-xl font-medium text-lg overflow-hidden"
+              >
+                {/* Neon gradient background */}
+                <div className="absolute inset-0 bg-gradient-to-r from-[#f472b6] to-[#67e8f9] opacity-90 group-hover:opacity-100 transition-opacity" />
+                {/* Glow effect */}
+                <div className="absolute inset-0 bg-gradient-to-r from-[#f472b6] to-[#67e8f9] blur-xl opacity-50 group-hover:opacity-70 transition-opacity" />
+                <span className="relative z-10 flex items-center gap-2 text-white">
+                  <Zap className="w-5 h-5" />
+                  Join the Waitlist
+                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </span>
+              </Link>
+              <Link
+                href="/demo"
+                className="px-8 py-4 rounded-xl font-medium text-lg border border-white/20 text-white hover:bg-white/10 transition-all"
+              >
+                Try Demo
+              </Link>
+            </div>
+
+            {/* Trust indicators */}
+            <div className="mt-16 flex flex-wrap justify-center gap-8 text-white/40 text-sm">
+              <div className="flex items-center gap-2">
+                <Shield className="w-4 h-4" />
+                <span>Non-custodial</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Clock className="w-4 h-4" />
+                <span>&lt;1s finality</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Code className="w-4 h-4" />
+                <span>7 lines of code</span>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Neon sign box - centered below hero */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className="mt-12 relative"
+          >
+            {/* Neon frame */}
+            <div className="relative w-64 h-64 md:w-80 md:h-80">
+              {/* Outer glow */}
+              <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-[#f472b6]/30 to-[#67e8f9]/30 blur-2xl" />
+
+              {/* Frame border with LED dots */}
+              <div className="absolute inset-0 rounded-2xl border-2 border-[#67e8f9]/50 bg-black/40 backdrop-blur-sm overflow-hidden">
+                {/* LED dots around border */}
+                <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#67e8f9] to-transparent" />
+                <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#f472b6] to-transparent" />
+                <div className="absolute top-0 bottom-0 left-0 w-px bg-gradient-to-b from-transparent via-[#67e8f9] to-transparent" />
+                <div className="absolute top-0 bottom-0 right-0 w-px bg-gradient-to-b from-transparent via-[#f472b6] to-transparent" />
+
+                {/* Logo inside */}
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <Image
+                    src="/logo-new.png"
+                    alt="Settlr"
+                    width={160}
+                    height={45}
+                    quality={100}
+                    className="object-contain"
+                  />
+                </div>
+              </div>
+            </div>
+          </motion.div>
         </div>
       </section>
 
-      {/* Simplicity Stats */}
-      <section className="py-16 px-4 md:px-8 border-y border-[var(--border)]">
-        <div className="max-w-6xl mx-auto">
+      {/* Stats Section */}
+      <section className="py-20 px-4 md:px-8 relative">
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0a0a12] to-[#12121a]" />
+        <div className="max-w-6xl mx-auto relative z-10">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {[
-              { value: "7", label: "Lines of code to integrate" },
-              { value: "<1s", label: "Transaction confirmation" },
-              { value: "0", label: "SOL needed by customers" },
-              { value: "2%", label: "Simple flat fee" },
+              { value: "7", label: "Lines of code", icon: Code },
+              { value: "<1s", label: "Settlement", icon: Clock },
+              { value: "$0", label: "Gas for users", icon: DollarSign },
+              { value: "2%", label: "Simple fee", icon: Zap },
             ].map((stat, i) => (
               <motion.div
                 key={stat.label}
@@ -240,336 +173,245 @@ export default function LandingPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
-                className="text-center"
+                className="text-center group"
               >
-                <div className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-[var(--primary)] to-[var(--secondary)] bg-clip-text text-transparent mb-2">
-                  {stat.value}
+                <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-white/5 border border-white/10 mb-4 group-hover:border-[#67e8f9]/50 transition-colors">
+                  <stat.icon className="w-5 h-5 text-[#67e8f9]" />
                 </div>
-                <p className="text-sm text-[var(--text-muted)]">{stat.label}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* How it Works */}
-      <section className="py-24 px-4 md:px-8 bg-[var(--card)]/30">
-        <div className="max-w-6xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-3xl md:text-4xl font-bold text-[var(--text-primary)] mb-4">
-              How it Works
-            </h2>
-            <p className="text-[var(--text-muted)] text-lg">
-              Three simple steps to start accepting payments
-            </p>
-          </motion.div>
-
-          <div className="grid md:grid-cols-3 gap-8 relative">
-            {/* Connection line */}
-            <div className="hidden md:block absolute top-24 left-1/4 right-1/4 h-0.5 bg-gradient-to-r from-[var(--primary)] to-[var(--secondary)]" />
-
-            {[
-              {
-                step: "1",
-                icon: Store,
-                title: "Create Payment",
-                description:
-                  "Enter the amount and generate a unique payment link or QR code",
-              },
-              {
-                step: "2",
-                icon: Smartphone,
-                title: "Customer Pays",
-                description:
-                  "Customer scans QR or clicks link to pay with their Solana wallet",
-              },
-              {
-                step: "3",
-                icon: Users,
-                title: "Receive Funds",
-                description:
-                  "USDC lands directly in your wallet. Instant and secure.",
-              },
-            ].map(({ step, icon: Icon, title, description }, i) => (
-              <motion.div
-                key={step}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.2 }}
-                className="text-center relative"
-              >
-                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[var(--primary)] to-[var(--secondary)] flex items-center justify-center mx-auto mb-6 text-white font-bold text-lg relative z-10">
-                  {step}
-                </div>
-                <div className="glass-card p-6">
-                  <Icon className="w-8 h-8 text-[var(--primary)] mx-auto mb-4" />
-                  <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">
-                    {title}
-                  </h3>
-                  <p className="text-[var(--text-muted)]">{description}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Easy Integration Section */}
-      <section className="py-24 px-4 md:px-8">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-            >
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[var(--primary)]/10 text-[var(--primary)] text-sm font-medium mb-4">
-                <Zap className="w-4 h-4" />
-                Developer Friendly
-              </div>
-              <h2 className="text-3xl md:text-4xl font-bold text-[var(--text-primary)] mb-4">
-                Integrate in minutes,
-                <br />
-                not days
-              </h2>
-              <p className="text-[var(--text-muted)] text-lg mb-6">
-                Our SDK is designed for simplicity. Accept payments with just 7
-                lines of code. No complex configurations, no blockchain
-                expertise required.
-              </p>
-              <ul className="space-y-3 mb-8">
-                {[
-                  "One npm install to get started",
-                  "TypeScript support out of the box",
-                  "React hooks for seamless integration",
-                  "Works with any Solana wallet adapter",
-                ].map((item, i) => (
-                  <li
-                    key={i}
-                    className="flex items-center gap-3 text-[var(--text-secondary)]"
-                  >
-                    <Check className="w-5 h-5 text-[var(--success)]" />
-                    {item}
-                  </li>
-                ))}
-              </ul>
-              <div className="flex gap-4">
-                <Link
-                  href="/create"
-                  className="btn-primary inline-flex items-center gap-2"
-                >
-                  Try it now
-                  <ArrowRight className="w-4 h-4" />
-                </Link>
-                <a
-                  href="https://github.com/ABFX15/x402-hack-payment"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-secondary inline-flex items-center gap-2"
-                >
-                  View on GitHub
-                </a>
-              </div>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              className="relative"
-            >
-              <div className="absolute inset-0 bg-gradient-to-br from-[var(--primary)]/20 to-[var(--secondary)]/20 rounded-2xl blur-xl" />
-              <div className="relative glass-card p-6 rounded-2xl overflow-hidden">
-                <div className="flex items-center gap-2 mb-4">
-                  <div className="w-3 h-3 rounded-full bg-red-500" />
-                  <div className="w-3 h-3 rounded-full bg-yellow-500" />
-                  <div className="w-3 h-3 rounded-full bg-green-500" />
-                  <span className="ml-2 text-sm text-[var(--text-muted)]">
-                    index.ts
+                <div className="text-4xl md:text-5xl font-bold mb-2">
+                  <span className="bg-gradient-to-r from-[#f472b6] to-[#67e8f9] bg-clip-text text-transparent">
+                    {stat.value}
                   </span>
                 </div>
-                <pre className="text-sm overflow-x-auto">
-                  <code className="text-[var(--text-secondary)]">
-                    {`import { Settlr } from "@settlr/sdk";
-
-const settlr = new Settlr({
-  merchant: {
-    name: "My Store",
-    walletAddress: "YOUR_WALLET",
-  },
-});
-
-// Create a payment link
-const payment = await settlr.createPayment({
-  amount: 29.99,
-  memo: "Premium subscription",
-});
-
-// Redirect to checkout
-window.location.href = payment.checkoutUrl;`}
-                  </code>
-                </pre>
-              </div>
-            </motion.div>
+                <p className="text-sm text-white/50">{stat.label}</p>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Pricing Preview */}
-      <section className="py-24 px-4 md:px-8">
-        <div className="max-w-6xl mx-auto">
+      {/* Features Section */}
+      <section className="py-24 px-4 md:px-8 relative">
+        <div className="absolute inset-0 bg-[#12121a]" />
+        <div className="max-w-6xl mx-auto relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-3xl md:text-4xl font-bold text-[var(--text-primary)] mb-4">
-              Simple Pricing
+            <h2 className="text-3xl md:text-5xl font-bold text-white mb-4">
+              Why Settlr?
             </h2>
-            <p className="text-[var(--text-muted)] text-lg">
-              Start free, pay only when you grow
+            <p className="text-white/50 text-lg max-w-2xl mx-auto">
+              Everything you need to accept stablecoin payments
             </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+          <div className="grid md:grid-cols-3 gap-6">
             {[
               {
-                name: "Free",
-                price: "$0",
-                desc: "2% fee",
-                features: ["Unlimited links", "QR codes", "Gasless payments"],
+                title: "Gasless Payments",
+                description:
+                  "Your users pay zero gas. We handle transaction fees so they don't have to.",
+                icon: Zap,
+                color: "#f472b6",
               },
               {
-                name: "Pro",
-                price: "$29/mo",
-                desc: "1.5% fee",
-                features: ["Custom branding", "API access", "Priority support"],
-                highlight: true,
+                title: "Instant Settlement",
+                description:
+                  "Sub-second finality on Solana. No waiting for confirmations.",
+                icon: Clock,
+                color: "#67e8f9",
               },
               {
-                name: "Enterprise",
-                price: "Custom",
-                desc: "1% fee",
-                features: ["White-label", "Dedicated support", "SLA"],
+                title: "Non-Custodial",
+                description:
+                  "Funds go directly to your wallet. We never hold your money.",
+                icon: Shield,
+                color: "#a78bfa",
               },
-            ].map((plan, i) => (
+            ].map((feature, i) => (
               <motion.div
-                key={plan.name}
+                key={feature.title}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
-                className={`p-6 rounded-2xl text-center ${
-                  plan.highlight
-                    ? "bg-gradient-to-b from-[var(--primary)]/20 to-[var(--card)] border-2 border-[var(--primary)]"
-                    : "glass-card"
-                }`}
+                className="group relative p-8 rounded-2xl bg-white/5 border border-white/10 hover:border-white/20 transition-all overflow-hidden"
               >
-                <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-1">
-                  {plan.name}
-                </h3>
-                <div className="text-3xl font-bold text-[var(--text-primary)] mb-1">
-                  {plan.price}
+                {/* Glow on hover */}
+                <div
+                  className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity"
+                  style={{
+                    background: `radial-gradient(circle at center, ${feature.color}, transparent 70%)`,
+                  }}
+                />
+
+                <div
+                  className="w-14 h-14 rounded-xl flex items-center justify-center mb-6"
+                  style={{
+                    backgroundColor: `${feature.color}20`,
+                    border: `1px solid ${feature.color}40`,
+                  }}
+                >
+                  <feature.icon
+                    className="w-7 h-7"
+                    style={{ color: feature.color }}
+                  />
                 </div>
-                <p className="text-sm text-[var(--text-muted)] mb-4">
-                  {plan.desc}
+                <h3 className="text-xl font-semibold text-white mb-3">
+                  {feature.title}
+                </h3>
+                <p className="text-white/50 leading-relaxed">
+                  {feature.description}
                 </p>
-                <ul className="space-y-2 text-left">
-                  {plan.features.map((f) => (
-                    <li
-                      key={f}
-                      className="flex items-center gap-2 text-sm text-[var(--text-secondary)]"
-                    >
-                      <Check className="w-4 h-4 text-[var(--success)]" />
-                      {f}
-                    </li>
-                  ))}
-                </ul>
               </motion.div>
             ))}
-          </div>
-
-          <div className="text-center mt-8">
-            <Link
-              href="/pricing"
-              className="text-[var(--primary)] hover:underline inline-flex items-center gap-1"
-            >
-              View full pricing
-              <ArrowRight className="w-4 h-4" />
-            </Link>
           </div>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-24 px-4 md:px-8">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          className="max-w-4xl mx-auto glass-card p-12 text-center relative overflow-hidden"
-        >
-          {/* Background gradient */}
-          <div className="absolute inset-0 bg-gradient-to-br from-[var(--primary)]/10 to-[var(--secondary)]/10" />
-
-          <div className="relative z-10">
-            <h2 className="text-3xl md:text-4xl font-bold text-[var(--text-primary)] mb-4">
-              Ready to accept crypto payments?
+      {/* Code Example Section */}
+      <section className="py-24 px-4 md:px-8 relative">
+        <div className="absolute inset-0 bg-gradient-to-b from-[#12121a] to-[#0a0a12]" />
+        <div className="max-w-4xl mx-auto relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-12"
+          >
+            <h2 className="text-3xl md:text-5xl font-bold text-white mb-4">
+              Integrate in Minutes
             </h2>
-            <p className="text-[var(--text-muted)] text-lg mb-8 max-w-xl mx-auto">
-              Start accepting USDC payments in minutes. No sign-up required.
+            <p className="text-white/50 text-lg">
+              Simple API. No blockchain expertise required.
+            </p>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="relative rounded-2xl overflow-hidden"
+          >
+            {/* Code window frame */}
+            <div className="bg-[#1a1a2e] border border-white/10 rounded-2xl overflow-hidden">
+              {/* Window bar */}
+              <div className="flex items-center gap-2 px-4 py-3 border-b border-white/10 bg-white/5">
+                <div className="w-3 h-3 rounded-full bg-[#f472b6]" />
+                <div className="w-3 h-3 rounded-full bg-[#fbbf24]" />
+                <div className="w-3 h-3 rounded-full bg-[#34d399]" />
+                <span className="ml-4 text-sm text-white/40">payment.ts</span>
+              </div>
+
+              {/* Code content */}
+              <pre className="p-6 overflow-x-auto text-sm md:text-base">
+                <code className="text-white/80">
+                  <span className="text-[#c084fc]">import</span> {"{"} Settlr{" "}
+                  {"}"} <span className="text-[#c084fc]">from</span>{" "}
+                  <span className="text-[#34d399]">
+                    &apos;@settlr/sdk&apos;
+                  </span>
+                  ;<br />
+                  <br />
+                  <span className="text-[#c084fc]">const</span>{" "}
+                  <span className="text-[#67e8f9]">payment</span> ={" "}
+                  <span className="text-[#c084fc]">await</span> Settlr.
+                  <span className="text-[#fbbf24]">pay</span>({"{"}
+                  <br />
+                  {"  "}
+                  <span className="text-white/50">amount:</span>{" "}
+                  <span className="text-[#f472b6]">10.00</span>,<br />
+                  {"  "}
+                  <span className="text-white/50">to:</span>{" "}
+                  <span className="text-[#34d399]">
+                    &apos;merchant-wallet.sol&apos;
+                  </span>
+                  ,<br />
+                  {"  "}
+                  <span className="text-white/50">memo:</span>{" "}
+                  <span className="text-[#34d399]">
+                    &apos;Order #1234&apos;
+                  </span>
+                  <br />
+                  {"}"});
+                  <br />
+                  <br />
+                  <span className="text-white/30">
+                    // That&apos;s it. Payment complete.
+                  </span>
+                </code>
+              </pre>
+            </div>
+
+            {/* Glow effect behind */}
+            <div className="absolute -inset-4 bg-gradient-to-r from-[#f472b6]/20 to-[#67e8f9]/20 blur-3xl -z-10" />
+          </motion.div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-24 px-4 md:px-8 relative">
+        <div className="absolute inset-0 bg-[#0a0a12]" />
+        <div className="max-w-4xl mx-auto relative z-10 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">
+              Ready to get started?
+            </h2>
+            <p className="text-white/50 text-lg mb-10 max-w-xl mx-auto">
+              Join the waitlist for early access. Be among the first to
+              integrate seamless stablecoin payments.
             </p>
             <Link
-              href="/create"
-              className="btn-primary inline-flex items-center gap-2 text-lg"
+              href="/waitlist"
+              className="inline-flex items-center gap-3 px-10 py-5 rounded-xl font-medium text-lg bg-gradient-to-r from-[#f472b6] to-[#67e8f9] text-white hover:opacity-90 transition-opacity"
             >
-              Get Started Free
+              <Zap className="w-5 h-5" />
+              Join the Waitlist
               <ArrowRight className="w-5 h-5" />
             </Link>
-          </div>
-        </motion.div>
+          </motion.div>
+        </div>
       </section>
 
       {/* Footer */}
-      <footer className="py-8 px-4 border-t border-[var(--border)]">
-        <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+      <footer className="py-12 px-4 border-t border-white/10">
+        <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
           <Image
-            src="/logo.png"
+            src="/logo-new.png"
             alt="Settlr"
             width={90}
             height={24}
             quality={100}
-            className="object-contain"
-            style={{ imageRendering: "auto" }}
+            className="object-contain opacity-80"
           />
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-6 text-sm text-white/40">
             <Link
               href="/pricing"
-              className="text-sm text-[var(--text-muted)] hover:text-[var(--text-primary)]"
+              className="hover:text-white/60 transition-colors"
             >
               Pricing
             </Link>
             <Link
-              href="/dashboard"
-              className="text-sm text-[var(--text-muted)] hover:text-[var(--text-primary)]"
+              href="/waitlist"
+              className="hover:text-white/60 transition-colors"
             >
-              Dashboard
+              Waitlist
             </Link>
             <Link
-              href="/create"
-              className="text-sm text-[var(--text-muted)] hover:text-[var(--text-primary)]"
+              href="/demo"
+              className="hover:text-white/60 transition-colors"
             >
-              Create Payment
+              Demo
             </Link>
           </div>
-          <p className="text-sm text-[var(--text-muted)]">
+          <p className="text-sm text-white/30">
             © 2025 Settlr. Powering seamless payments.
           </p>
         </div>

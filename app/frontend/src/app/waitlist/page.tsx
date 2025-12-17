@@ -45,19 +45,18 @@ export default function WaitlistPage() {
   };
 
   return (
-    <main className="min-h-screen bg-[var(--background)]">
+    <main className="min-h-screen bg-[#0a0a12]">
       {/* Header */}
-      <header className="py-6 px-4 border-b border-[var(--border)]">
+      <header className="py-6 px-4 border-b border-white/10">
         <div className="max-w-6xl mx-auto flex justify-between items-center">
           <Link href="/">
             <Image
-              src="/logo.png"
+              src="/logo-new.png"
               alt="Settlr"
               width={100}
               height={28}
               quality={100}
               className="object-contain"
-              style={{ imageRendering: "auto" }}
             />
           </Link>
           <div className="flex items-center gap-4">
@@ -256,16 +255,15 @@ export default function WaitlistPage() {
       </div>
 
       {/* Footer */}
-      <footer className="py-8 px-4 border-t border-[var(--border)]">
+      <footer className="py-8 px-4 border-t border-white/10">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
           <Image
-            src="/logo.png"
+            src="/logo-new.png"
             alt="Settlr"
             width={90}
             height={24}
             quality={100}
-            className="object-contain"
-            style={{ imageRendering: "auto" }}
+            className="object-contain opacity-80"
           />
           <p className="text-sm text-[var(--text-muted)]">
             © 2025 Settlr. Powering seamless payments.
