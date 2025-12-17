@@ -1,9 +1,18 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
-import { Zap, Shield, ArrowRight, Code, Clock, DollarSign } from "lucide-react";
+import {
+  Zap,
+  Shield,
+  ArrowRight,
+  Code,
+  Clock,
+  DollarSign,
+  ChevronDown,
+} from "lucide-react";
 
 export default function LandingPage() {
   return (
@@ -352,6 +361,57 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* FAQ Section */}
+      <section className="py-24 px-4 md:px-8 relative">
+        <div className="absolute inset-0 bg-[#0a0a12]" />
+        <div className="max-w-3xl mx-auto relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-12"
+          >
+            <h2 className="text-3xl md:text-5xl font-bold text-white mb-4">
+              Frequently Asked Questions
+            </h2>
+            <p className="text-white/50 text-lg">
+              Everything you need to know about Settlr
+            </p>
+          </motion.div>
+
+          <div className="space-y-4">
+            <FAQItem
+              question="What is Settlr?"
+              answer="Settlr is a payment infrastructure that lets you accept USDC stablecoin payments on Solana. We handle all the blockchain complexity so you can integrate crypto payments in minutes, not months."
+            />
+            <FAQItem
+              question="How does gasless payment work?"
+              answer="With gasless payments, your users don't need to hold SOL to pay transaction fees. Settlr covers the gas costs and charges a small fee in USDC instead. This means anyone with USDC can pay, even if they've never used Solana before."
+            />
+            <FAQItem
+              question="What are the fees?"
+              answer="We offer flexible pricing: a Free tier to get started, a Pro plan at $29/month with lower transaction fees, and custom Enterprise pricing for high-volume businesses. Transaction fees range from 0.5% to 2% depending on your plan."
+            />
+            <FAQItem
+              question="Is Settlr custodial?"
+              answer="No. Settlr is completely non-custodial. Funds go directly from your customer's wallet to yours. We never hold or have access to your money."
+            />
+            <FAQItem
+              question="How fast are payments?"
+              answer="Payments settle in under 1 second. Solana's high throughput means you get instant confirmation without waiting for block confirmations like on other chains."
+            />
+            <FAQItem
+              question="What wallets are supported?"
+              answer="Any Solana-compatible wallet works with Settlr, including Phantom, Solflare, Backpack, and more. We also support Solana Pay QR codes for mobile payments."
+            />
+            <FAQItem
+              question="How do I integrate Settlr?"
+              answer="Integration takes about 5 minutes. Install our SDK, add your API key, and you're ready to accept payments. We provide React hooks, REST APIs, and payment links for no-code integration."
+            />
+          </div>
+        </div>
+      </section>
+
       {/* CTA Section */}
       <section className="py-24 px-4 md:px-8 relative">
         <div className="absolute inset-0 bg-[#0a0a12]" />
@@ -417,5 +477,44 @@ export default function LandingPage() {
         </div>
       </footer>
     </main>
+  );
+}
+
+function FAQItem({ question, answer }: { question: string; answer: string }) {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 10 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      className="border border-white/10 rounded-xl overflow-hidden"
+    >
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="w-full px-6 py-5 flex items-center justify-between text-left hover:bg-white/5 transition-colors"
+      >
+        <span className="font-medium text-white">{question}</span>
+        <ChevronDown
+          className={`w-5 h-5 text-white/50 transition-transform ${
+            isOpen ? "rotate-180" : ""
+          }`}
+        />
+      </button>
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.2 }}
+          >
+            <div className="px-6 pb-5 text-white/60 leading-relaxed">
+              {answer}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
   );
 }
