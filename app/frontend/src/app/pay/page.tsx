@@ -85,31 +85,44 @@ function PaymentPageContent() {
     // Load Octane config
     loadOctaneConfig()
       .then((config) => {
+        console.log("Octane config loaded:", config);
         setOctaneConfig(config);
         // Find USDC fee
         const usdcFee = config.endpoints?.transfer?.tokens?.find(
           (t) => t.mint === USDC_MINT_DEVNET.toBase58()
         );
+        console.log("USDC fee found:", usdcFee);
         if (usdcFee) {
           setOctaneFee(usdcFee);
+        } else {
+          console.warn(
+            "No USDC fee found in config. Available tokens:",
+            config.endpoints?.transfer?.tokens
+          );
         }
       })
       .catch((err) => {
-        console.log("Octane not available:", err);
+        console.error("Octane not available:", err);
         setUseGasless(false);
       });
   }, []);
 
   // Process gasless payment via Octane
   const handleGaslessPayment = useCallback(async () => {
-    if (
-      !connected ||
-      !publicKey ||
-      !signTransaction ||
-      !octaneConfig ||
-      !octaneFee
-    ) {
-      setError("Gasless payment not available");
+    if (!connected || !publicKey) {
+      setError("Please connect your wallet first");
+      return;
+    }
+    if (!signTransaction) {
+      setError("Your wallet doesn't support transaction signing");
+      return;
+    }
+    if (!octaneConfig) {
+      setError("Gasless service is loading, please try again");
+      return;
+    }
+    if (!octaneFee) {
+      setError("Gasless payments not configured for USDC");
       return;
     }
 
