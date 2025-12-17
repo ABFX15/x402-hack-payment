@@ -81,7 +81,7 @@ export default function LandingPage() {
               <span className="relative inline-flex rounded-full h-2 w-2 bg-[var(--success)]"></span>
             </span>
             <span className="text-sm text-[var(--text-secondary)]">
-              Built for x402 Hackathon
+              Now Live on Solana
             </span>
           </motion.div>
 
@@ -570,7 +570,7 @@ window.location.href = payment.checkoutUrl;`}
             </Link>
           </div>
           <p className="text-sm text-[var(--text-muted)]">
-            Built with ❤️ for the x402 Hackathon
+            © 2025 Settlr. Powering seamless payments.
           </p>
         </div>
       </footer>
