@@ -14,9 +14,77 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Settlr | Instant Crypto Payments",
+  title: {
+    default: "Settlr | Instant Stablecoin Payments on Solana",
+    template: "%s | Settlr",
+  },
   description:
-    "The Stripe for crypto. Accept USDC payments instantly on Solana.",
+    "Accept USDC payments instantly on Solana. Gasless transactions, sub-second settlement, 0% chargebacks. The Stripe for crypto payments.",
+  keywords: [
+    "crypto payments",
+    "USDC payments",
+    "Solana payments",
+    "stablecoin payments",
+    "crypto payment gateway",
+    "accept crypto payments",
+    "USDC payment processor",
+    "Solana payment gateway",
+    "gasless transactions",
+    "instant crypto payments",
+    "merchant crypto payments",
+    "blockchain payments",
+    "web3 payments",
+    "DeFi payments",
+    "cryptocurrency payment solution",
+  ],
+  authors: [{ name: "Settlr" }],
+  creator: "Settlr",
+  publisher: "Settlr",
+  metadataBase: new URL("https://settlr.dev"),
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://settlr.dev",
+    siteName: "Settlr",
+    title: "Settlr | Instant Stablecoin Payments on Solana",
+    description:
+      "Accept USDC payments instantly on Solana. Gasless transactions, sub-second settlement, 0% chargebacks.",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Settlr - Instant Stablecoin Payments",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Settlr | Instant Stablecoin Payments on Solana",
+    description: "Accept USDC payments instantly. Gasless, fast, and secure.",
+    images: ["/og-image.png"],
+    creator: "@SettlrPay",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  verification: {
+    // Add these when you have them:
+    // google: "your-google-verification-code",
+    // yandex: "your-yandex-verification-code",
+  },
+  category: "technology",
 };
 
 export default function RootLayout({
