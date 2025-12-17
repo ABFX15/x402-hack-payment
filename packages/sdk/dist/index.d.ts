@@ -117,14 +117,14 @@ interface TransactionOptions {
  * Settlr SDK configuration
  */
 interface SettlrConfig {
+    /** Settlr API key (required for production) */
+    apiKey: string;
     /** Merchant configuration */
     merchant: MerchantConfig;
     /** Network to use (default: devnet) */
     network?: SupportedNetwork;
     /** Custom RPC endpoint */
     rpcEndpoint?: string;
-    /** Settlr API key (for hosted features) */
-    apiKey?: string;
     /** Use testnet/sandbox mode */
     testMode?: boolean;
 }
@@ -134,6 +134,7 @@ interface SettlrConfig {
  * @example
  * ```typescript
  * const settlr = new Settlr({
+ *   apiKey: 'sk_live_xxxxxxxxxxxx',
  *   merchant: {
  *     name: 'My Store',
  *     walletAddress: 'YOUR_WALLET_ADDRESS',
@@ -154,7 +155,19 @@ declare class Settlr {
     private connection;
     private usdcMint;
     private merchantWallet;
+    private apiBaseUrl;
+    private validated;
+    private merchantId?;
+    private tier?;
     constructor(config: SettlrConfig);
+    /**
+     * Validate API key with Settlr backend
+     */
+    private validateApiKey;
+    /**
+     * Get the current tier
+     */
+    getTier(): 'free' | 'pro' | 'enterprise' | undefined;
     /**
      * Create a payment link
      *

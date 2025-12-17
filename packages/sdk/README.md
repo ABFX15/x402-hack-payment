@@ -14,12 +14,17 @@ pnpm add @settlr/sdk
 
 ## Quick Start
 
-### Create a Payment Link (7 lines)
+### 1. Get Your API Key
+
+Sign up at [settlr.dev/dashboard](https://settlr.dev/dashboard) and create an API key.
+
+### 2. Create a Payment Link
 
 ```typescript
 import { Settlr } from "@settlr/sdk";
 
 const settlr = new Settlr({
+  apiKey: "sk_live_xxxxxxxxxxxx", // Your API key
   merchant: {
     name: "My Store",
     walletAddress: "YOUR_SOLANA_WALLET_ADDRESS",
@@ -42,6 +47,7 @@ import { Settlr } from "@settlr/sdk";
 import { useWallet } from "@solana/wallet-adapter-react";
 
 const settlr = new Settlr({
+  apiKey: "sk_live_xxxxxxxxxxxx",
   merchant: {
     name: "My Store",
     walletAddress: "YOUR_WALLET",
@@ -77,6 +83,7 @@ function App() {
       <ConnectionProvider endpoint={endpoint}>
         <SettlrProvider
           config={{
+            apiKey: "sk_live_xxxxxxxxxxxx",
             merchant: {
               name: "My Store",
               walletAddress: "YOUR_WALLET",
@@ -101,6 +108,30 @@ function CheckoutButton() {
   );
 }
 ```
+
+## API Keys
+
+### Types of Keys
+
+| Key Type | Prefix     | Use Case                            |
+| -------- | ---------- | ----------------------------------- |
+| Live     | `sk_live_` | Production payments                 |
+| Test     | `sk_test_` | Development/testing (no validation) |
+
+### Rate Limits
+
+| Tier       | Requests/min | Platform Fee |
+| ---------- | ------------ | ------------ |
+| Free       | 60           | 2%           |
+| Pro        | 300          | 1.5%         |
+| Enterprise | 1000         | 1%           |
+
+### Get Your API Key
+
+1. Go to [settlr.dev/dashboard](https://settlr.dev/dashboard)
+2. Connect your wallet
+3. Click "Create API Key"
+4. Save the key securely (only shown once!)
 
 ## API Reference
 

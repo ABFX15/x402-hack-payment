@@ -13,7 +13,9 @@
     }
   },
   "files": [
-    "dist"
+    "dist",
+    "LICENSE",
+    "README.md"
   ],
   "scripts": {
     "build": "tsup",
@@ -38,7 +40,6 @@
   },
   "homepage": "https://settlr.dev",
   "dependencies": {
-    "@rollup/rollup-darwin-x64": "^4.53.3",
     "@solana/spl-token": "^0.4.13",
     "@solana/web3.js": "^1.98.0"
   },

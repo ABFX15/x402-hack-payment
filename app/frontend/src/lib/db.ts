@@ -58,10 +58,27 @@ export interface Payment {
     refundSignature?: string;
 }
 
+export interface ApiKey {
+    id: string;
+    merchantId: string;
+    key: string;  // hashed
+    keyPrefix: string;  // first 8 chars for display
+    name: string;
+    tier: "free" | "pro" | "enterprise";
+    rateLimit: number;  // requests per minute
+    requestCount: number;
+    lastUsedAt?: Date;
+    createdAt: Date;
+    expiresAt?: Date;
+    active: boolean;
+}
+
 // In-memory fallback stores
 const memoryMerchants = new Map<string, Merchant>();
 const memorySessions = new Map<string, CheckoutSession>();
 const memoryPayments = new Map<string, Payment>();
+const memoryApiKeys = new Map<string, ApiKey>();
+const memoryRateLimits = new Map<string, { count: number; resetAt: number }>();
 
 // ID generators
 function generateSessionId(): string {
@@ -525,5 +542,231 @@ export async function createMerchant(
         };
         memoryMerchants.set(merchant.id, merchant);
         return merchant;
+    }
+}
+
+// ============================================
+// API KEYS
+// ============================================
+
+function generateApiKey(prefix: "sk_live" | "sk_test" = "sk_live"): string {
+    const chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    let key = `${prefix}_`;
+    for (let i = 0; i < 32; i++) {
+        key += chars[Math.floor(Math.random() * chars.length)];
+    }
+    return key;
+}
+
+function hashApiKey(key: string): string {
+    // Simple hash for demo - in production use bcrypt or similar
+    let hash = 0;
+    for (let i = 0; i < key.length; i++) {
+        const char = key.charCodeAt(i);
+        hash = ((hash << 5) - hash) + char;
+        hash = hash & hash;
+    }
+    return Math.abs(hash).toString(16).padStart(16, '0');
+}
+
+export async function createApiKey(
+    merchantId: string,
+    name: string = "Default",
+    tier: "free" | "pro" | "enterprise" = "free",
+    isTest: boolean = false
+): Promise<{ apiKey: ApiKey; rawKey: string }> {
+    const rawKey = generateApiKey(isTest ? "sk_test" : "sk_live");
+    const keyHash = hashApiKey(rawKey);
+
+    const rateLimits = {
+        free: 60,
+        pro: 300,
+        enterprise: 1000,
+    };
+
+    const apiKey: ApiKey = {
+        id: crypto.randomUUID(),
+        merchantId,
+        key: keyHash,
+        keyPrefix: rawKey.slice(0, 12) + "...",
+        name,
+        tier,
+        rateLimit: rateLimits[tier],
+        requestCount: 0,
+        createdAt: new Date(),
+        active: true,
+    };
+
+    if (isSupabaseConfigured()) {
+        const { error } = await supabase.from("api_keys").insert({
+            id: apiKey.id,
+            merchant_id: merchantId,
+            key_hash: keyHash,
+            key_prefix: apiKey.keyPrefix,
+            name,
+            tier,
+            rate_limit: apiKey.rateLimit,
+            active: true,
+        });
+
+        if (error) {
+            console.error("Supabase error creating API key:", error);
+            throw new Error("Failed to create API key");
+        }
+    } else {
+        // Store with raw key for in-memory lookup (demo only)
+        memoryApiKeys.set(rawKey, apiKey);
+    }
+
+    return { apiKey, rawKey };
+}
+
+export async function validateApiKey(rawKey: string): Promise<{
+    valid: boolean;
+    merchantId?: string;
+    tier?: "free" | "pro" | "enterprise";
+    rateLimit?: number;
+    error?: string;
+}> {
+    // Check for test keys in dev mode
+    if (rawKey.startsWith("sk_test_")) {
+        return {
+            valid: true,
+            merchantId: "test_merchant",
+            tier: "free",
+            rateLimit: 60,
+        };
+    }
+
+    if (isSupabaseConfigured()) {
+        const keyHash = hashApiKey(rawKey);
+
+        const { data, error } = await supabase
+            .from("api_keys")
+            .select("*")
+            .eq("key_hash", keyHash)
+            .eq("active", true)
+            .single();
+
+        if (error || !data) {
+            return { valid: false, error: "Invalid API key" };
+        }
+
+        // Check expiration
+        if (data.expires_at && new Date(data.expires_at) < new Date()) {
+            return { valid: false, error: "API key expired" };
+        }
+
+        // Update last used
+        await supabase
+            .from("api_keys")
+            .update({
+                last_used_at: new Date().toISOString(),
+                request_count: (data.request_count || 0) + 1,
+            })
+            .eq("id", data.id);
+
+        return {
+            valid: true,
+            merchantId: data.merchant_id,
+            tier: data.tier,
+            rateLimit: data.rate_limit,
+        };
+    } else {
+        // In-memory lookup
+        const apiKey = memoryApiKeys.get(rawKey);
+
+        if (!apiKey || !apiKey.active) {
+            return { valid: false, error: "Invalid API key" };
+        }
+
+        apiKey.lastUsedAt = new Date();
+        apiKey.requestCount++;
+
+        return {
+            valid: true,
+            merchantId: apiKey.merchantId,
+            tier: apiKey.tier,
+            rateLimit: apiKey.rateLimit,
+        };
+    }
+}
+
+export async function checkRateLimit(apiKey: string): Promise<{
+    allowed: boolean;
+    remaining: number;
+    resetAt: number;
+}> {
+    const now = Date.now();
+    const windowMs = 60 * 1000; // 1 minute window
+
+    let rateData = memoryRateLimits.get(apiKey);
+
+    // Reset if window expired
+    if (!rateData || rateData.resetAt < now) {
+        rateData = { count: 0, resetAt: now + windowMs };
+        memoryRateLimits.set(apiKey, rateData);
+    }
+
+    // Get rate limit for this key
+    const validation = await validateApiKey(apiKey);
+    const limit = validation.rateLimit || 60;
+
+    rateData.count++;
+
+    return {
+        allowed: rateData.count <= limit,
+        remaining: Math.max(0, limit - rateData.count),
+        resetAt: rateData.resetAt,
+    };
+}
+
+export async function getApiKeysByMerchant(merchantId: string): Promise<ApiKey[]> {
+    if (isSupabaseConfigured()) {
+        const { data, error } = await supabase
+            .from("api_keys")
+            .select("*")
+            .eq("merchant_id", merchantId)
+            .order("created_at", { ascending: false });
+
+        if (error || !data) {
+            return [];
+        }
+
+        return data.map((row: Record<string, unknown>) => ({
+            id: row.id as string,
+            merchantId: row.merchant_id as string,
+            key: row.key_hash as string,
+            keyPrefix: row.key_prefix as string,
+            name: row.name as string,
+            tier: row.tier as "free" | "pro" | "enterprise",
+            rateLimit: row.rate_limit as number,
+            requestCount: (row.request_count as number) || 0,
+            lastUsedAt: row.last_used_at ? new Date(row.last_used_at as string) : undefined,
+            createdAt: new Date(row.created_at as string),
+            expiresAt: row.expires_at ? new Date(row.expires_at as string) : undefined,
+            active: row.active as boolean,
+        }));
+    } else {
+        return Array.from(memoryApiKeys.values()).filter(k => k.merchantId === merchantId);
+    }
+}
+
+export async function revokeApiKey(keyId: string): Promise<boolean> {
+    if (isSupabaseConfigured()) {
+        const { error } = await supabase
+            .from("api_keys")
+            .update({ active: false })
+            .eq("id", keyId);
+
+        return !error;
+    } else {
+        for (const [rawKey, apiKey] of memoryApiKeys.entries()) {
+            if (apiKey.id === keyId) {
+                apiKey.active = false;
+                return true;
+            }
+        }
+        return false;
     }
 }

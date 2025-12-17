@@ -16,6 +16,7 @@ import {
     USDC_MINT_DEVNET,
     USDC_MINT_MAINNET,
     SETTLR_CHECKOUT_URL,
+    SETTLR_API_URL,
     DEFAULT_RPC_ENDPOINTS,
     type SupportedNetwork,
 } from './constants';
@@ -37,6 +38,9 @@ import {
  * Settlr SDK configuration
  */
 export interface SettlrConfig {
+    /** Settlr API key (required for production) */
+    apiKey: string;
+
     /** Merchant configuration */
     merchant: MerchantConfig;
 
@@ -46,11 +50,19 @@ export interface SettlrConfig {
     /** Custom RPC endpoint */
     rpcEndpoint?: string;
 
-    /** Settlr API key (for hosted features) */
-    apiKey?: string;
-
     /** Use testnet/sandbox mode */
     testMode?: boolean;
+}
+
+/**
+ * API key validation response
+ */
+interface ApiKeyValidation {
+    valid: boolean;
+    merchantId?: string;
+    tier?: 'free' | 'pro' | 'enterprise';
+    rateLimit?: number;
+    error?: string;
 }
 
 /**
@@ -59,6 +71,7 @@ export interface SettlrConfig {
  * @example
  * ```typescript
  * const settlr = new Settlr({
+ *   apiKey: 'sk_live_xxxxxxxxxxxx',
  *   merchant: {
  *     name: 'My Store',
  *     walletAddress: 'YOUR_WALLET_ADDRESS',
@@ -75,12 +88,21 @@ export interface SettlrConfig {
  * ```
  */
 export class Settlr {
-    private config: Required<Omit<SettlrConfig, 'apiKey'>> & { apiKey?: string };
+    private config: Required<Omit<SettlrConfig, 'apiKey'>> & { apiKey: string };
     private connection: Connection;
     private usdcMint: PublicKey;
     private merchantWallet: PublicKey;
+    private apiBaseUrl: string;
+    private validated: boolean = false;
+    private merchantId?: string;
+    private tier?: 'free' | 'pro' | 'enterprise';
 
     constructor(config: SettlrConfig) {
+        // API key is required
+        if (!config.apiKey) {
+            throw new Error('API key is required. Get one at https://settlr.dev/dashboard');
+        }
+
         // Validate merchant address
         const walletAddress = typeof config.merchant.walletAddress === 'string'
             ? config.merchant.walletAddress
@@ -98,15 +120,68 @@ export class Settlr {
                 ...config.merchant,
                 walletAddress,
             },
+            apiKey: config.apiKey,
             network,
             rpcEndpoint: config.rpcEndpoint ?? DEFAULT_RPC_ENDPOINTS[network],
-            apiKey: config.apiKey,
             testMode,
         };
 
+        this.apiBaseUrl = testMode ? SETTLR_API_URL.development : SETTLR_API_URL.production;
         this.connection = new Connection(this.config.rpcEndpoint, 'confirmed');
         this.usdcMint = network === 'devnet' ? USDC_MINT_DEVNET : USDC_MINT_MAINNET;
         this.merchantWallet = new PublicKey(walletAddress);
+    }
+
+    /**
+     * Validate API key with Settlr backend
+     */
+    private async validateApiKey(): Promise<void> {
+        if (this.validated) return;
+
+        try {
+            const response = await fetch(`${this.apiBaseUrl}/sdk/validate`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-API-Key': this.config.apiKey,
+                },
+                body: JSON.stringify({
+                    walletAddress: this.config.merchant.walletAddress,
+                }),
+            });
+
+            if (!response.ok) {
+                const error = await response.json().catch(() => ({ error: 'Invalid API key' }));
+                throw new Error(error.error || 'API key validation failed');
+            }
+
+            const data: ApiKeyValidation = await response.json();
+
+            if (!data.valid) {
+                throw new Error(data.error || 'Invalid API key');
+            }
+
+            this.validated = true;
+            this.merchantId = data.merchantId;
+            this.tier = data.tier;
+        } catch (error) {
+            if (error instanceof Error && error.message.includes('fetch')) {
+                // Network error - allow offline/dev mode for test keys
+                if (this.config.apiKey.startsWith('sk_test_')) {
+                    this.validated = true;
+                    this.tier = 'free';
+                    return;
+                }
+            }
+            throw error;
+        }
+    }
+
+    /**
+     * Get the current tier
+     */
+    getTier(): 'free' | 'pro' | 'enterprise' | undefined {
+        return this.tier;
     }
 
     /**
@@ -125,6 +200,9 @@ export class Settlr {
      * ```
      */
     async createPayment(options: CreatePaymentOptions): Promise<Payment> {
+        // Validate API key before any operation
+        await this.validateApiKey();
+
         const { amount, memo, orderId, metadata, successUrl, cancelUrl, expiresIn = 3600 } = options;
 
         if (amount <= 0) {
@@ -194,6 +272,9 @@ export class Settlr {
         amount: number;
         memo?: string;
     }): Promise<Transaction> {
+        // Validate API key before any operation
+        await this.validateApiKey();
+
         const { payerPublicKey, amount, memo } = options;
         const amountLamports = parseUSDC(amount);
 

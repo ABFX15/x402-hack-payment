@@ -41,6 +41,10 @@ var import_spl_token = require("@solana/spl-token");
 var import_web3 = require("@solana/web3.js");
 var USDC_MINT_DEVNET = new import_web3.PublicKey("4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU");
 var USDC_MINT_MAINNET = new import_web3.PublicKey("EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v");
+var SETTLR_API_URL = {
+  production: "https://settlr.dev/api",
+  development: "http://localhost:3000/api"
+};
 var SETTLR_CHECKOUT_URL = {
   production: "https://settlr.dev/pay",
   development: "http://localhost:3000/pay"
@@ -99,6 +103,10 @@ async function retry(fn, maxRetries = 3, baseDelay = 1e3) {
 // src/client.ts
 var Settlr = class {
   constructor(config) {
+    this.validated = false;
+    if (!config.apiKey) {
+      throw new Error("API key is required. Get one at https://settlr.dev/dashboard");
+    }
     const walletAddress = typeof config.merchant.walletAddress === "string" ? config.merchant.walletAddress : config.merchant.walletAddress.toBase58();
     if (!isValidSolanaAddress(walletAddress)) {
       throw new Error("Invalid merchant wallet address");
@@ -110,14 +118,59 @@ var Settlr = class {
         ...config.merchant,
         walletAddress
       },
+      apiKey: config.apiKey,
       network,
       rpcEndpoint: config.rpcEndpoint ?? DEFAULT_RPC_ENDPOINTS[network],
-      apiKey: config.apiKey,
       testMode
     };
+    this.apiBaseUrl = testMode ? SETTLR_API_URL.development : SETTLR_API_URL.production;
     this.connection = new import_web32.Connection(this.config.rpcEndpoint, "confirmed");
     this.usdcMint = network === "devnet" ? USDC_MINT_DEVNET : USDC_MINT_MAINNET;
     this.merchantWallet = new import_web32.PublicKey(walletAddress);
+  }
+  /**
+   * Validate API key with Settlr backend
+   */
+  async validateApiKey() {
+    if (this.validated) return;
+    try {
+      const response = await fetch(`${this.apiBaseUrl}/sdk/validate`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-API-Key": this.config.apiKey
+        },
+        body: JSON.stringify({
+          walletAddress: this.config.merchant.walletAddress
+        })
+      });
+      if (!response.ok) {
+        const error = await response.json().catch(() => ({ error: "Invalid API key" }));
+        throw new Error(error.error || "API key validation failed");
+      }
+      const data = await response.json();
+      if (!data.valid) {
+        throw new Error(data.error || "Invalid API key");
+      }
+      this.validated = true;
+      this.merchantId = data.merchantId;
+      this.tier = data.tier;
+    } catch (error) {
+      if (error instanceof Error && error.message.includes("fetch")) {
+        if (this.config.apiKey.startsWith("sk_test_")) {
+          this.validated = true;
+          this.tier = "free";
+          return;
+        }
+      }
+      throw error;
+    }
+  }
+  /**
+   * Get the current tier
+   */
+  getTier() {
+    return this.tier;
   }
   /**
    * Create a payment link
@@ -135,6 +188,7 @@ var Settlr = class {
    * ```
    */
   async createPayment(options) {
+    await this.validateApiKey();
     const { amount, memo, orderId, metadata, successUrl, cancelUrl, expiresIn = 3600 } = options;
     if (amount <= 0) {
       throw new Error("Amount must be greater than 0");
@@ -186,6 +240,7 @@ var Settlr = class {
    * ```
    */
   async buildTransaction(options) {
+    await this.validateApiKey();
     const { payerPublicKey, amount, memo } = options;
     const amountLamports = parseUSDC(amount);
     const payerAta = await (0, import_spl_token.getAssociatedTokenAddress)(this.usdcMint, payerPublicKey);
