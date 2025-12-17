@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     title: "About Settlr - Revolutionizing Crypto Payments",
     description:
       "Learn how Settlr is revolutionizing crypto payments with gasless USDC transactions on Solana.",
-    url: "https://settlr.xyz/about",
+    url: "https://settlr.dev/about",
   },
   twitter: {
     title: "About Settlr - Revolutionizing Crypto Payments",

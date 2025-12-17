@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     title: "Join the Settlr Waitlist",
     description:
       "Get early access to the future of crypto payments. Gasless USDC on Solana with instant settlement.",
-    url: "https://settlr.xyz/waitlist",
+    url: "https://settlr.dev/waitlist",
   },
   twitter: {
     title: "Join the Settlr Waitlist",

@@ -115,7 +115,7 @@ export default async function Image() {
             color: "#a3a3a3",
           }}
         >
-          settlr.xyz
+          settlr.dev
         </div>
       </div>
     ),
