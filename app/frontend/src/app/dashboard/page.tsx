@@ -17,6 +17,7 @@ import {
   Shield,
   Clock,
   ChevronRight,
+  Key,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -221,11 +222,11 @@ export default function DashboardPage() {
         </div>
 
         {/* Quick Actions */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
           {[
             {
               title: "Hosted Checkout",
-              description: "Create Stripe-like checkout pages",
+              description: "Create payment pages",
               icon: Globe,
               href: "/create",
               color:
@@ -233,14 +234,22 @@ export default function DashboardPage() {
             },
             {
               title: "Gasless Payments",
-              description: "Customers pay zero gas fees",
+              description: "Zero gas for customers",
               icon: Zap,
               href: "/demo",
               color:
                 "bg-amber-500/10 border-amber-500/30 hover:border-amber-500/50",
             },
             {
-              title: "API Integration",
+              title: "API Keys",
+              description: "Manage SDK access",
+              icon: Key,
+              href: "/dashboard/api-keys",
+              color:
+                "bg-emerald-500/10 border-emerald-500/30 hover:border-emerald-500/50",
+            },
+            {
+              title: "SDK Docs",
               description: "npm install @settlr/sdk",
               icon: Shield,
               href: "https://github.com/ABFX15/x402-hack-payment",
