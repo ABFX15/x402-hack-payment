@@ -59,6 +59,12 @@ export default function LandingPage() {
                 Pricing
               </Link>
               <Link
+                href="/contact"
+                className="text-white/60 hover:text-white transition-colors text-sm"
+              >
+                Contact
+              </Link>
+              <Link
                 href="/waitlist"
                 className="px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white text-sm hover:bg-white/20 transition-all"
               >
@@ -469,6 +475,12 @@ export default function LandingPage() {
               className="hover:text-white/60 transition-colors"
             >
               Waitlist
+            </Link>
+            <Link
+              href="/contact"
+              className="hover:text-white/60 transition-colors"
+            >
+              Contact
             </Link>
             <Link
               href="/demo"
