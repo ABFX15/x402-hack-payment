@@ -19,7 +19,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { usePrivy } from "@privy-io/react-auth";
-import { useWallets } from "@privy-io/react-auth/solana";
 import { motion, AnimatePresence } from "framer-motion";
 
 const navLinks = [
@@ -35,15 +34,7 @@ const navLinks = [
 export default function Header() {
   const pathname = usePathname();
   const { ready, authenticated, login, logout, user } = usePrivy();
-  const { wallets } = useWallets();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  // Get the embedded wallet address
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const embeddedWallet = wallets?.find(
-    (w: any) => w.walletClientType === "privy"
-  );
-  const walletAddress = embeddedWallet?.address;
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-[#0a0a12]/90 backdrop-blur-xl border-b border-white/10">
@@ -84,16 +75,6 @@ export default function Header() {
 
         {/* Right side - Auth/Wallet */}
         <div className="flex items-center gap-3">
-          {authenticated && walletAddress && (
-            <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[var(--card)] border border-[var(--border)]">
-              <Wallet className="w-4 h-4 text-[var(--primary)]" />
-              <span className="text-sm text-[var(--text-muted)]">
-                {walletAddress.slice(0, 4)}...
-                {walletAddress.slice(-4)}
-              </span>
-            </div>
-          )}
-
           {!ready ? (
             <div className="px-4 py-2 rounded-lg bg-[var(--card)] border border-[var(--border)]">
               <span className="text-sm text-[var(--text-muted)]">
