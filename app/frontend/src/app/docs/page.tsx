@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import {
   Code,
@@ -10,10 +12,7 @@ import {
   ExternalLink,
 } from "lucide-react";
 
-export const metadata = {
-  title: "Integration Docs | Settlr",
-  description: "Integrate Settlr payments into your game or app in minutes",
-};
+// Note: metadata moved to layout.tsx or removed for client component
 
 function CodeBlock({
   code,

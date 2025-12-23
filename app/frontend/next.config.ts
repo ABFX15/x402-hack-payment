@@ -5,7 +5,9 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: ".",
   },
-  // Exclude problematic packages from transpilation
+  // Exclude problematic packages from server-side bundling
+  serverExternalPackages: ["pino", "pino-pretty", "thread-stream"],
+  // Transpile Privy packages
   transpilePackages: ["@privy-io/react-auth"],
   webpack: (config, { isServer }) => {
     config.resolve.fallback = {
@@ -15,9 +17,15 @@ const nextConfig: NextConfig = {
       tls: false,
       child_process: false,
       perf_hooks: false,
+      "why-is-node-running": false,
     };
 
     // Handle pino and thread-stream which have Node.js-only dependencies
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      "why-is-node-running": false,
+    };
+
     if (!isServer) {
       config.resolve.alias = {
         ...config.resolve.alias,
