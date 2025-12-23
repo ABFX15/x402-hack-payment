@@ -1,8 +1,7 @@
 "use client";
 
 import { PrivyProvider as BasePrivyProvider } from "@privy-io/react-auth";
-import { toSolanaWalletConnectors } from "@privy-io/react-auth/solana";
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState } from "react";
 
 interface PrivyProviderProps {
   children: React.ReactNode;
@@ -14,19 +13,6 @@ export function PrivyProvider({ children }: PrivyProviderProps) {
 
   useEffect(() => {
     setMounted(true);
-  }, []);
-
-  // Initialize Solana wallet connectors only on client-side
-  const solanaConnectors = useMemo(() => {
-    if (typeof window === "undefined") return undefined;
-    try {
-      return toSolanaWalletConnectors({
-        shouldAutoConnect: false,
-      });
-    } catch (e) {
-      console.warn("[Settlr] Failed to initialize Solana connectors:", e);
-      return undefined;
-    }
   }, []);
 
   if (!appId) {
@@ -53,13 +39,6 @@ export function PrivyProvider({ children }: PrivyProviderProps) {
           walletChainType: "solana-only",
         },
         loginMethods: ["email", "wallet"],
-        externalWallets: solanaConnectors
-          ? {
-              solana: {
-                connectors: solanaConnectors,
-              },
-            }
-          : undefined,
         embeddedWallets: {
           solana: {
             createOnLogin: "users-without-wallets",
@@ -71,4 +50,3 @@ export function PrivyProvider({ children }: PrivyProviderProps) {
     </BasePrivyProvider>
   );
 }
-
