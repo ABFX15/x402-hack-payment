@@ -1,14 +1,12 @@
 "use client";
 
 import {
-  History,
   Plus,
   Home,
   Wallet,
   Menu,
   X,
   Store,
-  ArrowDownToLine,
   BarChart3,
   CreditCard,
   LogOut,
@@ -23,12 +21,11 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const navLinks = [
   { href: "/", icon: Home, label: "Home" },
+  { href: "/demo", icon: CreditCard, label: "Demo" },
+  { href: "/dashboard", icon: BarChart3, label: "Dashboard" },
   { href: "/create", icon: Plus, label: "Create Payment" },
-  { href: "/demo", icon: CreditCard, label: "Try Checkout" },
-  { href: "/offramp", icon: ArrowDownToLine, label: "Cash Out" },
-  { href: "/history", icon: History, label: "History" },
-  { href: "/analytics", icon: BarChart3, label: "Analytics" },
-  { href: "/merchant", icon: Store, label: "Merchant" },
+  { href: "/docs", icon: Store, label: "Docs" },
+  { href: "/pricing", icon: Wallet, label: "Pricing" },
 ];
 
 export default function Header() {

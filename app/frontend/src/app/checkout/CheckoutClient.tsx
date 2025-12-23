@@ -25,6 +25,7 @@ import {
 } from "lucide-react";
 import { FiatOnRamp } from "@/components/FiatOnRamp";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Connection, PublicKey, Transaction } from "@solana/web3.js";
 import {
   getAssociatedTokenAddress,
@@ -46,7 +47,9 @@ interface CheckoutClientProps {
 }
 
 export default function CheckoutClient({ searchParams }: CheckoutClientProps) {
-  const { ready, authenticated, login, user, logout } = usePrivy();
+  const router = useRouter();
+  const { ready, authenticated, login, user, logout, connectWallet } =
+    usePrivy();
   const { wallets, ready: walletsReady } = useWallets();
   const { signAndSendTransaction } = useSignAndSendTransaction();
   const { createWallet } = useCreateWallet();
@@ -279,10 +282,10 @@ export default function CheckoutClient({ searchParams }: CheckoutClientProps) {
             if (isEmbed || isWidget) {
               sendToParent("settlr:cancel", {});
             } else {
-              window.history.back();
+              router.push("/");
             }
           }}
-          className="absolute top-4 right-4 p-2 bg-zinc-800 hover:bg-zinc-700 rounded-full transition-colors z-10"
+          className="fixed top-4 right-4 p-2 bg-zinc-800 hover:bg-zinc-700 rounded-full transition-colors z-50"
           aria-label="Close"
         >
           <X className="w-5 h-5 text-zinc-400" />
@@ -314,13 +317,13 @@ export default function CheckoutClient({ searchParams }: CheckoutClientProps) {
                 </div>
               ) : (
                 <div className="space-y-3">
-                  {/* Connect existing wallet - Primary option */}
+                  {/* Connect existing wallet - Using login with wallet */}
                   <button
                     onClick={() => login({ loginMethods: ["wallet"] })}
                     className="w-full py-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold rounded-xl flex items-center justify-center gap-3 hover:opacity-90 transition-opacity"
                   >
                     <Wallet className="w-5 h-5" />
-                    Connect Wallet
+                    Connect Wallet (Phantom/Solflare)
                   </button>
 
                   <div className="flex items-center gap-3">
@@ -447,9 +450,8 @@ export default function CheckoutClient({ searchParams }: CheckoutClientProps) {
             if (isEmbed || isWidget) {
               sendToParent("settlr:cancel", {});
             } else {
-              // Go back or logout
-              logout();
-              setStep("auth");
+              // Navigate away instead of logging out (avoids race condition)
+              router.push("/");
             }
           }}
           className="absolute top-4 right-4 p-2 bg-zinc-800 hover:bg-zinc-700 rounded-full transition-colors z-10"

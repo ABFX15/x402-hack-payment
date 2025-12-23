@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { useWallet } from "@solana/wallet-adapter-react";
+import { usePrivy } from "@privy-io/react-auth";
+import { useWallets } from "@privy-io/react-auth/solana";
 import {
   Key,
   Plus,
@@ -16,6 +17,7 @@ import {
   Shield,
   Zap,
   Building2,
+  LogIn,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -32,7 +34,11 @@ interface ApiKeyRecord {
 }
 
 export default function ApiKeysPage() {
-  const { publicKey, connected } = useWallet();
+  const { authenticated, login } = usePrivy();
+  const { wallets } = useWallets();
+  const solanaWallet = wallets?.[0];
+  const publicKey = solanaWallet?.address;
+  const connected = authenticated && !!publicKey;
   const [keys, setKeys] = useState<ApiKeyRecord[]>([]);
   const [loading, setLoading] = useState(true);
   const [creating, setCreating] = useState(false);
@@ -54,9 +60,7 @@ export default function ApiKeysPage() {
       }
 
       try {
-        const res = await fetch(
-          `/api/sdk/keys?merchantId=${publicKey.toString()}`
-        );
+        const res = await fetch(`/api/sdk/keys?merchantId=${publicKey}`);
         if (res.ok) {
           const data = await res.json();
           setKeys(data.keys || []);
@@ -80,7 +84,7 @@ export default function ApiKeysPage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          merchantId: publicKey.toString(),
+          merchantId: publicKey,
           name: newKeyName.trim(),
           tier: newKeyTier,
         }),
@@ -91,9 +95,7 @@ export default function ApiKeysPage() {
         setNewlyCreatedKey(data.key);
 
         // Refresh keys list
-        const keysRes = await fetch(
-          `/api/sdk/keys?merchantId=${publicKey.toString()}`
-        );
+        const keysRes = await fetch(`/api/sdk/keys?merchantId=${publicKey}`);
         if (keysRes.ok) {
           const keysData = await keysRes.json();
           setKeys(keysData.keys || []);

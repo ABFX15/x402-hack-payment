@@ -47,10 +47,10 @@ export default function LandingPage() {
             </Link>
             <nav className="flex items-center gap-6">
               <Link
-                href="/about"
+                href="/docs"
                 className="text-white/60 hover:text-white transition-colors text-sm"
               >
-                About
+                Docs
               </Link>
               <Link
                 href="/pricing"
@@ -59,22 +59,16 @@ export default function LandingPage() {
                 Pricing
               </Link>
               <Link
-                href="/contact"
-                className="text-white/60 hover:text-white transition-colors text-sm"
-              >
-                Contact
-              </Link>
-              <Link
                 href="/dashboard"
                 className="text-white/60 hover:text-white transition-colors text-sm"
               >
                 Dashboard
               </Link>
               <Link
-                href="/waitlist"
+                href="/demo"
                 className="px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white text-sm hover:bg-white/20 transition-all"
               >
-                Join Waitlist
+                Try Demo
               </Link>
             </nav>
           </div>
@@ -108,7 +102,7 @@ export default function LandingPage() {
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <Link
-                href="/waitlist"
+                href="/demo"
                 className="group relative px-8 py-4 rounded-xl font-medium text-lg overflow-hidden"
               >
                 {/* Neon gradient background */}
@@ -117,15 +111,15 @@ export default function LandingPage() {
                 <div className="absolute inset-0 bg-gradient-to-r from-[#f472b6] to-[#67e8f9] blur-xl opacity-50 group-hover:opacity-70 transition-opacity" />
                 <span className="relative z-10 flex items-center gap-2 text-white">
                   <Zap className="w-5 h-5" />
-                  Join the Waitlist
+                  Try Demo
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </span>
               </Link>
               <Link
-                href="/demo"
+                href="/docs"
                 className="px-8 py-4 rounded-xl font-medium text-lg border border-white/20 text-white hover:bg-white/10 transition-all"
               >
-                Try Demo
+                View Docs
               </Link>
             </div>
 
@@ -443,15 +437,15 @@ export default function LandingPage() {
               Ready to get started?
             </h2>
             <p className="text-white/50 text-lg mb-10 max-w-xl mx-auto">
-              Join the waitlist for early access. Be among the first to
-              integrate seamless stablecoin payments.
+              Start accepting crypto payments in minutes. Integrate with just a
+              few lines of code.
             </p>
             <Link
-              href="/waitlist"
+              href="/demo"
               className="inline-flex items-center gap-3 px-10 py-5 rounded-xl font-medium text-lg bg-gradient-to-r from-[#f472b6] to-[#67e8f9] text-white hover:opacity-90 transition-opacity"
             >
               <Zap className="w-5 h-5" />
-              Join the Waitlist
+              Try It Now
               <ArrowRight className="w-5 h-5" />
             </Link>
           </motion.div>
@@ -477,22 +471,22 @@ export default function LandingPage() {
               Pricing
             </Link>
             <Link
-              href="/waitlist"
+              href="/docs"
               className="hover:text-white/60 transition-colors"
             >
-              Waitlist
-            </Link>
-            <Link
-              href="/contact"
-              className="hover:text-white/60 transition-colors"
-            >
-              Contact
+              Docs
             </Link>
             <Link
               href="/demo"
               className="hover:text-white/60 transition-colors"
             >
               Demo
+            </Link>
+            <Link
+              href="/dashboard"
+              className="hover:text-white/60 transition-colors"
+            >
+              Dashboard
             </Link>
           </div>
           <p className="text-sm text-white/30">

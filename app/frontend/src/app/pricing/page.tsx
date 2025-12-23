@@ -138,10 +138,10 @@ export default function PricingPage() {
               Home
             </Link>
             <Link
-              href="/about"
+              href="/docs"
               className="text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors"
             >
-              About
+              Docs
             </Link>
             <Link
               href="/pricing"
@@ -149,8 +149,8 @@ export default function PricingPage() {
             >
               Pricing
             </Link>
-            <Link href="/dashboard" className="btn-primary text-sm">
-              Dashboard
+            <Link href="/demo" className="btn-primary text-sm">
+              Try Demo
             </Link>
           </nav>
         </div>

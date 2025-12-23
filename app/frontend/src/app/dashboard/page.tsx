@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { useWallet } from "@solana/wallet-adapter-react";
+import { usePrivy } from "@privy-io/react-auth";
+import { useWallets } from "@privy-io/react-auth/solana";
 import {
   Wallet,
   TrendingUp,
@@ -18,6 +19,7 @@ import {
   Clock,
   ChevronRight,
   Key,
+  LogIn,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -36,7 +38,12 @@ interface PaymentRecord {
 }
 
 export default function DashboardPage() {
-  const { publicKey, connected } = useWallet();
+  const { ready, authenticated, login } = usePrivy();
+  const { wallets } = useWallets();
+  const solanaWallet = wallets?.[0];
+  const publicKey = solanaWallet?.address;
+  const connected = authenticated && !!publicKey;
+
   const [payments, setPayments] = useState<PaymentRecord[]>([]);
   const [loading, setLoading] = useState(true);
   const [copied, setCopied] = useState<string | null>(null);
@@ -133,8 +140,8 @@ export default function DashboardPage() {
               <h1 className="text-4xl font-bold mb-2">Merchant Dashboard</h1>
               <p className="text-zinc-400">
                 {connected
-                  ? `Connected: ${formatAddress(publicKey!.toString())}`
-                  : "Connect wallet to view your payments"}
+                  ? `Connected: ${formatAddress(publicKey!)}`
+                  : "Sign in to view your payments"}
               </p>
             </div>
             <div className="flex gap-3">
@@ -148,14 +155,14 @@ export default function DashboardPage() {
                   Create Payment
                 </motion.button>
               </Link>
-              <Link href="/analytics">
+              <Link href="/offramp">
                 <motion.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   className="px-6 py-3 bg-white/10 text-white font-semibold rounded-xl flex items-center gap-2 border border-white/20 hover:bg-white/20 transition-all"
                 >
-                  <TrendingUp className="w-4 h-4" />
-                  Analytics
+                  <DollarSign className="w-4 h-4" />
+                  Cash Out
                 </motion.button>
               </Link>
             </div>
@@ -291,12 +298,7 @@ export default function DashboardPage() {
         >
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-xl font-bold">Recent Payments</h2>
-            <Link
-              href="/history"
-              className="text-zinc-400 hover:text-white text-sm flex items-center gap-1"
-            >
-              View all <ChevronRight className="w-4 h-4" />
-            </Link>
+            <span className="text-zinc-400 text-sm">Last 10 transactions</span>
           </div>
 
           {loading ? (
@@ -306,9 +308,16 @@ export default function DashboardPage() {
           ) : !connected ? (
             <div className="text-center py-12">
               <Wallet className="w-12 h-12 text-zinc-600 mx-auto mb-4" />
-              <p className="text-zinc-400">
-                Connect your wallet to view payments
+              <p className="text-zinc-400 mb-4">
+                Sign in to view your payments
               </p>
+              <button
+                onClick={login}
+                className="px-6 py-3 bg-gradient-to-r from-[#f472b6] to-[#67e8f9] text-white font-semibold rounded-xl flex items-center gap-2 mx-auto"
+              >
+                <LogIn className="w-4 h-4" />
+                Sign In
+              </button>
             </div>
           ) : payments.length === 0 ? (
             <div className="text-center py-12">
@@ -390,11 +399,6 @@ export default function DashboardPage() {
                       </td>
                       <td className="py-4">
                         <div className="flex items-center gap-2">
-                          <Link href={`/receipts/${payment.id}`}>
-                            <button className="p-2 text-zinc-500 hover:text-white hover:bg-zinc-800 rounded-lg transition-colors">
-                              <Receipt className="w-4 h-4" />
-                            </button>
-                          </Link>
                           <a
                             href={`https://explorer.solana.com/tx/${payment.txSignature}?cluster=devnet`}
                             target="_blank"
@@ -429,7 +433,7 @@ export default function DashboardPage() {
   method: 'POST',
   body: JSON.stringify({
     merchantId: 'your-store',
-    merchantWallet: '${publicKey?.toString() || "YOUR_WALLET"}',
+    merchantWallet: '${publicKey || "YOUR_WALLET"}',
     amount: 29.99,
     successUrl: 'https://yoursite.com/success',
     cancelUrl: 'https://yoursite.com/cancel'
@@ -458,7 +462,7 @@ export default function DashboardPage() {
   method: 'POST',
   body: JSON.stringify({
     merchantId: 'your-store',
-    merchantWallet: '${publicKey?.toString().slice(0, 20) || "YOUR_WALLET"}...',
+    merchantWallet: '${publicKey?.slice(0, 20) || "YOUR_WALLET"}...',
     amount: 29.99,
     successUrl: 'https://yoursite.com/success',
     cancelUrl: 'https://yoursite.com/cancel'

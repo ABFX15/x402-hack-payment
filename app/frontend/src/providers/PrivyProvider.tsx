@@ -35,7 +35,7 @@ export function PrivyProvider({ children }: PrivyProviderProps) {
           theme: "dark",
           accentColor: "#f472b6",
           logo: "/logo-new.png",
-          showWalletLoginFirst: false,
+          showWalletLoginFirst: true,
           walletChainType: "solana-only",
         },
         loginMethods: ["email", "wallet"],

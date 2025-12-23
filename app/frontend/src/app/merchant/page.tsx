@@ -1,105 +1,30 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
-import { useWallet } from "@solana/wallet-adapter-react";
+import { usePrivy } from "@privy-io/react-auth";
+import { useWallets } from "@privy-io/react-auth/solana";
 import {
   Store,
   Check,
   Copy,
-  ExternalLink,
-  AlertCircle,
-  Loader2,
   Wallet,
-  ArrowRight,
+  Zap,
+  Shield,
+  Globe,
+  Code,
+  LogIn,
 } from "lucide-react";
-import { useAnchorClient } from "@/hooks/useAnchorClient";
-import { getMerchantPDA, Merchant } from "@/anchor/client";
-import { PublicKey } from "@solana/web3.js";
+import Link from "next/link";
 
 export default function MerchantPage() {
-  const { connected, publicKey } = useWallet();
-  const anchorClient = useAnchorClient();
+  const { authenticated, login } = usePrivy();
+  const { wallets } = useWallets();
+  const solanaWallet = wallets?.[0];
+  const publicKey = solanaWallet?.address;
+  const connected = authenticated && !!publicKey;
 
-  const [merchantId, setMerchantId] = useState("");
-  const [existingMerchant, setExistingMerchant] = useState<Merchant | null>(
-    null
-  );
-  const [loading, setLoading] = useState(false);
-  const [checking, setChecking] = useState(false);
-  const [registering, setRegistering] = useState(false);
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
   const [copied, setCopied] = useState<string | null>(null);
-
-  // Check if merchant already registered
-  useEffect(() => {
-    async function checkMerchant() {
-      if (!anchorClient || !publicKey) return;
-
-      setChecking(true);
-      try {
-        // Try to find merchant by wallet
-        // For now, we'll let the user enter their merchant ID to check
-      } catch (err) {
-        console.error("Error checking merchant:", err);
-      } finally {
-        setChecking(false);
-      }
-    }
-
-    checkMerchant();
-  }, [anchorClient, publicKey]);
-
-  const checkMerchantId = async () => {
-    if (!anchorClient || !merchantId.trim()) return;
-
-    setLoading(true);
-    setError("");
-    setExistingMerchant(null);
-
-    try {
-      const merchant = await anchorClient.getMerchant(merchantId.trim());
-      if (merchant) {
-        setExistingMerchant(merchant);
-      } else {
-        setError("Merchant not found. You can register with this ID.");
-      }
-    } catch (err) {
-      setError("Merchant not found. You can register with this ID.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const registerMerchant = async () => {
-    if (!anchorClient || !publicKey || !merchantId.trim()) return;
-
-    setRegistering(true);
-    setError("");
-    setSuccess("");
-
-    try {
-      const tx = await anchorClient.initializeMerchant(
-        merchantId.trim(),
-        publicKey,
-        0 // Default 0 merchant fee
-      );
-
-      setSuccess(`Merchant registered! Transaction: ${tx}`);
-
-      // Fetch the merchant account
-      const merchant = await anchorClient.getMerchant(merchantId.trim());
-      if (merchant) {
-        setExistingMerchant(merchant);
-      }
-    } catch (err: any) {
-      console.error("Error registering merchant:", err);
-      setError(err.message || "Failed to register merchant");
-    } finally {
-      setRegistering(false);
-    }
-  };
 
   const copyToClipboard = (text: string, label: string) => {
     navigator.clipboard.writeText(text);
@@ -109,311 +34,192 @@ export default function MerchantPage() {
 
   if (!connected) {
     return (
-      <div className="min-h-screen flex items-center justify-center p-4">
+      <div className="min-h-screen flex items-center justify-center p-4 bg-[#0a0a12]">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="glass-card p-8 text-center max-w-md"
+          className="bg-zinc-900 border border-zinc-800 rounded-2xl p-8 text-center max-w-md"
         >
-          <div className="w-16 h-16 rounded-full bg-[var(--primary)]/10 flex items-center justify-center mx-auto mb-6">
-            <Wallet className="w-8 h-8 text-[var(--primary)]" />
+          <div className="w-16 h-16 rounded-full bg-[#f472b6]/10 flex items-center justify-center mx-auto mb-6">
+            <Wallet className="w-8 h-8 text-[#f472b6]" />
           </div>
-          <h2 className="text-2xl font-bold text-[var(--text-primary)] mb-4">
-            Connect Your Wallet
+          <h2 className="text-2xl font-bold text-white mb-4">
+            Become a Merchant
           </h2>
-          <p className="text-[var(--text-muted)] mb-6">
-            Connect your Solana wallet to register as a merchant and start
-            accepting payments.
+          <p className="text-zinc-400 mb-6">
+            Sign in to get your merchant wallet address and start accepting USDC
+            payments.
           </p>
+          <button
+            onClick={login}
+            className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#f472b6] to-[#67e8f9] text-white font-semibold rounded-xl"
+          >
+            <LogIn className="w-4 h-4" />
+            Sign In
+          </button>
         </motion.div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen py-12 px-4 pt-32">
-      <div className="max-w-2xl mx-auto">
+    <div className="min-h-screen py-12 px-4 pt-32 bg-[#0a0a12]">
+      <div className="max-w-3xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-12"
         >
-          <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[var(--primary)] to-[var(--secondary)] flex items-center justify-center mx-auto mb-6">
+          <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#f472b6] to-[#67e8f9] flex items-center justify-center mx-auto mb-6">
             <Store className="w-8 h-8 text-white" />
           </div>
-          <h1 className="text-3xl font-bold text-[var(--text-primary)] mb-4">
-            Merchant Dashboard
-          </h1>
-          <p className="text-[var(--text-muted)]">
-            Register your business on-chain to accept payments with platform fee
-            support
+          <h1 className="text-4xl font-bold text-white mb-4">Merchant Setup</h1>
+          <p className="text-zinc-400 text-lg max-w-xl mx-auto">
+            Start accepting USDC payments in minutes. No KYC, no monthly fees.
           </p>
         </motion.div>
 
-        {/* Check/Register Form */}
+        {/* Wallet Address Card */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="glass-card p-6 mb-6"
+          className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 mb-6"
         >
-          <h2 className="text-lg font-semibold text-[var(--text-primary)] mb-4">
-            Merchant ID
+          <h2 className="text-lg font-semibold text-white mb-4">
+            Your Merchant Wallet
           </h2>
-
-          <div className="flex gap-3 mb-4">
-            <input
-              type="text"
-              value={merchantId}
-              onChange={(e) => setMerchantId(e.target.value)}
-              placeholder="Enter your merchant ID (e.g., my-store)"
-              className="input-field flex-1"
-            />
+          <div className="flex items-center gap-3 bg-zinc-800 rounded-xl p-4">
+            <code className="text-[#67e8f9] font-mono text-sm flex-1 break-all">
+              {publicKey}
+            </code>
             <button
-              onClick={checkMerchantId}
-              disabled={loading || !merchantId.trim()}
-              className="btn-ghost whitespace-nowrap"
+              onClick={() => copyToClipboard(publicKey!, "wallet")}
+              className="p-2 hover:bg-zinc-700 rounded-lg transition-colors"
             >
-              {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : "Check"}
+              {copied === "wallet" ? (
+                <Check className="w-5 h-5 text-emerald-400" />
+              ) : (
+                <Copy className="w-5 h-5 text-zinc-400" />
+              )}
             </button>
           </div>
-
-          <p className="text-sm text-[var(--text-muted)]">
-            Choose a unique identifier for your business. This will be used to
-            derive your on-chain merchant account.
+          <p className="text-zinc-500 text-sm mt-3">
+            Use this wallet address in your payment links to receive USDC.
           </p>
         </motion.div>
 
-        {/* Error Message */}
-        {error && (
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="glass-card p-4 mb-6 border-[var(--warning)]/30"
-          >
-            <div className="flex items-start gap-3">
-              <AlertCircle className="w-5 h-5 text-[var(--warning)] flex-shrink-0 mt-0.5" />
-              <div>
-                <p className="text-[var(--text-primary)]">{error}</p>
-                {!existingMerchant && merchantId && (
-                  <button
-                    onClick={registerMerchant}
-                    disabled={registering}
-                    className="btn-primary mt-4 flex items-center gap-2"
-                  >
-                    {registering ? (
-                      <>
-                        <Loader2 className="w-4 h-4 animate-spin" />
-                        Registering...
-                      </>
-                    ) : (
-                      <>
-                        Register Now
-                        <ArrowRight className="w-4 h-4" />
-                      </>
-                    )}
-                  </button>
-                )}
-              </div>
-            </div>
-          </motion.div>
-        )}
-
-        {/* Success Message */}
-        {success && (
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="glass-card p-4 mb-6 border-[var(--success)]/30"
-          >
-            <div className="flex items-start gap-3">
-              <Check className="w-5 h-5 text-[var(--success)] flex-shrink-0 mt-0.5" />
-              <p className="text-[var(--text-primary)]">{success}</p>
-            </div>
-          </motion.div>
-        )}
-
-        {/* Existing Merchant Info */}
-        {existingMerchant && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="glass-card p-6"
-          >
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 rounded-xl bg-[var(--success)]/10 flex items-center justify-center">
-                <Check className="w-5 h-5 text-[var(--success)]" />
-              </div>
-              <div>
-                <h2 className="text-lg font-semibold text-[var(--text-primary)]">
-                  Merchant Registered
-                </h2>
-                <p className="text-sm text-[var(--text-muted)]">
-                  Your business is active on-chain
-                </p>
-              </div>
-            </div>
-
-            <div className="space-y-4">
-              <div className="p-4 rounded-xl bg-[var(--background)]">
-                <div className="text-sm text-[var(--text-muted)] mb-1">
-                  Merchant ID
+        {/* Quick Actions */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+          <Link href="/create">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              whileHover={{ scale: 1.02 }}
+              className="bg-zinc-900 border border-zinc-800 hover:border-[#f472b6]/50 rounded-2xl p-6 cursor-pointer transition-all"
+            >
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 rounded-xl bg-[#f472b6]/20 flex items-center justify-center">
+                  <Zap className="w-6 h-6 text-[#f472b6]" />
                 </div>
-                <div className="flex items-center justify-between">
-                  <span className="font-mono text-[var(--text-primary)]">
-                    {existingMerchant.merchantId}
-                  </span>
-                  <button
-                    onClick={() =>
-                      copyToClipboard(existingMerchant.merchantId, "merchantId")
-                    }
-                    className="p-2 rounded-lg hover:bg-[var(--card)] transition-colors"
-                  >
-                    {copied === "merchantId" ? (
-                      <Check className="w-4 h-4 text-[var(--success)]" />
-                    ) : (
-                      <Copy className="w-4 h-4 text-[var(--text-muted)]" />
-                    )}
-                  </button>
+                <div>
+                  <h3 className="text-white font-semibold">
+                    Create Payment Link
+                  </h3>
+                  <p className="text-zinc-400 text-sm">
+                    Generate a payment QR code
+                  </p>
                 </div>
               </div>
+            </motion.div>
+          </Link>
 
-              <div className="p-4 rounded-xl bg-[var(--background)]">
-                <div className="text-sm text-[var(--text-muted)] mb-1">
-                  Settlement Wallet
+          <Link href="/docs">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+              whileHover={{ scale: 1.02 }}
+              className="bg-zinc-900 border border-zinc-800 hover:border-[#67e8f9]/50 rounded-2xl p-6 cursor-pointer transition-all"
+            >
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 rounded-xl bg-[#67e8f9]/20 flex items-center justify-center">
+                  <Code className="w-6 h-6 text-[#67e8f9]" />
                 </div>
-                <div className="flex items-center justify-between">
-                  <span className="font-mono text-[var(--text-primary)] text-sm">
-                    {existingMerchant.settlementWallet.toBase58().slice(0, 8)}
-                    ...
-                    {existingMerchant.settlementWallet.toBase58().slice(-8)}
-                  </span>
-                  <div className="flex gap-2">
-                    <button
-                      onClick={() =>
-                        copyToClipboard(
-                          existingMerchant.settlementWallet.toBase58(),
-                          "wallet"
-                        )
-                      }
-                      className="p-2 rounded-lg hover:bg-[var(--card)] transition-colors"
-                    >
-                      {copied === "wallet" ? (
-                        <Check className="w-4 h-4 text-[var(--success)]" />
-                      ) : (
-                        <Copy className="w-4 h-4 text-[var(--text-muted)]" />
-                      )}
-                    </button>
-                    <a
-                      href={`https://explorer.solana.com/address/${existingMerchant.settlementWallet.toBase58()}?cluster=devnet`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="p-2 rounded-lg hover:bg-[var(--card)] transition-colors"
-                    >
-                      <ExternalLink className="w-4 h-4 text-[var(--text-muted)]" />
-                    </a>
-                  </div>
+                <div>
+                  <h3 className="text-white font-semibold">Integration Docs</h3>
+                  <p className="text-zinc-400 text-sm">
+                    Add checkout to your app
+                  </p>
                 </div>
               </div>
+            </motion.div>
+          </Link>
+        </div>
 
-              <div className="grid grid-cols-2 gap-4">
-                <div className="p-4 rounded-xl bg-[var(--background)]">
-                  <div className="text-sm text-[var(--text-muted)] mb-1">
-                    Total Volume
-                  </div>
-                  <div className="text-xl font-bold text-[var(--text-primary)]">
-                    ${(Number(existingMerchant.volume) / 1_000_000).toFixed(2)}
-                  </div>
-                </div>
-                <div className="p-4 rounded-xl bg-[var(--background)]">
-                  <div className="text-sm text-[var(--text-muted)] mb-1">
-                    Transactions
-                  </div>
-                  <div className="text-xl font-bold text-[var(--text-primary)]">
-                    {existingMerchant.transactionCount.toString()}
-                  </div>
-                </div>
-              </div>
-
-              <div className="p-4 rounded-xl bg-[var(--background)]">
-                <div className="text-sm text-[var(--text-muted)] mb-1">
-                  Total Fees Paid
-                </div>
-                <div className="text-lg font-bold text-[var(--text-primary)]">
-                  ${(Number(existingMerchant.totalFees) / 1_000_000).toFixed(4)}{" "}
-                  USDC
-                </div>
-              </div>
-
-              <div className="flex items-center gap-2 pt-4">
-                <span
-                  className={`px-3 py-1 rounded-full text-sm font-medium ${
-                    existingMerchant.isActive
-                      ? "bg-[var(--success)]/10 text-[var(--success)]"
-                      : "bg-[var(--error)]/10 text-[var(--error)]"
-                  }`}
-                >
-                  {existingMerchant.isActive ? "Active" : "Inactive"}
-                </span>
-              </div>
-            </div>
-          </motion.div>
-        )}
-
-        {/* Info Card */}
+        {/* Features */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-          className="glass-card p-6 mt-6"
+          transition={{ delay: 0.4 }}
+          className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6"
         >
-          <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-4">
-            How On-Chain Merchants Work
-          </h3>
-          <ul className="space-y-3 text-[var(--text-muted)]">
-            <li className="flex items-start gap-3">
-              <div className="w-6 h-6 rounded-full bg-[var(--primary)]/10 flex items-center justify-center flex-shrink-0 mt-0.5">
-                <span className="text-xs font-bold text-[var(--primary)]">
-                  1
-                </span>
+          <h2 className="text-lg font-semibold text-white mb-6">
+            What You Get
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="text-center">
+              <div className="w-12 h-12 rounded-xl bg-emerald-500/20 flex items-center justify-center mx-auto mb-3">
+                <Shield className="w-6 h-6 text-emerald-400" />
               </div>
-              <span>
-                Register your merchant account on-chain with a unique ID
-              </span>
-            </li>
-            <li className="flex items-start gap-3">
-              <div className="w-6 h-6 rounded-full bg-[var(--primary)]/10 flex items-center justify-center flex-shrink-0 mt-0.5">
-                <span className="text-xs font-bold text-[var(--primary)]">
-                  2
-                </span>
+              <h3 className="text-white font-medium mb-1">
+                Instant Settlement
+              </h3>
+              <p className="text-zinc-500 text-sm">
+                USDC lands directly in your wallet
+              </p>
+            </div>
+            <div className="text-center">
+              <div className="w-12 h-12 rounded-xl bg-amber-500/20 flex items-center justify-center mx-auto mb-3">
+                <Zap className="w-6 h-6 text-amber-400" />
               </div>
-              <span>
-                Payments are processed through the smart contract with automatic
-                fee distribution
-              </span>
-            </li>
-            <li className="flex items-start gap-3">
-              <div className="w-6 h-6 rounded-full bg-[var(--primary)]/10 flex items-center justify-center flex-shrink-0 mt-0.5">
-                <span className="text-xs font-bold text-[var(--primary)]">
-                  3
-                </span>
+              <h3 className="text-white font-medium mb-1">Gasless for Users</h3>
+              <p className="text-zinc-500 text-sm">
+                Your customers pay zero gas fees
+              </p>
+            </div>
+            <div className="text-center">
+              <div className="w-12 h-12 rounded-xl bg-blue-500/20 flex items-center justify-center mx-auto mb-3">
+                <Globe className="w-6 h-6 text-blue-400" />
               </div>
-              <span>
-                All payments are tracked on-chain with full transparency
-              </span>
-            </li>
-            <li className="flex items-start gap-3">
-              <div className="w-6 h-6 rounded-full bg-[var(--primary)]/10 flex items-center justify-center flex-shrink-0 mt-0.5">
-                <span className="text-xs font-bold text-[var(--primary)]">
-                  4
-                </span>
-              </div>
-              <span>
-                Refunds can be processed by the merchant with on-chain
-                verification
-              </span>
-            </li>
-          </ul>
+              <h3 className="text-white font-medium mb-1">Global Payments</h3>
+              <p className="text-zinc-500 text-sm">
+                Accept from anywhere, instantly
+              </p>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Pricing Note */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5 }}
+          className="mt-6 text-center"
+        >
+          <p className="text-zinc-500">
+            <span className="text-[#f472b6] font-semibold">
+              1% transaction fee
+            </span>{" "}
+            · No monthly fees · No setup costs
+          </p>
+          <Link
+            href="/pricing"
+            className="text-[#67e8f9] hover:underline text-sm mt-2 inline-block"
+          >
+            View full pricing →
+          </Link>
         </motion.div>
       </div>
     </div>
