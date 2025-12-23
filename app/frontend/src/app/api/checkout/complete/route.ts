@@ -6,6 +6,7 @@ import {
     createPayment,
     Payment,
 } from "@/lib/db";
+import crypto from "crypto";
 
 /**
  * POST /api/checkout/complete
@@ -109,6 +110,7 @@ export async function POST(request: NextRequest) {
 async function triggerWebhook(session: CheckoutSession, paymentId: string): Promise<void> {
     if (!session.webhookUrl) return;
 
+    const timestamp = Date.now();
     const webhookPayload = {
         event: "payment.completed",
         data: {
@@ -122,14 +124,16 @@ async function triggerWebhook(session: CheckoutSession, paymentId: string): Prom
             description: session.description,
             metadata: session.metadata,
             completedAt: session.completedAt,
-            receiptUrl: `/receipts/${paymentId}`,
+            receiptUrl: `${process.env.NEXT_PUBLIC_APP_URL || 'https://settlr.io'}/receipts/${paymentId}`,
         },
-        timestamp: Date.now(),
+        timestamp,
     };
 
-    // Generate a simple signature for webhook verification
-    // In production, use HMAC with a shared secret
-    const webhookSignature = generateWebhookSignature(webhookPayload, session.merchantId);
+    // Use merchant's webhook secret or fall back to a default
+    // In production, each merchant would have their own secret
+    const webhookSecret = process.env.SETTLR_WEBHOOK_SECRET || session.merchantId;
+    const payloadString = JSON.stringify(webhookPayload);
+    const webhookSignature = generateWebhookSignature(`${timestamp}.${payloadString}`, webhookSecret);
 
     // Retry logic for webhook delivery
     const maxRetries = 3;
@@ -141,7 +145,7 @@ async function triggerWebhook(session: CheckoutSession, paymentId: string): Prom
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    "X-Settlr-Signature": webhookSignature,
+                    "X-Settlr-Signature": `t=${timestamp},v1=${webhookSignature}`,
                     "X-Settlr-Timestamp": Date.now().toString(),
                     "X-Settlr-Event": "checkout.completed",
                 },
@@ -172,17 +176,11 @@ async function triggerWebhook(session: CheckoutSession, paymentId: string): Prom
 }
 
 /**
- * Generate a simple webhook signature
- * In production, use proper HMAC-SHA256 with merchant's webhook secret
+ * Generate HMAC-SHA256 webhook signature
  */
-function generateWebhookSignature(payload: any, merchantId: string): string {
-    const data = JSON.stringify(payload) + merchantId;
-    // Simple hash for demo - use crypto.subtle.sign in production
-    let hash = 0;
-    for (let i = 0; i < data.length; i++) {
-        const char = data.charCodeAt(i);
-        hash = ((hash << 5) - hash) + char;
-        hash = hash & hash;
-    }
-    return `sha256=${Math.abs(hash).toString(16)}`;
+function generateWebhookSignature(payload: string, secret: string): string {
+    return crypto
+        .createHmac("sha256", secret)
+        .update(payload)
+        .digest("hex");
 }

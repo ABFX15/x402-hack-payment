@@ -60,6 +60,11 @@ export default function CheckoutClient({ searchParams }: CheckoutClientProps) {
   const merchantWallet = searchParams.get("to") || "";
   const memo = searchParams.get("memo") || "";
 
+  // Session-based checkout (for webhook support)
+  const sessionId = searchParams.get("session") || "";
+  const successUrl = searchParams.get("successUrl") || "";
+  const cancelUrl = searchParams.get("cancelUrl") || "";
+
   // Widget/embed mode detection
   const isEmbed = searchParams.get("embed") === "true";
   const isWidget = searchParams.get("widget") === "true";
@@ -239,6 +244,40 @@ export default function CheckoutClient({ searchParams }: CheckoutClientProps) {
       // Convert signature Uint8Array to base58 string
       const signatureBase58 = Buffer.from(result.signature).toString("base64");
       setTxSignature(signatureBase58);
+
+      // If this is a session-based checkout, complete it (triggers webhooks)
+      if (sessionId) {
+        try {
+          const completeResponse = await fetch("/api/checkout/complete", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              sessionId,
+              signature: signatureBase58,
+              customerWallet: activeWallet.address,
+            }),
+          });
+
+          if (completeResponse.ok) {
+            const completeData = await completeResponse.json();
+            console.log("Checkout completed, webhook triggered:", completeData);
+
+            // Redirect to merchant's success URL if provided
+            if (successUrl) {
+              window.location.href = successUrl;
+              return;
+            }
+          } else {
+            console.warn(
+              "Failed to complete checkout session:",
+              await completeResponse.text()
+            );
+          }
+        } catch (completeErr) {
+          console.error("Error completing checkout:", completeErr);
+        }
+      }
+
       setStep("success");
 
       // Notify parent window if embedded
@@ -281,6 +320,8 @@ export default function CheckoutClient({ searchParams }: CheckoutClientProps) {
           onClick={() => {
             if (isEmbed || isWidget) {
               sendToParent("settlr:cancel", {});
+            } else if (cancelUrl) {
+              window.location.href = cancelUrl;
             } else {
               router.push("/");
             }
@@ -319,23 +360,7 @@ export default function CheckoutClient({ searchParams }: CheckoutClientProps) {
                 <div className="space-y-3">
                   {/* Connect existing wallet - Using login with wallet */}
                   <button
-                    onClick={() => {
-                      // Log what's detected for debugging
-                      console.log(
-                        "Phantom detected:",
-                        !!(
-                          window as unknown as {
-                            phantom?: { solana?: unknown };
-                          }
-                        ).phantom?.solana
-                      );
-                      console.log(
-                        "Solflare detected:",
-                        !!(window as unknown as { solflare?: unknown }).solflare
-                      );
-                      // Use login with wallet to authenticate + connect
-                      login({ loginMethods: ["wallet"] });
-                    }}
+                    onClick={() => login({ loginMethods: ["wallet"] })}
                     className="w-full py-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold rounded-xl flex items-center justify-center gap-3 hover:opacity-90 transition-opacity"
                   >
                     <Wallet className="w-5 h-5" />
@@ -465,8 +490,9 @@ export default function CheckoutClient({ searchParams }: CheckoutClientProps) {
           onClick={() => {
             if (isEmbed || isWidget) {
               sendToParent("settlr:cancel", {});
+            } else if (cancelUrl) {
+              window.location.href = cancelUrl;
             } else {
-              // Navigate away instead of logging out (avoids race condition)
               router.push("/");
             }
           }}

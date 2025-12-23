@@ -83,28 +83,46 @@ function handlePayment() {
   const serverCode = `// Your game server webhook handler
 // POST /api/webhooks/settlr
 
-import { verifyWebhookSignature } from '@settlr/sdk';
+import crypto from 'crypto';
+
+// Verify Settlr webhook signature
+function verifySignature(payload, signature, secret) {
+  // Signature format: t=timestamp,v1=hash
+  const parts = signature.split(',');
+  const timestamp = parts.find(p => p.startsWith('t='))?.slice(2);
+  const hash = parts.find(p => p.startsWith('v1='))?.slice(3);
+  
+  const expectedHash = crypto
+    .createHmac('sha256', secret)
+    .update(\`\${timestamp}.\${payload}\`)
+    .digest('hex');
+  
+  return crypto.timingSafeEqual(
+    Buffer.from(hash),
+    Buffer.from(expectedHash)
+  );
+}
 
 export async function POST(request) {
   const signature = request.headers.get('x-settlr-signature');
   const body = await request.text();
   
   // Verify the webhook is from Settlr
-  if (!verifyWebhookSignature(body, signature, process.env.WEBHOOK_SECRET)) {
+  if (!verifySignature(body, signature, process.env.SETTLR_WEBHOOK_SECRET)) {
     return new Response('Invalid signature', { status: 401 });
   }
   
   const event = JSON.parse(body);
   
-  if (event.type === 'payment.completed') {
-    const { orderId, amount, customerWallet } = event.data;
+  if (event.event === 'payment.completed') {
+    const { paymentId, amount, customerWallet, metadata } = event.data;
     
     // Grant items to the player
-    await grantItemsToPlayer(customerWallet, orderId);
+    await grantItemsToPlayer(customerWallet, metadata.orderId);
     
     // Update your database
     await db.orders.update({
-      where: { id: orderId },
+      where: { id: metadata.orderId },
       data: { status: 'paid', paidAt: new Date() }
     });
   }
