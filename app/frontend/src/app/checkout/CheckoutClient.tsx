@@ -7,7 +7,6 @@ import {
   useWallets,
   useSignAndSendTransaction,
   useCreateWallet,
-  useFundWallet,
 } from "@privy-io/react-auth/solana";
 import {
   Check,
@@ -48,7 +47,6 @@ export default function CheckoutClient({ searchParams }: CheckoutClientProps) {
   const { wallets, ready: walletsReady } = useWallets();
   const { signAndSendTransaction } = useSignAndSendTransaction();
   const { createWallet } = useCreateWallet();
-  const { fundWallet } = useFundWallet();
 
   // Payment params from URL
   const amount = parseFloat(searchParams.get("amount") || "0");
@@ -467,16 +465,16 @@ export default function CheckoutClient({ searchParams }: CheckoutClientProps) {
                   </p>
                 </div>
 
-                {/* Fund with card button */}
-                <button
-                  onClick={() =>
-                    fundWallet({ address: embeddedWallet.address })
-                  }
+                {/* Get devnet USDC - on-ramp only works on mainnet */}
+                <a
+                  href="https://faucet.circle.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="w-full py-3 mb-2 bg-gradient-to-r from-amber-500 to-orange-500 text-white font-semibold rounded-lg flex items-center justify-center gap-2 hover:opacity-90 transition-opacity"
                 >
                   <Plus className="w-4 h-4" />
-                  Add Funds with Card
-                </button>
+                  Get Devnet USDC (Circle Faucet)
+                </a>
 
                 {/* Or send from another wallet */}
                 <div className="text-center">
