@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import Image from "next/image";
 
 interface Product {
@@ -131,6 +132,13 @@ export default function DemoStorePage() {
       <header className="sticky top-0 z-50 bg-[var(--card-bg)] border-b border-[var(--border-color)] backdrop-blur-lg">
         <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
+            <Link
+              href="/"
+              className="p-2 -ml-2 rounded-lg hover:bg-[var(--accent-muted)] transition-colors"
+              title="Exit demo"
+            >
+              <span className="text-xl">✕</span>
+            </Link>
             <span className="text-3xl">☕</span>
             <div>
               <h1 className="text-xl font-bold text-[var(--text-primary)]">
