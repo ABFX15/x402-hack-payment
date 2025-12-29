@@ -7,6 +7,7 @@ import {
   useWallets,
   useSignAndSendTransaction,
   useCreateWallet,
+  useFundWallet,
 } from "@privy-io/react-auth/solana";
 import {
   Check,
@@ -24,7 +25,6 @@ import {
   ArrowLeft,
   Fuel,
 } from "lucide-react";
-import { FiatOnRamp } from "@/components/FiatOnRamp";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Connection, PublicKey, Transaction } from "@solana/web3.js";
@@ -81,6 +81,7 @@ export default function CheckoutClient({ searchParams }: CheckoutClientProps) {
   const { wallets, ready: walletsReady } = useWallets();
   const { signAndSendTransaction } = useSignAndSendTransaction();
   const { createWallet } = useCreateWallet();
+  const { fundWallet } = useFundWallet();
 
   // Payment params from URL
   const amount = parseFloat(searchParams.get("amount") || "0");
@@ -775,20 +776,19 @@ export default function CheckoutClient({ searchParams }: CheckoutClientProps) {
                   </p>
                 </div>
 
-                {/* Buy USDC with Card (Fiat On-Ramp) - only for embedded wallets */}
+                {/* Privy Fund Wallet - Primary CTA */}
                 {!isExternalWallet && (
-                  <div className="mb-3">
-                    <FiatOnRamp
-                      walletAddress={activeWallet.address}
-                      defaultAmount={Math.ceil(amount - balance)}
-                      onSuccess={() => {
-                        // Refresh balance after purchase
-                        setTimeout(() => {
-                          window.location.reload();
-                        }, 2000);
-                      }}
-                    />
-                  </div>
+                  <button
+                    onClick={() => {
+                      fundWallet({
+                        address: activeWallet.address,
+                      });
+                    }}
+                    className="w-full flex items-center justify-center gap-2 py-3 px-4 bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white font-semibold rounded-xl transition-all duration-200 shadow-lg hover:shadow-pink-500/25 mb-3"
+                  >
+                    <CreditCard className="w-5 h-5" />
+                    Add Funds
+                  </button>
                 )}
 
                 {/* Devnet: Get test USDC from faucet */}

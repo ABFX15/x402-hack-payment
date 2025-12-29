@@ -2,7 +2,7 @@
 
 **Instant settlement for crypto payments**
 
-Settlr is a Stripe-like payment platform built on Solana, enabling merchants to accept USDC payments with zero gas fees for customers. The platform features gasless transactions via Octane, instant settlement, and seamless fiat offramps through Sphere.
+Settlr is a Stripe-like payment platform built on Solana, enabling merchants to accept USDC payments with zero gas fees for customers. The platform features gasless transactions powered by Kora (Solana Foundation), instant settlement, and embedded wallets via Privy.
 
 ## Features
 
@@ -20,10 +20,10 @@ Settlr is a Stripe-like payment platform built on Solana, enabling merchants to 
 
 ### For Customers
 
-- **Zero Gas Fees**: Pay with USDC without needing SOL for gas (powered by Octane)
+- **Zero Gas Fees**: Pay with USDC without needing SOL for gas (powered by Kora)
+- **Embedded Wallets**: Sign up with email/social, no crypto experience needed (Privy)
 - **Quick Checkout**: Scan QR code or click payment link
-- **Solana Pay Compatible**: Works with any Solana Pay enabled wallet
-- **Fiat Offramp**: Convert USDC to fiat via Sphere integration
+- **Buy USDC**: Built-in fiat on-ramp to purchase USDC with card
 
 ## Tech Stack
 
@@ -42,8 +42,8 @@ Settlr is a Stripe-like payment platform built on Solana, enabling merchants to 
 
 ### Integrations
 
-- **Octane**: Gasless transaction relay for zero SOL gas fees
-- **Sphere**: Compliant fiat offramp infrastructure
+- **Kora**: Solana Foundation gasless transaction relay for zero SOL gas fees
+- **Privy**: Embedded wallets with email/social login and fiat on-ramp
 
 ## Project Structure
 
@@ -155,11 +155,11 @@ NEXT_PUBLIC_RPC_ENDPOINT=https://api.devnet.solana.com
 # Program ID (from Anchor deployment)
 NEXT_PUBLIC_PROGRAM_ID=your_program_id
 
-# Sphere Application ID (for offramp)
-NEXT_PUBLIC_SPHERE_APP_ID=your_sphere_app_id
+# Kora Gasless RPC (Solana Foundation)
+NEXT_PUBLIC_KORA_RPC_URL=http://localhost:8080
 
-# Optional: Custom Octane endpoint
-NEXT_PUBLIC_OCTANE_ENDPOINT=https://octane-devnet.breakroom.show/api
+# Privy App ID (for embedded wallets)
+NEXT_PUBLIC_PRIVY_APP_ID=your_privy_app_id
 ```
 
 ## Key Contracts
@@ -314,6 +314,6 @@ Built by [@ABFX15](https://github.com/ABFX15)
 ## Acknowledgments
 
 - Solana Foundation
-- Octane for gasless transactions
-- Sphere for fiat offramp infrastructure
+- Kora (Solana Foundation) for gasless transactions
+- Privy for embedded wallets and authentication
 - Anchor framework team

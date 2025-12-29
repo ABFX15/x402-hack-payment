@@ -18,33 +18,33 @@ export default function DemoPage() {
         </div>
 
         <div className="grid gap-4">
-          {/* E-commerce Store Demo */}
+          {/* Gaming Tournament Demo */}
           <Link
             href="/demo/store"
             className="block p-6 bg-[var(--card-bg)] rounded-2xl border border-[var(--border-color)] hover:border-[var(--accent-primary)] transition-all group"
           >
             <div className="flex items-start gap-4">
               <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-[var(--accent-primary)] to-pink-600 flex items-center justify-center text-2xl">
-                🛍️
+                🎮
               </div>
               <div className="flex-1">
                 <h2 className="text-xl font-semibold text-[var(--text-primary)] group-hover:text-[var(--accent-primary)] transition-colors">
-                  E-Commerce Store
+                  Gaming Tournament Platform
                 </h2>
                 <p className="text-[var(--text-muted)] mt-1">
-                  Browse products, add to cart, and checkout with USDC. Full
-                  shopping experience.
+                  Browse tournaments, enter competitions, and deposit entry fees
+                  with USDC. Full iGaming experience.
                 </p>
                 <div className="flex items-center gap-2 mt-3 text-sm text-[var(--accent-primary)]">
-                  <span>Try the store →</span>
+                  <span>Enter tournaments →</span>
                 </div>
               </div>
             </div>
           </Link>
 
-          {/* Quick Payment Demo */}
+          {/* Quick Deposit Demo */}
           <Link
-            href={`/checkout?amount=0.10&merchant=Demo%20Coffee%20Shop&to=${demoWallet}&memo=Latte%20%26%20Pastry`}
+            href={`/checkout?amount=10.00&merchant=Arena%20GG&to=${demoWallet}&memo=Tournament%20Deposit`}
             className="block p-6 bg-[var(--card-bg)] rounded-2xl border border-[var(--border-color)] hover:border-[var(--accent-primary)] transition-all group"
           >
             <div className="flex items-start gap-4">
@@ -53,13 +53,13 @@ export default function DemoPage() {
               </div>
               <div className="flex-1">
                 <h2 className="text-xl font-semibold text-[var(--text-primary)] group-hover:text-[var(--accent-primary)] transition-colors">
-                  Quick Payment
+                  Quick Deposit
                 </h2>
                 <p className="text-[var(--text-muted)] mt-1">
-                  Skip straight to checkout. Pay $0.10 USDC instantly.
+                  Skip straight to checkout. Deposit $10 USDC instantly.
                 </p>
                 <div className="flex items-center gap-2 mt-3 text-sm text-[var(--accent-primary)]">
-                  <span>Pay now →</span>
+                  <span>Deposit now →</span>
                 </div>
               </div>
             </div>
