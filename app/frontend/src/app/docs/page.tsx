@@ -1,380 +1,472 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
-import {
-  Code,
-  Gamepad2,
-  CreditCard,
-  Zap,
-  Shield,
-  Webhook,
-  Copy,
-  ExternalLink,
-} from "lucide-react";
 
-// Note: metadata moved to layout.tsx or removed for client component
+export default function DocsPage() {
+  const [activeTab, setActiveTab] = useState<
+    "quickstart" | "react" | "api" | "webhooks"
+  >("quickstart");
 
-function CodeBlock({
-  code,
-  language = "html",
-}: {
-  code: string;
-  language?: string;
-}) {
   return (
-    <div className="relative group">
-      <pre className="bg-zinc-900 border border-zinc-800 rounded-xl p-4 overflow-x-auto text-sm">
-        <code className="text-zinc-300">{code}</code>
-      </pre>
-      <button
-        onClick={() => navigator.clipboard.writeText(code)}
-        className="absolute top-3 right-3 p-2 bg-zinc-800 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity hover:bg-zinc-700"
-      >
-        <Copy className="w-4 h-4 text-zinc-400" />
-      </button>
+    <div className="min-h-screen bg-black text-white">
+      {/* Header */}
+      <header className="border-b border-gray-800">
+        <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+          <Link href="/" className="text-xl font-bold text-emerald-400">
+            Settlr
+          </Link>
+          <div className="flex items-center gap-6">
+            <Link
+              href="/demo"
+              className="text-gray-400 hover:text-white transition-colors"
+            >
+              Demo
+            </Link>
+            <a
+              href="https://github.com/your-org/settlr"
+              target="_blank"
+              className="text-gray-400 hover:text-white transition-colors"
+            >
+              GitHub
+            </a>
+          </div>
+        </div>
+      </header>
+
+      <div className="max-w-6xl mx-auto px-6 py-12">
+        {/* Hero */}
+        <div className="mb-12">
+          <h1 className="text-4xl font-bold mb-4">Documentation</h1>
+          <p className="text-xl text-gray-400">
+            Everything you need to accept crypto payments with Settlr.
+          </p>
+        </div>
+
+        {/* Navigation Tabs */}
+        <div className="flex gap-1 mb-8 border-b border-gray-800">
+          {[
+            { id: "quickstart", label: "Quick Start" },
+            { id: "react", label: "React SDK" },
+            { id: "api", label: "API Reference" },
+            { id: "webhooks", label: "Webhooks" },
+          ].map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id as typeof activeTab)}
+              className={`px-6 py-3 font-medium transition-colors ${
+                activeTab === tab.id
+                  ? "text-emerald-400 border-b-2 border-emerald-400"
+                  : "text-gray-500 hover:text-gray-300"
+              }`}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
+
+        {/* Content */}
+        <div className="prose prose-invert max-w-none">
+          {activeTab === "quickstart" && <QuickStartContent />}
+          {activeTab === "react" && <ReactSDKContent />}
+          {activeTab === "api" && <APIContent />}
+          {activeTab === "webhooks" && <WebhooksContent />}
+        </div>
+      </div>
     </div>
   );
 }
 
-export default function DocsPage() {
-  const widgetCode = `<!-- Add this script to your page -->
-<script src="https://settlr.app/widget.js"></script>
-
-<!-- Create a payment button -->
-<button onclick="handlePayment()">
-  Buy 100 Gems - $9.99
-</button>
-
-<script>
-function handlePayment() {
-  Settlr.checkout({
-    merchantWallet: 'YOUR_SOLANA_WALLET_ADDRESS',
-    amount: 9.99,
-    memo: '100 Gems Pack',
-    merchantName: 'My Game',
-    onSuccess: function(data) {
-      console.log('Payment confirmed!', data.signature);
-      // Grant the gems to player
-      grantGemsToPlayer(100);
-    },
-    onCancel: function() {
-      console.log('User cancelled');
-    },
-    onError: function(error) {
-      console.error('Payment failed:', error.message);
-    }
-  });
-}
-</script>`;
-
-  const dataAttributeCode = `<!-- Or use data attributes (no JavaScript needed) -->
-<button
-  data-settlr-checkout
-  data-merchant-wallet="YOUR_SOLANA_WALLET_ADDRESS"
-  data-amount="9.99"
-  data-memo="100 Gems Pack"
-  data-merchant-name="My Game"
->
-  Buy 100 Gems
-</button>
-
-<script src="https://settlr.app/widget.js"></script>`;
-
-  const serverCode = `// Your game server webhook handler
-// POST /api/webhooks/settlr
-
-import crypto from 'crypto';
-
-// Verify Settlr webhook signature
-function verifySignature(payload, signature, secret) {
-  // Signature format: t=timestamp,v1=hash
-  const parts = signature.split(',');
-  const timestamp = parts.find(p => p.startsWith('t='))?.slice(2);
-  const hash = parts.find(p => p.startsWith('v1='))?.slice(3);
-  
-  const expectedHash = crypto
-    .createHmac('sha256', secret)
-    .update(\`\${timestamp}.\${payload}\`)
-    .digest('hex');
-  
-  return crypto.timingSafeEqual(
-    Buffer.from(hash),
-    Buffer.from(expectedHash)
-  );
-}
-
-export async function POST(request) {
-  const signature = request.headers.get('x-settlr-signature');
-  const body = await request.text();
-  
-  // Verify the webhook is from Settlr
-  if (!verifySignature(body, signature, process.env.SETTLR_WEBHOOK_SECRET)) {
-    return new Response('Invalid signature', { status: 401 });
-  }
-  
-  const event = JSON.parse(body);
-  
-  if (event.event === 'payment.completed') {
-    const { paymentId, amount, customerWallet, metadata } = event.data;
-    
-    // Grant items to the player
-    await grantItemsToPlayer(customerWallet, metadata.orderId);
-    
-    // Update your database
-    await db.orders.update({
-      where: { id: metadata.orderId },
-      data: { status: 'paid', paidAt: new Date() }
-    });
-  }
-  
-  return new Response('OK');
-}`;
-
-  const reactCode = `// React/Next.js integration
-import { CheckoutButton } from '@settlr/sdk/react';
-
-function BuyGemsButton() {
+function QuickStartContent() {
   return (
-    <CheckoutButton
-      merchantWallet="YOUR_SOLANA_WALLET_ADDRESS"
-      amount={9.99}
-      memo="100 Gems Pack"
-      merchantName="My Game"
-      onSuccess={(data) => {
-        console.log('Paid!', data.signature);
-        // Grant items
-      }}
-    >
-      Buy 100 Gems
-    </CheckoutButton>
-  );
-}`;
+    <div className="space-y-8">
+      <section>
+        <h2 className="text-2xl font-bold mb-4">Get Started in 5 Minutes</h2>
+        <p className="text-gray-400 mb-6">
+          Accept crypto payments on your website with just a few lines of code.
+        </p>
 
-  return (
-    <div className="min-h-screen bg-[#0a0a12]">
-      {/* Header */}
-      <header className="border-b border-zinc-800">
-        <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-          <Link href="/" className="text-2xl font-bold text-white">
-            Settlr<span className="text-pink-400">.</span>
-          </Link>
-          <nav className="flex items-center gap-6">
-            <Link
-              href="/demo"
-              className="text-zinc-400 hover:text-white transition-colors"
-            >
-              Demo
-            </Link>
-            <Link href="/docs" className="text-pink-400 font-medium">
-              Docs
-            </Link>
-          </nav>
-        </div>
-      </header>
-
-      {/* Hero */}
-      <section className="py-16 px-6 border-b border-zinc-800">
-        <div className="max-w-4xl mx-auto text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-pink-500/10 border border-pink-500/20 rounded-full text-pink-400 text-sm mb-6">
-            <Gamepad2 className="w-4 h-4" />
-            Built for Gaming
+        {/* Step 1 */}
+        <div className="mb-8">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold">
+              1
+            </div>
+            <h3 className="text-xl font-semibold">Install the SDK</h3>
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">
-            Accept Crypto Payments
-            <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-cyan-400">
-              In Your Game
-            </span>
-          </h1>
-          <p className="text-xl text-zinc-400 max-w-2xl mx-auto">
-            Integrate Settlr in under 5 minutes. No wallet required from your
-            players. Instant USDC settlements on Solana.
+          <CodeBlock language="bash">{`npm install @settlr/sdk`}</CodeBlock>
+        </div>
+
+        {/* Step 2 */}
+        <div className="mb-8">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold">
+              2
+            </div>
+            <h3 className="text-xl font-semibold">Create a Payment Button</h3>
+          </div>
+          <CodeBlock language="tsx">
+            {`import { SettlrPayButton } from '@settlr/sdk';
+
+function CheckoutPage() {
+  return (
+    <SettlrPayButton
+      recipient="YOUR_WALLET_ADDRESS"
+      amount={10.00}
+      currency="USDC"
+      onSuccess={(tx) => console.log('Paid!', tx)}
+      onError={(err) => console.error(err)}
+    />
+  );
+}`}
+          </CodeBlock>
+        </div>
+
+        {/* Step 3 */}
+        <div className="mb-8">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold">
+              3
+            </div>
+            <h3 className="text-xl font-semibold">That's It!</h3>
+          </div>
+          <p className="text-gray-400">
+            Your users can now pay with their Solana wallet. Payments settle
+            instantly and you receive the full amount minus a 2% fee.
           </p>
         </div>
-      </section>
 
-      {/* Features Grid */}
-      <section className="py-12 px-6 border-b border-zinc-800">
-        <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-6">
-          <div className="bg-zinc-900/50 border border-zinc-800 rounded-xl p-6">
-            <div className="w-12 h-12 rounded-xl bg-pink-500/20 flex items-center justify-center mb-4">
-              <CreditCard className="w-6 h-6 text-pink-400" />
-            </div>
-            <h3 className="text-lg font-semibold text-white mb-2">
-              No Wallet Required
-            </h3>
-            <p className="text-zinc-400 text-sm">
-              Players sign in with email. We create an embedded wallet
-              automatically.
-            </p>
-          </div>
-          <div className="bg-zinc-900/50 border border-zinc-800 rounded-xl p-6">
-            <div className="w-12 h-12 rounded-xl bg-cyan-500/20 flex items-center justify-center mb-4">
-              <Zap className="w-6 h-6 text-cyan-400" />
-            </div>
-            <h3 className="text-lg font-semibold text-white mb-2">
-              Instant Settlement
-            </h3>
-            <p className="text-zinc-400 text-sm">
-              Payments settle in ~400ms on Solana. No 3-day holds like credit
-              cards.
-            </p>
-          </div>
-          <div className="bg-zinc-900/50 border border-zinc-800 rounded-xl p-6">
-            <div className="w-12 h-12 rounded-xl bg-green-500/20 flex items-center justify-center mb-4">
-              <Webhook className="w-6 h-6 text-green-400" />
-            </div>
-            <h3 className="text-lg font-semibold text-white mb-2">Webhooks</h3>
-            <p className="text-zinc-400 text-sm">
-              Get instant notifications when payments complete. Grant items
-              automatically.
-            </p>
-          </div>
+        {/* Features */}
+        <div className="grid md:grid-cols-3 gap-6 mt-12">
+          <FeatureCard
+            icon="⚡"
+            title="Instant Settlement"
+            description="Funds land in your wallet within seconds."
+          />
+          <FeatureCard
+            icon="🔒"
+            title="Non-Custodial"
+            description="You control your funds. We never hold your money."
+          />
+          <FeatureCard
+            icon="💰"
+            title="Gasless Payments"
+            description="Users don't need SOL for gas. We cover it."
+          />
         </div>
       </section>
+    </div>
+  );
+}
 
-      {/* Integration Steps */}
-      <section className="py-16 px-6">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-3xl font-bold text-white mb-12 text-center">
-            Integration Guide
-          </h2>
+function ReactSDKContent() {
+  return (
+    <div className="space-y-8">
+      <section>
+        <h2 className="text-2xl font-bold mb-4">React SDK</h2>
+        <p className="text-gray-400 mb-6">
+          Full control over the payment flow with React hooks and components.
+        </p>
 
-          {/* Step 1 */}
-          <div className="mb-12">
-            <div className="flex items-center gap-4 mb-6">
-              <div className="w-10 h-10 rounded-full bg-pink-500 text-white font-bold flex items-center justify-center">
-                1
-              </div>
-              <h3 className="text-xl font-semibold text-white">
-                Add the Widget Script
-              </h3>
-            </div>
-            <p className="text-zinc-400 mb-4">
-              Add our lightweight script to your game's web page. It's only 8KB
-              and has no dependencies.
-            </p>
-            <CodeBlock code={widgetCode} language="html" />
-          </div>
+        {/* Provider Setup */}
+        <h3 className="text-xl font-semibold mb-4">1. Setup the Provider</h3>
+        <p className="text-gray-400 mb-4">
+          Wrap your app with the SettlrProvider to enable payments.
+        </p>
+        <CodeBlock language="tsx">
+          {`import { SettlrProvider } from '@settlr/sdk';
+import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
 
-          {/* Step 2 */}
-          <div className="mb-12">
-            <div className="flex items-center gap-4 mb-6">
-              <div className="w-10 h-10 rounded-full bg-pink-500 text-white font-bold flex items-center justify-center">
-                2
-              </div>
-              <h3 className="text-xl font-semibold text-white">
-                Or Use Data Attributes
-              </h3>
-            </div>
-            <p className="text-zinc-400 mb-4">
-              For simple use cases, you can use HTML data attributes instead of
-              JavaScript.
-            </p>
-            <CodeBlock code={dataAttributeCode} language="html" />
-          </div>
+function App() {
+  return (
+    <SettlrProvider 
+      network={WalletAdapterNetwork.Devnet}
+      // Optional: Add your API key for analytics
+      apiKey="your-api-key"
+    >
+      <YourApp />
+    </SettlrProvider>
+  );
+}`}
+        </CodeBlock>
 
-          {/* Step 3 */}
-          <div className="mb-12">
-            <div className="flex items-center gap-4 mb-6">
-              <div className="w-10 h-10 rounded-full bg-pink-500 text-white font-bold flex items-center justify-center">
-                3
-              </div>
-              <h3 className="text-xl font-semibold text-white">
-                Handle Webhooks (Server-Side)
-              </h3>
-            </div>
-            <p className="text-zinc-400 mb-4">
-              Set up a webhook endpoint to receive payment confirmations and
-              grant items securely.
-            </p>
-            <CodeBlock code={serverCode} language="javascript" />
-          </div>
+        {/* Pay Button */}
+        <h3 className="text-xl font-semibold mb-4 mt-8">2. Add a Pay Button</h3>
+        <p className="text-gray-400 mb-4">
+          The simplest way to accept payments.
+        </p>
+        <CodeBlock language="tsx">
+          {`import { SettlrPayButton } from '@settlr/sdk';
 
-          {/* React/Next.js */}
-          <div className="mb-12">
-            <div className="flex items-center gap-4 mb-6">
-              <div className="w-10 h-10 rounded-full bg-cyan-500 text-white font-bold flex items-center justify-center">
-                <Code className="w-5 h-5" />
-              </div>
-              <h3 className="text-xl font-semibold text-white">
-                React/Next.js Component
-              </h3>
-            </div>
-            <p className="text-zinc-400 mb-4">
-              If you're using React or Next.js, use our SDK for a smoother
-              integration.
-            </p>
-            <CodeBlock code={reactCode} language="jsx" />
-          </div>
+function ProductPage({ product }) {
+  return (
+    <div>
+      <h1>{product.name}</h1>
+      <p>\${product.price}</p>
+      
+      <SettlrPayButton
+        recipient="MERCHANT_WALLET"
+        amount={product.price}
+        currency="USDC"
+        label="Buy Now"
+        onSuccess={(tx) => {
+          // Payment complete! Fulfill the order
+          fulfillOrder(product.id, tx.signature);
+        }}
+        onError={(error) => {
+          toast.error('Payment failed');
+        }}
+      />
+    </div>
+  );
+}`}
+        </CodeBlock>
+
+        {/* useSettlr Hook */}
+        <h3 className="text-xl font-semibold mb-4 mt-8">
+          3. Custom UI with useSettlr Hook
+        </h3>
+        <p className="text-gray-400 mb-4">
+          Build your own payment UI with full control.
+        </p>
+        <CodeBlock language="tsx">
+          {`import { useSettlr } from '@settlr/sdk';
+
+function CustomCheckout() {
+  const { pay, status, error } = useSettlr();
+  
+  const handlePayment = async () => {
+    const result = await pay({
+      recipient: 'MERCHANT_WALLET',
+      amount: 25.00,
+      currency: 'USDC',
+      memo: 'Order #12345',
+    });
+    
+    if (result.success) {
+      router.push('/thank-you?tx=' + result.signature);
+    }
+  };
+  
+  return (
+    <div>
+      <button 
+        onClick={handlePayment}
+        disabled={status === 'processing'}
+        className="bg-emerald-500 px-6 py-3 rounded-lg"
+      >
+        {status === 'processing' ? 'Processing...' : 'Pay $25.00'}
+      </button>
+      
+      {error && <p className="text-red-500">{error.message}</p>}
+    </div>
+  );
+}`}
+        </CodeBlock>
+
+        {/* Props Reference */}
+        <h3 className="text-xl font-semibold mb-4 mt-8">Props Reference</h3>
+        <div className="bg-gray-900 rounded-lg overflow-hidden">
+          <table className="w-full text-left">
+            <thead className="bg-gray-800">
+              <tr>
+                <th className="px-4 py-3 font-medium">Prop</th>
+                <th className="px-4 py-3 font-medium">Type</th>
+                <th className="px-4 py-3 font-medium">Description</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-800">
+              <tr>
+                <td className="px-4 py-3 font-mono text-emerald-400">
+                  recipient
+                </td>
+                <td className="px-4 py-3 text-gray-400">string</td>
+                <td className="px-4 py-3 text-gray-400">
+                  Wallet address to receive payment
+                </td>
+              </tr>
+              <tr>
+                <td className="px-4 py-3 font-mono text-emerald-400">amount</td>
+                <td className="px-4 py-3 text-gray-400">number</td>
+                <td className="px-4 py-3 text-gray-400">
+                  Payment amount in the specified currency
+                </td>
+              </tr>
+              <tr>
+                <td className="px-4 py-3 font-mono text-emerald-400">
+                  currency
+                </td>
+                <td className="px-4 py-3 text-gray-400">'USDC' | 'SOL'</td>
+                <td className="px-4 py-3 text-gray-400">
+                  Token to accept (default: USDC)
+                </td>
+              </tr>
+              <tr>
+                <td className="px-4 py-3 font-mono text-emerald-400">
+                  onSuccess
+                </td>
+                <td className="px-4 py-3 text-gray-400">(tx) =&gt; void</td>
+                <td className="px-4 py-3 text-gray-400">
+                  Called when payment succeeds
+                </td>
+              </tr>
+              <tr>
+                <td className="px-4 py-3 font-mono text-emerald-400">
+                  onError
+                </td>
+                <td className="px-4 py-3 text-gray-400">(err) =&gt; void</td>
+                <td className="px-4 py-3 text-gray-400">
+                  Called when payment fails
+                </td>
+              </tr>
+              <tr>
+                <td className="px-4 py-3 font-mono text-emerald-400">label</td>
+                <td className="px-4 py-3 text-gray-400">string</td>
+                <td className="px-4 py-3 text-gray-400">
+                  Button text (default: "Pay with Crypto")
+                </td>
+              </tr>
+              <tr>
+                <td className="px-4 py-3 font-mono text-emerald-400">memo</td>
+                <td className="px-4 py-3 text-gray-400">string</td>
+                <td className="px-4 py-3 text-gray-400">
+                  Optional memo attached to transaction
+                </td>
+              </tr>
+              <tr>
+                <td className="px-4 py-3 font-mono text-emerald-400">
+                  gasless
+                </td>
+                <td className="px-4 py-3 text-gray-400">boolean</td>
+                <td className="px-4 py-3 text-gray-400">
+                  Enable gasless transactions (default: true)
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </section>
+    </div>
+  );
+}
 
-      {/* API Reference */}
-      <section className="py-16 px-6 bg-zinc-900/50 border-y border-zinc-800">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-3xl font-bold text-white mb-8 text-center">
-            API Reference
-          </h2>
+function APIContent() {
+  return (
+    <div className="space-y-8">
+      <section>
+        <h2 className="text-2xl font-bold mb-4">API Reference</h2>
+        <p className="text-gray-400 mb-6">
+          Use our REST API for server-side integrations.
+        </p>
 
-          <div className="bg-zinc-900 border border-zinc-800 rounded-xl overflow-hidden">
-            <div className="p-4 border-b border-zinc-800">
-              <code className="text-pink-400">Settlr.checkout(config)</code>
-            </div>
-            <div className="p-4">
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="text-left text-zinc-500">
-                    <th className="pb-3">Parameter</th>
-                    <th className="pb-3">Type</th>
-                    <th className="pb-3">Description</th>
-                  </tr>
-                </thead>
-                <tbody className="text-zinc-300">
-                  <tr className="border-t border-zinc-800">
-                    <td className="py-3 font-mono text-cyan-400">
-                      merchantWallet
+        {/* Base URL */}
+        <div className="bg-gray-900 rounded-lg p-4 mb-8">
+          <p className="text-gray-500 text-sm mb-1">Base URL</p>
+          <code className="text-emerald-400">https://api.settlr.io/v1</code>
+        </div>
+
+        {/* Create Payment */}
+        <div className="border border-gray-800 rounded-lg overflow-hidden mb-6">
+          <div className="bg-gray-900 px-4 py-3 flex items-center gap-3">
+            <span className="bg-emerald-500/20 text-emerald-400 px-2 py-1 rounded text-sm font-mono">
+              POST
+            </span>
+            <code className="text-white">/payments</code>
+          </div>
+          <div className="p-4">
+            <p className="text-gray-400 mb-4">Create a new payment request.</p>
+            <h4 className="font-medium mb-2">Request Body</h4>
+            <CodeBlock language="json">
+              {`{
+  "recipient": "YOUR_WALLET_ADDRESS",
+  "amount": 10.00,
+  "currency": "USDC",
+  "memo": "Order #12345",
+  "metadata": {
+    "orderId": "12345",
+    "customerId": "user_abc"
+  }
+}`}
+            </CodeBlock>
+            <h4 className="font-medium mb-2 mt-4">Response</h4>
+            <CodeBlock language="json">
+              {`{
+  "id": "pay_abc123",
+  "status": "pending",
+  "amount": 10.00,
+  "currency": "USDC",
+  "recipient": "YOUR_WALLET_ADDRESS",
+  "paymentUrl": "https://pay.settlr.io/pay_abc123",
+  "expiresAt": "2024-01-15T12:00:00Z"
+}`}
+            </CodeBlock>
+          </div>
+        </div>
+
+        {/* Get Payment */}
+        <div className="border border-gray-800 rounded-lg overflow-hidden mb-6">
+          <div className="bg-gray-900 px-4 py-3 flex items-center gap-3">
+            <span className="bg-blue-500/20 text-blue-400 px-2 py-1 rounded text-sm font-mono">
+              GET
+            </span>
+            <code className="text-white">/payments/:id</code>
+          </div>
+          <div className="p-4">
+            <p className="text-gray-400 mb-4">Retrieve a payment by ID.</p>
+            <h4 className="font-medium mb-2">Response</h4>
+            <CodeBlock language="json">
+              {`{
+  "id": "pay_abc123",
+  "status": "completed",
+  "amount": 10.00,
+  "currency": "USDC",
+  "recipient": "YOUR_WALLET_ADDRESS",
+  "signature": "5xKj...abc",
+  "paidAt": "2024-01-15T11:30:00Z"
+}`}
+            </CodeBlock>
+          </div>
+        </div>
+
+        {/* List Payments */}
+        <div className="border border-gray-800 rounded-lg overflow-hidden">
+          <div className="bg-gray-900 px-4 py-3 flex items-center gap-3">
+            <span className="bg-blue-500/20 text-blue-400 px-2 py-1 rounded text-sm font-mono">
+              GET
+            </span>
+            <code className="text-white">/payments</code>
+          </div>
+          <div className="p-4">
+            <p className="text-gray-400 mb-4">
+              List all payments with optional filters.
+            </p>
+            <h4 className="font-medium mb-2">Query Parameters</h4>
+            <div className="bg-gray-900 rounded-lg overflow-hidden mb-4">
+              <table className="w-full text-left">
+                <tbody className="divide-y divide-gray-800">
+                  <tr>
+                    <td className="px-4 py-2 font-mono text-emerald-400">
+                      status
                     </td>
-                    <td className="py-3 text-zinc-500">string</td>
-                    <td className="py-3">
-                      Your Solana wallet address (required)
+                    <td className="px-4 py-2 text-gray-400">
+                      pending | completed | expired
                     </td>
                   </tr>
-                  <tr className="border-t border-zinc-800">
-                    <td className="py-3 font-mono text-cyan-400">amount</td>
-                    <td className="py-3 text-zinc-500">number</td>
-                    <td className="py-3">Payment amount in USDC (required)</td>
-                  </tr>
-                  <tr className="border-t border-zinc-800">
-                    <td className="py-3 font-mono text-cyan-400">memo</td>
-                    <td className="py-3 text-zinc-500">string</td>
-                    <td className="py-3">
-                      Item description (e.g., "100 Gems")
+                  <tr>
+                    <td className="px-4 py-2 font-mono text-emerald-400">
+                      limit
+                    </td>
+                    <td className="px-4 py-2 text-gray-400">
+                      Number of results (default: 20, max: 100)
                     </td>
                   </tr>
-                  <tr className="border-t border-zinc-800">
-                    <td className="py-3 font-mono text-cyan-400">
-                      merchantName
+                  <tr>
+                    <td className="px-4 py-2 font-mono text-emerald-400">
+                      cursor
                     </td>
-                    <td className="py-3 text-zinc-500">string</td>
-                    <td className="py-3">Your game/company name</td>
-                  </tr>
-                  <tr className="border-t border-zinc-800">
-                    <td className="py-3 font-mono text-cyan-400">onSuccess</td>
-                    <td className="py-3 text-zinc-500">function</td>
-                    <td className="py-3">
-                      Called with {`{ signature }`} on success
+                    <td className="px-4 py-2 text-gray-400">
+                      Pagination cursor
                     </td>
-                  </tr>
-                  <tr className="border-t border-zinc-800">
-                    <td className="py-3 font-mono text-cyan-400">onCancel</td>
-                    <td className="py-3 text-zinc-500">function</td>
-                    <td className="py-3">Called when user closes modal</td>
-                  </tr>
-                  <tr className="border-t border-zinc-800">
-                    <td className="py-3 font-mono text-cyan-400">onError</td>
-                    <td className="py-3 text-zinc-500">function</td>
-                    <td className="py-3">Called with Error on failure</td>
                   </tr>
                 </tbody>
               </table>
@@ -382,35 +474,182 @@ function BuyGemsButton() {
           </div>
         </div>
       </section>
+    </div>
+  );
+}
 
-      {/* CTA */}
-      <section className="py-16 px-6">
-        <div className="max-w-2xl mx-auto text-center">
-          <h2 className="text-3xl font-bold text-white mb-4">
-            Ready to Get Started?
-          </h2>
-          <p className="text-zinc-400 mb-8">
-            Try our demo checkout and see how easy it is for your players.
+function WebhooksContent() {
+  return (
+    <div className="space-y-8">
+      <section>
+        <h2 className="text-2xl font-bold mb-4">Webhooks</h2>
+        <p className="text-gray-400 mb-6">
+          Get notified when payments are completed.
+        </p>
+
+        {/* Setup */}
+        <h3 className="text-xl font-semibold mb-4">Setting Up Webhooks</h3>
+        <p className="text-gray-400 mb-4">
+          Configure your webhook endpoint in the Settlr dashboard. We'll send a
+          POST request whenever a payment is completed.
+        </p>
+
+        {/* Payload */}
+        <h3 className="text-xl font-semibold mb-4 mt-8">Webhook Payload</h3>
+        <CodeBlock language="json">
+          {`{
+  "event": "payment.completed",
+  "data": {
+    "id": "pay_abc123",
+    "status": "completed",
+    "amount": 10.00,
+    "currency": "USDC",
+    "recipient": "YOUR_WALLET_ADDRESS",
+    "signature": "5xKj...abc",
+    "paidAt": "2024-01-15T11:30:00Z",
+    "metadata": {
+      "orderId": "12345"
+    }
+  },
+  "timestamp": "2024-01-15T11:30:01Z"
+}`}
+        </CodeBlock>
+
+        {/* Handler Example */}
+        <h3 className="text-xl font-semibold mb-4 mt-8">
+          Example Handler (Next.js)
+        </h3>
+        <CodeBlock language="typescript">
+          {`// app/api/webhooks/settlr/route.ts
+import { NextRequest, NextResponse } from 'next/server';
+import crypto from 'crypto';
+
+export async function POST(req: NextRequest) {
+  const body = await req.text();
+  const signature = req.headers.get('x-settlr-signature');
+  
+  // Verify the webhook signature
+  const expectedSig = crypto
+    .createHmac('sha256', process.env.SETTLR_WEBHOOK_SECRET!)
+    .update(body)
+    .digest('hex');
+  
+  if (signature !== expectedSig) {
+    return NextResponse.json({ error: 'Invalid signature' }, { status: 401 });
+  }
+  
+  const event = JSON.parse(body);
+  
+  if (event.event === 'payment.completed') {
+    const { id, amount, metadata } = event.data;
+    
+    // Fulfill the order
+    await fulfillOrder(metadata.orderId, id);
+  }
+  
+  return NextResponse.json({ received: true });
+}`}
+        </CodeBlock>
+
+        {/* Events */}
+        <h3 className="text-xl font-semibold mb-4 mt-8">Event Types</h3>
+        <div className="bg-gray-900 rounded-lg overflow-hidden">
+          <table className="w-full text-left">
+            <thead className="bg-gray-800">
+              <tr>
+                <th className="px-4 py-3 font-medium">Event</th>
+                <th className="px-4 py-3 font-medium">Description</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-800">
+              <tr>
+                <td className="px-4 py-3 font-mono text-emerald-400">
+                  payment.completed
+                </td>
+                <td className="px-4 py-3 text-gray-400">
+                  Payment was successful and confirmed
+                </td>
+              </tr>
+              <tr>
+                <td className="px-4 py-3 font-mono text-emerald-400">
+                  payment.expired
+                </td>
+                <td className="px-4 py-3 text-gray-400">
+                  Payment link expired before completion
+                </td>
+              </tr>
+              <tr>
+                <td className="px-4 py-3 font-mono text-emerald-400">
+                  payment.failed
+                </td>
+                <td className="px-4 py-3 text-gray-400">
+                  Payment failed due to an error
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        {/* Security */}
+        <div className="bg-yellow-500/10 border border-yellow-500/20 rounded-lg p-4 mt-8">
+          <h4 className="font-medium text-yellow-400 mb-2">⚠️ Security Note</h4>
+          <p className="text-gray-400">
+            Always verify the webhook signature before processing events. Never
+            trust the payload without verification.
           </p>
-          <div className="flex items-center justify-center gap-4">
-            <Link
-              href="/demo"
-              className="px-8 py-3 bg-gradient-to-r from-pink-500 to-cyan-500 text-white font-semibold rounded-xl hover:opacity-90 transition-opacity"
-            >
-              Try Demo
-            </Link>
-            <a
-              href="https://github.com/settlr/sdk"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-8 py-3 bg-zinc-800 text-white font-semibold rounded-xl hover:bg-zinc-700 transition-colors flex items-center gap-2"
-            >
-              <ExternalLink className="w-4 h-4" />
-              GitHub
-            </a>
-          </div>
         </div>
       </section>
+    </div>
+  );
+}
+
+function CodeBlock({
+  children,
+  language,
+}: {
+  children: string;
+  language: string;
+}) {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(children);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  return (
+    <div className="relative bg-gray-900 rounded-lg overflow-hidden mb-4">
+      <div className="flex items-center justify-between px-4 py-2 bg-gray-800/50">
+        <span className="text-xs text-gray-500 uppercase">{language}</span>
+        <button
+          onClick={handleCopy}
+          className="text-xs text-gray-500 hover:text-white transition-colors"
+        >
+          {copied ? "✓ Copied" : "Copy"}
+        </button>
+      </div>
+      <pre className="p-4 overflow-x-auto">
+        <code className="text-sm text-gray-300">{children}</code>
+      </pre>
+    </div>
+  );
+}
+
+function FeatureCard({
+  icon,
+  title,
+  description,
+}: {
+  icon: string;
+  title: string;
+  description: string;
+}) {
+  return (
+    <div className="bg-gray-900 border border-gray-800 rounded-lg p-6">
+      <div className="text-3xl mb-3">{icon}</div>
+      <h3 className="font-semibold mb-2">{title}</h3>
+      <p className="text-gray-400 text-sm">{description}</p>
     </div>
   );
 }
