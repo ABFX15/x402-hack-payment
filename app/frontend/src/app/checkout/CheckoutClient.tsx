@@ -22,6 +22,7 @@ import {
   Wallet,
   X,
   ArrowLeft,
+  Fuel,
 } from "lucide-react";
 import { FiatOnRamp } from "@/components/FiatOnRamp";
 import Link from "next/link";
@@ -33,6 +34,33 @@ import {
   createTransferInstruction,
   createAssociatedTokenAccountInstruction,
 } from "@solana/spl-token";
+
+// Base58 alphabet for encoding signatures
+const BASE58_ALPHABET =
+  "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
+function encodeBase58(bytes: Uint8Array): string {
+  const digits = [0];
+  for (const byte of bytes) {
+    let carry = byte;
+    for (let j = 0; j < digits.length; j++) {
+      carry += digits[j] << 8;
+      digits[j] = carry % 58;
+      carry = (carry / 58) | 0;
+    }
+    while (carry > 0) {
+      digits.push(carry % 58);
+      carry = (carry / 58) | 0;
+    }
+  }
+  let result = "";
+  for (let i = 0; i < bytes.length && bytes[i] === 0; i++) {
+    result += BASE58_ALPHABET[0];
+  }
+  for (let i = digits.length - 1; i >= 0; i--) {
+    result += BASE58_ALPHABET[digits[i]];
+  }
+  return result;
+}
 
 // USDC Mint on Devnet
 const USDC_MINT_ADDRESS = "4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU";
@@ -91,6 +119,25 @@ export default function CheckoutClient({ searchParams }: CheckoutClientProps) {
   const [balance, setBalance] = useState<number | null>(null);
   const [loadingBalance, setLoadingBalance] = useState(false);
   const [creatingWallet, setCreatingWallet] = useState(false);
+  const [useGasless, setUseGasless] = useState(true); // Default to gasless
+  const [gaslessAvailable, setGaslessAvailable] = useState(false);
+  const [checkingGasless, setCheckingGasless] = useState(true);
+
+  // Check if gasless is available
+  useEffect(() => {
+    async function checkGasless() {
+      try {
+        const response = await fetch("/api/gasless");
+        const data = await response.json();
+        setGaslessAvailable(data.enabled === true);
+      } catch {
+        setGaslessAvailable(false);
+      } finally {
+        setCheckingGasless(false);
+      }
+    }
+    checkGasless();
+  }, []);
 
   // Get active wallet - could be embedded (Privy) or external (Phantom/Solflare)
   // Privy returns all connected wallets in the wallets array
@@ -165,8 +212,110 @@ export default function CheckoutClient({ searchParams }: CheckoutClientProps) {
     }
   };
 
-  // Process payment
+  // Process gasless payment via Kora
+  const processGaslessPayment = async () => {
+    if (!activeWallet?.address || !merchantWallet) {
+      setError("Missing wallet or merchant address");
+      setStep("error");
+      return;
+    }
+
+    setStep("processing");
+    setError("");
+
+    try {
+      // Step 1: Create transfer transaction via Kora API
+      const transferResponse = await fetch("/api/gasless", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "transfer",
+          amount: Math.floor(amount * 1_000_000), // Convert to atomic units
+          token: USDC_MINT_ADDRESS,
+          source: activeWallet.address,
+          destination: merchantWallet,
+        }),
+      });
+
+      if (!transferResponse.ok) {
+        const errorData = await transferResponse.json();
+        throw new Error(errorData.error || "Failed to create transfer");
+      }
+
+      const { transaction: txBase64 } = await transferResponse.json();
+      console.log("[Gasless] Transfer transaction created");
+
+      // Step 2: Decode and sign with user's wallet
+      const txBytes = Buffer.from(txBase64, "base64");
+
+      // Sign the transaction via Privy (partial sign - Kora will add fee payer signature)
+      // We need to get the wallet to sign
+      const wallet = activeWallet;
+
+      // For Privy embedded wallets, we need to sign the transaction
+      // The transaction already has Kora as fee payer, user just needs to sign for the transfer
+      const signedResult = await signAndSendTransaction({
+        transaction: txBytes,
+        wallet: wallet,
+        chain: "solana:devnet",
+      });
+
+      // If signAndSendTransaction worked, we're done (Privy sent it)
+      const signatureBase58 = encodeBase58(signedResult.signature);
+      console.log("[Gasless] Transaction sent:", signatureBase58);
+      setTxSignature(signatureBase58);
+
+      // Complete checkout session if applicable
+      if (sessionId) {
+        try {
+          const completeResponse = await fetch("/api/checkout/complete", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              sessionId,
+              signature: signatureBase58,
+              customerWallet: activeWallet.address,
+            }),
+          });
+
+          if (completeResponse.ok) {
+            console.log("[Gasless] Checkout completed");
+            if (successUrl) {
+              window.location.href = successUrl;
+              return;
+            }
+          }
+        } catch (completeErr) {
+          console.error("Error completing checkout:", completeErr);
+        }
+      }
+
+      setStep("success");
+      sendToParent("settlr:success", {
+        signature: signatureBase58,
+        amount,
+        merchantWallet,
+        memo,
+        gasless: true,
+      });
+    } catch (err: unknown) {
+      console.error("[Gasless] Payment error:", err);
+      // If gasless fails, offer to retry with normal payment
+      const errorMessage =
+        err instanceof Error ? err.message : "Gasless payment failed";
+      setError(`${errorMessage}. Try disabling gasless mode.`);
+      setStep("error");
+      sendToParent("settlr:error", { message: errorMessage });
+    }
+  };
+
+  // Process payment (standard - user pays gas)
   const processPayment = async () => {
+    // If gasless is enabled, use that flow
+    if (useGasless && gaslessAvailable) {
+      return processGaslessPayment();
+    }
+
     if (!activeWallet?.address || !merchantWallet) {
       setError("Missing wallet or merchant address");
       setStep("error");
@@ -242,7 +391,7 @@ export default function CheckoutClient({ searchParams }: CheckoutClientProps) {
 
       console.log("Transaction result:", result);
       // Convert signature Uint8Array to base58 string
-      const signatureBase58 = Buffer.from(result.signature).toString("base64");
+      const signatureBase58 = encodeBase58(result.signature);
       setTxSignature(signatureBase58);
 
       // If this is a session-based checkout, complete it (triggers webhooks)
@@ -560,7 +709,7 @@ export default function CheckoutClient({ searchParams }: CheckoutClientProps) {
             )}
 
             {/* Payment details */}
-            <div className="bg-zinc-800/50 rounded-2xl p-4 mb-6">
+            <div className="bg-zinc-800/50 rounded-2xl p-4 mb-4">
               <div className="flex justify-between items-center mb-3">
                 <span className="text-zinc-400">To</span>
                 <span className="text-white">{merchantName}</span>
@@ -578,6 +727,43 @@ export default function CheckoutClient({ searchParams }: CheckoutClientProps) {
                 </div>
               )}
             </div>
+
+            {/* Gasless Toggle */}
+            {!checkingGasless && gaslessAvailable && (
+              <div className="bg-gradient-to-r from-emerald-500/10 to-cyan-500/10 border border-emerald-500/30 rounded-xl p-4 mb-4">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full bg-emerald-500/20 flex items-center justify-center">
+                      <Fuel className="w-5 h-5 text-emerald-400" />
+                    </div>
+                    <div>
+                      <p className="text-white font-medium">Gasless Payment</p>
+                      <p className="text-zinc-400 text-xs">
+                        No SOL needed for gas fees
+                      </p>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => setUseGasless(!useGasless)}
+                    className={`relative w-12 h-6 rounded-full transition-colors ${
+                      useGasless ? "bg-emerald-500" : "bg-zinc-600"
+                    }`}
+                  >
+                    <span
+                      className={`absolute top-0.5 w-5 h-5 rounded-full bg-white shadow transition-transform ${
+                        useGasless ? "translate-x-6" : "translate-x-0.5"
+                      }`}
+                    />
+                  </button>
+                </div>
+                {useGasless && (
+                  <p className="text-emerald-400 text-xs mt-2 flex items-center gap-1">
+                    <Check className="w-3 h-3" />
+                    Gas fees covered by Settlr
+                  </p>
+                )}
+              </div>
+            )}
 
             {/* Low balance warning with fund options */}
             {!hasEnoughBalance && balance !== null && activeWallet && (
@@ -643,14 +829,25 @@ export default function CheckoutClient({ searchParams }: CheckoutClientProps) {
             <button
               onClick={processPayment}
               disabled={!hasEnoughBalance || loadingBalance}
-              className={`w-full py-4 font-semibold rounded-xl flex items-center justify-center gap-2 transition-opacity ${
+              className={`w-full py-4 font-semibold rounded-xl flex items-center justify-center gap-2 transition-all ${
                 hasEnoughBalance && !loadingBalance
-                  ? "bg-gradient-to-r from-pink-500 to-cyan-500 text-white hover:opacity-90"
+                  ? useGasless && gaslessAvailable
+                    ? "bg-gradient-to-r from-emerald-500 to-cyan-500 text-white hover:opacity-90"
+                    : "bg-gradient-to-r from-pink-500 to-cyan-500 text-white hover:opacity-90"
                   : "bg-zinc-700 text-zinc-400 cursor-not-allowed"
               }`}
             >
-              <Check className="w-5 h-5" />
-              Pay ${amount.toFixed(2)} USDC
+              {useGasless && gaslessAvailable ? (
+                <>
+                  <Fuel className="w-5 h-5" />
+                  Pay ${amount.toFixed(2)} USDC (No Gas)
+                </>
+              ) : (
+                <>
+                  <Check className="w-5 h-5" />
+                  Pay ${amount.toFixed(2)} USDC
+                </>
+              )}
             </button>
 
             <button
