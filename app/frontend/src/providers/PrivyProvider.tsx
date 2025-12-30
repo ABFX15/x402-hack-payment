@@ -50,11 +50,7 @@ export function PrivyProvider({ children }: PrivyProviderProps) {
             "backpack",
           ],
         },
-        // Use popup mode to avoid iframe CSP issues
-        loginMethodsAndOrder: {
-          primary: ["wallet"],
-          overflow: ["email"],
-        },
+        loginMethods: ["wallet", "email"],
         embeddedWallets: {
           solana: {
             createOnLogin: "users-without-wallets",

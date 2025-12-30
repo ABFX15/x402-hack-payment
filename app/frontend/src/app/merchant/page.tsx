@@ -185,7 +185,7 @@ export default function MerchantPage() {
             <span className="text-xl text-zinc-400 mb-1">USDC</span>
           </div>
 
-          <Link href="/offramp">
+          <Link href={`/offramp?wallet=${publicKey}&amount=${balance || ""}`}>
             <button className="w-full py-3 bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-semibold rounded-xl flex items-center justify-center gap-2 hover:opacity-90 transition-opacity">
               <Banknote className="w-5 h-5" />
               Cash Out to Bank
@@ -193,7 +193,7 @@ export default function MerchantPage() {
           </Link>
 
           <p className="text-zinc-500 text-xs mt-3 text-center">
-            Convert USDC to fiat via Sphere • 40+ countries supported
+            Sign in to your Sphere account to convert USDC → fiat
           </p>
         </motion.div>
 

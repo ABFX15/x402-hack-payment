@@ -10,15 +10,12 @@ import {
   Zap,
   ArrowDownToLine,
   ExternalLink,
+  Wallet,
 } from "lucide-react";
 import Link from "next/link";
 
-// Sphere Application ID - replace with your actual ID from spherepay.co dashboard
-const SPHERE_APPLICATION_ID =
-  process.env.NEXT_PUBLIC_SPHERE_APP_ID || "YOUR_APPLICATION_ID";
-
-// Sphere Ramp URL for redirect approach (more stable than embedded widget)
-const SPHERE_RAMP_URL = `https://spherepay.co/ramp?applicationId=${SPHERE_APPLICATION_ID}`;
+// Sphere's direct sell/offramp page - merchants use their own Sphere account
+const SPHERE_SELL_URL = "https://spherepay.co/sell";
 
 function OfframpContent() {
   const searchParams = useSearchParams();
@@ -26,10 +23,23 @@ function OfframpContent() {
 
   // Parse URL params for pre-filling
   const amount = searchParams.get("amount");
+  const walletAddress = searchParams.get("wallet");
 
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  // Build Sphere URL with optional params
+  const buildSphereUrl = () => {
+    const params = new URLSearchParams();
+    if (amount) params.set("amount", amount);
+    if (walletAddress) params.set("walletAddress", walletAddress);
+    params.set("asset", "USDC");
+    params.set("network", "solana");
+
+    const queryString = params.toString();
+    return queryString ? `${SPHERE_SELL_URL}?${queryString}` : SPHERE_SELL_URL;
+  };
 
   return (
     <main className="min-h-screen flex flex-col items-center justify-start p-4 md:p-8 pt-24 md:pt-28 bg-[#0a0a12]">
@@ -114,20 +124,33 @@ function OfframpContent() {
               Ready to Cash Out?
             </h3>
             <p className="text-[var(--text-muted)] text-sm max-w-sm mx-auto">
-              Convert your USDC to USD, EUR, or other currencies and withdraw
-              directly to your bank account.
+              Sign in to your Sphere account to convert USDC to fiat and
+              withdraw directly to your bank account.
             </p>
           </div>
 
           <a
-            href={SPHERE_RAMP_URL}
+            href={buildSphereUrl()}
             target="_blank"
             rel="noopener noreferrer"
             className="btn-primary inline-flex items-center gap-2"
           >
-            Open Sphere Ramp
+            <Wallet className="w-4 h-4" />
+            Open Sphere
             <ExternalLink className="w-4 h-4" />
           </a>
+
+          <p className="text-[var(--text-muted)] text-xs mt-4">
+            Don&apos;t have a Sphere account?{" "}
+            <a
+              href="https://spherepay.co/signup"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[var(--primary)] hover:underline"
+            >
+              Sign up free →
+            </a>
+          </p>
 
           <div className="mt-6 grid grid-cols-2 gap-4 text-sm">
             <div className="p-3 rounded-lg bg-[var(--card)] border border-[var(--border)]">
