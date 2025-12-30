@@ -40,7 +40,9 @@ interface PaymentRecord {
 export default function DashboardPage() {
   const { ready, authenticated, login } = usePrivy();
   const { wallets } = useWallets();
-  const solanaWallet = wallets?.[0];
+  // Prefer external wallets (Phantom/Solflare) over Privy embedded wallet
+  const solanaWallet =
+    wallets?.find((w) => w.walletClientType !== "privy") || wallets?.[0];
   const publicKey = solanaWallet?.address;
   const connected = authenticated && !!publicKey;
 

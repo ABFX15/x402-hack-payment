@@ -36,7 +36,9 @@ interface ApiKeyRecord {
 export default function ApiKeysPage() {
   const { authenticated, login } = usePrivy();
   const { wallets } = useWallets();
-  const solanaWallet = wallets?.[0];
+  // Prefer external wallets (Phantom/Solflare) over Privy embedded wallet
+  const solanaWallet =
+    wallets?.find((w) => w.walletClientType !== "privy") || wallets?.[0];
   const publicKey = solanaWallet?.address;
   const connected = authenticated && !!publicKey;
   const [keys, setKeys] = useState<ApiKeyRecord[]>([]);

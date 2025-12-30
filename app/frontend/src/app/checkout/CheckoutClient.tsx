@@ -140,9 +140,65 @@ export default function CheckoutClient({ searchParams }: CheckoutClientProps) {
     checkGasless();
   }, []);
 
-  // Get active wallet - could be embedded (Privy) or external (Phantom/Solflare)
-  // Privy returns all connected wallets in the wallets array
-  const activeWallet = wallets?.[0];
+  // Get active wallet - prefer the wallet that's actually connected
+  // Privy may detect multiple wallet extensions, but only one is actively connected
+  const activeWallet = (() => {
+    if (!wallets || wallets.length === 0) return undefined;
+
+    // Debug: log all wallets to see what Privy returns
+    console.log(
+      "[Settlr] All wallets:",
+      wallets.map((w) => ({
+        type: w.walletClientType,
+        address: w.address,
+        connected: w.connected,
+      }))
+    );
+
+    // First, try to find an external wallet that's explicitly connected
+    const connectedExternal = wallets.find(
+      (w) => w.walletClientType !== "privy" && w.connected === true
+    );
+    if (connectedExternal) {
+      console.log(
+        "[Settlr] Using connected external wallet:",
+        connectedExternal.walletClientType
+      );
+      return connectedExternal;
+    }
+
+    // Next, check the user's linked accounts to see which wallet they authenticated with
+    const linkedWalletAddress = user?.linkedAccounts?.find(
+      (account) =>
+        account.type === "wallet" && account.walletClientType !== "privy"
+    );
+    if (linkedWalletAddress && "address" in linkedWalletAddress) {
+      const matchingWallet = wallets.find(
+        (w) => w.address === linkedWalletAddress.address
+      );
+      if (matchingWallet) {
+        console.log(
+          "[Settlr] Using linked wallet:",
+          matchingWallet.walletClientType
+        );
+        return matchingWallet;
+      }
+    }
+
+    // Fall back to any external wallet
+    const externalWallet = wallets.find((w) => w.walletClientType !== "privy");
+    if (externalWallet) {
+      console.log(
+        "[Settlr] Using first external wallet:",
+        externalWallet.walletClientType
+      );
+      return externalWallet;
+    }
+
+    // Last resort: embedded wallet
+    console.log("[Settlr] Using embedded wallet");
+    return wallets[0];
+  })();
 
   // Check if user has an external wallet linked (Phantom, Solflare, etc.)
   // If they logged in via wallet, they have an external wallet

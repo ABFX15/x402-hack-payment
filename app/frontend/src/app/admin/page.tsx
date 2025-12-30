@@ -58,7 +58,14 @@ interface PlatformConfig {
 export default function AdminDashboardPage() {
   const { ready, authenticated, login } = usePrivy();
   const { wallets } = useWallets();
-  const solanaWallet = wallets?.[0];
+
+  // Prefer external wallets (Phantom/Solflare) over embedded Privy wallets
+  const solanaWallet = (() => {
+    if (!wallets || wallets.length === 0) return undefined;
+    const externalWallet = wallets.find((w) => w.walletClientType !== "privy");
+    return externalWallet || wallets[0];
+  })();
+
   const publicKey = solanaWallet?.address;
   const connected = authenticated && !!publicKey;
 
