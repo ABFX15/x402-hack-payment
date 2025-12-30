@@ -36,9 +36,12 @@ export { useSettlr, SettlrProvider } from './react';
 export {
     BuyButton,
     CheckoutWidget,
+    PaymentModal,
     usePaymentLink,
+    usePaymentModal,
     type BuyButtonProps,
     type CheckoutWidgetProps,
+    type PaymentModalProps,
 } from './components';
 
 // Webhooks

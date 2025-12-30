@@ -574,3 +574,329 @@ export function usePaymentLink(config: {
     generateQRCode,
   };
 }
+
+/**
+ * Payment Modal - Iframe-based checkout that keeps users on your site
+ *
+ * @example
+ * ```tsx
+ * import { PaymentModal } from '@settlr/sdk';
+ *
+ * function ProductPage() {
+ *   const [showPayment, setShowPayment] = useState(false);
+ *
+ *   return (
+ *     <>
+ *       <button onClick={() => setShowPayment(true)}>
+ *         Buy Now - $49.99
+ *       </button>
+ *
+ *       {showPayment && (
+ *         <PaymentModal
+ *           amount={49.99}
+ *           merchantName="Arena GG"
+ *           merchantWallet="YOUR_WALLET_ADDRESS"
+ *           memo="Tournament Entry"
+ *           onSuccess={(result) => {
+ *             console.log('Paid!', result.signature);
+ *             setShowPayment(false);
+ *           }}
+ *           onClose={() => setShowPayment(false)}
+ *         />
+ *       )}
+ *     </>
+ *   );
+ * }
+ * ```
+ */
+
+export interface PaymentModalProps {
+  /** Payment amount in USDC */
+  amount: number;
+
+  /** Merchant display name */
+  merchantName: string;
+
+  /** Merchant wallet address */
+  merchantWallet: string;
+
+  /** Optional memo/description */
+  memo?: string;
+
+  /** Optional order ID */
+  orderId?: string;
+
+  /** Called when payment succeeds */
+  onSuccess?: (result: { signature: string; amount: number }) => void;
+
+  /** Called when modal is closed */
+  onClose?: () => void;
+
+  /** Called on error */
+  onError?: (error: Error) => void;
+
+  /** Checkout base URL (default: https://settlr.dev/checkout) */
+  checkoutUrl?: string;
+}
+
+const modalStyles: Record<string, CSSProperties> = {
+  overlay: {
+    position: "fixed",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: "rgba(0, 0, 0, 0.8)",
+    backdropFilter: "blur(4px)",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    zIndex: 9999,
+    padding: "16px",
+  },
+  container: {
+    position: "relative",
+    width: "100%",
+    maxWidth: "480px",
+    height: "90vh",
+    maxHeight: "700px",
+    backgroundColor: "#12121a",
+    borderRadius: "16px",
+    overflow: "hidden",
+    boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.5)",
+  },
+  closeButton: {
+    position: "absolute",
+    top: "12px",
+    right: "12px",
+    width: "32px",
+    height: "32px",
+    borderRadius: "50%",
+    backgroundColor: "rgba(255, 255, 255, 0.1)",
+    border: "none",
+    cursor: "pointer",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    zIndex: 10,
+    color: "white",
+    fontSize: "18px",
+    transition: "background-color 0.2s",
+  },
+  iframe: {
+    width: "100%",
+    height: "100%",
+    border: "none",
+  },
+  loading: {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    color: "white",
+    fontSize: "14px",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    gap: "12px",
+  },
+};
+
+export function PaymentModal({
+  amount,
+  merchantName,
+  merchantWallet,
+  memo,
+  orderId,
+  onSuccess,
+  onClose,
+  onError,
+  checkoutUrl = "https://settlr.dev/checkout",
+}: PaymentModalProps) {
+  const [loading, setLoading] = useState(true);
+
+  // Build checkout URL with embed mode
+  const params = new URLSearchParams({
+    amount: amount.toString(),
+    merchant: merchantName,
+    to: merchantWallet,
+    embed: "true",
+  });
+
+  if (memo) params.set("memo", memo);
+  if (orderId) params.set("orderId", orderId);
+
+  const iframeSrc = `${checkoutUrl}?${params.toString()}`;
+
+  // Listen for messages from the iframe
+  useEffect(() => {
+    const handleMessage = (event: MessageEvent) => {
+      // Verify origin
+      if (
+        !event.origin.includes("settlr.dev") &&
+        !event.origin.includes("localhost")
+      ) {
+        return;
+      }
+
+      const { type, data } = event.data || {};
+
+      switch (type) {
+        case "settlr:success":
+          onSuccess?.({
+            signature: data.signature,
+            amount: data.amount || amount,
+          });
+          break;
+        case "settlr:error":
+          onError?.(new Error(data.message || "Payment failed"));
+          break;
+        case "settlr:close":
+          onClose?.();
+          break;
+      }
+    };
+
+    window.addEventListener("message", handleMessage);
+    return () => window.removeEventListener("message", handleMessage);
+  }, [amount, onSuccess, onError, onClose]);
+
+  // Close on escape key
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose?.();
+    };
+    window.addEventListener("keydown", handleEscape);
+    return () => window.removeEventListener("keydown", handleEscape);
+  }, [onClose]);
+
+  return (
+    <div style={modalStyles.overlay} onClick={onClose}>
+      <div style={modalStyles.container} onClick={(e) => e.stopPropagation()}>
+        <button
+          style={modalStyles.closeButton}
+          onClick={onClose}
+          onMouseOver={(e) =>
+            (e.currentTarget.style.backgroundColor = "rgba(255, 255, 255, 0.2)")
+          }
+          onMouseOut={(e) =>
+            (e.currentTarget.style.backgroundColor = "rgba(255, 255, 255, 0.1)")
+          }
+        >
+          ✕
+        </button>
+
+        {loading && (
+          <div style={modalStyles.loading as CSSProperties}>
+            <Spinner />
+            <span>Loading checkout...</span>
+          </div>
+        )}
+
+        <iframe
+          src={iframeSrc}
+          style={{
+            ...modalStyles.iframe,
+            opacity: loading ? 0 : 1,
+          }}
+          onLoad={() => setLoading(false)}
+          allow="payment"
+        />
+      </div>
+    </div>
+  );
+}
+
+/**
+ * Hook to open payment modal programmatically
+ *
+ * @example
+ * ```tsx
+ * import { usePaymentModal } from '@settlr/sdk';
+ *
+ * function ProductPage() {
+ *   const { openPayment, PaymentModalComponent } = usePaymentModal({
+ *     merchantName: "Arena GG",
+ *     merchantWallet: "YOUR_WALLET",
+ *   });
+ *
+ *   return (
+ *     <>
+ *       <button onClick={() => openPayment({
+ *         amount: 49.99,
+ *         memo: "Tournament Entry",
+ *         onSuccess: (result) => console.log("Paid!", result),
+ *       })}>
+ *         Buy Now
+ *       </button>
+ *       <PaymentModalComponent />
+ *     </>
+ *   );
+ * }
+ * ```
+ */
+export function usePaymentModal(config: {
+  merchantName: string;
+  merchantWallet: string;
+  checkoutUrl?: string;
+}) {
+  const [modalState, setModalState] = useState<{
+    isOpen: boolean;
+    amount: number;
+    memo?: string;
+    orderId?: string;
+    onSuccess?: (result: { signature: string; amount: number }) => void;
+    onError?: (error: Error) => void;
+  }>({
+    isOpen: false,
+    amount: 0,
+  });
+
+  const openPayment = useCallback(
+    (options: {
+      amount: number;
+      memo?: string;
+      orderId?: string;
+      onSuccess?: (result: { signature: string; amount: number }) => void;
+      onError?: (error: Error) => void;
+    }) => {
+      setModalState({
+        isOpen: true,
+        ...options,
+      });
+    },
+    []
+  );
+
+  const closePayment = useCallback(() => {
+    setModalState((prev) => ({ ...prev, isOpen: false }));
+  }, []);
+
+  const PaymentModalComponent = useCallback(() => {
+    if (!modalState.isOpen) return null;
+
+    return (
+      <PaymentModal
+        amount={modalState.amount}
+        merchantName={config.merchantName}
+        merchantWallet={config.merchantWallet}
+        memo={modalState.memo}
+        orderId={modalState.orderId}
+        checkoutUrl={config.checkoutUrl}
+        onSuccess={(result) => {
+          modalState.onSuccess?.(result);
+          closePayment();
+        }}
+        onError={modalState.onError}
+        onClose={closePayment}
+      />
+    );
+  }, [modalState, config, closePayment]);
+
+  return {
+    openPayment,
+    closePayment,
+    isOpen: modalState.isOpen,
+    PaymentModalComponent,
+  };
+}
