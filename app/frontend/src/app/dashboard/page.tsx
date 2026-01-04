@@ -18,6 +18,8 @@ import {
   Shield,
   Clock,
   ChevronRight,
+  Webhook,
+  RefreshCw,
   Key,
   LogIn,
 } from "lucide-react";
@@ -226,7 +228,7 @@ export default function DashboardPage() {
         </div>
 
         {/* Quick Actions */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
           {[
             {
               title: "Hosted Checkout",
@@ -237,12 +239,20 @@ export default function DashboardPage() {
                 "bg-blue-500/10 border-blue-500/30 hover:border-blue-500/50",
             },
             {
-              title: "Gasless Payments",
-              description: "Zero gas for customers",
-              icon: Zap,
-              href: "/demo",
+              title: "Subscriptions",
+              description: "Recurring payments",
+              icon: RefreshCw,
+              href: "/dashboard/subscriptions",
               color:
-                "bg-amber-500/10 border-amber-500/30 hover:border-amber-500/50",
+                "bg-pink-500/10 border-pink-500/30 hover:border-pink-500/50",
+            },
+            {
+              title: "Webhooks",
+              description: "Payment notifications",
+              icon: Webhook,
+              href: "/dashboard/webhooks",
+              color:
+                "bg-orange-500/10 border-orange-500/30 hover:border-orange-500/50",
             },
             {
               title: "API Keys",
@@ -251,6 +261,14 @@ export default function DashboardPage() {
               href: "/dashboard/api-keys",
               color:
                 "bg-emerald-500/10 border-emerald-500/30 hover:border-emerald-500/50",
+            },
+            {
+              title: "Gasless Payments",
+              description: "Zero gas for customers",
+              icon: Zap,
+              href: "/demo",
+              color:
+                "bg-amber-500/10 border-amber-500/30 hover:border-amber-500/50",
             },
             {
               title: "SDK Docs",

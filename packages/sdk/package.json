@@ -1,7 +1,7 @@
 {
   "name": "@settlr/sdk",
-  "version": "0.3.0",
-  "description": "Solana USDC payments for games - email checkout, no wallet required",
+  "version": "0.4.0",
+  "description": "Settlr SDK - Accept Solana USDC payments in games and apps. Email checkout, gasless transactions, no wallet required. The easiest way to add crypto payments.",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
@@ -24,21 +24,45 @@
     "prepublishOnly": "npm run build"
   },
   "keywords": [
+    "settlr",
+    "settlr-sdk",
+    "settlr.dev",
     "solana",
-    "payments",
+    "solana-payments",
     "usdc",
-    "crypto",
+    "usdc-payments",
+    "crypto-payments",
     "web3",
+    "web3-payments",
     "stablecoin",
-    "gasless"
+    "gasless",
+    "gasless-transactions",
+    "payment-gateway",
+    "checkout",
+    "gaming-payments",
+    "game-monetization",
+    "in-app-purchases",
+    "react",
+    "typescript",
+    "email-checkout",
+    "no-wallet",
+    "privy"
   ],
-  "author": "Settlr",
+  "author": "Settlr <hello@settlr.dev> (https://settlr.dev)",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ABFX15/x402-hack-payment.git"
+    "url": "git+https://github.com/ABFX15/x402-hack-payment.git",
+    "directory": "packages/sdk"
+  },
+  "bugs": {
+    "url": "https://github.com/ABFX15/x402-hack-payment/issues"
   },
   "homepage": "https://settlr.dev",
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/ABFX15"
+  },
   "dependencies": {
     "@solana/spl-token": "^0.4.13",
     "@solana/web3.js": "^1.98.0"

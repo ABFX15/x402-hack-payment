@@ -62,8 +62,27 @@ function encodeBase58(bytes: Uint8Array): string {
   return result;
 }
 
-// USDC Mint on Devnet
-const USDC_MINT_ADDRESS = "4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU";
+// Token configurations
+const TOKENS = {
+  USDC: {
+    mint: "4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU",
+    decimals: 6,
+    symbol: "USDC",
+    name: "USD Coin",
+  },
+  USDT: {
+    mint: "EJwZgeZrdC8TXTQbQBoL6bfuAnFUQS7QrP5KpEgk3aSm", // Devnet USDT
+    decimals: 6,
+    symbol: "USDT",
+    name: "Tether USD",
+  },
+} as const;
+
+type TokenSymbol = keyof typeof TOKENS;
+
+// Default to USDC for backward compatibility
+const DEFAULT_TOKEN: TokenSymbol = "USDC";
+const USDC_MINT_ADDRESS = TOKENS.USDC.mint;
 const USDC_MINT = new PublicKey(USDC_MINT_ADDRESS);
 const USDC_DECIMALS = 6;
 

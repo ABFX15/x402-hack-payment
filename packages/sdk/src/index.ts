@@ -16,14 +16,26 @@ export type {
     TransactionOptions,
     WebhookEventType,
     WebhookPayload,
+    // Subscription types
+    SubscriptionInterval,
+    SubscriptionStatus,
+    SubscriptionPlan,
+    Subscription,
+    CreateSubscriptionOptions,
 } from './types';
 
 // Constants
 export {
     USDC_MINT_DEVNET,
     USDC_MINT_MAINNET,
+    USDT_MINT_DEVNET,
+    USDT_MINT_MAINNET,
+    SUPPORTED_TOKENS,
     SETTLR_CHECKOUT_URL,
     SUPPORTED_NETWORKS,
+    getTokenMint,
+    getTokenDecimals,
+    type SupportedToken,
 } from './constants';
 
 // Utilities

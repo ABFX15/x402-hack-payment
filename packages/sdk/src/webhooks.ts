@@ -31,7 +31,7 @@ export function verifyWebhookSignature(
     secret: string
 ): boolean {
     const expectedSignature = generateWebhookSignature(payload, secret);
-    
+
     // Use timing-safe comparison to prevent timing attacks
     try {
         return crypto.timingSafeEqual(
@@ -78,6 +78,10 @@ export interface WebhookHandlers {
     'payment.failed'?: WebhookHandler;
     'payment.expired'?: WebhookHandler;
     'payment.refunded'?: WebhookHandler;
+    'subscription.created'?: WebhookHandler;
+    'subscription.renewed'?: WebhookHandler;
+    'subscription.cancelled'?: WebhookHandler;
+    'subscription.expired'?: WebhookHandler;
 }
 
 /**
@@ -146,7 +150,7 @@ export function createWebhookHandler(options: {
 
             // Get signature from headers
             const signature = req.headers['x-settlr-signature'] as string;
-            
+
             if (!signature) {
                 res.status(400).json({ error: 'Missing signature header' });
                 return;
@@ -166,7 +170,7 @@ export function createWebhookHandler(options: {
             if (onError && error instanceof Error) {
                 onError(error);
             }
-            
+
             if (error instanceof Error && error.message === 'Invalid webhook signature') {
                 res.status(401).json({ error: 'Invalid signature' });
             } else {
@@ -198,7 +202,7 @@ export async function sendWebhook(
 
     const payloadString = JSON.stringify(payload);
     const signature = generateWebhookSignature(payloadString, secret);
-    
+
     // Update payload with signature
     payload.signature = signature;
 

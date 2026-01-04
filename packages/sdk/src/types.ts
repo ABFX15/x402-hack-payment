@@ -1,5 +1,5 @@
 import { PublicKey } from '@solana/web3.js';
-import type { SupportedNetwork } from './constants';
+import type { SupportedNetwork, SupportedToken } from './constants';
 
 /**
  * Payment status
@@ -16,8 +16,11 @@ export type PaymentStatus =
  * Options for creating a payment
  */
 export interface CreatePaymentOptions {
-    /** Amount in USDC (e.g., 29.99) */
+    /** Amount in stablecoin (e.g., 29.99) */
     amount: number;
+
+    /** Token to accept (default: USDC) */
+    token?: SupportedToken;
 
     /** Optional memo/description for the payment */
     memo?: string;
@@ -45,8 +48,11 @@ export interface Payment {
     /** Unique payment ID */
     id: string;
 
-    /** Amount in USDC */
+    /** Amount in stablecoin */
     amount: number;
+
+    /** Token used for payment */
+    token: SupportedToken;
 
     /** Amount in lamports (USDC atomic units) */
     amountLamports: bigint;
@@ -146,6 +152,72 @@ export interface TransactionOptions {
 }
 
 /**
+ * Subscription interval
+ */
+export type SubscriptionInterval = 'daily' | 'weekly' | 'monthly' | 'yearly';
+
+/**
+ * Subscription status
+ */
+export type SubscriptionStatus = 'active' | 'paused' | 'cancelled' | 'past_due' | 'expired';
+
+/**
+ * Subscription plan
+ */
+export interface SubscriptionPlan {
+    id: string;
+    name: string;
+    description?: string;
+    amount: number;
+    currency: string;
+    interval: SubscriptionInterval;
+    intervalCount: number;
+    trialDays?: number;
+    features?: string[];
+    active: boolean;
+}
+
+/**
+ * Options for creating a subscription
+ */
+export interface CreateSubscriptionOptions {
+    /** The plan ID to subscribe to */
+    planId: string;
+
+    /** Customer's wallet address */
+    customerWallet: string;
+
+    /** Optional customer email for notifications */
+    customerEmail?: string;
+
+    /** Optional metadata */
+    metadata?: Record<string, string>;
+
+    /** URL to redirect after successful subscription */
+    successUrl?: string;
+
+    /** URL to redirect after cancelled subscription */
+    cancelUrl?: string;
+}
+
+/**
+ * Subscription object
+ */
+export interface Subscription {
+    id: string;
+    planId: string;
+    plan?: SubscriptionPlan;
+    customerWallet: string;
+    customerEmail?: string;
+    status: SubscriptionStatus;
+    currentPeriodStart: string;
+    currentPeriodEnd: string;
+    cancelAtPeriodEnd: boolean;
+    trialEnd?: string;
+    createdAt: string;
+}
+
+/**
  * Webhook event types
  */
 export type WebhookEventType =
@@ -153,7 +225,11 @@ export type WebhookEventType =
     | 'payment.completed'
     | 'payment.failed'
     | 'payment.expired'
-    | 'payment.refunded';
+    | 'payment.refunded'
+    | 'subscription.created'
+    | 'subscription.renewed'
+    | 'subscription.cancelled'
+    | 'subscription.expired';
 
 /**
  * Webhook payload

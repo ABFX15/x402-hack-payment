@@ -35,12 +35,17 @@ __export(index_exports, {
   PaymentModal: () => PaymentModal,
   SETTLR_CHECKOUT_URL: () => SETTLR_CHECKOUT_URL,
   SUPPORTED_NETWORKS: () => SUPPORTED_NETWORKS,
+  SUPPORTED_TOKENS: () => SUPPORTED_TOKENS,
   Settlr: () => Settlr,
   SettlrProvider: () => SettlrProvider,
   USDC_MINT_DEVNET: () => USDC_MINT_DEVNET,
   USDC_MINT_MAINNET: () => USDC_MINT_MAINNET,
+  USDT_MINT_DEVNET: () => USDT_MINT_DEVNET,
+  USDT_MINT_MAINNET: () => USDT_MINT_MAINNET,
   createWebhookHandler: () => createWebhookHandler,
   formatUSDC: () => formatUSDC,
+  getTokenDecimals: () => getTokenDecimals,
+  getTokenMint: () => getTokenMint,
   parseUSDC: () => parseUSDC,
   parseWebhookPayload: () => parseWebhookPayload,
   shortenAddress: () => shortenAddress,
@@ -59,6 +64,30 @@ var import_spl_token = require("@solana/spl-token");
 var import_web3 = require("@solana/web3.js");
 var USDC_MINT_DEVNET = new import_web3.PublicKey("4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU");
 var USDC_MINT_MAINNET = new import_web3.PublicKey("EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v");
+var USDT_MINT_DEVNET = new import_web3.PublicKey("EJwZgeZrdC8TXTQbQBoL6bfuAnFUQS7QrP5KpEgk3aSm");
+var USDT_MINT_MAINNET = new import_web3.PublicKey("Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB");
+var SUPPORTED_TOKENS = {
+  USDC: {
+    symbol: "USDC",
+    name: "USD Coin",
+    decimals: 6,
+    mint: {
+      devnet: USDC_MINT_DEVNET,
+      "mainnet-beta": USDC_MINT_MAINNET
+    },
+    logoUrl: "https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v/logo.png"
+  },
+  USDT: {
+    symbol: "USDT",
+    name: "Tether USD",
+    decimals: 6,
+    mint: {
+      devnet: USDT_MINT_DEVNET,
+      "mainnet-beta": USDT_MINT_MAINNET
+    },
+    logoUrl: "https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB/logo.svg"
+  }
+};
 var SETTLR_API_URL = {
   production: "https://settlr.dev/api",
   development: "http://localhost:3000/api"
@@ -73,6 +102,12 @@ var DEFAULT_RPC_ENDPOINTS = {
   devnet: "https://api.devnet.solana.com",
   "mainnet-beta": "https://api.mainnet-beta.solana.com"
 };
+function getTokenMint(token, network) {
+  return SUPPORTED_TOKENS[token].mint[network];
+}
+function getTokenDecimals(token) {
+  return SUPPORTED_TOKENS[token].decimals;
+}
 
 // src/utils.ts
 function formatUSDC(lamports, decimals = 2) {
@@ -262,6 +297,8 @@ var Settlr = class {
     const payment = {
       id: paymentId,
       amount,
+      token: "USDC",
+      // Default to USDC
       amountLamports,
       status: "pending",
       merchantAddress: this.config.merchant.walletAddress,
@@ -1148,12 +1185,17 @@ function createWebhookHandler(options) {
   PaymentModal,
   SETTLR_CHECKOUT_URL,
   SUPPORTED_NETWORKS,
+  SUPPORTED_TOKENS,
   Settlr,
   SettlrProvider,
   USDC_MINT_DEVNET,
   USDC_MINT_MAINNET,
+  USDT_MINT_DEVNET,
+  USDT_MINT_MAINNET,
   createWebhookHandler,
   formatUSDC,
+  getTokenDecimals,
+  getTokenMint,
   parseUSDC,
   parseWebhookPayload,
   shortenAddress,

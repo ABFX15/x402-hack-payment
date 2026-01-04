@@ -4,12 +4,45 @@ import { ReactNode, CSSProperties } from 'react';
 
 declare const USDC_MINT_DEVNET: PublicKey;
 declare const USDC_MINT_MAINNET: PublicKey;
+declare const USDT_MINT_DEVNET: PublicKey;
+declare const USDT_MINT_MAINNET: PublicKey;
+declare const SUPPORTED_TOKENS: {
+    readonly USDC: {
+        readonly symbol: "USDC";
+        readonly name: "USD Coin";
+        readonly decimals: 6;
+        readonly mint: {
+            readonly devnet: PublicKey;
+            readonly 'mainnet-beta': PublicKey;
+        };
+        readonly logoUrl: "https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v/logo.png";
+    };
+    readonly USDT: {
+        readonly symbol: "USDT";
+        readonly name: "Tether USD";
+        readonly decimals: 6;
+        readonly mint: {
+            readonly devnet: PublicKey;
+            readonly 'mainnet-beta': PublicKey;
+        };
+        readonly logoUrl: "https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB/logo.svg";
+    };
+};
+type SupportedToken = keyof typeof SUPPORTED_TOKENS;
 declare const SETTLR_CHECKOUT_URL: {
     readonly production: "https://settlr.dev/checkout";
     readonly development: "http://localhost:3000/checkout";
 };
 declare const SUPPORTED_NETWORKS: readonly ["devnet", "mainnet-beta"];
 type SupportedNetwork = typeof SUPPORTED_NETWORKS[number];
+/**
+ * Get token mint address for a specific network
+ */
+declare function getTokenMint(token: SupportedToken, network: SupportedNetwork): PublicKey;
+/**
+ * Get token decimals
+ */
+declare function getTokenDecimals(token: SupportedToken): number;
 
 /**
  * Payment status
@@ -19,8 +52,10 @@ type PaymentStatus = 'pending' | 'processing' | 'completed' | 'failed' | 'expire
  * Options for creating a payment
  */
 interface CreatePaymentOptions {
-    /** Amount in USDC (e.g., 29.99) */
+    /** Amount in stablecoin (e.g., 29.99) */
     amount: number;
+    /** Token to accept (default: USDC) */
+    token?: SupportedToken;
     /** Optional memo/description for the payment */
     memo?: string;
     /** Optional order/invoice ID for your records */
@@ -40,8 +75,10 @@ interface CreatePaymentOptions {
 interface Payment {
     /** Unique payment ID */
     id: string;
-    /** Amount in USDC */
+    /** Amount in stablecoin */
     amount: number;
+    /** Token used for payment */
+    token: SupportedToken;
     /** Amount in lamports (USDC atomic units) */
     amountLamports: bigint;
     /** Current status */
@@ -113,9 +150,65 @@ interface TransactionOptions {
     maxRetries?: number;
 }
 /**
+ * Subscription interval
+ */
+type SubscriptionInterval = 'daily' | 'weekly' | 'monthly' | 'yearly';
+/**
+ * Subscription status
+ */
+type SubscriptionStatus = 'active' | 'paused' | 'cancelled' | 'past_due' | 'expired';
+/**
+ * Subscription plan
+ */
+interface SubscriptionPlan {
+    id: string;
+    name: string;
+    description?: string;
+    amount: number;
+    currency: string;
+    interval: SubscriptionInterval;
+    intervalCount: number;
+    trialDays?: number;
+    features?: string[];
+    active: boolean;
+}
+/**
+ * Options for creating a subscription
+ */
+interface CreateSubscriptionOptions {
+    /** The plan ID to subscribe to */
+    planId: string;
+    /** Customer's wallet address */
+    customerWallet: string;
+    /** Optional customer email for notifications */
+    customerEmail?: string;
+    /** Optional metadata */
+    metadata?: Record<string, string>;
+    /** URL to redirect after successful subscription */
+    successUrl?: string;
+    /** URL to redirect after cancelled subscription */
+    cancelUrl?: string;
+}
+/**
+ * Subscription object
+ */
+interface Subscription {
+    id: string;
+    planId: string;
+    plan?: SubscriptionPlan;
+    customerWallet: string;
+    customerEmail?: string;
+    status: SubscriptionStatus;
+    currentPeriodStart: string;
+    currentPeriodEnd: string;
+    cancelAtPeriodEnd: boolean;
+    trialEnd?: string;
+    createdAt: string;
+}
+/**
  * Webhook event types
  */
-type WebhookEventType = 'payment.created' | 'payment.completed' | 'payment.failed' | 'payment.expired' | 'payment.refunded';
+type WebhookEventType = 'payment.created' | 'payment.completed' | 'payment.failed' | 'payment.expired' | 'payment.refunded' | 'subscription.created' | 'subscription.renewed' | 'subscription.cancelled' | 'subscription.expired';
 /**
  * Webhook payload
  */
@@ -720,6 +813,10 @@ interface WebhookHandlers {
     'payment.failed'?: WebhookHandler;
     'payment.expired'?: WebhookHandler;
     'payment.refunded'?: WebhookHandler;
+    'subscription.created'?: WebhookHandler;
+    'subscription.renewed'?: WebhookHandler;
+    'subscription.cancelled'?: WebhookHandler;
+    'subscription.expired'?: WebhookHandler;
 }
 /**
  * Create a webhook handler middleware
@@ -772,4 +869,4 @@ declare function createWebhookHandler(options: {
     onError?: (error: Error) => void;
 }): (req: any, res: any) => Promise<void>;
 
-export { BuyButton, type BuyButtonProps, CheckoutWidget, type CheckoutWidgetProps, type CreatePaymentOptions, type MerchantConfig, type Payment, PaymentModal, type PaymentModalProps, type PaymentResult, type PaymentStatus, SETTLR_CHECKOUT_URL, SUPPORTED_NETWORKS, Settlr, type SettlrConfig, SettlrProvider, type TransactionOptions, USDC_MINT_DEVNET, USDC_MINT_MAINNET, type WebhookEventType, type WebhookHandler, type WebhookHandlers, type WebhookPayload, createWebhookHandler, formatUSDC, parseUSDC, parseWebhookPayload, shortenAddress, usePaymentLink, usePaymentModal, useSettlr, verifyWebhookSignature };
+export { BuyButton, type BuyButtonProps, CheckoutWidget, type CheckoutWidgetProps, type CreatePaymentOptions, type CreateSubscriptionOptions, type MerchantConfig, type Payment, PaymentModal, type PaymentModalProps, type PaymentResult, type PaymentStatus, SETTLR_CHECKOUT_URL, SUPPORTED_NETWORKS, SUPPORTED_TOKENS, Settlr, type SettlrConfig, SettlrProvider, type Subscription, type SubscriptionInterval, type SubscriptionPlan, type SubscriptionStatus, type SupportedToken, type TransactionOptions, USDC_MINT_DEVNET, USDC_MINT_MAINNET, USDT_MINT_DEVNET, USDT_MINT_MAINNET, type WebhookEventType, type WebhookHandler, type WebhookHandlers, type WebhookPayload, createWebhookHandler, formatUSDC, getTokenDecimals, getTokenMint, parseUSDC, parseWebhookPayload, shortenAddress, usePaymentLink, usePaymentModal, useSettlr, verifyWebhookSignature };

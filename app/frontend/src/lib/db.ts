@@ -73,11 +73,53 @@ export interface ApiKey {
     active: boolean;
 }
 
+// Subscription types
+export type SubscriptionInterval = "daily" | "weekly" | "monthly" | "yearly";
+export type SubscriptionStatus = "active" | "paused" | "cancelled" | "past_due" | "expired";
+
+export interface SubscriptionPlan {
+    id: string;
+    merchantId: string;
+    name: string;
+    description?: string;
+    amount: number;
+    currency: string;
+    interval: SubscriptionInterval;
+    intervalCount: number; // e.g., 1 for monthly, 3 for quarterly
+    trialDays?: number;
+    features?: string[];
+    active: boolean;
+    createdAt: Date;
+    updatedAt: Date;
+}
+
+export interface Subscription {
+    id: string;
+    planId: string;
+    merchantId: string;
+    customerWallet: string;
+    customerEmail?: string;
+    status: SubscriptionStatus;
+    currentPeriodStart: Date;
+    currentPeriodEnd: Date;
+    cancelAtPeriodEnd: boolean;
+    cancelledAt?: Date;
+    trialEnd?: Date;
+    lastPaymentAt?: Date;
+    lastPaymentId?: string;
+    nextPaymentAt?: Date;
+    failedPaymentCount: number;
+    createdAt: Date;
+    updatedAt: Date;
+}
+
 // In-memory fallback stores
 const memoryMerchants = new Map<string, Merchant>();
 const memorySessions = new Map<string, CheckoutSession>();
 const memoryPayments = new Map<string, Payment>();
 const memoryApiKeys = new Map<string, ApiKey>();
+const memorySubscriptionPlans = new Map<string, SubscriptionPlan>();
+const memorySubscriptions = new Map<string, Subscription>();
 const memoryRateLimits = new Map<string, { count: number; resetAt: number }>();
 
 // ID generators

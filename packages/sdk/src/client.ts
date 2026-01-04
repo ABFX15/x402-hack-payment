@@ -283,6 +283,7 @@ export class Settlr {
         const payment: Payment = {
             id: paymentId,
             amount,
+            token: 'USDC', // Default to USDC
             amountLamports,
             status: 'pending',
             merchantAddress: this.config.merchant.walletAddress as string,
