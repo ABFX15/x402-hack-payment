@@ -28,7 +28,7 @@ npm install @settlr/sdk
 
 ### 1. Get Your API Key
 
-Sign up at [settlr.app/dashboard](https://settlr.app/dashboard) and create an API key.
+Sign up at [settlr.dev/onboarding](https://settlr.dev/onboarding) to register your business and get an API key. Your wallet address is linked to your API key automatically.
 
 ### 2. Create a Payment Link
 
@@ -36,10 +36,10 @@ Sign up at [settlr.app/dashboard](https://settlr.app/dashboard) and create an AP
 import { Settlr } from "@settlr/sdk";
 
 const settlr = new Settlr({
-  apiKey: "sk_live_xxxxxxxxxxxx", // Your API key
+  apiKey: "sk_live_xxxxxxxxxxxx", // Your API key from dashboard
   merchant: {
     name: "My Store",
-    walletAddress: "YOUR_SOLANA_WALLET_ADDRESS",
+    // walletAddress is optional - automatically fetched from your API key
   },
 });
 
@@ -51,6 +51,8 @@ const payment = await settlr.createPayment({
 // Redirect customer to checkout
 window.location.href = payment.checkoutUrl;
 ```
+
+> **Note:** When you register at [settlr.dev/onboarding](https://settlr.dev/onboarding), your wallet address is linked to your API key. The SDK automatically fetches it - no need to include it in your code!
 
 ### 3. Drop-in Buy Button ⭐ NEW
 
@@ -64,7 +66,7 @@ function App() {
     <SettlrProvider
       config={{
         apiKey: "sk_live_xxxxxxxxxxxx",
-        merchant: { name: "GameStore", walletAddress: "YOUR_WALLET" },
+        merchant: { name: "GameStore" }, // Wallet fetched from API key
       }}
     >
       <BuyButton
@@ -120,7 +122,7 @@ function App() {
         apiKey: "sk_live_xxxxxxxxxxxx",
         merchant: {
           name: "My Game",
-          walletAddress: "YOUR_WALLET",
+          // walletAddress optional - linked to your API key
         },
       }}
     >
@@ -245,9 +247,10 @@ Main client class.
 
 ```typescript
 interface SettlrConfig {
+  apiKey: string; // Required: your API key from dashboard
   merchant: {
     name: string;
-    walletAddress: string;
+    walletAddress?: string; // Optional: auto-fetched from API key
     logoUrl?: string;
     webhookUrl?: string;
   };
@@ -256,6 +259,8 @@ interface SettlrConfig {
   testMode?: boolean;
 }
 ```
+
+> **Tip:** When you register at [settlr.dev/onboarding](https://settlr.dev/onboarding), your wallet address is linked to your API key. You don't need to specify it in the config!
 
 #### Methods
 

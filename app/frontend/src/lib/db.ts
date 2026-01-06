@@ -672,18 +672,7 @@ export async function validateApiKey(rawKey: string): Promise<{
     rateLimit?: number;
     error?: string;
 }> {
-    // Check for test keys in dev mode
-    if (rawKey.startsWith("sk_test_")) {
-        return {
-            valid: true,
-            merchantId: "test_merchant",
-            merchantWallet: undefined, // Test keys still need wallet from SDK config
-            merchantName: undefined,
-            tier: "free",
-            rateLimit: 60,
-        };
-    }
-
+    // All API keys (test and live) should be looked up in the database
     if (isSupabaseConfigured()) {
         const keyHash = hashApiKey(rawKey);
 
