@@ -107,47 +107,51 @@ export default function LandingPage() {
               transition={{ delay: 0.2 }}
               className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 mb-8"
             >
-              <Gamepad2 className="w-4 h-4 text-[#67e8f9]" />
+              <Zap className="w-4 h-4 text-[#34d399]" />
               <span className="text-sm text-white/70">
-                Built for Crypto Gaming
+                No wallet required for your customers
               </span>
             </motion.div>
 
             {/* Main headline */}
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight">
-              The Payment Processor
+              Accept Crypto Payments
               <br />
               <span className="bg-gradient-to-r from-[#f472b6] via-[#c084fc] to-[#67e8f9] bg-clip-text text-transparent">
-                Built for Crypto Gaming
+                Without Wallets
               </span>
             </h1>
 
             {/* Value proposition */}
             <p className="text-xl md:text-2xl text-white/70 mb-8 max-w-3xl mx-auto leading-relaxed">
-              Accept deposits at{" "}
-              <span className="text-[#34d399] font-semibold">
-                lower cost than Stripe
+              Customers pay with{" "}
+              <span className="text-[#67e8f9] font-semibold">
+                just their email
               </span>
-              . Pay winners instantly. Stay compliant.
+              . You get USDC instantly.
+              <br />
+              <span className="text-white/50">
+                No wallets. No gas fees. No blockchain complexity.
+              </span>
             </p>
 
             {/* Key stats inline */}
             <div className="flex flex-wrap justify-center gap-6 mb-12 text-sm">
               <div className="flex items-center gap-2 text-white/60">
                 <Check className="w-4 h-4 text-[#34d399]" />
-                <span>2% flat vs 2.9% + 30¢</span>
+                <span>Email checkout</span>
               </div>
               <div className="flex items-center gap-2 text-white/60">
                 <Check className="w-4 h-4 text-[#34d399]" />
-                <span>Instant payouts</span>
+                <span>Zero gas fees</span>
               </div>
               <div className="flex items-center gap-2 text-white/60">
                 <Check className="w-4 h-4 text-[#34d399]" />
-                <span>No chargebacks</span>
+                <span>Instant settlement</span>
               </div>
               <div className="flex items-center gap-2 text-white/60">
                 <Check className="w-4 h-4 text-[#34d399]" />
-                <span>Global reach</span>
+                <span>2% flat fee</span>
               </div>
             </div>
 
@@ -160,16 +164,15 @@ export default function LandingPage() {
                 <div className="absolute inset-0 bg-gradient-to-r from-[#f472b6] to-[#67e8f9] opacity-90 group-hover:opacity-100 transition-opacity" />
                 <div className="absolute inset-0 bg-gradient-to-r from-[#f472b6] to-[#67e8f9] blur-xl opacity-50 group-hover:opacity-70 transition-opacity" />
                 <span className="relative z-10 flex items-center gap-2 text-white">
-                  See Live Demo
+                  Try the Checkout
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </span>
               </Link>
               <Link
-                href="/docs"
+                href="/onboarding"
                 className="px-8 py-4 rounded-xl font-semibold text-lg border border-white/20 text-white hover:bg-white/10 transition-all flex items-center gap-2"
               >
-                <Code className="w-5 h-5" />
-                View API Docs
+                Get Your API Key
               </Link>
             </div>
           </motion.div>

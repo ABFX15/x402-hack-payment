@@ -4,7 +4,7 @@
 [![npm downloads](https://img.shields.io/npm/dm/@settlr/sdk.svg)](https://www.npmjs.com/package/@settlr/sdk)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
-> **Settlr** - Accept Solana USDC payments in games and apps. Email checkout, gasless transactions, no wallet required.
+> **Accept crypto payments without wallets.** Customers pay with email. You get USDC instantly.
 
 🌐 **Website:** [settlr.dev](https://settlr.dev)  
 📖 **Docs:** [settlr.dev/docs](https://settlr.dev/docs)  
@@ -12,11 +12,11 @@
 
 ## Why Settlr?
 
-- ✅ **No wallet required** - Users pay with just an email
-- ✅ **Gasless transactions** - No SOL needed for fees
-- ✅ **USDC on Solana** - Fast, cheap, stable payments
-- ✅ **Drop-in components** - React components ready to use
-- ✅ **Gaming focused** - Built for in-game purchases
+- ✅ **No wallet required** - Customers pay with just an email
+- ✅ **Zero gas fees** - No SOL needed, ever
+- ✅ **Instant settlement** - USDC direct to your wallet
+- ✅ **One component** - Drop-in React `<BuyButton>`
+- ✅ **2% flat fee** - No hidden costs
 
 ## Installation
 

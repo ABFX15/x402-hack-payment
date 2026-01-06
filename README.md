@@ -3,9 +3,10 @@
 [![npm version](https://img.shields.io/npm/v/@settlr/sdk.svg)](https://www.npmjs.com/package/@settlr/sdk)
 [![License: ISC](https://img.shields.io/badge/License-ISC-blue.svg)](https://opensource.org/licenses/ISC)
 
-**Accept USDC payments on Solana in 5 minutes.**
+**Accept crypto payments without wallets.**
 
-No wallet adapter setup. No transaction building. No gas fees for your users.
+Customers pay with just their email. You get USDC instantly.  
+No wallets. No gas fees. No blockchain complexity.
 
 ```bash
 npm install @settlr/sdk
