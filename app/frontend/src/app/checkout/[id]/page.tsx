@@ -84,7 +84,7 @@ export default function CheckoutSessionPage() {
   // Loading state
   if (status === "loading" || status === "redirecting") {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#0a0a12]">
+      <div className="min-h-screen flex items-center justify-center bg-[#0a0a0f]">
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -104,7 +104,7 @@ export default function CheckoutSessionPage() {
   // Error state
   if (status === "error") {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#0a0a12] p-4">
+      <div className="min-h-screen flex items-center justify-center bg-[#0a0a0f] p-4">
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -130,7 +130,7 @@ export default function CheckoutSessionPage() {
   // Expired state
   if (status === "expired") {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#0a0a12] p-4">
+      <div className="min-h-screen flex items-center justify-center bg-[#0a0a0f] p-4">
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -171,7 +171,7 @@ export default function CheckoutSessionPage() {
   // Completed state
   if (status === "completed") {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#0a0a12] p-4">
+      <div className="min-h-screen flex items-center justify-center bg-[#0a0a0f] p-4">
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}

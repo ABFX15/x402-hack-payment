@@ -126,7 +126,7 @@ export default function DashboardPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0a0a12] text-white p-8 pt-32">
+    <div className="min-h-screen bg-[#0a0a0f] text-white p-8 pt-32">
       <div className="max-w-7xl mx-auto">
         {/* Header with Visa News Banner */}
         <motion.div
@@ -148,7 +148,7 @@ export default function DashboardPage() {
                 <motion.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className="px-6 py-3 bg-gradient-to-r from-[#f472b6] to-[#67e8f9] text-white font-semibold rounded-xl flex items-center gap-2"
+                  className="px-6 py-3 bg-gradient-to-r from-[#a855f7] to-[#22d3ee] text-white font-semibold rounded-xl flex items-center gap-2"
                 >
                   <Zap className="w-4 h-4" />
                   Create Payment
@@ -178,7 +178,7 @@ export default function DashboardPage() {
                 maximumFractionDigits: 2,
               })}`,
               icon: DollarSign,
-              color: "from-emerald-500 to-emerald-600",
+              color: "from-purple-500 to-purple-600",
               change: "+12.5%",
             },
             {
@@ -216,7 +216,7 @@ export default function DashboardPage() {
                 >
                   <stat.icon className="w-5 h-5 text-white" />
                 </div>
-                <span className="text-emerald-400 text-sm font-medium flex items-center gap-1">
+                <span className="text-cyan-400 text-sm font-medium flex items-center gap-1">
                   <ArrowUpRight className="w-3 h-3" />
                   {stat.change}
                 </span>
@@ -244,7 +244,7 @@ export default function DashboardPage() {
               icon: RefreshCw,
               href: "/dashboard/subscriptions",
               color:
-                "bg-pink-500/10 border-pink-500/30 hover:border-pink-500/50",
+                "bg-purple-500/10 border-purple-500/30 hover:border-purple-500/50",
             },
             {
               title: "Webhooks",
@@ -260,7 +260,7 @@ export default function DashboardPage() {
               icon: Key,
               href: "/dashboard/api-keys",
               color:
-                "bg-emerald-500/10 border-emerald-500/30 hover:border-emerald-500/50",
+                "bg-purple-500/10 border-purple-500/30 hover:border-purple-500/50",
             },
             {
               title: "Gasless Payments",
@@ -328,7 +328,7 @@ export default function DashboardPage() {
               </p>
               <button
                 onClick={login}
-                className="px-6 py-3 bg-gradient-to-r from-[#f472b6] to-[#67e8f9] text-white font-semibold rounded-xl flex items-center gap-2 mx-auto"
+                className="px-6 py-3 bg-gradient-to-r from-[#a855f7] to-[#22d3ee] text-white font-semibold rounded-xl flex items-center gap-2 mx-auto"
               >
                 <LogIn className="w-4 h-4" />
                 Sign In
@@ -378,7 +378,7 @@ export default function DashboardPage() {
                             className="text-zinc-500 hover:text-white"
                           >
                             {copied === `id-${payment.id}` ? (
-                              <Check className="w-4 h-4 text-emerald-400" />
+                              <Check className="w-4 h-4 text-cyan-400" />
                             ) : (
                               <Copy className="w-4 h-4" />
                             )}
@@ -400,7 +400,7 @@ export default function DashboardPage() {
                         <span
                           className={`px-2 py-1 rounded-full text-xs font-medium ${
                             payment.status === "completed"
-                              ? "bg-emerald-500/20 text-emerald-400"
+                              ? "bg-purple-500/20 text-cyan-400"
                               : payment.status === "refunded"
                               ? "bg-amber-500/20 text-amber-400"
                               : "bg-zinc-500/20 text-zinc-400"
@@ -462,7 +462,7 @@ export default function DashboardPage() {
             >
               {copied === "code" ? (
                 <>
-                  <Check className="w-4 h-4 text-emerald-400" /> Copied!
+                  <Check className="w-4 h-4 text-cyan-400" /> Copied!
                 </>
               ) : (
                 <>

@@ -24,7 +24,7 @@ export default function DemoPage() {
             className="block p-6 bg-[var(--card-bg)] rounded-2xl border border-[var(--border-color)] hover:border-[var(--accent-primary)] transition-all group"
           >
             <div className="flex items-start gap-4">
-              <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-[var(--accent-primary)] to-pink-600 flex items-center justify-center text-2xl">
+              <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-[var(--accent-primary)] to-purple-600 flex items-center justify-center text-2xl">
                 🎮
               </div>
               <div className="flex-1">
@@ -71,7 +71,7 @@ export default function DemoPage() {
             className="block p-6 bg-[var(--card-bg)] rounded-2xl border border-[var(--border-color)] hover:border-[var(--accent-primary)] transition-all group"
           >
             <div className="flex items-start gap-4">
-              <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-green-500 to-emerald-500 flex items-center justify-center text-2xl">
+              <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-green-500 to-cyan-500 flex items-center justify-center text-2xl">
                 🔗
               </div>
               <div className="flex-1">

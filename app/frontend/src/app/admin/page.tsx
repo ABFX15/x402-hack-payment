@@ -285,16 +285,16 @@ export default function AdminDashboardPage() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mb-8 p-6 rounded-2xl bg-gradient-to-r from-emerald-500/10 to-teal-500/10 border border-emerald-500/20"
+          className="mb-8 p-6 rounded-2xl bg-gradient-to-r from-cyan-500/10 to-teal-500/10 border border-cyan-500/20"
         >
           <div className="flex items-start gap-4">
-            <div className="w-12 h-12 rounded-xl bg-emerald-500/20 flex items-center justify-center flex-shrink-0">
-              <Users className="w-6 h-6 text-emerald-400" />
+            <div className="w-12 h-12 rounded-xl bg-cyan-500/20 flex items-center justify-center flex-shrink-0">
+              <Users className="w-6 h-6 text-cyan-400" />
             </div>
             <div className="flex-1">
               <h2 className="text-lg font-bold text-white mb-1 flex items-center gap-2">
                 Protected by Squads Multisig
-                <Lock className="w-4 h-4 text-emerald-400" />
+                <Lock className="w-4 h-4 text-cyan-400" />
               </h2>
               <p className="text-sm text-slate-400 mb-3">
                 Platform authority is controlled by a Squads multisig. Fee
@@ -305,7 +305,7 @@ export default function AdminDashboardPage() {
                   href={`https://devnet.squads.so/squads/${SQUADS_VAULT.toBase58()}/home`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-500/20 text-emerald-300 hover:bg-emerald-500/30 transition-colors text-sm font-medium"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-cyan-500/20 text-cyan-300 hover:bg-cyan-500/30 transition-colors text-sm font-medium"
                 >
                   <ExternalLink className="w-4 h-4" />
                   Open Squads Dashboard
@@ -372,8 +372,8 @@ export default function AdminDashboardPage() {
             className="rounded-2xl bg-white/5 border border-white/10 p-6"
           >
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-12 h-12 rounded-xl bg-emerald-500/20 flex items-center justify-center">
-                <TrendingUp className="w-6 h-6 text-emerald-400" />
+              <div className="w-12 h-12 rounded-xl bg-cyan-500/20 flex items-center justify-center">
+                <TrendingUp className="w-6 h-6 text-cyan-400" />
               </div>
               <div>
                 <p className="text-sm text-slate-400">Platform Fee</p>
@@ -577,7 +577,7 @@ export default function AdminDashboardPage() {
               </div>
             </div>
             <div className="flex gap-4">
-              <div className="w-8 h-8 rounded-full bg-emerald-500/20 flex items-center justify-center flex-shrink-0 text-emerald-400 font-bold">
+              <div className="w-8 h-8 rounded-full bg-cyan-500/20 flex items-center justify-center flex-shrink-0 text-cyan-400 font-bold">
                 4
               </div>
               <div>

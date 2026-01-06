@@ -75,14 +75,14 @@ export default function MerchantPage() {
 
   if (!connected) {
     return (
-      <div className="min-h-screen flex items-center justify-center p-4 bg-[#0a0a12]">
+      <div className="min-h-screen flex items-center justify-center p-4 bg-[#0a0a0f]">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="bg-zinc-900 border border-zinc-800 rounded-2xl p-8 text-center max-w-md"
         >
-          <div className="w-16 h-16 rounded-full bg-[#f472b6]/10 flex items-center justify-center mx-auto mb-6">
-            <Wallet className="w-8 h-8 text-[#f472b6]" />
+          <div className="w-16 h-16 rounded-full bg-[#a855f7]/10 flex items-center justify-center mx-auto mb-6">
+            <Wallet className="w-8 h-8 text-[#a855f7]" />
           </div>
           <h2 className="text-2xl font-bold text-white mb-4">
             Become a Merchant
@@ -93,7 +93,7 @@ export default function MerchantPage() {
           </p>
           <button
             onClick={login}
-            className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#f472b6] to-[#67e8f9] text-white font-semibold rounded-xl"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#a855f7] to-[#22d3ee] text-white font-semibold rounded-xl"
           >
             <LogIn className="w-4 h-4" />
             Sign In
@@ -104,14 +104,14 @@ export default function MerchantPage() {
   }
 
   return (
-    <div className="min-h-screen py-12 px-4 pt-32 bg-[#0a0a12]">
+    <div className="min-h-screen py-12 px-4 pt-32 bg-[#0a0a0f]">
       <div className="max-w-3xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-12"
         >
-          <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#f472b6] to-[#67e8f9] flex items-center justify-center mx-auto mb-6">
+          <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#a855f7] to-[#22d3ee] flex items-center justify-center mx-auto mb-6">
             <Store className="w-8 h-8 text-white" />
           </div>
           <h1 className="text-4xl font-bold text-white mb-4">Merchant Setup</h1>
@@ -131,7 +131,7 @@ export default function MerchantPage() {
             Your Merchant Wallet
           </h2>
           <div className="flex items-center gap-3 bg-zinc-800 rounded-xl p-4">
-            <code className="text-[#67e8f9] font-mono text-sm flex-1 break-all">
+            <code className="text-[#22d3ee] font-mono text-sm flex-1 break-all">
               {publicKey}
             </code>
             <button
@@ -139,7 +139,7 @@ export default function MerchantPage() {
               className="p-2 hover:bg-zinc-700 rounded-lg transition-colors"
             >
               {copied === "wallet" ? (
-                <Check className="w-5 h-5 text-emerald-400" />
+                <Check className="w-5 h-5 text-cyan-400" />
               ) : (
                 <Copy className="w-5 h-5 text-zinc-400" />
               )}
@@ -180,7 +180,7 @@ export default function MerchantPage() {
           </div>
 
           <Link href={`/offramp?wallet=${publicKey}&amount=${balance || ""}`}>
-            <button className="w-full py-3 bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-semibold rounded-xl flex items-center justify-center gap-2 hover:opacity-90 transition-opacity">
+            <button className="w-full py-3 bg-gradient-to-r from-cyan-500 to-teal-500 text-white font-semibold rounded-xl flex items-center justify-center gap-2 hover:opacity-90 transition-opacity">
               <Banknote className="w-5 h-5" />
               Cash Out to Bank
             </button>
@@ -219,11 +219,11 @@ export default function MerchantPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.25 }}
               whileHover={{ scale: 1.02 }}
-              className="bg-zinc-900 border border-zinc-800 hover:border-[#f472b6]/50 rounded-2xl p-6 cursor-pointer transition-all"
+              className="bg-zinc-900 border border-zinc-800 hover:border-[#a855f7]/50 rounded-2xl p-6 cursor-pointer transition-all"
             >
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-xl bg-[#f472b6]/20 flex items-center justify-center">
-                  <Zap className="w-6 h-6 text-[#f472b6]" />
+                <div className="w-12 h-12 rounded-xl bg-[#a855f7]/20 flex items-center justify-center">
+                  <Zap className="w-6 h-6 text-[#a855f7]" />
                 </div>
                 <div>
                   <h3 className="text-white font-semibold">
@@ -243,11 +243,11 @@ export default function MerchantPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
               whileHover={{ scale: 1.02 }}
-              className="bg-zinc-900 border border-zinc-800 hover:border-[#67e8f9]/50 rounded-2xl p-6 cursor-pointer transition-all"
+              className="bg-zinc-900 border border-zinc-800 hover:border-[#22d3ee]/50 rounded-2xl p-6 cursor-pointer transition-all"
             >
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-xl bg-[#67e8f9]/20 flex items-center justify-center">
-                  <Code className="w-6 h-6 text-[#67e8f9]" />
+                <div className="w-12 h-12 rounded-xl bg-[#22d3ee]/20 flex items-center justify-center">
+                  <Code className="w-6 h-6 text-[#22d3ee]" />
                 </div>
                 <div>
                   <h3 className="text-white font-semibold">Integration Docs</h3>
@@ -272,8 +272,8 @@ export default function MerchantPage() {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="text-center">
-              <div className="w-12 h-12 rounded-xl bg-emerald-500/20 flex items-center justify-center mx-auto mb-3">
-                <Shield className="w-6 h-6 text-emerald-400" />
+              <div className="w-12 h-12 rounded-xl bg-cyan-500/20 flex items-center justify-center mx-auto mb-3">
+                <Shield className="w-6 h-6 text-cyan-400" />
               </div>
               <h3 className="text-white font-medium mb-1">
                 Instant Settlement
@@ -311,14 +311,14 @@ export default function MerchantPage() {
           className="mt-6 text-center"
         >
           <p className="text-zinc-500">
-            <span className="text-[#f472b6] font-semibold">
+            <span className="text-[#a855f7] font-semibold">
               1% transaction fee
             </span>{" "}
             · No monthly fees · No setup costs
           </p>
           <Link
             href="/pricing"
-            className="text-[#67e8f9] hover:underline text-sm mt-2 inline-block"
+            className="text-[#22d3ee] hover:underline text-sm mt-2 inline-block"
           >
             View full pricing →
           </Link>

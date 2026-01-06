@@ -56,7 +56,7 @@ export default function WaitlistPage() {
             </Link>
             <Link
               href="/demo/store"
-              className="px-4 py-2 rounded-lg bg-gradient-to-r from-[#f472b6] to-[#67e8f9] text-white text-sm font-medium"
+              className="px-4 py-2 rounded-lg bg-gradient-to-r from-[#a855f7] to-[#22d3ee] text-white text-sm font-medium"
             >
               Try Demo
             </Link>
@@ -74,7 +74,7 @@ export default function WaitlistPage() {
           >
             <h1 className="text-4xl md:text-5xl font-bold mb-4">
               Get Started with{" "}
-              <span className="bg-gradient-to-r from-[#f472b6] to-[#67e8f9] text-transparent bg-clip-text">
+              <span className="bg-gradient-to-r from-[#a855f7] to-[#22d3ee] text-transparent bg-clip-text">
                 Settlr
               </span>
             </h1>
@@ -110,7 +110,7 @@ export default function WaitlistPage() {
               </p>
               <Link
                 href="/demo/store"
-                className="inline-block px-6 py-3 rounded-lg bg-gradient-to-r from-[#f472b6] to-[#67e8f9] text-white font-medium"
+                className="inline-block px-6 py-3 rounded-lg bg-gradient-to-r from-[#a855f7] to-[#22d3ee] text-white font-medium"
               >
                 Try the Demo
               </Link>
@@ -133,7 +133,7 @@ export default function WaitlistPage() {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="Your name"
-                  className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder:text-white/30 focus:outline-none focus:border-[#f472b6]/50"
+                  className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder:text-white/30 focus:outline-none focus:border-[#a855f7]/50"
                 />
               </div>
 
@@ -147,7 +147,7 @@ export default function WaitlistPage() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="you@company.com"
-                  className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder:text-white/30 focus:outline-none focus:border-[#f472b6]/50"
+                  className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder:text-white/30 focus:outline-none focus:border-[#a855f7]/50"
                 />
               </div>
 
@@ -160,7 +160,7 @@ export default function WaitlistPage() {
                   value={company}
                   onChange={(e) => setCompany(e.target.value)}
                   placeholder="Your company (optional)"
-                  className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder:text-white/30 focus:outline-none focus:border-[#f472b6]/50"
+                  className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder:text-white/30 focus:outline-none focus:border-[#a855f7]/50"
                 />
               </div>
 
@@ -173,14 +173,14 @@ export default function WaitlistPage() {
                   onChange={(e) => setUseCase(e.target.value)}
                   placeholder="Tell us about your project and how you plan to use Settlr..."
                   rows={4}
-                  className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder:text-white/30 focus:outline-none focus:border-[#f472b6]/50 resize-none"
+                  className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder:text-white/30 focus:outline-none focus:border-[#a855f7]/50 resize-none"
                 />
               </div>
 
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full py-4 rounded-lg bg-gradient-to-r from-[#f472b6] to-[#67e8f9] text-white font-semibold hover:opacity-90 transition-opacity disabled:opacity-50"
+                className="w-full py-4 rounded-lg bg-gradient-to-r from-[#a855f7] to-[#22d3ee] text-white font-semibold hover:opacity-90 transition-opacity disabled:opacity-50"
               >
                 {loading ? "Submitting..." : "Submit Request"}
               </button>
@@ -189,7 +189,7 @@ export default function WaitlistPage() {
                 Or{" "}
                 <Link
                   href="/demo/store"
-                  className="text-[#f472b6] hover:underline"
+                  className="text-[#a855f7] hover:underline"
                 >
                   try the demo
                 </Link>{" "}

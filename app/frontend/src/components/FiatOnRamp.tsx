@@ -37,7 +37,7 @@ export function FiatOnRamp({
       walletAddress,
       baseCurrencyAmount: amount.toString(),
       baseCurrencyCode: "usd",
-      colorCode: "#f472b6", // Pink accent to match your theme
+      colorCode: "#a855f7", // Pink accent to match your theme
       theme: "dark",
     });
 
@@ -61,7 +61,7 @@ export function FiatOnRamp({
       {/* Trigger Button */}
       <button
         onClick={handleOpen}
-        className="w-full flex items-center justify-center gap-2 py-3 px-4 bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white font-semibold rounded-xl transition-all duration-200 shadow-lg hover:shadow-pink-500/25"
+        className="w-full flex items-center justify-center gap-2 py-3 px-4 bg-gradient-to-r from-purple-500 to-purple-500 hover:from-purple-600 hover:to-purple-600 text-white font-semibold rounded-xl transition-all duration-200 shadow-lg hover:shadow-purple-500/25"
       >
         <CreditCard className="w-5 h-5" />
         Buy USDC with Card
@@ -87,7 +87,7 @@ export function FiatOnRamp({
               {/* Header */}
               <div className="flex items-center justify-between p-4 border-b border-zinc-800">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-gradient-to-r from-pink-500 to-purple-500 flex items-center justify-center">
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-r from-purple-500 to-purple-500 flex items-center justify-center">
                     <CreditCard className="w-5 h-5 text-white" />
                   </div>
                   <div>
@@ -119,7 +119,7 @@ export function FiatOnRamp({
                       onClick={() => setAmount(amt)}
                       className={`flex-1 py-2 px-3 rounded-lg text-sm font-medium transition-colors ${
                         amount === amt
-                          ? "bg-pink-500 text-white"
+                          ? "bg-purple-500 text-white"
                           : "bg-zinc-800 text-zinc-400 hover:bg-zinc-700"
                       }`}
                     >
@@ -133,7 +133,7 @@ export function FiatOnRamp({
                   onChange={(e) => setAmount(Number(e.target.value))}
                   min={10}
                   max={10000}
-                  className="w-full px-4 py-3 bg-zinc-800 border border-zinc-700 rounded-xl text-white text-lg font-medium focus:outline-none focus:ring-2 focus:ring-pink-500"
+                  className="w-full px-4 py-3 bg-zinc-800 border border-zinc-700 rounded-xl text-white text-lg font-medium focus:outline-none focus:ring-2 focus:ring-purple-500"
                 />
               </div>
 
@@ -142,7 +142,7 @@ export function FiatOnRamp({
                 {isLoading && (
                   <div className="absolute inset-0 flex items-center justify-center bg-zinc-900">
                     <div className="text-center">
-                      <Loader2 className="w-8 h-8 text-pink-500 animate-spin mx-auto mb-2" />
+                      <Loader2 className="w-8 h-8 text-purple-500 animate-spin mx-auto mb-2" />
                       <p className="text-zinc-400">Loading payment...</p>
                     </div>
                   </div>
@@ -209,7 +209,7 @@ export function BuyUSDCButton({
   return (
     <button
       onClick={() => setShowOnRamp(true)}
-      className={`flex items-center gap-2 py-2 px-4 bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white font-medium rounded-lg transition-all ${className}`}
+      className={`flex items-center gap-2 py-2 px-4 bg-gradient-to-r from-purple-500 to-purple-500 hover:from-purple-600 hover:to-purple-600 text-white font-medium rounded-lg transition-all ${className}`}
     >
       <CreditCard className="w-4 h-4" />
       Buy USDC

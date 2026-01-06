@@ -509,9 +509,9 @@ export default function CheckoutClient({ searchParams }: CheckoutClientProps) {
   // Loading step
   if (step === "loading") {
     return (
-      <div className="min-h-screen bg-[#0a0a12] flex items-center justify-center p-4">
+      <div className="min-h-screen bg-[#0a0a0f] flex items-center justify-center p-4">
         <div className="text-center">
-          <Loader2 className="w-12 h-12 text-pink-500 animate-spin mx-auto mb-4" />
+          <Loader2 className="w-12 h-12 text-purple-500 animate-spin mx-auto mb-4" />
           <p className="text-zinc-400">Loading checkout...</p>
         </div>
       </div>
@@ -521,7 +521,7 @@ export default function CheckoutClient({ searchParams }: CheckoutClientProps) {
   // Auth step - login with email/social
   if (step === "auth") {
     return (
-      <div className="min-h-screen bg-[#0a0a12] flex items-center justify-center p-4">
+      <div className="min-h-screen bg-[#0a0a0f] flex items-center justify-center p-4">
         {/* Close/Back button */}
         <button
           onClick={() => {
@@ -561,14 +561,14 @@ export default function CheckoutClient({ searchParams }: CheckoutClientProps) {
 
               {!ready ? (
                 <div className="flex justify-center py-8">
-                  <Loader2 className="w-8 h-8 text-pink-500 animate-spin" />
+                  <Loader2 className="w-8 h-8 text-purple-500 animate-spin" />
                 </div>
               ) : (
                 <div className="space-y-3">
                   {/* Connect existing wallet - Using login with wallet */}
                   <button
                     onClick={() => login({ loginMethods: ["wallet"] })}
-                    className="w-full py-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold rounded-xl flex items-center justify-center gap-3 hover:opacity-90 transition-opacity"
+                    className="w-full py-4 bg-gradient-to-r from-purple-500 to-purple-500 text-white font-semibold rounded-xl flex items-center justify-center gap-3 hover:opacity-90 transition-opacity"
                   >
                     <Wallet className="w-5 h-5" />
                     Connect Wallet (Phantom/Solflare)
@@ -614,7 +614,7 @@ export default function CheckoutClient({ searchParams }: CheckoutClientProps) {
 
           <p className="text-center text-zinc-600 text-xs mt-6">
             Powered by{" "}
-            <Link href="/" className="text-pink-400 hover:text-pink-300">
+            <Link href="/" className="text-purple-400 hover:text-purple-300">
               Settlr
             </Link>
           </p>
@@ -626,7 +626,7 @@ export default function CheckoutClient({ searchParams }: CheckoutClientProps) {
   // Wallet creation step
   if (step === "wallet") {
     return (
-      <div className="min-h-screen bg-[#0a0a12] flex items-center justify-center p-4 relative">
+      <div className="min-h-screen bg-[#0a0a0f] flex items-center justify-center p-4 relative">
         {/* Close/Back button */}
         <button
           onClick={() => {
@@ -646,7 +646,7 @@ export default function CheckoutClient({ searchParams }: CheckoutClientProps) {
         >
           <div className="bg-zinc-900/80 backdrop-blur-xl rounded-3xl border border-zinc-800 p-6">
             <div className="text-center mb-6">
-              <div className="w-16 h-16 rounded-full bg-gradient-to-r from-pink-500 to-cyan-500 flex items-center justify-center mx-auto mb-4">
+              <div className="w-16 h-16 rounded-full bg-gradient-to-r from-purple-500 to-cyan-500 flex items-center justify-center mx-auto mb-4">
                 <Wallet className="w-8 h-8 text-white" />
               </div>
               <h2 className="text-2xl font-bold text-white mb-2">
@@ -666,7 +666,7 @@ export default function CheckoutClient({ searchParams }: CheckoutClientProps) {
             <button
               onClick={handleCreateWallet}
               disabled={creatingWallet}
-              className="w-full py-4 bg-gradient-to-r from-pink-500 to-cyan-500 text-white font-semibold rounded-xl flex items-center justify-center gap-3 hover:opacity-90 transition-opacity disabled:opacity-50"
+              className="w-full py-4 bg-gradient-to-r from-purple-500 to-cyan-500 text-white font-semibold rounded-xl flex items-center justify-center gap-3 hover:opacity-90 transition-opacity disabled:opacity-50"
             >
               {creatingWallet ? (
                 <>
@@ -691,7 +691,7 @@ export default function CheckoutClient({ searchParams }: CheckoutClientProps) {
     const hasEnoughBalance = balance !== null && balance >= amount;
 
     return (
-      <div className="min-h-screen bg-[#0a0a12] flex items-center justify-center p-4 relative">
+      <div className="min-h-screen bg-[#0a0a0f] flex items-center justify-center p-4 relative">
         {/* Close/Back button */}
         <button
           onClick={() => {
@@ -718,7 +718,7 @@ export default function CheckoutClient({ searchParams }: CheckoutClientProps) {
             {/* User info */}
             <div className="flex items-center justify-between mb-6 p-3 bg-zinc-800/50 rounded-xl">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-pink-500 to-cyan-500 flex items-center justify-center">
+                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-cyan-500 flex items-center justify-center">
                   <Mail className="w-5 h-5 text-white" />
                 </div>
                 <div>
@@ -739,7 +739,7 @@ export default function CheckoutClient({ searchParams }: CheckoutClientProps) {
             {/* Wallet info */}
             {activeWallet && (
               <div className="flex items-center gap-3 mb-6 p-3 bg-zinc-800/50 rounded-xl">
-                <Wallet className="w-5 h-5 text-pink-400" />
+                <Wallet className="w-5 h-5 text-purple-400" />
                 <div className="flex-1 min-w-0">
                   <p className="text-zinc-400 text-xs">
                     {isExternalWallet ? "Connected Wallet" : "Your Wallet"}
@@ -752,7 +752,7 @@ export default function CheckoutClient({ searchParams }: CheckoutClientProps) {
                 <div className="text-right">
                   <p className="text-zinc-400 text-xs">Balance</p>
                   {loadingBalance ? (
-                    <Loader2 className="w-4 h-4 text-pink-400 animate-spin" />
+                    <Loader2 className="w-4 h-4 text-purple-400 animate-spin" />
                   ) : (
                     <p
                       className={`text-sm font-medium ${
@@ -841,7 +841,7 @@ export default function CheckoutClient({ searchParams }: CheckoutClientProps) {
                         address: activeWallet.address,
                       });
                     }}
-                    className="w-full flex items-center justify-center gap-2 py-3 px-4 bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white font-semibold rounded-xl transition-all duration-200 shadow-lg hover:shadow-pink-500/25 mb-3"
+                    className="w-full flex items-center justify-center gap-2 py-3 px-4 bg-gradient-to-r from-purple-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white font-semibold rounded-xl transition-all duration-200 shadow-lg hover:shadow-purple-500/25 mb-3"
                   >
                     <CreditCard className="w-5 h-5" />
                     Add Funds
@@ -890,7 +890,7 @@ export default function CheckoutClient({ searchParams }: CheckoutClientProps) {
                 hasEnoughBalance && !loadingBalance
                   ? useGasless && gaslessAvailable
                     ? "bg-gradient-to-r from-emerald-500 to-cyan-500 text-white hover:opacity-90"
-                    : "bg-gradient-to-r from-pink-500 to-cyan-500 text-white hover:opacity-90"
+                    : "bg-gradient-to-r from-purple-500 to-cyan-500 text-white hover:opacity-90"
                   : "bg-zinc-700 text-zinc-400 cursor-not-allowed"
               }`}
             >
@@ -922,13 +922,13 @@ export default function CheckoutClient({ searchParams }: CheckoutClientProps) {
   // Processing step
   if (step === "processing") {
     return (
-      <div className="min-h-screen bg-[#0a0a12] flex items-center justify-center p-4">
+      <div className="min-h-screen bg-[#0a0a0f] flex items-center justify-center p-4">
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           className="text-center"
         >
-          <div className="w-20 h-20 rounded-full bg-gradient-to-r from-pink-500 to-cyan-500 flex items-center justify-center mx-auto mb-6">
+          <div className="w-20 h-20 rounded-full bg-gradient-to-r from-purple-500 to-cyan-500 flex items-center justify-center mx-auto mb-6">
             <Loader2 className="w-10 h-10 text-white animate-spin" />
           </div>
           <h2 className="text-2xl font-bold text-white mb-2">
@@ -945,7 +945,7 @@ export default function CheckoutClient({ searchParams }: CheckoutClientProps) {
   // Success step
   if (step === "success") {
     return (
-      <div className="min-h-screen bg-[#0a0a12] flex items-center justify-center p-4">
+      <div className="min-h-screen bg-[#0a0a0f] flex items-center justify-center p-4">
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -966,7 +966,7 @@ export default function CheckoutClient({ searchParams }: CheckoutClientProps) {
               href={`https://explorer.solana.com/tx/${txSignature}?cluster=devnet`}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-pink-400 hover:text-pink-300 mb-6"
+              className="inline-flex items-center gap-2 text-purple-400 hover:text-purple-300 mb-6"
             >
               View on Solana Explorer
               <ExternalLink className="w-4 h-4" />
@@ -989,7 +989,7 @@ export default function CheckoutClient({ searchParams }: CheckoutClientProps) {
   // Error step
   if (step === "error") {
     return (
-      <div className="min-h-screen bg-[#0a0a12] flex items-center justify-center p-4">
+      <div className="min-h-screen bg-[#0a0a0f] flex items-center justify-center p-4">
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -1009,7 +1009,7 @@ export default function CheckoutClient({ searchParams }: CheckoutClientProps) {
           <div className="space-y-3">
             <button
               onClick={() => setStep("confirm")}
-              className="block w-full py-3 bg-gradient-to-r from-pink-500 to-cyan-500 text-white font-semibold rounded-xl hover:opacity-90 transition-opacity"
+              className="block w-full py-3 bg-gradient-to-r from-purple-500 to-cyan-500 text-white font-semibold rounded-xl hover:opacity-90 transition-opacity"
             >
               Try Again
             </button>

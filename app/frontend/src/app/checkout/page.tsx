@@ -9,9 +9,9 @@ import { Loader2 } from "lucide-react";
 const CheckoutClient = dynamic(() => import("./CheckoutClient"), {
   ssr: false,
   loading: () => (
-    <div className="min-h-screen bg-[#0a0a12] flex items-center justify-center p-4">
+    <div className="min-h-screen bg-[#0a0a0f] flex items-center justify-center p-4">
       <div className="text-center">
-        <Loader2 className="w-12 h-12 text-pink-500 animate-spin mx-auto mb-4" />
+        <Loader2 className="w-12 h-12 text-purple-500 animate-spin mx-auto mb-4" />
         <p className="text-zinc-400">Loading checkout...</p>
       </div>
     </div>
@@ -27,8 +27,8 @@ export default function CheckoutPage() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen bg-[#0a0a12] flex items-center justify-center">
-          <Loader2 className="w-8 h-8 text-pink-500 animate-spin" />
+        <div className="min-h-screen bg-[#0a0a0f] flex items-center justify-center">
+          <Loader2 className="w-8 h-8 text-purple-500 animate-spin" />
         </div>
       }
     >

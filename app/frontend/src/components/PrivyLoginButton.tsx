@@ -26,7 +26,7 @@ export function PrivyLoginButton({ className = "" }: PrivyLoginButtonProps) {
     return (
       <div className={`flex items-center gap-2 ${className}`}>
         <div className="flex items-center gap-2 bg-zinc-800 rounded-xl h-12 px-4">
-          <User className="w-4 h-4 text-pink-400" />
+          <User className="w-4 h-4 text-purple-400" />
           <span className="text-white text-sm">
             {user?.email?.address?.slice(0, 15) || "Connected"}
           </span>
@@ -44,7 +44,7 @@ export function PrivyLoginButton({ className = "" }: PrivyLoginButtonProps) {
   return (
     <button
       onClick={login}
-      className={`flex items-center justify-center gap-2 bg-gradient-to-r from-pink-500 to-cyan-500 text-white font-semibold rounded-xl h-12 px-6 hover:opacity-90 transition-opacity ${className}`}
+      className={`flex items-center justify-center gap-2 bg-gradient-to-r from-purple-500 to-cyan-500 text-white font-semibold rounded-xl h-12 px-6 hover:opacity-90 transition-opacity ${className}`}
     >
       <LogIn className="w-4 h-4" />
       Sign In

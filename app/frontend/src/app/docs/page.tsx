@@ -9,11 +9,11 @@ export default function DocsPage() {
   >("quickstart");
 
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-screen bg-[#0a0a0f] text-white">
       {/* Header */}
-      <header className="border-b border-gray-800">
+      <header className="border-b border-white/10">
         <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-          <Link href="/" className="text-xl font-bold text-emerald-400">
+          <Link href="/" className="text-xl font-bold text-purple-400">
             Settlr
           </Link>
           <div className="flex items-center gap-6">
@@ -44,7 +44,7 @@ export default function DocsPage() {
         </div>
 
         {/* Navigation Tabs */}
-        <div className="flex gap-1 mb-8 border-b border-gray-800">
+        <div className="flex gap-1 mb-8 border-b border-white/10">
           {[
             { id: "quickstart", label: "Quick Start" },
             { id: "react", label: "React SDK" },
@@ -56,7 +56,7 @@ export default function DocsPage() {
               onClick={() => setActiveTab(tab.id as typeof activeTab)}
               className={`px-6 py-3 font-medium transition-colors ${
                 activeTab === tab.id
-                  ? "text-emerald-400 border-b-2 border-emerald-400"
+                  ? "text-purple-400 border-b-2 border-purple-400"
                   : "text-gray-500 hover:text-gray-300"
               }`}
             >
@@ -89,7 +89,7 @@ function QuickStartContent() {
         {/* Step 1 */}
         <div className="mb-8">
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold">
+            <div className="w-8 h-8 rounded-full bg-purple-500/20 text-purple-400 flex items-center justify-center font-bold">
               1
             </div>
             <h3 className="text-xl font-semibold">Install the SDK</h3>
@@ -100,7 +100,7 @@ function QuickStartContent() {
         {/* Step 2 */}
         <div className="mb-8">
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold">
+            <div className="w-8 h-8 rounded-full bg-purple-500/20 text-purple-400 flex items-center justify-center font-bold">
               2
             </div>
             <h3 className="text-xl font-semibold">Create a Payment Button</h3>
@@ -125,7 +125,7 @@ function CheckoutPage() {
         {/* Step 3 */}
         <div className="mb-8">
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold">
+            <div className="w-8 h-8 rounded-full bg-purple-500/20 text-purple-400 flex items-center justify-center font-bold">
               3
             </div>
             <h3 className="text-xl font-semibold">That's It!</h3>
@@ -169,8 +169,8 @@ function ReactSDKContent() {
         </p>
 
         {/* Payment Modal - NEW */}
-        <div className="bg-emerald-500/10 border border-emerald-500/30 rounded-lg p-4 mb-8">
-          <h3 className="text-lg font-semibold text-emerald-400 mb-2">
+        <div className="bg-purple-500/10 border border-purple-500/30 rounded-lg p-4 mb-8">
+          <h3 className="text-lg font-semibold text-purple-400 mb-2">
             ✨ New: Embedded Payment Modal
           </h3>
           <p className="text-gray-400 text-sm">
@@ -346,7 +346,7 @@ function CustomCheckout() {
       <button 
         onClick={handlePayment}
         disabled={status === 'processing'}
-        className="bg-emerald-500 px-6 py-3 rounded-lg"
+        className="bg-gradient-to-r from-purple-500 to-cyan-500 px-6 py-3 rounded-lg"
       >
         {status === 'processing' ? 'Processing...' : 'Pay $25.00'}
       </button>
@@ -370,7 +370,7 @@ function CustomCheckout() {
             </thead>
             <tbody className="divide-y divide-gray-800">
               <tr>
-                <td className="px-4 py-3 font-mono text-emerald-400">
+                <td className="px-4 py-3 font-mono text-purple-400">
                   recipient
                 </td>
                 <td className="px-4 py-3 text-gray-400">string</td>
@@ -379,14 +379,14 @@ function CustomCheckout() {
                 </td>
               </tr>
               <tr>
-                <td className="px-4 py-3 font-mono text-emerald-400">amount</td>
+                <td className="px-4 py-3 font-mono text-purple-400">amount</td>
                 <td className="px-4 py-3 text-gray-400">number</td>
                 <td className="px-4 py-3 text-gray-400">
                   Payment amount in the specified currency
                 </td>
               </tr>
               <tr>
-                <td className="px-4 py-3 font-mono text-emerald-400">
+                <td className="px-4 py-3 font-mono text-purple-400">
                   currency
                 </td>
                 <td className="px-4 py-3 text-gray-400">'USDC' | 'SOL'</td>
@@ -395,7 +395,7 @@ function CustomCheckout() {
                 </td>
               </tr>
               <tr>
-                <td className="px-4 py-3 font-mono text-emerald-400">
+                <td className="px-4 py-3 font-mono text-purple-400">
                   onSuccess
                 </td>
                 <td className="px-4 py-3 text-gray-400">(tx) =&gt; void</td>
@@ -404,7 +404,7 @@ function CustomCheckout() {
                 </td>
               </tr>
               <tr>
-                <td className="px-4 py-3 font-mono text-emerald-400">
+                <td className="px-4 py-3 font-mono text-purple-400">
                   onError
                 </td>
                 <td className="px-4 py-3 text-gray-400">(err) =&gt; void</td>
@@ -413,21 +413,21 @@ function CustomCheckout() {
                 </td>
               </tr>
               <tr>
-                <td className="px-4 py-3 font-mono text-emerald-400">label</td>
+                <td className="px-4 py-3 font-mono text-purple-400">label</td>
                 <td className="px-4 py-3 text-gray-400">string</td>
                 <td className="px-4 py-3 text-gray-400">
                   Button text (default: "Pay with Crypto")
                 </td>
               </tr>
               <tr>
-                <td className="px-4 py-3 font-mono text-emerald-400">memo</td>
+                <td className="px-4 py-3 font-mono text-purple-400">memo</td>
                 <td className="px-4 py-3 text-gray-400">string</td>
                 <td className="px-4 py-3 text-gray-400">
                   Optional memo attached to transaction
                 </td>
               </tr>
               <tr>
-                <td className="px-4 py-3 font-mono text-emerald-400">
+                <td className="px-4 py-3 font-mono text-purple-400">
                   gasless
                 </td>
                 <td className="px-4 py-3 text-gray-400">boolean</td>
@@ -455,13 +455,13 @@ function APIContent() {
         {/* Base URL */}
         <div className="bg-gray-900 rounded-lg p-4 mb-8">
           <p className="text-gray-500 text-sm mb-1">Base URL</p>
-          <code className="text-emerald-400">https://api.settlr.io/v1</code>
+          <code className="text-purple-400">https://api.settlr.io/v1</code>
         </div>
 
         {/* Create Payment */}
-        <div className="border border-gray-800 rounded-lg overflow-hidden mb-6">
+        <div className="border border-white/10 rounded-lg overflow-hidden mb-6">
           <div className="bg-gray-900 px-4 py-3 flex items-center gap-3">
-            <span className="bg-emerald-500/20 text-emerald-400 px-2 py-1 rounded text-sm font-mono">
+            <span className="bg-purple-500/20 text-purple-400 px-2 py-1 rounded text-sm font-mono">
               POST
             </span>
             <code className="text-white">/payments</code>
@@ -497,7 +497,7 @@ function APIContent() {
         </div>
 
         {/* Get Payment */}
-        <div className="border border-gray-800 rounded-lg overflow-hidden mb-6">
+        <div className="border border-white/10 rounded-lg overflow-hidden mb-6">
           <div className="bg-gray-900 px-4 py-3 flex items-center gap-3">
             <span className="bg-blue-500/20 text-blue-400 px-2 py-1 rounded text-sm font-mono">
               GET
@@ -522,7 +522,7 @@ function APIContent() {
         </div>
 
         {/* List Payments */}
-        <div className="border border-gray-800 rounded-lg overflow-hidden">
+        <div className="border border-white/10 rounded-lg overflow-hidden">
           <div className="bg-gray-900 px-4 py-3 flex items-center gap-3">
             <span className="bg-blue-500/20 text-blue-400 px-2 py-1 rounded text-sm font-mono">
               GET
@@ -538,7 +538,7 @@ function APIContent() {
               <table className="w-full text-left">
                 <tbody className="divide-y divide-gray-800">
                   <tr>
-                    <td className="px-4 py-2 font-mono text-emerald-400">
+                    <td className="px-4 py-2 font-mono text-purple-400">
                       status
                     </td>
                     <td className="px-4 py-2 text-gray-400">
@@ -546,7 +546,7 @@ function APIContent() {
                     </td>
                   </tr>
                   <tr>
-                    <td className="px-4 py-2 font-mono text-emerald-400">
+                    <td className="px-4 py-2 font-mono text-purple-400">
                       limit
                     </td>
                     <td className="px-4 py-2 text-gray-400">
@@ -554,7 +554,7 @@ function APIContent() {
                     </td>
                   </tr>
                   <tr>
-                    <td className="px-4 py-2 font-mono text-emerald-400">
+                    <td className="px-4 py-2 font-mono text-purple-400">
                       cursor
                     </td>
                     <td className="px-4 py-2 text-gray-400">
@@ -656,7 +656,7 @@ export async function POST(req: NextRequest) {
             </thead>
             <tbody className="divide-y divide-gray-800">
               <tr>
-                <td className="px-4 py-3 font-mono text-emerald-400">
+                <td className="px-4 py-3 font-mono text-purple-400">
                   payment.completed
                 </td>
                 <td className="px-4 py-3 text-gray-400">
@@ -664,7 +664,7 @@ export async function POST(req: NextRequest) {
                 </td>
               </tr>
               <tr>
-                <td className="px-4 py-3 font-mono text-emerald-400">
+                <td className="px-4 py-3 font-mono text-purple-400">
                   payment.expired
                 </td>
                 <td className="px-4 py-3 text-gray-400">
@@ -672,7 +672,7 @@ export async function POST(req: NextRequest) {
                 </td>
               </tr>
               <tr>
-                <td className="px-4 py-3 font-mono text-emerald-400">
+                <td className="px-4 py-3 font-mono text-purple-400">
                   payment.failed
                 </td>
                 <td className="px-4 py-3 text-gray-400">
@@ -721,7 +721,7 @@ function CodeBlock({
           ) : (
             <>
               <span className="text-gray-500">$ </span>
-              <span className="text-emerald-400">{line}</span>
+              <span className="text-purple-400">{line}</span>
             </>
           )}
         </div>
@@ -735,7 +735,7 @@ function CodeBlock({
           .replace(/"([^"]+)":/g, '<span class="text-purple-400">"$1"</span>:')
           .replace(
             /: "([^"]+)"/g,
-            ': <span class="text-emerald-400">"$1"</span>'
+            ': <span class="text-purple-400">"$1"</span>'
           )
           .replace(/: (\d+)/g, ': <span class="text-orange-400">$1</span>')
           .replace(
@@ -908,7 +908,7 @@ function CodeBlock({
                 );
               case "string":
                 return (
-                  <span key={tokenIndex} className="text-emerald-400">
+                  <span key={tokenIndex} className="text-purple-400">
                     {token.value}
                   </span>
                 );
@@ -962,7 +962,7 @@ function CodeBlock({
   };
 
   return (
-    <div className="relative bg-gray-900 rounded-lg overflow-hidden mb-4 border border-gray-800">
+    <div className="relative bg-gray-900 rounded-lg overflow-hidden mb-4 border border-white/10">
       <div className="flex items-center justify-between px-4 py-2 bg-gray-800/70 border-b border-gray-700">
         <span className="text-xs text-gray-400 uppercase font-medium">
           {language}
@@ -991,7 +991,7 @@ function FeatureCard({
   description: string;
 }) {
   return (
-    <div className="bg-gray-900 border border-gray-800 rounded-lg p-6">
+    <div className="bg-gray-900 border border-white/10 rounded-lg p-6">
       <div className="text-3xl mb-3">{icon}</div>
       <h3 className="font-semibold mb-2">{title}</h3>
       <p className="text-gray-400 text-sm">{description}</p>

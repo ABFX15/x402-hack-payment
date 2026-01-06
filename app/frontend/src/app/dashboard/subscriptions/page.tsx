@@ -282,8 +282,8 @@ export default function SubscriptionsPage() {
             className="bg-slate-900/50 border border-slate-800 rounded-2xl p-6"
           >
             <div className="flex items-center gap-3 mb-2">
-              <div className="p-2 rounded-lg bg-emerald-500/10">
-                <Users className="w-5 h-5 text-emerald-400" />
+              <div className="p-2 rounded-lg bg-cyan-500/10">
+                <Users className="w-5 h-5 text-cyan-400" />
               </div>
               <span className="text-slate-400 text-sm">Total Subscribers</span>
             </div>
@@ -367,7 +367,7 @@ export default function SubscriptionsPage() {
                     className="text-slate-400 hover:text-white transition-colors"
                   >
                     {plan.active ? (
-                      <ToggleRight className="w-6 h-6 text-emerald-400" />
+                      <ToggleRight className="w-6 h-6 text-cyan-400" />
                     ) : (
                       <ToggleLeft className="w-6 h-6" />
                     )}
@@ -425,7 +425,7 @@ export default function SubscriptionsPage() {
                   >
                     {copied === plan.id ? (
                       <>
-                        <Check className="w-4 h-4 text-emerald-400" />
+                        <Check className="w-4 h-4 text-cyan-400" />
                         Copied
                       </>
                     ) : (

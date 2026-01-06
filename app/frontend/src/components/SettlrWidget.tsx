@@ -48,7 +48,7 @@ export function initSettlrGlobal() {
         memo = "",
         merchantName = "Merchant",
         theme = "dark",
-        accentColor = "#f472b6",
+        accentColor = "#a855f7",
         onSuccess,
         onCancel,
         onError,

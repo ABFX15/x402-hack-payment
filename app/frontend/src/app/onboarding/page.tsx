@@ -131,14 +131,14 @@ export default function OnboardingPage() {
   // Not authenticated
   if (ready && !authenticated) {
     return (
-      <div className="min-h-screen flex items-center justify-center p-4 bg-[#0a0a12]">
+      <div className="min-h-screen flex items-center justify-center p-4 bg-[#0a0a0f]">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="bg-zinc-900 border border-zinc-800 rounded-2xl p-8 text-center max-w-md"
         >
-          <div className="w-16 h-16 rounded-full bg-[#f472b6]/10 flex items-center justify-center mx-auto mb-6">
-            <Store className="w-8 h-8 text-[#f472b6]" />
+          <div className="w-16 h-16 rounded-full bg-[#a855f7]/10 flex items-center justify-center mx-auto mb-6">
+            <Store className="w-8 h-8 text-[#a855f7]" />
           </div>
           <h2 className="text-2xl font-bold text-white mb-4">
             Become a Merchant
@@ -148,7 +148,7 @@ export default function OnboardingPage() {
           </p>
           <button
             onClick={login}
-            className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#f472b6] to-[#67e8f9] text-white font-semibold rounded-xl hover:opacity-90 transition-opacity"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#a855f7] to-[#22d3ee] text-white font-semibold rounded-xl hover:opacity-90 transition-opacity"
           >
             <LogIn className="w-4 h-4" />
             Sign In to Continue
@@ -161,14 +161,14 @@ export default function OnboardingPage() {
   // Loading
   if (!ready) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#0a0a12]">
-        <Loader2 className="w-8 h-8 text-[#f472b6] animate-spin" />
+      <div className="min-h-screen flex items-center justify-center bg-[#0a0a0f]">
+        <Loader2 className="w-8 h-8 text-[#a855f7] animate-spin" />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen py-12 px-4 pt-32 bg-[#0a0a12]">
+    <div className="min-h-screen py-12 px-4 pt-32 bg-[#0a0a0f]">
       <div className="max-w-2xl mx-auto">
         {/* Header */}
         <motion.div
@@ -176,7 +176,7 @@ export default function OnboardingPage() {
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-12"
         >
-          <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#f472b6] to-[#67e8f9] flex items-center justify-center mx-auto mb-6">
+          <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#a855f7] to-[#22d3ee] flex items-center justify-center mx-auto mb-6">
             <Store className="w-8 h-8 text-white" />
           </div>
           <h1 className="text-4xl font-bold text-white mb-4">
@@ -195,7 +195,7 @@ export default function OnboardingPage() {
               <div
                 className={`w-10 h-10 rounded-full flex items-center justify-center font-semibold transition-all ${
                   state.step >= step
-                    ? "bg-gradient-to-r from-[#f472b6] to-[#67e8f9] text-white"
+                    ? "bg-gradient-to-r from-[#a855f7] to-[#22d3ee] text-white"
                     : "bg-zinc-800 text-zinc-500"
                 }`}
               >
@@ -204,7 +204,7 @@ export default function OnboardingPage() {
               {i < 3 && (
                 <div
                   className={`w-16 h-1 mx-2 rounded ${
-                    state.step > step ? "bg-[#67e8f9]" : "bg-zinc-800"
+                    state.step > step ? "bg-[#22d3ee]" : "bg-zinc-800"
                   }`}
                 />
               )}
@@ -232,8 +232,8 @@ export default function OnboardingPage() {
             className="bg-zinc-900 border border-zinc-800 rounded-2xl p-8"
           >
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 rounded-xl bg-[#f472b6]/10 flex items-center justify-center">
-                <Building2 className="w-5 h-5 text-[#f472b6]" />
+              <div className="w-10 h-10 rounded-xl bg-[#a855f7]/10 flex items-center justify-center">
+                <Building2 className="w-5 h-5 text-[#a855f7]" />
               </div>
               <div>
                 <h2 className="text-xl font-semibold text-white">
@@ -257,7 +257,7 @@ export default function OnboardingPage() {
                     setState((s) => ({ ...s, businessName: e.target.value }))
                   }
                   placeholder="Your Company Name"
-                  className="w-full px-4 py-3 bg-zinc-800 border border-zinc-700 rounded-xl text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-[#f472b6]/50"
+                  className="w-full px-4 py-3 bg-zinc-800 border border-zinc-700 rounded-xl text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-[#a855f7]/50"
                 />
               </div>
             </div>
@@ -268,7 +268,7 @@ export default function OnboardingPage() {
                   validateStep(1) && setState((s) => ({ ...s, step: 2 }))
                 }
                 disabled={!validateStep(1)}
-                className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#f472b6] to-[#67e8f9] text-white font-semibold rounded-xl disabled:opacity-50 disabled:cursor-not-allowed hover:opacity-90 transition-opacity"
+                className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#a855f7] to-[#22d3ee] text-white font-semibold rounded-xl disabled:opacity-50 disabled:cursor-not-allowed hover:opacity-90 transition-opacity"
               >
                 Continue
                 <ArrowRight className="w-4 h-4" />
@@ -285,8 +285,8 @@ export default function OnboardingPage() {
             className="bg-zinc-900 border border-zinc-800 rounded-2xl p-8"
           >
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 rounded-xl bg-[#67e8f9]/10 flex items-center justify-center">
-                <Wallet className="w-5 h-5 text-[#67e8f9]" />
+              <div className="w-10 h-10 rounded-xl bg-[#22d3ee]/10 flex items-center justify-center">
+                <Wallet className="w-5 h-5 text-[#22d3ee]" />
               </div>
               <div>
                 <h2 className="text-xl font-semibold text-white">
@@ -310,14 +310,14 @@ export default function OnboardingPage() {
                 }
                 className={`p-4 rounded-xl border-2 transition-all ${
                   state.payoutMethod === "wallet"
-                    ? "border-[#f472b6] bg-[#f472b6]/10"
+                    ? "border-[#a855f7] bg-[#a855f7]/10"
                     : "border-zinc-700 hover:border-zinc-600"
                 }`}
               >
                 <Wallet
                   className={`w-6 h-6 mx-auto mb-2 ${
                     state.payoutMethod === "wallet"
-                      ? "text-[#f472b6]"
+                      ? "text-[#a855f7]"
                       : "text-zinc-400"
                   }`}
                 />
@@ -345,14 +345,14 @@ export default function OnboardingPage() {
                 }
                 className={`p-4 rounded-xl border-2 transition-all ${
                   state.payoutMethod === "exchange"
-                    ? "border-[#67e8f9] bg-[#67e8f9]/10"
+                    ? "border-[#22d3ee] bg-[#22d3ee]/10"
                     : "border-zinc-700 hover:border-zinc-600"
                 }`}
               >
                 <Building2
                   className={`w-6 h-6 mx-auto mb-2 ${
                     state.payoutMethod === "exchange"
-                      ? "text-[#67e8f9]"
+                      ? "text-[#22d3ee]"
                       : "text-zinc-400"
                   }`}
                 />
@@ -390,7 +390,7 @@ export default function OnboardingPage() {
                       ? "Your Solana wallet address"
                       : "Your Coinbase/Kraken USDC deposit address"
                   }
-                  className="w-full px-4 py-3 bg-zinc-800 border border-zinc-700 rounded-xl text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-[#67e8f9]/50 font-mono text-sm"
+                  className="w-full px-4 py-3 bg-zinc-800 border border-zinc-700 rounded-xl text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-[#22d3ee]/50 font-mono text-sm"
                 />
                 {connected && state.payoutMethod === "wallet" && (
                   <button
@@ -398,7 +398,7 @@ export default function OnboardingPage() {
                       publicKey &&
                       setState((s) => ({ ...s, payoutAddress: publicKey }))
                     }
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-[#67e8f9] hover:text-white transition-colors"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-[#22d3ee] hover:text-white transition-colors"
                   >
                     Use connected wallet
                   </button>
@@ -430,7 +430,7 @@ export default function OnboardingPage() {
                   validateStep(2) && setState((s) => ({ ...s, step: 3 }))
                 }
                 disabled={!validateStep(2)}
-                className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#f472b6] to-[#67e8f9] text-white font-semibold rounded-xl disabled:opacity-50 disabled:cursor-not-allowed hover:opacity-90 transition-opacity"
+                className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#a855f7] to-[#22d3ee] text-white font-semibold rounded-xl disabled:opacity-50 disabled:cursor-not-allowed hover:opacity-90 transition-opacity"
               >
                 Continue
                 <ArrowRight className="w-4 h-4" />
@@ -489,7 +489,7 @@ export default function OnboardingPage() {
               <button
                 onClick={handleSubmit}
                 disabled={loading}
-                className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#f472b6] to-[#67e8f9] text-white font-semibold rounded-xl disabled:opacity-50 hover:opacity-90 transition-opacity"
+                className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#a855f7] to-[#22d3ee] text-white font-semibold rounded-xl disabled:opacity-50 hover:opacity-90 transition-opacity"
               >
                 {loading ? (
                   <>
@@ -515,7 +515,7 @@ export default function OnboardingPage() {
             className="bg-zinc-900 border border-zinc-800 rounded-2xl p-8"
           >
             <div className="text-center mb-8">
-              <div className="w-20 h-20 rounded-full bg-gradient-to-r from-[#f472b6] to-[#67e8f9] flex items-center justify-center mx-auto mb-6">
+              <div className="w-20 h-20 rounded-full bg-gradient-to-r from-[#a855f7] to-[#22d3ee] flex items-center justify-center mx-auto mb-6">
                 <Check className="w-10 h-10 text-white" />
               </div>
               <h2 className="text-2xl font-bold text-white mb-2">
@@ -537,7 +537,7 @@ export default function OnboardingPage() {
                 </span>
               </div>
               <div className="flex items-center gap-3">
-                <code className="flex-1 p-3 bg-zinc-900 rounded-lg text-[#67e8f9] font-mono text-sm break-all">
+                <code className="flex-1 p-3 bg-zinc-900 rounded-lg text-[#22d3ee] font-mono text-sm break-all">
                   {state.apiKey}
                 </code>
                 <button
@@ -591,14 +591,14 @@ window.location.href = payment.checkoutUrl;`}
                 href="/dashboard"
                 className="flex items-center justify-center gap-2 p-4 bg-zinc-800 rounded-xl hover:bg-zinc-700 transition-colors"
               >
-                <Store className="w-5 h-5 text-[#f472b6]" />
+                <Store className="w-5 h-5 text-[#a855f7]" />
                 <span className="text-white font-medium">Go to Dashboard</span>
               </Link>
               <Link
                 href="/docs"
                 className="flex items-center justify-center gap-2 p-4 bg-zinc-800 rounded-xl hover:bg-zinc-700 transition-colors"
               >
-                <ExternalLink className="w-5 h-5 text-[#67e8f9]" />
+                <ExternalLink className="w-5 h-5 text-[#22d3ee]" />
                 <span className="text-white font-medium">View Docs</span>
               </Link>
             </div>

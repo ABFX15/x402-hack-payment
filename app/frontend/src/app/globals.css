@@ -2,7 +2,7 @@
 
 :root {
   /* Core colors - dark theme matching homepage */
-  --background: #0a0a12;
+  --background: #0a0a0f;
   --foreground: #fafafa;
   --card: #12121a;
   --card-hover: #1a1a24;
@@ -15,12 +15,20 @@
   --card-pop-text: #000000;
   --card-pop-text-secondary: #52525b;
 
-  /* Brand gradient - pink/cyan neon theme */
-  --primary: #f472b6;
-  --primary-hover: #f9a8d4;
-  --primary-glow: rgba(244, 114, 182, 0.4);
-  --secondary: #67e8f9;
-  --secondary-hover: #a5f3fc;
+  /* Brand gradient - purple/cyan neon theme */
+  --primary: rgb(168, 85, 247);
+  --primary-hover: rgb(192, 132, 252);
+  --primary-glow: rgba(168, 85, 247, 0.4);
+  --secondary: rgb(34, 211, 238);
+  --secondary-hover: rgb(103, 232, 249);
+
+  /* Accent colors for components */
+  --accent-primary: rgb(168, 85, 247);
+  --accent-muted: rgba(168, 85, 247, 0.1);
+
+  /* Card backgrounds */
+  --card-bg: #12121a;
+  --border-color: rgba(139, 92, 246, 0.2);
 
   /* Status colors */
   --success: #22c55e;
