@@ -92,9 +92,33 @@ function QuickStartContent() {
             <div className="w-8 h-8 rounded-full bg-purple-500/20 text-purple-400 flex items-center justify-center font-bold">
               1
             </div>
-            <h3 className="text-xl font-semibold">Install the SDK</h3>
+            <h3 className="text-xl font-semibold">
+              Create Your Merchant Account
+            </h3>
           </div>
-          <CodeBlock language="bash">{`npm install @settlr/sdk`}</CodeBlock>
+          <p className="text-gray-400 mb-4">
+            Sign up to get your API key. No KYC required - just your wallet
+            address.
+          </p>
+          <a
+            href="/onboarding"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-500 to-cyan-500 text-white font-semibold rounded-lg hover:opacity-90 transition-opacity"
+          >
+            Create Account →
+          </a>
+          <div className="mt-4 bg-gray-900 rounded-lg p-4">
+            <p className="text-gray-500 text-sm mb-2">You&apos;ll receive:</p>
+            <ul className="text-gray-400 text-sm space-y-1">
+              <li>
+                • <span className="text-purple-400 font-mono">API Key</span> -
+                Your secret key for SDK initialization
+              </li>
+              <li>
+                • <span className="text-purple-400 font-mono">Merchant ID</span>{" "}
+                - Your unique merchant identifier
+              </li>
+            </ul>
+          </div>
         </div>
 
         {/* Step 2 */}
@@ -103,23 +127,9 @@ function QuickStartContent() {
             <div className="w-8 h-8 rounded-full bg-purple-500/20 text-purple-400 flex items-center justify-center font-bold">
               2
             </div>
-            <h3 className="text-xl font-semibold">Create a Payment Button</h3>
+            <h3 className="text-xl font-semibold">Install the SDK</h3>
           </div>
-          <CodeBlock language="tsx">
-            {`import { SettlrPayButton } from '@settlr/sdk';
-
-function CheckoutPage() {
-  return (
-    <SettlrPayButton
-      recipient="YOUR_WALLET_ADDRESS"
-      amount={10.00}
-      currency="USDC"
-      onSuccess={(tx) => console.log('Paid!', tx)}
-      onError={(err) => console.error(err)}
-    />
-  );
-}`}
-          </CodeBlock>
+          <CodeBlock language="bash">{`npm install @settlr/sdk`}</CodeBlock>
         </div>
 
         {/* Step 3 */}
@@ -128,12 +138,85 @@ function CheckoutPage() {
             <div className="w-8 h-8 rounded-full bg-purple-500/20 text-purple-400 flex items-center justify-center font-bold">
               3
             </div>
-            <h3 className="text-xl font-semibold">That's It!</h3>
+            <h3 className="text-xl font-semibold">
+              Initialize with Your API Key
+            </h3>
+          </div>
+          <p className="text-gray-400 mb-4">
+            Use the API key from onboarding to initialize the SDK.
+          </p>
+          <CodeBlock language="tsx">
+            {`import { Settlr } from '@settlr/sdk';
+
+// Initialize with your credentials
+const settlr = new Settlr({
+  apiKey: 'sk_live_your_api_key',  // From onboarding
+  merchant: {
+    name: 'Your Store Name',
+  },
+});`}
+          </CodeBlock>
+        </div>
+
+        {/* Step 4 */}
+        <div className="mb-8">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-8 h-8 rounded-full bg-purple-500/20 text-purple-400 flex items-center justify-center font-bold">
+              4
+            </div>
+            <h3 className="text-xl font-semibold">Add a Payment Button</h3>
+          </div>
+          <CodeBlock language="tsx">
+            {`import { SettlrPayButton } from '@settlr/sdk';
+
+function CheckoutPage() {
+  return (
+    <SettlrPayButton
+      amount={10.00}
+      currency="USDC"
+      onSuccess={(tx) => console.log('Paid!', tx)}
+      onError={(err) => console.error(err)}
+    />
+  );
+}`}
+          </CodeBlock>
+          <p className="text-gray-500 text-sm mt-3">
+            💡 No need to specify recipient - payments go to the wallet you
+            registered during onboarding.
+          </p>
+        </div>
+
+        {/* Step 5 */}
+        <div className="mb-8">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-8 h-8 rounded-full bg-purple-500/20 text-purple-400 flex items-center justify-center font-bold">
+              5
+            </div>
+            <h3 className="text-xl font-semibold">That&apos;s It!</h3>
           </div>
           <p className="text-gray-400">
-            Your users can now pay with their Solana wallet. Payments settle
-            instantly and you receive the full amount minus a 2% fee.
+            Your users can now pay with their wallet or email. Payments settle
+            instantly to your registered wallet with a 2% fee.
           </p>
+          <div className="mt-4 grid md:grid-cols-2 gap-4">
+            <div className="bg-gray-900 rounded-lg p-4">
+              <p className="text-purple-400 font-medium mb-1">
+                Solana Payments
+              </p>
+              <p className="text-gray-500 text-sm">
+                Instant, gasless transfers directly to your wallet
+              </p>
+            </div>
+            <div className="bg-gray-900 rounded-lg p-4">
+              <p className="text-cyan-400 font-medium mb-1">
+                Multichain Payments
+              </p>
+              <p className="text-gray-500 text-sm">
+                Customers pay from ETH/Base/Arbitrum - you receive USDC on
+                Solana
+              </p>
+            </div>
+          </div>
         </div>
 
         {/* Features */}
@@ -168,6 +251,31 @@ function ReactSDKContent() {
           Full control over the payment flow with React hooks and components.
         </p>
 
+        {/* Prerequisites */}
+        <div className="bg-gray-900 border border-gray-800 rounded-lg p-4 mb-8">
+          <h3 className="text-lg font-semibold text-white mb-2">
+            Prerequisites
+          </h3>
+          <p className="text-gray-400 text-sm mb-3">
+            Before using the SDK, you need to:
+          </p>
+          <ol className="text-gray-400 text-sm space-y-2">
+            <li>
+              1.{" "}
+              <a href="/onboarding" className="text-purple-400 hover:underline">
+                Create a merchant account
+              </a>{" "}
+              to get your API key
+            </li>
+            <li>
+              2. Install the SDK:{" "}
+              <code className="text-cyan-400 bg-gray-800 px-2 py-0.5 rounded">
+                npm install @settlr/sdk
+              </code>
+            </li>
+          </ol>
+        </div>
+
         {/* Payment Modal - NEW */}
         <div className="bg-purple-500/10 border border-purple-500/30 rounded-lg p-4 mb-8">
           <h3 className="text-lg font-semibold text-purple-400 mb-2">
@@ -186,13 +294,16 @@ function ReactSDKContent() {
           iGaming, e-commerce, and subscriptions.
         </p>
         <CodeBlock language="tsx">
-          {`import { usePaymentModal } from '@settlr/sdk';
+          {`import { usePaymentModal, Settlr } from '@settlr/sdk';
+
+// Initialize with your API key from onboarding
+const settlr = new Settlr({
+  apiKey: 'sk_live_your_api_key',
+  merchant: { name: 'Arena GG' },
+});
 
 function TournamentPage() {
-  const { openPayment, PaymentModalComponent } = usePaymentModal({
-    merchantName: "Arena GG",
-    merchantWallet: "YOUR_WALLET_ADDRESS",
-  });
+  const { openPayment, PaymentModalComponent } = usePaymentModal();
 
   const handleEnterTournament = () => {
     openPayment({
@@ -404,9 +515,7 @@ function CustomCheckout() {
                 </td>
               </tr>
               <tr>
-                <td className="px-4 py-3 font-mono text-purple-400">
-                  onError
-                </td>
+                <td className="px-4 py-3 font-mono text-purple-400">onError</td>
                 <td className="px-4 py-3 text-gray-400">(err) =&gt; void</td>
                 <td className="px-4 py-3 text-gray-400">
                   Called when payment fails
@@ -427,9 +536,7 @@ function CustomCheckout() {
                 </td>
               </tr>
               <tr>
-                <td className="px-4 py-3 font-mono text-purple-400">
-                  gasless
-                </td>
+                <td className="px-4 py-3 font-mono text-purple-400">gasless</td>
                 <td className="px-4 py-3 text-gray-400">boolean</td>
                 <td className="px-4 py-3 text-gray-400">
                   Enable gasless transactions (default: true)
@@ -453,9 +560,28 @@ function APIContent() {
         </p>
 
         {/* Base URL */}
-        <div className="bg-gray-900 rounded-lg p-4 mb-8">
+        <div className="bg-gray-900 rounded-lg p-4 mb-6">
           <p className="text-gray-500 text-sm mb-1">Base URL</p>
           <code className="text-purple-400">https://api.settlr.io/v1</code>
+        </div>
+
+        {/* Authentication */}
+        <div className="bg-gray-900 border border-gray-800 rounded-lg p-4 mb-8">
+          <h3 className="text-lg font-semibold text-white mb-2">
+            🔐 Authentication
+          </h3>
+          <p className="text-gray-400 text-sm mb-3">
+            All API requests require your API key from{" "}
+            <a href="/onboarding" className="text-purple-400 hover:underline">
+              merchant onboarding
+            </a>
+            .
+          </p>
+          <CodeBlock language="bash">
+            {`curl https://api.settlr.io/v1/payments \\
+  -H "Authorization: Bearer sk_live_your_api_key" \\
+  -H "Content-Type: application/json"`}
+          </CodeBlock>
         </div>
 
         {/* Create Payment */}
@@ -467,11 +593,13 @@ function APIContent() {
             <code className="text-white">/payments</code>
           </div>
           <div className="p-4">
-            <p className="text-gray-400 mb-4">Create a new payment request.</p>
+            <p className="text-gray-400 mb-4">
+              Create a new payment request. The recipient is automatically set
+              to your registered payout wallet.
+            </p>
             <h4 className="font-medium mb-2">Request Body</h4>
             <CodeBlock language="json">
               {`{
-  "recipient": "YOUR_WALLET_ADDRESS",
   "amount": 10.00,
   "currency": "USDC",
   "memo": "Order #12345",
@@ -488,7 +616,6 @@ function APIContent() {
   "status": "pending",
   "amount": 10.00,
   "currency": "USDC",
-  "recipient": "YOUR_WALLET_ADDRESS",
   "paymentUrl": "https://pay.settlr.io/pay_abc123",
   "expiresAt": "2024-01-15T12:00:00Z"
 }`}

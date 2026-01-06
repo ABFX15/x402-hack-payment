@@ -781,14 +781,12 @@ export default function LandingPage() {
               Docs
             </Link>
           </nav>
-          <a
-            href="https://www.npmjs.com/package/@settlr/sdk"
-            target="_blank"
-            rel="noopener noreferrer"
+          <Link
+            href="/onboarding"
             className="rounded-lg border border-white/10 bg-white/10 px-4 py-2 text-sm font-medium text-white transition-all hover:bg-white/20"
           >
             Get Started
-          </a>
+          </Link>
         </div>
       </header>
 
@@ -851,17 +849,15 @@ export default function LandingPage() {
               </span>
             </Link>
 
-            <a
-              href="https://www.npmjs.com/package/@settlr/sdk"
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              href="/onboarding"
               className="rounded-lg border-2 bg-transparent px-8 py-4 text-lg font-semibold text-white transition-all hover:bg-white/10"
               style={{
                 borderColor: "#a855f7",
               }}
             >
               Get Started
-            </a>
+            </Link>
           </motion.div>
 
           {/* Feature Pills */}
@@ -920,20 +916,31 @@ export default function LandingPage() {
               Ready to accept payments?
             </h2>
             <p className="mb-8 text-lg text-white/50">
-              Install the SDK and start accepting payments in minutes.
+              Set up your merchant account and start accepting payments in
+              minutes.
             </p>
-            <a
-              href="https://www.npmjs.com/package/@settlr/sdk"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-xl px-8 py-4 text-lg font-semibold text-white shadow-lg shadow-purple-500/30 transition-all hover:shadow-purple-500/50"
-              style={{
-                backgroundImage: "linear-gradient(to right, #a855f7, #22d3ee)",
-              }}
-            >
-              View on npm
-              <ArrowRight className="h-5 w-5" />
-            </a>
+            <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
+              <Link
+                href="/onboarding"
+                className="inline-flex items-center gap-2 rounded-xl px-8 py-4 text-lg font-semibold text-white shadow-lg shadow-purple-500/30 transition-all hover:shadow-purple-500/50"
+                style={{
+                  backgroundImage:
+                    "linear-gradient(to right, #a855f7, #22d3ee)",
+                }}
+              >
+                Get Started
+                <ArrowRight className="h-5 w-5" />
+              </Link>
+              <a
+                href="https://www.npmjs.com/package/@settlr/sdk"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-xl border-2 border-purple-500/50 px-8 py-4 text-lg font-semibold text-white transition-all hover:bg-white/5"
+              >
+                View SDK
+                <ArrowRight className="h-5 w-5" />
+              </a>
+            </div>
           </motion.div>
         </div>
       </section>
