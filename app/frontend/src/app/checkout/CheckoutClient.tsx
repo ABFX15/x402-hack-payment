@@ -94,6 +94,9 @@ const USDC_DECIMALS = 6;
 // RPC endpoint
 const RPC_ENDPOINT = "https://api.devnet.solana.com";
 
+// Devnet mode - EVM/Mayan doesn't work on devnet, only Solana
+const IS_DEVNET = RPC_ENDPOINT.includes("devnet");
+
 interface CheckoutClientProps {
   searchParams: URLSearchParams;
 }
@@ -920,6 +923,7 @@ export default function CheckoutClient({ searchParams }: CheckoutClientProps) {
                         getEvmBalance(chain).then(setEvmBalance);
                       }
                     }}
+                    availableChains={IS_DEVNET ? ["solana"] : undefined}
                   />
                 </div>
                 {isEvmChain && activeEvmWallet && (
@@ -937,7 +941,13 @@ export default function CheckoutClient({ searchParams }: CheckoutClientProps) {
                   </div>
                 )}
               </div>
-              {isEvmChain && !hasEvmWallet && (
+              {IS_DEVNET && (
+                <p className="text-yellow-400/70 text-xs mt-2 flex items-center gap-1">
+                  <AlertCircle className="w-3 h-3" />
+                  Devnet mode - multichain disabled
+                </p>
+              )}
+              {isEvmChain && !hasEvmWallet && !IS_DEVNET && (
                 <p className="text-yellow-400 text-xs mt-2 flex items-center gap-1">
                   <AlertCircle className="w-3 h-3" />
                   Connect an Ethereum wallet to pay on {selectedChain}
@@ -1068,7 +1078,7 @@ export default function CheckoutClient({ searchParams }: CheckoutClientProps) {
                         address: activeWallet.address,
                       });
                     }}
-                    className="w-full flex items-center justify-center gap-2 py-3 px-4 bg-gradient-to-r from-purple-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white font-semibold rounded-xl transition-all duration-200 shadow-lg hover:shadow-purple-500/25 mb-3"
+                    className="w-full flex items-center justify-center gap-2 py-3 px-4 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-pink-600 hover:to-purple-600 text-white font-semibold rounded-xl transition-all duration-200 shadow-lg hover:shadow-purple-500/25 mb-3"
                   >
                     <CreditCard className="w-5 h-5" />
                     Add Funds
@@ -1076,18 +1086,22 @@ export default function CheckoutClient({ searchParams }: CheckoutClientProps) {
                 )}
 
                 {/* Devnet: Get test USDC from faucet */}
-                <div className="text-center text-zinc-500 text-xs mb-2">
-                  — or for testing —
-                </div>
-                <a
-                  href="https://faucet.circle.com/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full py-2 bg-zinc-800 text-zinc-300 text-sm font-medium rounded-lg flex items-center justify-center gap-2 hover:bg-zinc-700 transition-colors"
-                >
-                  <Plus className="w-4 h-4" />
-                  Get Devnet USDC (Circle Faucet)
-                </a>
+                {IS_DEVNET && (
+                  <>
+                    <div className="text-center text-zinc-500 text-xs mb-2">
+                      — or for testing —
+                    </div>
+                    <a
+                      href="https://faucet.circle.com/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-full py-2 bg-zinc-800 text-zinc-300 text-sm font-medium rounded-lg flex items-center justify-center gap-2 hover:bg-zinc-700 transition-colors mb-3"
+                    >
+                      <Plus className="w-4 h-4" />
+                      Get Devnet USDC (Circle Faucet)
+                    </a>
+                  </>
+                )}
 
                 {/* Or send from another wallet */}
                 <div className="text-center">
