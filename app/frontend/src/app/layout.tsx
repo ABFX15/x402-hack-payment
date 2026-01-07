@@ -15,11 +15,11 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Settlr | Instant Stablecoin Payments on Solana",
+    default: "Settlr | Seamless iGaming Payments on Solana",
     template: "%s | Settlr",
   },
   description:
-    "Accept USDC payments instantly on Solana. Gasless transactions, sub-second settlement, 0% chargebacks. The Stripe for crypto payments.",
+    "Seamless payments for iGaming. No wallet required, gasless on Solana, multichain support. Accept USDC from any chain with 2% fees.",
   keywords: [
     "crypto payments",
     "USDC payments",
@@ -49,23 +49,23 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: "https://settlr.dev",
     siteName: "Settlr",
-    title: "Settlr | Instant Stablecoin Payments on Solana",
+    title: "Settlr | Seamless iGaming Payments on Solana",
     description:
-      "Accept USDC payments instantly on Solana. Gasless transactions, sub-second settlement, 0% chargebacks.",
+      "No wallet required. Gasless on Solana. Accept USDC from any chain in minutes.",
     images: [
       {
-        url: "/og-image.png",
+        url: "/opengraph-image",
         width: 1200,
         height: 630,
-        alt: "Settlr - Instant Stablecoin Payments",
+        alt: "Settlr - Seamless iGaming Payments",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Settlr | Instant Stablecoin Payments on Solana",
-    description: "Accept USDC payments instantly. Gasless, fast, and secure.",
-    images: ["/og-image.png"],
+    title: "Settlr | Seamless iGaming Payments on Solana",
+    description: "No wallet required. Gasless on Solana. 2% fees.",
+    images: ["/opengraph-image"],
     creator: "@SettlrPay",
   },
   robots: {
