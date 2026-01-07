@@ -147,6 +147,7 @@ export default function CheckoutClient({ searchParams }: CheckoutClientProps) {
   const [error, setError] = useState("");
   const [txSignature, setTxSignature] = useState("");
   const [balance, setBalance] = useState<number | null>(null);
+  const [solBalance, setSolBalance] = useState<number | null>(null); // SOL balance for gas
   const [loadingBalance, setLoadingBalance] = useState(false);
   const [creatingWallet, setCreatingWallet] = useState(false);
   const [useGasless, setUseGasless] = useState(false); // Gasless only works with external wallets
@@ -277,6 +278,11 @@ export default function CheckoutClient({ searchParams }: CheckoutClientProps) {
     try {
       const connection = new Connection(RPC_ENDPOINT, "confirmed");
       const walletPubkey = new PublicKey(activeWallet.address);
+
+      // Get SOL balance for gas
+      const lamports = await connection.getBalance(walletPubkey);
+      setSolBalance(lamports / 1_000_000_000); // Convert lamports to SOL
+
       const ata = await getAssociatedTokenAddress(USDC_MINT, walletPubkey);
 
       try {
@@ -289,6 +295,7 @@ export default function CheckoutClient({ searchParams }: CheckoutClientProps) {
     } catch (err) {
       console.error("Error fetching balance:", err);
       setBalance(0);
+      setSolBalance(0);
     } finally {
       setLoadingBalance(false);
     }
@@ -594,11 +601,19 @@ export default function CheckoutClient({ searchParams }: CheckoutClientProps) {
         verifySignatures: false,
       });
 
-      // Sign and send via Privy
+      // Sign and send via Privy with gas sponsorship
+      // For embedded wallets, use sponsor: true so Privy pays gas (like Pump.fun)
+      // For external wallets, user pays their own gas
       const result = await signAndSendTransaction({
         transaction: serializedTx,
         wallet: activeWallet,
         chain: "solana:devnet",
+        options: {
+          skipPreflight: true,
+          commitment: "confirmed",
+          // Enable Privy gas sponsorship for embedded wallets (no SOL needed!)
+          sponsor: !isExternalWallet,
+        },
       });
 
       console.log("Transaction result:", result);
@@ -1148,16 +1163,79 @@ export default function CheckoutClient({ searchParams }: CheckoutClientProps) {
               </div>
             )}
 
+            {/* Low SOL balance warning for gas (only for external wallets on Solana, not using Kora gasless) */}
+            {/* Embedded wallets get Privy gas sponsorship, so they don't need SOL */}
+            {!isEvmChain &&
+              !useGasless &&
+              isExternalWallet &&
+              solBalance !== null &&
+              solBalance < 0.001 &&
+              hasEnoughBalance &&
+              activeWallet && (
+                <div className="p-4 bg-orange-500/10 border border-orange-500/30 rounded-xl mb-6">
+                  <div className="flex items-center gap-2 text-orange-400 mb-2">
+                    <Fuel className="w-4 h-4" />
+                    <p className="text-sm font-medium">Need SOL for gas</p>
+                  </div>
+                  <p className="text-zinc-400 text-xs mb-3">
+                    You need a small amount of SOL (~0.001) to pay for
+                    transaction fees.
+                  </p>
+                  {/* Privy Fund SOL - for embedded wallets */}
+                  {!isExternalWallet && (
+                    <button
+                      onClick={() => {
+                        fundWallet({
+                          address: activeWallet.address,
+                          options: {
+                            asset: "native-currency", // Fund with SOL
+                            amount: "0.01", // Small amount for gas
+                          },
+                        });
+                      }}
+                      className="w-full py-2 bg-orange-500 text-white text-sm font-medium rounded-lg flex items-center justify-center gap-2 hover:bg-orange-600 transition-colors mb-2"
+                    >
+                      <CreditCard className="w-4 h-4" />
+                      Add SOL for Gas
+                    </button>
+                  )}
+                  {/* Fallback: Devnet faucet */}
+                  {IS_DEVNET && (
+                    <a
+                      href="https://faucet.solana.com/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-full py-2 bg-zinc-800 text-zinc-300 text-sm font-medium rounded-lg flex items-center justify-center gap-2 hover:bg-zinc-700 transition-colors"
+                    >
+                      <Fuel className="w-4 h-4" />
+                      Get Devnet SOL (Faucet)
+                    </a>
+                  )}
+                </div>
+              )}
+
             <button
               onClick={processPayment}
               disabled={
                 !hasEnoughBalance ||
                 loadingBalance ||
                 !hasCorrectWallet ||
-                evmLoading
+                evmLoading ||
+                // Only check SOL balance for external wallets (embedded wallets have Privy gas sponsorship)
+                (!isEvmChain &&
+                  !useGasless &&
+                  isExternalWallet &&
+                  solBalance !== null &&
+                  solBalance < 0.001)
               }
               className={`w-full py-4 font-semibold rounded-xl flex items-center justify-center gap-2 transition-all ${
-                hasEnoughBalance && !loadingBalance && hasCorrectWallet
+                hasEnoughBalance &&
+                !loadingBalance &&
+                hasCorrectWallet &&
+                (isEvmChain ||
+                  useGasless ||
+                  !isExternalWallet || // Embedded wallets always enabled (Privy sponsors gas)
+                  (solBalance !== null && solBalance >= 0.001))
                   ? isEvmChain
                     ? "bg-gradient-to-r from-blue-500 to-purple-500 text-white hover:opacity-90"
                     : useGasless && gaslessAvailable
