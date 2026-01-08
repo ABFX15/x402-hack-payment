@@ -472,18 +472,75 @@ export default function DashboardPage() {
             </button>
           </div>
           <pre className="bg-zinc-900 rounded-xl p-4 overflow-x-auto text-sm">
-            <code className="text-zinc-300">
-              {`const session = await fetch('/api/checkout/sessions', {
-  method: 'POST',
-  body: JSON.stringify({
-    merchantId: 'your-store',
-    merchantWallet: '${publicKey?.slice(0, 20) || "YOUR_WALLET"}...',
-    amount: 29.99,
-    successUrl: 'https://yoursite.com/success',
-    cancelUrl: 'https://yoursite.com/cancel'
-  })
-});
-// Redirect customer to session.url`}
+            <code>
+              <span className="text-purple-400">const</span>{" "}
+              <span className="text-cyan-300">session</span>{" "}
+              <span className="text-pink-400">=</span>{" "}
+              <span className="text-purple-400">await</span>{" "}
+              <span className="text-yellow-300">fetch</span>
+              <span className="text-zinc-300">(</span>
+              <span className="text-green-400">
+                &apos;/api/checkout/sessions&apos;
+              </span>
+              <span className="text-zinc-300">, {"{"}</span>
+              {"\n"}
+              {"  "}
+              <span className="text-cyan-300">method</span>
+              <span className="text-zinc-300">: </span>
+              <span className="text-green-400">&apos;POST&apos;</span>
+              <span className="text-zinc-300">,</span>
+              {"\n"}
+              {"  "}
+              <span className="text-cyan-300">body</span>
+              <span className="text-zinc-300">: </span>
+              <span className="text-yellow-300">JSON</span>
+              <span className="text-zinc-300">.</span>
+              <span className="text-yellow-300">stringify</span>
+              <span className="text-zinc-300">({"{"}</span>
+              {"\n"}
+              {"    "}
+              <span className="text-cyan-300">merchantId</span>
+              <span className="text-zinc-300">: </span>
+              <span className="text-green-400">&apos;your-store&apos;</span>
+              <span className="text-zinc-300">,</span>
+              {"\n"}
+              {"    "}
+              <span className="text-cyan-300">merchantWallet</span>
+              <span className="text-zinc-300">: </span>
+              <span className="text-green-400">
+                &apos;{publicKey?.slice(0, 20) || "YOUR_WALLET"}...&apos;
+              </span>
+              <span className="text-zinc-300">,</span>
+              {"\n"}
+              {"    "}
+              <span className="text-cyan-300">amount</span>
+              <span className="text-zinc-300">: </span>
+              <span className="text-orange-400">29.99</span>
+              <span className="text-zinc-300">,</span>
+              {"\n"}
+              {"    "}
+              <span className="text-cyan-300">successUrl</span>
+              <span className="text-zinc-300">: </span>
+              <span className="text-green-400">
+                &apos;https://yoursite.com/success&apos;
+              </span>
+              <span className="text-zinc-300">,</span>
+              {"\n"}
+              {"    "}
+              <span className="text-cyan-300">cancelUrl</span>
+              <span className="text-zinc-300">: </span>
+              <span className="text-green-400">
+                &apos;https://yoursite.com/cancel&apos;
+              </span>
+              {"\n"}
+              {"  "}
+              <span className="text-zinc-300">{"}"})</span>
+              {"\n"}
+              <span className="text-zinc-300">{"}"});</span>
+              {"\n"}
+              <span className="text-zinc-500">
+                // Redirect customer to session.url
+              </span>
             </code>
           </pre>
         </motion.div>
