@@ -336,9 +336,9 @@ function ComparisonTable() {
       settlr: { value: "Yes", isPositive: true },
     },
     {
-      feature: "Chains Supported",
-      competitor: { value: "16", isNegative: false },
-      settlr: { value: "6 (more coming)", isPositive: true },
+      feature: "Payment Token",
+      competitor: { value: "Multi-token", isNegative: false },
+      settlr: { value: "USDC", isPositive: true },
     },
   ];
 
@@ -824,7 +824,7 @@ export default function LandingPage() {
                 backgroundImage: "linear-gradient(to right, #a855f7, #22d3ee)",
               }}
             >
-              Instant Crypto Payments, Directly to Your Wallet
+              Instant USDC Payments, Directly to Your Wallet
             </span>
           </motion.h1>
 
@@ -882,7 +882,7 @@ export default function LandingPage() {
               { icon: Zap, label: "Gasless" },
               { icon: Mail, label: "Email Checkout" },
               { icon: Clock, label: "Instant Settlement" },
-              { icon: Globe, label: "6 Chains" },
+              { icon: DollarSign, label: "USDC" },
             ].map((feature, index) => (
               <span
                 key={feature.label}
@@ -923,7 +923,7 @@ export default function LandingPage() {
             viewport={{ once: true }}
           >
             <h2 className="mb-6 text-4xl font-bold text-white md:text-5xl">
-              Start accepting crypto today
+              Start accepting USDC today
             </h2>
             <p className="mb-8 text-lg text-white/50">
               Full control of your funds. No custody risk. No payment holds. Get

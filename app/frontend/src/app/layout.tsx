@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     template: "%s | Settlr",
   },
   description:
-    "Accept crypto payments with instant settlement directly to your wallet. Non-custodial, no wallet extensions needed. Customers pay with email. From 1% fees. Built on Solana.",
+    "Accept USDC payments with instant settlement directly to your wallet. Non-custodial, no wallet extensions needed. Customers pay with email. From 1% fees. Built on Solana.",
   keywords: [
     "crypto payment processor",
     "crypto payment gateway",
@@ -56,7 +56,7 @@ export const metadata: Metadata = {
     siteName: "Settlr",
     title: "Settlr | Non-Custodial Crypto Payment Processor",
     description:
-      "Accept crypto payments with instant settlement to your wallet. No custody risk, no delays. Embedded wallets for seamless checkout. From 1% fees.",
+      "Accept USDC payments with instant settlement to your wallet. No custody risk, no delays. Embedded wallets for seamless checkout. From 1% fees.",
     images: [
       {
         url: "/opengraph-image",

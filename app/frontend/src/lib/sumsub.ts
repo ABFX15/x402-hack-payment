@@ -120,14 +120,14 @@ export async function createApplicant(
  */
 export async function getApplicantByExternalId(
     externalUserId: string
-): Promise<{ id: string; review: { reviewStatus: string } } | null> {
+): Promise<{ id: string; review: { reviewStatus: string; reviewResult?: { reviewAnswer?: string } } } | null> {
     try {
         const endpoint = `/resources/applicants/-;externalUserId=${encodeURIComponent(
             externalUserId
         )}/one`;
         const result = await sumsubRequest<{
             id: string;
-            review: { reviewStatus: string };
+            review: { reviewStatus: string; reviewResult?: { reviewAnswer?: string } };
         }>("GET", endpoint);
         return result;
     } catch {

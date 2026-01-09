@@ -45,9 +45,9 @@ const features = [
   },
   {
     icon: CreditCard,
-    title: "Fiat On/Off Ramp",
+    title: "Fiat On-Ramp",
     description:
-      "Players buy crypto with cards. Operators convert to fiat for treasury management.",
+      "Players can buy USDC with cards through our MoonPay integration.",
   },
   {
     icon: Lock,
@@ -164,7 +164,7 @@ export default function IGamingPage() {
             className="mb-6 text-5xl font-bold leading-tight text-white md:text-6xl lg:text-7xl"
           >
             <span className="bg-gradient-to-r from-[#a855f7] to-[#22d3ee] bg-clip-text text-transparent">
-              Crypto Payments
+              USDC Payments
             </span>
             <br />
             for Gaming Platforms
@@ -257,7 +257,7 @@ export default function IGamingPage() {
               vs Traditional Payment Processors
             </h2>
             <p className="text-lg text-gray-400">
-              See why crypto-native payments win for gaming
+              See why USDC payments win for gaming
             </p>
           </motion.div>
 
@@ -308,10 +308,10 @@ export default function IGamingPage() {
               viewport={{ once: true }}
             >
               <h2 className="mb-6 text-4xl font-bold text-white">
-                Everything You Need to Accept Crypto
+                Everything You Need to Accept USDC
               </h2>
               <p className="mb-8 text-lg text-gray-400">
-                Integrate once and start accepting payments from players
+                Integrate once and start accepting USDC payments from players
                 worldwide. No payment processor politics, no account freezes, no
                 surprises.
               </p>

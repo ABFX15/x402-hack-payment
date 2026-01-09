@@ -62,7 +62,7 @@ const faqCategories = [
       {
         question: "What currencies do you support?",
         answer:
-          "Currently we support USDC on Solana. Customers can pay from multiple chains and we bridge to Solana USDC automatically.",
+          "We support USDC on Solana. Customers can buy USDC with a credit card through our MoonPay integration if they don't have crypto.",
       },
       {
         question: "Can customers pay with credit cards?",

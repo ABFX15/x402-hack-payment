@@ -39,7 +39,7 @@ export default function DocsPage() {
         <div className="mb-12">
           <h1 className="text-4xl font-bold mb-4">Documentation</h1>
           <p className="text-xl text-gray-400">
-            Everything you need to accept crypto payments with Settlr.
+            Everything you need to accept USDC payments with Settlr.
           </p>
         </div>
 
@@ -83,7 +83,7 @@ function QuickStartContent() {
       <section>
         <h2 className="text-2xl font-bold mb-4">Get Started in 5 Minutes</h2>
         <p className="text-gray-400 mb-6">
-          Accept crypto payments on your website with just a few lines of code.
+          Accept USDC payments on your website with just a few lines of code.
         </p>
 
         {/* Step 1 */}
@@ -207,11 +207,9 @@ function CheckoutPage() {
               </p>
             </div>
             <div className="bg-gray-900 rounded-lg p-4">
-              <p className="text-cyan-400 font-medium mb-1">
-                Multichain Payments
-              </p>
+              <p className="text-cyan-400 font-medium mb-1">Cross-chain USDC</p>
               <p className="text-gray-500 text-sm">
-                Customers pay from ETH/Base/Arbitrum - you receive USDC on
+                Customers pay with USDC from ETH/Base/Arbitrum - you receive on
                 Solana
               </p>
             </div>
@@ -524,7 +522,7 @@ function CustomCheckout() {
                 <td className="px-4 py-3 font-mono text-purple-400">label</td>
                 <td className="px-4 py-3 text-gray-400">string</td>
                 <td className="px-4 py-3 text-gray-400">
-                  Button text (default: "Pay with Crypto")
+                  Button text (default: "Pay with USDC")
                 </td>
               </tr>
               <tr>
