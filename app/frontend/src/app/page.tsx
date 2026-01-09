@@ -337,8 +337,8 @@ function ComparisonTable() {
     },
     {
       feature: "Payment Token",
-      competitor: { value: "Multi-token", isNegative: false },
-      settlr: { value: "USDC", isPositive: true },
+      competitor: { value: "Limited tokens", isNegative: true },
+      settlr: { value: "Any Solana token", isPositive: true },
     },
   ];
 
@@ -467,8 +467,8 @@ function DemoShowcase() {
     },
     {
       icon: CheckCircle2,
-      title: "Get USDC",
-      description: "Instant settlement",
+      title: "Pay with Any Token",
+      description: "SOL, BONK, JUP & more",
     },
   ];
 
@@ -824,7 +824,7 @@ export default function LandingPage() {
                 backgroundImage: "linear-gradient(to right, #a855f7, #22d3ee)",
               }}
             >
-              Instant USDC Payments, Directly to Your Wallet
+              Start Accepting Crypto in 5 Minutes
             </span>
           </motion.h1>
 
@@ -835,8 +835,8 @@ export default function LandingPage() {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3, duration: 0.8 }}
           >
-            Non-custodial payments with embedded wallets. No extensions, no seed
-            phrases, no delays.
+            One line of code. Any Solana token. Instant USDC to your wallet. No
+            BS.
           </motion.p>
 
           {/* CTA Buttons */}
@@ -878,11 +878,11 @@ export default function LandingPage() {
             transition={{ delay: 0.7, duration: 0.8 }}
           >
             {[
-              { icon: Wallet, label: "Non-Custodial" },
               { icon: Zap, label: "Gasless" },
-              { icon: Mail, label: "Email Checkout" },
-              { icon: Clock, label: "Instant Settlement" },
-              { icon: DollarSign, label: "USDC" },
+              { icon: Clock, label: "Instant" },
+              { icon: DollarSign, label: "10+ Tokens" },
+              { icon: Wallet, label: "Non-Custodial" },
+              { icon: Shield, label: "No Chargebacks" },
             ].map((feature, index) => (
               <span
                 key={feature.label}
@@ -923,11 +923,10 @@ export default function LandingPage() {
             viewport={{ once: true }}
           >
             <h2 className="mb-6 text-4xl font-bold text-white md:text-5xl">
-              Start accepting USDC today
+              Ready to Get Paid?
             </h2>
             <p className="mb-8 text-lg text-white/50">
-              Full control of your funds. No custody risk. No payment holds. Get
-              started in minutes.
+              SOL, BONK, JUP → auto-swapped to USDC. Your wallet. Your rules.
             </p>
             <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
               <Link

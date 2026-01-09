@@ -62,12 +62,12 @@ const faqCategories = [
       {
         question: "What currencies do you support?",
         answer:
-          "We support USDC on Solana. Customers can buy USDC with a credit card through our MoonPay integration if they don't have crypto.",
+          "Customers can pay with any Solana token (SOL, BONK, JUP, PYTH, WIF, and more). We automatically swap to USDC using Jupiter, so you always receive USDC. Customers can also buy crypto with a credit card through our MoonPay integration.",
       },
       {
         question: "Can customers pay with credit cards?",
         answer:
-          "Yes! Through our MoonPay integration, customers can buy USDC with their credit card and pay you directly.",
+          "Yes! Through our MoonPay integration, customers can buy crypto with their credit card. We also support paying with any Solana token and automatically swap to USDC for you.",
       },
       {
         question: "Do customers pay gas fees?",

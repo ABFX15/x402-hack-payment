@@ -37,8 +37,14 @@ import {
   createAssociatedTokenAccountInstruction,
 } from "@solana/spl-token";
 import { ChainSelector, getExplorerUrl } from "@/components/ChainSelector";
+import { TokenSelector } from "@/components/TokenSelector";
 import { useEvmPayment } from "@/hooks/useEvmPayment";
 import { useMayanSwap, MayanStatus } from "@/hooks/useMayanSwap";
+import {
+  useJupiterSwap,
+  SOLANA_TOKENS,
+  USDC_MINT as JUPITER_USDC_MINT,
+} from "@/hooks/useJupiterSwap";
 import { ChainType, USDC_ADDRESSES } from "@/hooks/useMultichainWallet";
 
 // Base58 alphabet for encoding signatures
@@ -200,6 +206,33 @@ export default function CheckoutClient({ searchParams }: CheckoutClientProps) {
     evmWalletsList?.[0];
   const hasEvmWallet = !!activeEvmWallet;
 
+  // Get a simple wallet reference for Jupiter (full activeWallet logic below)
+  const jupiterWalletAddress = wallets?.[0]?.address || null;
+
+  // Jupiter swap hook (for paying with SOL/BONK/etc on Solana)
+  const {
+    status: jupiterStatus,
+    error: jupiterError,
+    selectedToken,
+    availableTokens,
+    quote: jupiterQuote,
+    inputAmountFormatted: jupiterInputAmount,
+    priceImpact: jupiterPriceImpact,
+    tokenBalance: jupiterTokenBalance,
+    hasEnoughBalance: jupiterHasEnoughBalance,
+    selectToken: selectJupiterToken,
+    getQuote: getJupiterQuote,
+    executeSwap: executeJupiterSwap,
+    reset: resetJupiter,
+  } = useJupiterSwap(jupiterWalletAddress);
+
+  // Whether a Jupiter swap is needed (non-USDC token selected on Solana mainnet)
+  // Jupiter only works on mainnet, not devnet
+  const needsJupiterSwap =
+    !IS_DEVNET &&
+    selectedChain === "solana" &&
+    selectedToken.mint !== JUPITER_USDC_MINT;
+
   // Determine if selected chain is EVM
   const isEvmChain = selectedChain !== "solana";
 
@@ -277,6 +310,18 @@ export default function CheckoutClient({ searchParams }: CheckoutClientProps) {
     }
     fetchMayanQuote();
   }, [isEvmChain, amount, selectedChain, getMayanQuotePreview]);
+
+  // Fetch Jupiter quote when Solana token changes (for non-USDC tokens)
+  // Only runs on mainnet since Jupiter doesn't work on devnet
+  useEffect(() => {
+    if (IS_DEVNET) return; // Jupiter only works on mainnet
+    if (needsJupiterSwap && amount > 0) {
+      console.log(
+        `[Jupiter] Getting quote for ${amount} USDC worth of ${selectedToken.symbol}`
+      );
+      getJupiterQuote(amount);
+    }
+  }, [needsJupiterSwap, amount, selectedToken, getJupiterQuote]);
 
   // Get active wallet - prefer the wallet that's actually connected
   // Privy may detect multiple wallet extensions, but only one is actively connected
@@ -746,11 +791,164 @@ export default function CheckoutClient({ searchParams }: CheckoutClientProps) {
     }
   };
 
+  // Process Jupiter swap payment (swap token to USDC, then transfer)
+  const processJupiterPayment = async () => {
+    if (!activeWallet?.address || !merchantWallet) {
+      setError("Missing wallet or merchant address");
+      setStep("error");
+      return;
+    }
+
+    if (!jupiterQuote) {
+      setError("No swap quote available. Please try again.");
+      setStep("error");
+      return;
+    }
+
+    setStep("processing");
+    setError("");
+
+    try {
+      console.log(
+        `[Jupiter] Swapping ${jupiterInputAmount} ${selectedToken.symbol} → ${amount} USDC`
+      );
+
+      // Step 1: Execute Jupiter swap (token → USDC)
+      // The swap result gives user USDC in their wallet
+      const swapSignature = await executeJupiterSwap(async (tx) => {
+        // Sign the VersionedTransaction using Privy
+        const serialized = tx.serialize();
+        const signedResult = await signTransaction({
+          transaction: serialized,
+          wallet: activeWallet,
+          chain: IS_DEVNET ? "solana:devnet" : "solana:mainnet",
+        });
+        // Deserialize back to VersionedTransaction
+        const { VersionedTransaction } = await import("@solana/web3.js");
+        return VersionedTransaction.deserialize(signedResult.signedTransaction);
+      });
+
+      if (!swapSignature) {
+        // Swap returned null - means it was USDC and no swap needed
+        // This shouldn't happen if needsJupiterSwap is true, but handle it
+        console.log("[Jupiter] No swap needed, proceeding with USDC transfer");
+      } else {
+        console.log(`[Jupiter] Swap complete: ${swapSignature}`);
+      }
+
+      // Step 2: Now transfer USDC to merchant
+      // At this point, user has USDC from the swap
+      const connection = new Connection(RPC_ENDPOINT, "confirmed");
+      const userPubkey = new PublicKey(activeWallet.address);
+      const merchantPubkey = new PublicKey(merchantWallet);
+      const userAta = await getAssociatedTokenAddress(USDC_MINT, userPubkey);
+      const merchantAta = await getAssociatedTokenAddress(
+        USDC_MINT,
+        merchantPubkey
+      );
+
+      const amountInBaseUnits = BigInt(
+        Math.round(amount * Math.pow(10, USDC_DECIMALS))
+      );
+      const transaction = new Transaction();
+
+      // Check if merchant ATA exists
+      try {
+        await getAccount(connection, merchantAta);
+      } catch {
+        transaction.add(
+          createAssociatedTokenAccountInstruction(
+            userPubkey,
+            merchantAta,
+            merchantPubkey,
+            USDC_MINT
+          )
+        );
+      }
+
+      // Add transfer instruction
+      transaction.add(
+        createTransferInstruction(
+          userAta,
+          merchantAta,
+          userPubkey,
+          amountInBaseUnits
+        )
+      );
+
+      const { blockhash } = await connection.getLatestBlockhash();
+      transaction.recentBlockhash = blockhash;
+      transaction.feePayer = userPubkey;
+
+      const serializedTx = transaction.serialize({
+        requireAllSignatures: false,
+        verifySignatures: false,
+      });
+
+      const result = await signAndSendTransaction({
+        transaction: serializedTx,
+        wallet: activeWallet,
+        chain: IS_DEVNET ? "solana:devnet" : "solana:mainnet",
+        options: { skipPreflight: true, commitment: "confirmed" },
+      });
+
+      const transferSignature = encodeBase58(result.signature);
+      console.log(`[Jupiter] Transfer complete: ${transferSignature}`);
+
+      setTxSignature(transferSignature);
+
+      // Complete checkout session if applicable
+      if (sessionId) {
+        try {
+          const completeResponse = await fetch("/api/checkout/complete", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              sessionId,
+              signature: transferSignature,
+              customerWallet: activeWallet.address,
+            }),
+          });
+
+          if (completeResponse.ok && successUrl) {
+            window.location.href = successUrl;
+            return;
+          }
+        } catch (completeErr) {
+          console.error("Error completing checkout:", completeErr);
+        }
+      }
+
+      setStep("success");
+      sendToParent("settlr:success", {
+        signature: transferSignature,
+        swapSignature,
+        amount,
+        merchantWallet,
+        memo,
+        paymentToken: selectedToken.symbol,
+        swapType: "jupiter",
+      });
+    } catch (err: unknown) {
+      console.error("[Jupiter] Payment error:", err);
+      const errorMessage =
+        err instanceof Error ? err.message : "Payment failed";
+      setError(errorMessage);
+      setStep("error");
+      sendToParent("settlr:error", { message: errorMessage });
+    }
+  };
+
   // Process payment (standard - user pays gas)
   const processPayment = async () => {
     // If EVM chain is selected, use EVM payment flow
     if (isEvmChain) {
       return processEvmPayment();
+    }
+
+    // If Jupiter swap is needed (non-USDC token on Solana)
+    if (needsJupiterSwap) {
+      return processJupiterPayment();
     }
 
     // If gasless is enabled (Kora), use that flow (for external wallets)
@@ -1394,6 +1592,55 @@ export default function CheckoutClient({ searchParams }: CheckoutClientProps) {
               )}
             </div>
 
+            {/* Token Selector (for Solana - pay with SOL, BONK, etc.) */}
+            {selectedChain === "solana" && !IS_DEVNET && (
+              <div className="mb-4">
+                <p className="text-zinc-400 text-xs mb-2">Pay with</p>
+                <TokenSelector
+                  selectedToken={selectedToken}
+                  availableTokens={availableTokens}
+                  onSelectToken={selectJupiterToken}
+                  balance={jupiterTokenBalance}
+                  requiredAmount={
+                    needsJupiterSwap ? jupiterInputAmount : undefined
+                  }
+                  isLoadingQuote={jupiterStatus === "loading-quote"}
+                  showBalance={true}
+                />
+                {needsJupiterSwap && jupiterQuote && (
+                  <div className="mt-2 p-3 bg-gradient-to-r from-orange-500/10 to-yellow-500/10 border border-orange-500/30 rounded-xl">
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="text-zinc-400">You pay</span>
+                      <span className="text-white font-medium">
+                        {jupiterInputAmount} {selectedToken.symbol}
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between text-sm mt-1">
+                      <span className="text-zinc-400">You get</span>
+                      <span className="text-green-400 font-medium">
+                        ${amount.toFixed(2)} USDC
+                      </span>
+                    </div>
+                    {parseFloat(jupiterPriceImpact) > 1 && (
+                      <p className="text-yellow-400 text-xs mt-2 flex items-center gap-1">
+                        <AlertCircle className="w-3 h-3" />
+                        Price impact: {jupiterPriceImpact}%
+                      </p>
+                    )}
+                    <p className="text-zinc-500 text-xs mt-2 text-center">
+                      Swap powered by Jupiter
+                    </p>
+                  </div>
+                )}
+                {jupiterError && (
+                  <p className="text-red-400 text-xs mt-2 flex items-center gap-1">
+                    <AlertCircle className="w-3 h-3" />
+                    {jupiterError}
+                  </p>
+                )}
+              </div>
+            )}
+
             {/* Payment details */}
             <div className="bg-zinc-800/50 rounded-2xl p-4 mb-4">
               <div className="flex justify-between items-center mb-3">
@@ -1656,6 +1903,11 @@ export default function CheckoutClient({ searchParams }: CheckoutClientProps) {
                   Pay ${amount.toFixed(2)} USDC on{" "}
                   {selectedChain.charAt(0).toUpperCase() +
                     selectedChain.slice(1)}
+                </>
+              ) : needsJupiterSwap ? (
+                <>
+                  <Zap className="w-5 h-5" />
+                  Pay {jupiterInputAmount} {selectedToken.symbol}
                 </>
               ) : useGasless && gaslessAvailable ? (
                 <>

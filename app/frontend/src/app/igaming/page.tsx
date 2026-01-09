@@ -47,7 +47,7 @@ const features = [
     icon: CreditCard,
     title: "Fiat On-Ramp",
     description:
-      "Players can buy USDC with cards through our MoonPay integration.",
+      "Players can buy crypto with cards through our MoonPay integration.",
   },
   {
     icon: Lock,
@@ -58,7 +58,7 @@ const features = [
 ];
 
 const benefits = [
-  "Instant USDC settlement to your wallet",
+  "Accept any Solana token, receive USDC",
   "No payment processor holds or freezes",
   "Global player reach without geo-restrictions",
   "Lower fees than traditional payment gateways",
@@ -164,10 +164,10 @@ export default function IGamingPage() {
             className="mb-6 text-5xl font-bold leading-tight text-white md:text-6xl lg:text-7xl"
           >
             <span className="bg-gradient-to-r from-[#a855f7] to-[#22d3ee] bg-clip-text text-transparent">
-              USDC Payments
+              Zero Chargebacks.
             </span>
             <br />
-            for Gaming Platforms
+            Instant Payouts.
           </motion.h1>
 
           <motion.p
@@ -176,8 +176,8 @@ export default function IGamingPage() {
             transition={{ delay: 0.2 }}
             className="mx-auto mb-8 max-w-2xl text-xl text-gray-400"
           >
-            Instant deposits, fast withdrawals, zero chargebacks. Non-custodial
-            payment infrastructure designed for online gaming operators.
+            Players deposit with any token. You get USDC in seconds. No frozen
+            accounts. No BS.
           </motion.p>
 
           <motion.div
@@ -257,7 +257,7 @@ export default function IGamingPage() {
               vs Traditional Payment Processors
             </h2>
             <p className="text-lg text-gray-400">
-              See why USDC payments win for gaming
+              See why crypto payments win for gaming
             </p>
           </motion.div>
 
@@ -308,12 +308,12 @@ export default function IGamingPage() {
               viewport={{ once: true }}
             >
               <h2 className="mb-6 text-4xl font-bold text-white">
-                Everything You Need to Accept USDC
+                Everything You Need to Accept Crypto
               </h2>
               <p className="mb-8 text-lg text-gray-400">
-                Integrate once and start accepting USDC payments from players
-                worldwide. No payment processor politics, no account freezes, no
-                surprises.
+                Integrate once and start accepting payments from players
+                worldwide. Players pay with SOL, BONK, JUP, or any Solana token
+                - you receive USDC.
               </p>
               <ul className="space-y-4">
                 {benefits.map((benefit, index) => (
