@@ -824,7 +824,7 @@ export default function LandingPage() {
                 backgroundImage: "linear-gradient(to right, #a855f7, #22d3ee)",
               }}
             >
-              Start Accepting Crypto in 5 Minutes
+              Accept Any Crypto. Receive Instant USDC.
             </span>
           </motion.h1>
 
@@ -835,8 +835,7 @@ export default function LandingPage() {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3, duration: 0.8 }}
           >
-            One line of code. Any Solana token. Instant USDC to your wallet. No
-            BS.
+            No wallets. No gas fees. No custody risk. Just payments that work.
           </motion.p>
 
           {/* CTA Buttons */}
@@ -878,9 +877,9 @@ export default function LandingPage() {
             transition={{ delay: 0.7, duration: 0.8 }}
           >
             {[
-              { icon: Zap, label: "Gasless" },
-              { icon: Clock, label: "Instant" },
-              { icon: DollarSign, label: "10+ Tokens" },
+              { icon: DollarSign, label: "Any Token" },
+              { icon: Zap, label: "Zero Gas" },
+              { icon: Clock, label: "Instant Settlement" },
               { icon: Wallet, label: "Non-Custodial" },
               { icon: Shield, label: "No Chargebacks" },
             ].map((feature, index) => (
@@ -923,10 +922,11 @@ export default function LandingPage() {
             viewport={{ once: true }}
           >
             <h2 className="mb-6 text-4xl font-bold text-white md:text-5xl">
-              Ready to Get Paid?
+              Start Getting Paid in Crypto
             </h2>
             <p className="mb-8 text-lg text-white/50">
-              SOL, BONK, JUP → auto-swapped to USDC. Your wallet. Your rules.
+              Your customers pay with any token. You receive USDC. Instantly.
+              Non-custodially.
             </p>
             <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
               <Link

@@ -176,8 +176,8 @@ export default function IGamingPage() {
             transition={{ delay: 0.2 }}
             className="mx-auto mb-8 max-w-2xl text-xl text-gray-400"
           >
-            Players deposit with any token. You get USDC in seconds. No frozen
-            accounts. No BS.
+            Players pay with any crypto. You receive USDC instantly. No wallets,
+            no gas, no custody risk.
           </motion.p>
 
           <motion.div
