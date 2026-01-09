@@ -761,6 +761,12 @@ export default function LandingPage() {
           </Link>
           <nav className="hidden items-center gap-6 md:flex">
             <Link
+              href="/dashboard"
+              className="text-sm text-white/50 transition-colors hover:text-white"
+            >
+              Dashboard
+            </Link>
+            <Link
               href="/igaming"
               className="text-sm text-white/50 transition-colors hover:text-white"
             >

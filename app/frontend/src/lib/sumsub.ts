@@ -3,6 +3,18 @@
  * 
  * Documentation: https://docs.sumsub.com/
  * 
+ * SETUP REQUIRED:
+ * 1. Log into Sumsub dashboard (https://cockpit.sumsub.com)
+ * 2. Go to "Applicant levels" or "Verification levels"
+ * 3. Create levels matching the names below (or update .env with your level names)
+ * 
+ * Environment Variables:
+ * - SUMSUB_APP_TOKEN: Your API token (sbx: prefix for sandbox)
+ * - SUMSUB_SECRET_KEY: Your secret key
+ * - SUMSUB_LEVEL_BASIC: (optional) Name of basic KYC level
+ * - SUMSUB_LEVEL_GAMING: (optional) Name of gaming KYC level  
+ * - SUMSUB_LEVEL_ENHANCED: (optional) Name of enhanced KYC level
+ * 
  * Flow:
  * 1. Merchant enables KYC for their checkout
  * 2. Customer initiates payment
@@ -18,11 +30,12 @@ const SUMSUB_APP_TOKEN = process.env.SUMSUB_APP_TOKEN || "";
 const SUMSUB_SECRET_KEY = process.env.SUMSUB_SECRET_KEY || "";
 const SUMSUB_BASE_URL = "https://api.sumsub.com";
 
-// Level names - configure in Sumsub dashboard
+// Level names - configure in Sumsub dashboard or via environment variables
+// Default names shown - create these in your Sumsub dashboard or override with env vars
 export const KYC_LEVELS = {
-    BASIC: "basic-kyc-level", // ID + selfie
-    GAMING: "gaming-kyc-level", // ID + selfie + age verification
-    ENHANCED: "enhanced-kyc-level", // ID + selfie + proof of address
+    BASIC: process.env.SUMSUB_LEVEL_BASIC || "basic-kyc-level", // ID + selfie
+    GAMING: process.env.SUMSUB_LEVEL_GAMING || "gaming-kyc-level", // ID + selfie + age verification
+    ENHANCED: process.env.SUMSUB_LEVEL_ENHANCED || "enhanced-kyc-level", // ID + selfie + proof of address
 } as const;
 
 export type KYCLevel = (typeof KYC_LEVELS)[keyof typeof KYC_LEVELS];
@@ -61,6 +74,8 @@ async function sumsubRequest<T>(
     const bodyString = body ? JSON.stringify(body) : undefined;
     const { ts, signature } = generateSignature(method, endpoint, bodyString);
 
+    console.log(`[Sumsub] ${method} ${endpoint}`);
+
     const response = await fetch(`${SUMSUB_BASE_URL}${endpoint}`, {
         method,
         headers: {
@@ -74,6 +89,7 @@ async function sumsubRequest<T>(
 
     if (!response.ok) {
         const error = await response.text();
+        console.error(`[Sumsub] Error ${response.status}:`, error);
         throw new Error(`Sumsub API error: ${response.status} - ${error}`);
     }
 
