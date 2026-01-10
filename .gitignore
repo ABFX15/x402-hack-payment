@@ -6,3 +6,4 @@ node_modules
 test-ledger
 .yarn
 phantom-wallet.json 
+demo-wallet.json

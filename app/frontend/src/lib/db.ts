@@ -744,9 +744,8 @@ const DEMO_API_KEY = "sk_test_demo_xxxxxxxxxxxx";
 const DEMO_MERCHANT = {
     id: "demo_merchant",
     name: "Demo Store",
-    // Devnet demo wallet - this is a burn address for testing only
-    // All 1s is a valid base58 address that no one controls
-    walletAddress: "11111111111111111111111111111111",
+    // Real devnet wallet - payments actually work for testing
+    walletAddress: "DjLFeMQ3E6i5CxERRVbQZbAHP1uF4XspLMYafjz3rSQV",
 };
 
 export async function validateApiKey(rawKey: string): Promise<{
