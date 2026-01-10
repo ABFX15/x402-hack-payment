@@ -8,7 +8,8 @@
 
 🌐 **Website:** [settlr.dev](https://settlr.dev)  
 📖 **Docs:** [settlr.dev/docs](https://settlr.dev/docs)  
-🎮 **Demo:** [settlr.dev/demo](https://settlr.dev/demo)
+🎮 **Demo:** [settlr.dev/demo](https://settlr.dev/demo)  
+💻 **GitHub:** [github.com/ABFX15/x402-hack-payment](https://github.com/ABFX15/x402-hack-payment)
 
 ## Why Settlr?
 

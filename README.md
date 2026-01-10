@@ -17,8 +17,8 @@ import { SettlrProvider, BuyButton } from "@settlr/sdk";
 
 <SettlrProvider
   config={{
-    apiKey: "sk_live_xxxxxxxxxxxx", // Get at settlr.dev/onboarding
-    merchant: { name: "My Store" }, // Wallet linked to API key
+    apiKey: "sk_test_demo_xxxxxxxxxxxx", // Get yours at settlr.dev/onboarding
+    merchant: { name: "My Store" },
   }}
 >
   <BuyButton

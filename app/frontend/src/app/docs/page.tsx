@@ -5,7 +5,7 @@ import Link from "next/link";
 
 export default function DocsPage() {
   const [activeTab, setActiveTab] = useState<
-    "quickstart" | "react" | "api" | "webhooks"
+    "quickstart" | "react" | "api" | "webhooks" | "troubleshooting"
   >("quickstart");
 
   return (
@@ -24,7 +24,7 @@ export default function DocsPage() {
               Demo
             </Link>
             <a
-              href="https://github.com/your-org/settlr"
+              href="https://github.com/ABFX15/x402-hack-payment"
               target="_blank"
               className="text-gray-400 hover:text-white transition-colors"
             >
@@ -44,12 +44,13 @@ export default function DocsPage() {
         </div>
 
         {/* Navigation Tabs */}
-        <div className="flex gap-1 mb-8 border-b border-white/10">
+        <div className="flex gap-1 mb-8 border-b border-white/10 overflow-x-auto">
           {[
             { id: "quickstart", label: "Quick Start" },
             { id: "react", label: "React SDK" },
             { id: "api", label: "API Reference" },
             { id: "webhooks", label: "Webhooks" },
+            { id: "troubleshooting", label: "Troubleshooting" },
           ].map((tab) => (
             <button
               key={tab.id}
@@ -71,6 +72,7 @@ export default function DocsPage() {
           {activeTab === "react" && <ReactSDKContent />}
           {activeTab === "api" && <APIContent />}
           {activeTab === "webhooks" && <WebhooksContent />}
+          {activeTab === "troubleshooting" && <TroubleshootingContent />}
         </div>
       </div>
     </div>
@@ -149,7 +151,7 @@ function QuickStartContent() {
 
 // Initialize with your credentials
 const settlr = new Settlr({
-  apiKey: 'sk_live_your_api_key',  // From onboarding
+  apiKey: 'sk_test_demo_xxxxxxxxxxxx',  // Use sk_test_ for development
   merchant: {
     name: 'Your Store Name',
   },
@@ -166,16 +168,18 @@ const settlr = new Settlr({
             <h3 className="text-xl font-semibold">Add a Payment Button</h3>
           </div>
           <CodeBlock language="tsx">
-            {`import { SettlrPayButton } from '@settlr/sdk';
+            {`import { BuyButton } from '@settlr/sdk';
 
 function CheckoutPage() {
   return (
-    <SettlrPayButton
+    <BuyButton
       amount={10.00}
-      currency="USDC"
-      onSuccess={(tx) => console.log('Paid!', tx)}
+      memo="Order #123"
+      onSuccess={(result) => console.log('Paid!', result.signature)}
       onError={(err) => console.error(err)}
-    />
+    >
+      Pay $10.00
+    </BuyButton>
   );
 }`}
           </CodeBlock>
@@ -374,10 +378,10 @@ function ProductPage() {
           {`import { Settlr } from '@settlr/sdk';
 
 const settlr = new Settlr({
-  apiKey: "sk_test_xxx",
+  apiKey: "sk_test_demo_xxxxxxxxxxxx",  // Use your key from onboarding
   merchant: {
     name: "My Store",
-    walletAddress: "YOUR_WALLET_ADDRESS",
+    // walletAddress auto-fetched from API key
   },
 });
 
@@ -397,7 +401,7 @@ window.location.href = url;`}
           The simplest way to accept payments.
         </p>
         <CodeBlock language="tsx">
-          {`import { SettlrPayButton } from '@settlr/sdk';
+          {`import { BuyButton } from '@settlr/sdk';
 
 function ProductPage({ product }) {
   return (
@@ -405,19 +409,19 @@ function ProductPage({ product }) {
       <h1>{product.name}</h1>
       <p>\${product.price}</p>
       
-      <SettlrPayButton
-        recipient="MERCHANT_WALLET"
+      <BuyButton
         amount={product.price}
-        currency="USDC"
-        label="Buy Now"
-        onSuccess={(tx) => {
+        memo={product.name}
+        onSuccess={(result) => {
           // Payment complete! Fulfill the order
-          fulfillOrder(product.id, tx.signature);
+          fulfillOrder(product.id, result.signature);
         }}
         onError={(error) => {
           toast.error('Payment failed');
         }}
-      />
+      >
+        Buy Now - \${product.price}
+      </BuyButton>
     </div>
   );
 }`}
@@ -576,7 +580,7 @@ function APIContent() {
           </p>
           <CodeBlock language="bash">
             {`curl https://api.settlr.io/v1/payments \\
-  -H "Authorization: Bearer sk_live_your_api_key" \\
+  -H "Authorization: Bearer sk_test_demo_xxxxxxxxxxxx" \\
   -H "Content-Type: application/json"`}
           </CodeBlock>
         </div>
@@ -816,6 +820,124 @@ export async function POST(req: NextRequest) {
           </p>
         </div>
       </section>
+    </div>
+  );
+}
+
+function TroubleshootingContent() {
+  return (
+    <div className="space-y-8">
+      <section>
+        <h2 className="text-2xl font-bold mb-4">Troubleshooting</h2>
+        <p className="text-gray-400 mb-6">Common issues and how to fix them.</p>
+
+        {/* FAQ Items */}
+        <div className="space-y-4">
+          <TroubleshootingItem
+            question="Payment stuck on 'Processing'"
+            answer="This usually means the transaction is waiting for confirmation. Solana transactions typically confirm in 1-2 seconds. If it's stuck longer:
+• Check your internet connection
+• The RPC endpoint may be congested - try refreshing
+• If using devnet, the network may be slow - wait 30 seconds and try again"
+          />
+
+          <TroubleshootingItem
+            question="'Insufficient balance' error"
+            answer="The user's wallet doesn't have enough USDC to complete the payment. They can:
+• Buy USDC using the built-in fiat on-ramp (card purchase)
+• Transfer USDC from another wallet
+• Swap another token for USDC via Jupiter (built-in)"
+          />
+
+          <TroubleshootingItem
+            question="Webhook not receiving events"
+            answer="Check these common issues:
+• Verify your webhook URL is publicly accessible (not localhost)
+• Ensure your endpoint returns 200 status within 5 seconds
+• Check your webhook secret matches the one in your dashboard
+• Look for HTTPS - webhooks require SSL in production"
+          />
+
+          <TroubleshootingItem
+            question="'Invalid API key' error"
+            answer="Your API key may be incorrect or expired:
+• Make sure you're using the full key (starts with sk_test_ or sk_live_)
+• Check for extra spaces or newlines
+• Verify you're using the right key for your environment (test vs live)
+• Generate a new key from the dashboard if needed"
+          />
+
+          <TroubleshootingItem
+            question="Cross-chain payment taking too long"
+            answer="Payments from Ethereum/Base/Arbitrum are bridged via Mayan and take 1-3 minutes:
+• Ethereum mainnet: 1-3 min (slower due to block times)
+• L2s (Base, Arbitrum, Optimism): 1-2 min
+• Check the transaction on the source chain explorer
+• Mayan bridge status: bridge.mayan.finance"
+          />
+
+          <TroubleshootingItem
+            question="BuyButton not rendering"
+            answer="Make sure you've wrapped your app with SettlrProvider:
+
+import { SettlrProvider, BuyButton } from '@settlr/sdk';
+
+<SettlrProvider config={{ apiKey: '...', merchant: { name: '...' } }}>
+  <BuyButton amount={10}>Pay</BuyButton>
+</SettlrProvider>"
+          />
+
+          <TroubleshootingItem
+            question="Can I test without real money?"
+            answer="Yes! Use Solana devnet for testing:
+• Get devnet SOL from faucet.solana.com
+• Get devnet USDC from the test faucet in our demo
+• Use sk_test_ API keys - they skip validation
+• All checkout flows work identically on devnet"
+          />
+
+          <TroubleshootingItem
+            question="How do I get support?"
+            answer="We're here to help:
+• GitHub Issues: github.com/ABFX15/x402-hack-payment
+• Discord: Coming soon
+• Email: support@settlr.dev"
+          />
+        </div>
+      </section>
+    </div>
+  );
+}
+
+function TroubleshootingItem({
+  question,
+  answer,
+}: {
+  question: string;
+  answer: string;
+}) {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <div className="border border-white/10 rounded-lg overflow-hidden">
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="w-full px-4 py-4 flex items-center justify-between text-left hover:bg-white/5 transition-colors"
+      >
+        <span className="font-medium">{question}</span>
+        <span
+          className={`text-purple-400 transition-transform ${
+            isOpen ? "rotate-180" : ""
+          }`}
+        >
+          ▼
+        </span>
+      </button>
+      {isOpen && (
+        <div className="px-4 pb-4">
+          <p className="text-gray-400 whitespace-pre-line">{answer}</p>
+        </div>
+      )}
     </div>
   );
 }

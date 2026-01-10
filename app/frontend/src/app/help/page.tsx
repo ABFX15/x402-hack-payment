@@ -130,7 +130,7 @@ const faqCategories = [
       {
         question: "How do I integrate Settlr?",
         answer:
-          "We offer multiple options: React SDK components, REST API, or simple payment links. Check our docs at settlr.dev/docs for full guides.",
+          "We offer multiple options: React SDK components, REST API, or simple payment links. Check our docs at /docs for full integration guides.",
       },
       {
         question: "Do you support webhooks?",
