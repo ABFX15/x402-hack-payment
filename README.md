@@ -1,7 +1,7 @@
 # Settlr
 
 [![npm version](https://img.shields.io/npm/v/@settlr/sdk.svg)](https://www.npmjs.com/package/@settlr/sdk)
-[![License: ISC](https://img.shields.io/badge/License-ISC-blue.svg)](https://opensource.org/licenses/ISC)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
 **Accept crypto payments without wallets.**
 
@@ -53,7 +53,7 @@ That's it. One component. [Try the live demo →](https://settlr.dev)
 
 - **Payment Links**: Generate QR codes and payment links in seconds
 - **Instant Settlement**: Payments confirm in under a second on Solana
-- **Low Fees**: Platform fee of 2% with minimum payment threshold
+- **Low Fees**: 1-2% platform fee (tiered by volume)
 - **Non-Custodial**: Funds go directly to merchant wallets
 - **Hosted Checkout**: Stripe-like checkout pages
 - **Webhooks**: Real-time payment notifications
@@ -124,14 +124,12 @@ x402-hack-payment/
 │           ├── instructions/       # Payment, refund, merchant registration
 │           └── errors.rs           # Custom error types
 ├── app/
-│   ├── frontend/
-│   │   └── src/
-│   │       ├── app/                # Next.js pages
-│   │       ├── components/         # React components
-│   │       ├── lib/                # Utilities (Octane SDK)
-│   │       └── providers/          # Wallet provider
-│   └── src/
-│       └── sdk/                    # Original Octane SDK
+│   └── frontend/
+│       └── src/
+│           ├── app/                # Next.js pages
+│           ├── components/         # React components
+│           ├── lib/                # Utilities
+│           └── providers/          # Wallet provider
 ├── tests/                          # Anchor program tests
 └── migrations/                     # Deployment scripts
 ```

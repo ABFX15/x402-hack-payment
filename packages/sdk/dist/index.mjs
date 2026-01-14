@@ -590,7 +590,7 @@ var defaultStyles = {
     fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
   },
   primary: {
-    background: "linear-gradient(135deg, #f472b6 0%, #67e8f9 100%)",
+    background: "linear-gradient(135deg, rgb(168, 85, 247) 0%, rgb(34, 211, 238) 100%)",
     color: "white"
   },
   secondary: {
@@ -600,8 +600,8 @@ var defaultStyles = {
   },
   outline: {
     background: "transparent",
-    color: "#f472b6",
-    border: "2px solid #f472b6"
+    color: "rgb(168, 85, 247)",
+    border: "2px solid rgb(168, 85, 247)"
   },
   sm: {
     padding: "8px 16px",
