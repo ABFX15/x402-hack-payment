@@ -17,12 +17,33 @@ export default function WaitlistPage() {
     e.preventDefault();
     setLoading(true);
 
-    // For now, just simulate submission
-    // You can connect this to Supabase or another backend later
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    try {
+      // Send to Web3Forms (free email forwarding service)
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          access_key: "916743a4-5ef7-472a-a41b-f4b2f997c489",
+          subject: `Settlr Inquiry: ${company || name}`,
+          from_name: name,
+          email: email,
+          company: company || "Not provided",
+          use_case: useCase || "Not provided",
+          message: `New inquiry from ${name} (${email}).\n\nCompany: ${
+            company || "Not provided"
+          }\nUse Case: ${useCase || "Not provided"}`,
+        }),
+      });
 
-    console.log("Waitlist submission:", { email, name, company, useCase });
-    setSubmitted(true);
+      if (response.ok) {
+        setSubmitted(true);
+      }
+    } catch (error) {
+      console.error("Form submission error:", error);
+    }
+
     setLoading(false);
   };
 

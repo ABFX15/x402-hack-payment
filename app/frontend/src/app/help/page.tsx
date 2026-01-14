@@ -281,7 +281,7 @@ export default function HelpPage() {
           </Link>
 
           <a
-            href="mailto:support@settlr.dev"
+            href="mailto:hello@settlr.dev"
             className="flex items-center gap-4 rounded-xl border border-white/10 bg-white/5 p-4 transition-all hover:border-purple-500/30 hover:bg-white/10"
           >
             <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-cyan-500/20">
@@ -289,7 +289,7 @@ export default function HelpPage() {
             </div>
             <div>
               <h3 className="font-medium text-white">Email Support</h3>
-              <p className="text-sm text-gray-400">support@settlr.dev</p>
+              <p className="text-sm text-gray-400">hello@settlr.dev</p>
             </div>
             <ExternalLink className="ml-auto h-4 w-4 text-gray-400" />
           </a>
@@ -369,7 +369,7 @@ export default function HelpPage() {
               within 24 hours.
             </p>
             <a
-              href="mailto:support@settlr.dev"
+              href="mailto:hello@settlr.dev"
               className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#a855f7] to-[#22d3ee] px-6 py-3 font-semibold text-white transition-all hover:opacity-90"
             >
               <Mail className="h-5 w-5" />
