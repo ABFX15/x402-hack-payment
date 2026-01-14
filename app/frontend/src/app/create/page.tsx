@@ -4,6 +4,8 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { QRCodeSVG } from "qrcode.react";
+import { usePrivy } from "@privy-io/react-auth";
+import { useActiveWallet } from "@/hooks/useActiveWallet";
 import {
   ArrowLeft,
   Copy,
@@ -15,9 +17,14 @@ import {
   Share2,
   Download,
   Smartphone,
+  LogIn,
+  Wallet,
 } from "lucide-react";
 
 export default function CreatePaymentPage() {
+  const { ready, authenticated, login } = usePrivy();
+  const { publicKey, connected } = useActiveWallet();
+
   const [amount, setAmount] = useState<string>("");
   const [merchantName, setMerchantName] = useState<string>("");
   const [memo, setMemo] = useState<string>("");
@@ -28,12 +35,10 @@ export default function CreatePaymentPage() {
 
   // Generate payment link when amount is entered
   useEffect(() => {
-    if (amount && parseFloat(amount) > 0) {
-      // Demo merchant wallet - in production this would come from the logged-in merchant
-      const MERCHANT_WALLET = "Ac52MMouwRypY7WPxMnUGwi6ZDRuBDgbmt9aXKSp43By";
+    if (amount && parseFloat(amount) > 0 && publicKey) {
       const params = new URLSearchParams({
         amount,
-        to: MERCHANT_WALLET,
+        to: publicKey,
         ...(merchantName && { merchant: merchantName }),
         ...(memo && { memo }),
       });
@@ -52,12 +57,12 @@ export default function CreatePaymentPage() {
         label: merchantName || "Settlr",
         message: memo || `Payment of $${amount} USDC`,
       });
-      setSolanaPayUrl(`solana:${MERCHANT_WALLET}?${solanaParams.toString()}`);
+      setSolanaPayUrl(`solana:${publicKey}?${solanaParams.toString()}`);
     } else {
       setPaymentLink(null);
       setSolanaPayUrl(null);
     }
-  }, [amount, merchantName, memo]);
+  }, [amount, merchantName, memo, publicKey]);
 
   const copyToClipboard = async () => {
     if (paymentLink) {
@@ -84,6 +89,57 @@ export default function CreatePaymentPage() {
   // Quick amount presets
   const presetAmounts = ["5", "10", "25", "50", "100"];
 
+  // Show login prompt if not connected
+  if (!ready) {
+    return (
+      <main className="min-h-screen flex items-center justify-center p-4">
+        <div className="text-center">
+          <div className="w-12 h-12 border-4 border-purple-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+          <p className="text-zinc-400">Loading...</p>
+        </div>
+      </main>
+    );
+  }
+
+  if (!authenticated || !connected) {
+    return (
+      <main className="min-h-screen flex flex-col items-center justify-center p-4 md:p-8">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="w-full max-w-md text-center"
+        >
+          <div className="w-20 h-20 mx-auto rounded-2xl bg-gradient-to-br from-purple-500 to-cyan-500 flex items-center justify-center mb-6">
+            <Wallet className="w-10 h-10 text-white" />
+          </div>
+          <h1 className="text-3xl font-bold text-white mb-4">
+            Create Payment Links
+          </h1>
+          <p className="text-zinc-400 mb-8">
+            Sign in to create payment links that send USDC directly to your
+            wallet.
+          </p>
+          <motion.button
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={login}
+            className="w-full py-4 bg-gradient-to-r from-purple-500 to-cyan-500 text-white font-semibold rounded-xl flex items-center justify-center gap-2"
+          >
+            <LogIn className="w-5 h-5" />
+            Sign In to Continue
+          </motion.button>
+          <Link
+            href="/"
+            className="inline-flex items-center gap-2 text-zinc-500 hover:text-zinc-300 transition-colors mt-6"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            Back to Home
+          </Link>
+        </motion.div>
+      </main>
+    );
+  }
+
   return (
     <main className="min-h-screen flex flex-col items-center justify-center p-4 md:p-8">
       <motion.div
@@ -93,23 +149,26 @@ export default function CreatePaymentPage() {
       >
         {/* Back button */}
         <Link
-          href="/"
+          href="/dashboard"
           className="inline-flex items-center gap-2 text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors mb-8"
         >
           <ArrowLeft className="w-4 h-4" />
-          Back to Home
+          Back to Dashboard
         </Link>
 
         {/* Header */}
         <div className="text-center mb-8">
           <div className="w-16 h-16 mx-auto rounded-2xl bg-gradient-to-br from-[var(--primary)] to-[var(--secondary)] flex items-center justify-center mb-4">
-            <QrCode className="w-8 h-8 text-white" />
+            <LinkIcon className="w-8 h-8 text-white" />
           </div>
           <h1 className="text-3xl font-bold text-[var(--text-primary)] mb-2">
             Create Payment Link
           </h1>
           <p className="text-[var(--text-muted)]">
-            Generate a payment link to share with your customers
+            Payments go directly to:{" "}
+            <span className="font-mono text-purple-400">
+              {publicKey?.slice(0, 4)}...{publicKey?.slice(-4)}
+            </span>
           </p>
         </div>
 

@@ -232,8 +232,8 @@ export default function DashboardPage() {
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
           {[
             {
-              title: "Hosted Checkout",
-              description: "Create payment pages",
+              title: "Payment Links",
+              description: "Create & share links",
               icon: Globe,
               href: "/create",
               color:
