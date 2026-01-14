@@ -64,3 +64,18 @@ export {
     type WebhookHandler,
     type WebhookHandlers,
 } from './webhooks';
+
+// Privacy (Inco Lightning FHE encryption)
+export {
+    INCO_LIGHTNING_PROGRAM_ID,
+    SETTLR_PROGRAM_ID,
+    findAllowancePda,
+    findPrivateReceiptPda,
+    encryptAmount,
+    buildPrivateReceiptAccounts,
+    simulateAndGetHandle,
+    buildAllowanceRemainingAccounts,
+    PrivacyFeatures,
+    type PrivateReceiptConfig,
+    type IssuePrivateReceiptResult,
+} from './privacy';

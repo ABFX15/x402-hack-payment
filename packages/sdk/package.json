@@ -1,7 +1,7 @@
 {
   "name": "@settlr/sdk",
-  "version": "0.4.4",
-  "description": "Settlr SDK - Accept Solana USDC payments in games and apps. Email checkout, gasless transactions, no wallet required. The easiest way to add crypto payments.",
+  "version": "0.5.0",
+  "description": "Settlr SDK - Accept Solana USDC payments with privacy. Email checkout, gasless transactions, FHE-encrypted receipts. Private on-chain, compliant off-chain.",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",

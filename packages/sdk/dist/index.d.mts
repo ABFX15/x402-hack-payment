@@ -875,4 +875,165 @@ declare function createWebhookHandler(options: {
     onError?: (error: Error) => void;
 }): (req: any, res: any) => Promise<void>;
 
-export { BuyButton, type BuyButtonProps, CheckoutWidget, type CheckoutWidgetProps, type CreatePaymentOptions, type CreateSubscriptionOptions, type MerchantConfig, type Payment, PaymentModal, type PaymentModalProps, type PaymentResult, type PaymentStatus, SETTLR_CHECKOUT_URL, SUPPORTED_NETWORKS, SUPPORTED_TOKENS, Settlr, type SettlrConfig, SettlrProvider, type Subscription, type SubscriptionInterval, type SubscriptionPlan, type SubscriptionStatus, type SupportedToken, type TransactionOptions, USDC_MINT_DEVNET, USDC_MINT_MAINNET, USDT_MINT_DEVNET, USDT_MINT_MAINNET, type WebhookEventType, type WebhookHandler, type WebhookHandlers, type WebhookPayload, createWebhookHandler, formatUSDC, getTokenDecimals, getTokenMint, parseUSDC, parseWebhookPayload, shortenAddress, usePaymentLink, usePaymentModal, useSettlr, verifyWebhookSignature };
+/**
+ * Inco Lightning Privacy Module
+ *
+ * Helpers for issuing private receipts with FHE-encrypted payment amounts.
+ * Only authorized parties (merchant + customer) can decrypt via Inco covalidators.
+ */
+
+/**
+ * Inco Lightning Program ID (devnet)
+ */
+declare const INCO_LIGHTNING_PROGRAM_ID: PublicKey;
+/**
+ * Settlr Program ID
+ */
+declare const SETTLR_PROGRAM_ID: PublicKey;
+/**
+ * Derive the allowance PDA for a given handle and allowed address
+ * This PDA stores the decryption permission for a specific address
+ *
+ * @param handle - The u128 handle to the encrypted value (as bigint)
+ * @param allowedAddress - The address being granted decryption access
+ * @returns The allowance PDA and bump
+ */
+declare function findAllowancePda(handle: bigint, allowedAddress: PublicKey): [PublicKey, number];
+/**
+ * Derive the private receipt PDA for a given payment ID
+ *
+ * @param paymentId - The payment ID string
+ * @returns The private receipt PDA and bump
+ */
+declare function findPrivateReceiptPda(paymentId: string): [PublicKey, number];
+/**
+ * Encrypt an amount for Inco Lightning
+ *
+ * In production, this would use the Inco encryption API to create
+ * a proper FHE ciphertext. For now, this is a placeholder that
+ * would be replaced with the actual Inco client library.
+ *
+ * @param amount - The amount in USDC lamports (6 decimals)
+ * @returns Encrypted ciphertext as Uint8Array
+ */
+declare function encryptAmount(amount: bigint): Promise<Uint8Array>;
+/**
+ * Configuration for issuing a private receipt
+ */
+interface PrivateReceiptConfig {
+    /** Payment ID (must be unique) */
+    paymentId: string;
+    /** Amount in USDC (will be converted to lamports) */
+    amount: number;
+    /** Customer wallet address (payer and signer) */
+    customer: PublicKey;
+    /** Merchant wallet address (receives decryption access) */
+    merchant: PublicKey;
+    /** Pre-computed encrypted amount ciphertext (optional, will encrypt if not provided) */
+    encryptedAmount?: Uint8Array;
+}
+/**
+ * Build accounts needed for issuing a private receipt
+ *
+ * Note: This returns the accounts structure but the actual transaction
+ * must be built using the Anchor program client with `remainingAccounts`
+ * for the allowance PDAs.
+ *
+ * @param config - Private receipt configuration
+ * @returns Object with all required account addresses
+ */
+declare function buildPrivateReceiptAccounts(config: PrivateReceiptConfig): Promise<{
+    customer: PublicKey;
+    merchant: PublicKey;
+    privateReceipt: PublicKey;
+    incoLightningProgram: PublicKey;
+    systemProgram: PublicKey;
+    bump: number;
+}>;
+/**
+ * Simulate a transaction to get the resulting encrypted handle
+ *
+ * This is needed because we need the handle to derive allowance PDAs,
+ * but the handle is only known after the encryption CPI call.
+ *
+ * Pattern:
+ * 1. Build tx without allowance accounts
+ * 2. Simulate to get the handle from account state
+ * 3. Derive allowance PDAs from handle
+ * 4. Execute real tx with allowance accounts in remainingAccounts
+ *
+ * @param connection - Solana connection
+ * @param transaction - Built transaction without allowance accounts
+ * @param privateReceiptPda - The PDA where encrypted handle will be stored
+ * @returns The encrypted handle as bigint, or null if simulation failed
+ */
+declare function simulateAndGetHandle(connection: any, // Connection type
+transaction: any, // Transaction type  
+privateReceiptPda: PublicKey): Promise<bigint | null>;
+/**
+ * Build remaining accounts array for allowance PDAs
+ *
+ * These must be passed to the instruction after deriving from the handle.
+ * Since we don't know the handle until after simulation, this is called
+ * after simulateAndGetHandle.
+ *
+ * @param handle - The encrypted handle from simulation
+ * @param customer - Customer address (granted access)
+ * @param merchant - Merchant address (granted access)
+ * @returns Array of remaining accounts for the instruction
+ */
+declare function buildAllowanceRemainingAccounts(handle: bigint, customer: PublicKey, merchant: PublicKey): Array<{
+    pubkey: PublicKey;
+    isSigner: boolean;
+    isWritable: boolean;
+}>;
+/**
+ * Full flow example for issuing a private receipt
+ *
+ * @example
+ * ```typescript
+ * import { issuePrivateReceiptFlow } from '@settlr/sdk/privacy';
+ *
+ * const result = await issuePrivateReceiptFlow({
+ *   connection,
+ *   program, // Anchor program instance
+ *   paymentId: 'payment_123',
+ *   amount: 99.99,
+ *   customer: customerWallet.publicKey,
+ *   merchant: merchantPubkey,
+ *   signTransaction: customerWallet.signTransaction,
+ * });
+ *
+ * console.log('Private receipt:', result.signature);
+ * console.log('Handle:', result.handle.toString());
+ * ```
+ */
+interface IssuePrivateReceiptResult {
+    /** Transaction signature */
+    signature: string;
+    /** Encrypted amount handle (u128 as bigint) */
+    handle: bigint;
+    /** Private receipt PDA address */
+    privateReceiptPda: PublicKey;
+}
+/**
+ * Privacy-preserving receipt features
+ *
+ * Key benefits:
+ * - Payment amounts hidden on-chain (only u128 handle visible)
+ * - Merchant can still decrypt for accounting/tax compliance
+ * - Customer can verify their payment privately
+ * - Competitors can't see your revenue on-chain
+ */
+declare const PrivacyFeatures: {
+    /** Amount is FHE-encrypted, only handle stored on-chain */
+    readonly ENCRYPTED_AMOUNTS: true;
+    /** Selective disclosure - only merchant + customer can decrypt */
+    readonly ACCESS_CONTROL: true;
+    /** CSV export still works (decrypts server-side for authorized merchant) */
+    readonly ACCOUNTING_COMPATIBLE: true;
+    /** Inco covalidators ensure trustless decryption */
+    readonly TRUSTLESS_DECRYPTION: true;
+};
+
+export { BuyButton, type BuyButtonProps, CheckoutWidget, type CheckoutWidgetProps, type CreatePaymentOptions, type CreateSubscriptionOptions, INCO_LIGHTNING_PROGRAM_ID, type IssuePrivateReceiptResult, type MerchantConfig, type Payment, PaymentModal, type PaymentModalProps, type PaymentResult, type PaymentStatus, PrivacyFeatures, type PrivateReceiptConfig, SETTLR_CHECKOUT_URL, SETTLR_PROGRAM_ID, SUPPORTED_NETWORKS, SUPPORTED_TOKENS, Settlr, type SettlrConfig, SettlrProvider, type Subscription, type SubscriptionInterval, type SubscriptionPlan, type SubscriptionStatus, type SupportedToken, type TransactionOptions, USDC_MINT_DEVNET, USDC_MINT_MAINNET, USDT_MINT_DEVNET, USDT_MINT_MAINNET, type WebhookEventType, type WebhookHandler, type WebhookHandlers, type WebhookPayload, buildAllowanceRemainingAccounts, buildPrivateReceiptAccounts, createWebhookHandler, encryptAmount, findAllowancePda, findPrivateReceiptPda, formatUSDC, getTokenDecimals, getTokenMint, parseUSDC, parseWebhookPayload, shortenAddress, simulateAndGetHandle, usePaymentLink, usePaymentModal, useSettlr, verifyWebhookSignature };

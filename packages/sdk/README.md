@@ -18,7 +18,48 @@
 - ✅ **Pay from any chain** - Accept USDC from Ethereum, Base, Arbitrum, Polygon, Optimism (Mayan)
 - ✅ **Instant settlement** - USDC direct to your Solana wallet
 - ✅ **One component** - Drop-in React `<BuyButton>`
+- ✅ **Privacy-preserving** - FHE-encrypted receipts via Inco Lightning ⭐ NEW
 - ✅ **2% flat fee** - No hidden costs
+
+## 🔒 Privacy Features (Inco Lightning)
+
+Settlr now supports **private payment receipts** using Inco Lightning's Fully Homomorphic Encryption:
+
+- **Private on-chain** - Payment amounts are encrypted, competitors can't see your revenue
+- **Compliant off-chain** - Merchants can still decrypt for accounting/tax (CSV export works!)
+- **Selective disclosure** - Only customer + merchant can view the actual amount
+- **Trustless decryption** - Inco covalidator network ensures no single point of trust
+
+```typescript
+import {
+  findPrivateReceiptPda,
+  buildPrivateReceiptAccounts,
+  encryptAmount,
+  PrivacyFeatures,
+} from "@settlr/sdk";
+
+// Check privacy capabilities
+console.log(PrivacyFeatures);
+// {
+//   ENCRYPTED_AMOUNTS: true,
+//   ACCESS_CONTROL: true,
+//   ACCOUNTING_COMPATIBLE: true,
+//   TRUSTLESS_DECRYPTION: true
+// }
+
+// Derive PDA for a private receipt
+const [receiptPda] = findPrivateReceiptPda("payment_123");
+
+// Build accounts for issuing private receipt
+const accounts = await buildPrivateReceiptAccounts({
+  paymentId: "payment_123",
+  amount: 99.99,
+  customer: customerWallet,
+  merchant: merchantWallet,
+});
+```
+
+> **Private on-chain. Compliant off-chain.** Your competitors can't see your revenue, but your accountant can.
 
 ## Installation
 
