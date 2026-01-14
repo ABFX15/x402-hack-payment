@@ -280,19 +280,21 @@ export default function HelpPage() {
             <ExternalLink className="ml-auto h-4 w-4 text-gray-400" />
           </Link>
 
-          <a
-            href="mailto:hello@settlr.dev"
+          <Link
+            href="/waitlist"
             className="flex items-center gap-4 rounded-xl border border-white/10 bg-white/5 p-4 transition-all hover:border-purple-500/30 hover:bg-white/10"
           >
             <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-cyan-500/20">
               <Mail className="h-5 w-5 text-cyan-400" />
             </div>
             <div>
-              <h3 className="font-medium text-white">Email Support</h3>
-              <p className="text-sm text-gray-400">hello@settlr.dev</p>
+              <h3 className="font-medium text-white">Contact Us</h3>
+              <p className="text-sm text-gray-400">
+                Get in touch with our team
+              </p>
             </div>
             <ExternalLink className="ml-auto h-4 w-4 text-gray-400" />
-          </a>
+          </Link>
 
           <a
             href="https://twitter.com/SettlrPay"
@@ -368,13 +370,13 @@ export default function HelpPage() {
               Our team is here to help. Reach out and we'll get back to you
               within 24 hours.
             </p>
-            <a
-              href="mailto:hello@settlr.dev"
+            <Link
+              href="/waitlist"
               className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#a855f7] to-[#22d3ee] px-6 py-3 font-semibold text-white transition-all hover:opacity-90"
             >
               <Mail className="h-5 w-5" />
-              Contact Support
-            </a>
+              Contact Us
+            </Link>
           </div>
         </div>
       </section>
