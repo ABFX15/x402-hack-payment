@@ -666,32 +666,31 @@ export default function CheckoutClient({ searchParams }: CheckoutClientProps) {
         chain: "solana:devnet",
       });
 
-      console.log("[Gasless] User signed, sending to Kora for submission...");
+      console.log("[Gasless] User signed, broadcasting transaction...");
 
-      // Step 3: Send user-signed transaction to Kora for fee payer signature + submission
+      // Step 3: Broadcast the fully-signed transaction to Solana
+      // The transaction is already signed by Kora (from transferTransaction) and now by the user
+      // We just need to broadcast it - don't ask Kora to sign again
       const signedTxBase64 = Buffer.from(
         signedResult.signedTransaction
       ).toString("base64");
 
-      // Add a small delay to ensure no race conditions with wallet auto-send
-      await new Promise((resolve) => setTimeout(resolve, 500));
-
-      const signAndSendResponse = await fetch("/api/gasless", {
+      const broadcastResponse = await fetch("/api/gasless", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          action: "signAndSend",
+          action: "broadcast",
           transaction: signedTxBase64,
         }),
       });
 
-      if (!signAndSendResponse.ok) {
-        const errorData = await signAndSendResponse.json();
+      if (!broadcastResponse.ok) {
+        const errorData = await broadcastResponse.json();
         throw new Error(errorData.error || "Failed to submit transaction");
       }
 
-      const gaslessResult = await signAndSendResponse.json();
-      const { signature, alreadyProcessed } = gaslessResult;
+      const broadcastResult = await broadcastResponse.json();
+      const { signature, alreadyProcessed } = broadcastResult;
 
       if (alreadyProcessed) {
         console.log(
@@ -2043,12 +2042,12 @@ export default function CheckoutClient({ searchParams }: CheckoutClientProps) {
   // Success step
   if (step === "success") {
     // For EVM cross-chain payments, link to Mayan explorer
-    // For Solana direct payments, link to Solana explorer
+    // For Solana direct payments, link to Solscan (more user-friendly)
     const isCrossChain = selectedChain !== "solana";
     const explorerUrl = isCrossChain
       ? `https://explorer.mayan.finance/swap/${txSignature}`
-      : getExplorerUrl(selectedChain, txSignature);
-    const explorerName = isCrossChain ? "Mayan Explorer" : "Solana Explorer";
+      : `https://solscan.io/tx/${txSignature}?cluster=devnet`;
+    const explorerName = isCrossChain ? "Mayan Explorer" : "Solscan";
 
     return (
       <div className="min-h-screen bg-[#0a0a0f] flex items-center justify-center p-4">
@@ -2074,22 +2073,34 @@ export default function CheckoutClient({ searchParams }: CheckoutClientProps) {
             )}
           </p>
 
-          {txSignature && (
-            <a
-              href={explorerUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-purple-400 hover:text-purple-300 mb-6"
-            >
-              View on {explorerName}
-              <ExternalLink className="w-4 h-4" />
-            </a>
-          )}
+          <div className="space-y-3 mb-6">
+            {txSignature ? (
+              <a
+                href={explorerUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-2 w-full py-3 bg-purple-600 text-white font-semibold rounded-xl hover:bg-purple-500 transition-colors"
+              >
+                <ExternalLink className="w-4 h-4" />
+                View Transaction on {explorerName}
+              </a>
+            ) : (
+              <p className="text-zinc-500 text-sm">
+                Transaction confirmed on Solana
+              </p>
+            )}
+          </div>
 
           <div className="space-y-3">
             <Link
-              href="/"
+              href="/demo/store"
               className="block w-full py-3 bg-zinc-800 text-white font-semibold rounded-xl hover:bg-zinc-700 transition-colors"
+            >
+              Continue Shopping
+            </Link>
+            <Link
+              href="/"
+              className="block w-full py-2 text-zinc-400 hover:text-white transition-colors text-sm"
             >
               Back to Home
             </Link>
