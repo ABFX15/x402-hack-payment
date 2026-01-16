@@ -243,7 +243,12 @@ export default function CheckoutClient({ searchParams }: CheckoutClientProps) {
       try {
         const response = await fetch("/api/gasless");
         const data = await response.json();
-        setGaslessAvailable(data.enabled === true);
+        const isEnabled = data.enabled === true;
+        setGaslessAvailable(isEnabled);
+        // Auto-enable gasless when available (best UX - no gas fees for users)
+        if (isEnabled) {
+          setUseGasless(true);
+        }
       } catch {
         setGaslessAvailable(false);
       } finally {
@@ -669,17 +674,16 @@ export default function CheckoutClient({ searchParams }: CheckoutClientProps) {
         chain: "solana:devnet",
       });
 
-      console.log("[Gasless] User signed, broadcasting transaction...");
+      console.log("[Gasless] User signed, submitting via Kora...");
 
-      // Step 3: Broadcast the fully-signed transaction to Solana
-      // The transaction is already signed by Kora (from transferTransaction) and now by the user
-      // We just need to broadcast it - don't ask Kora to sign again
+      // Step 3: Submit the transaction via Kora's signAndSendTransaction
+      // Kora will add its fee payer signature and broadcast to Solana
       const signedTxBase64 = Buffer.from(
         signedResult.signedTransaction
       ).toString("base64");
 
-      // Try to extract the signature from the signed transaction before broadcasting
-      // This helps us get the signature even if the wallet auto-submitted
+      // Try to extract the signature from the signed transaction before sending
+      // This helps us get the signature even if something goes wrong
       try {
         const { Transaction, VersionedTransaction } = await import(
           "@solana/web3.js"
@@ -712,23 +716,24 @@ export default function CheckoutClient({ searchParams }: CheckoutClientProps) {
         console.log("[Gasless] Could not extract signature:", extractErr);
       }
 
-      const broadcastResponse = await fetch("/api/gasless", {
+      // Use Kora's signAndSendTransaction to have Kora pay the gas and broadcast
+      const koraResponse = await fetch("/api/gasless", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          action: "broadcast",
+          action: "signAndSend",
           transaction: signedTxBase64,
         }),
       });
 
-      if (!broadcastResponse.ok) {
-        const errorData = await broadcastResponse.json();
+      if (!koraResponse.ok) {
+        const errorData = await koraResponse.json();
         throw new Error(errorData.error || "Failed to submit transaction");
       }
 
-      const broadcastResult = await broadcastResponse.json();
-      let { signature } = broadcastResult;
-      const { alreadyProcessed } = broadcastResult;
+      const koraResult = await koraResponse.json();
+      let { signature } = koraResult;
+      const { alreadyProcessed } = koraResult;
 
       // If already processed but we extracted the signature, use that
       if (alreadyProcessed && !signature && extractedSignature) {

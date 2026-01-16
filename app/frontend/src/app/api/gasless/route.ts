@@ -138,18 +138,51 @@ export async function POST(req: NextRequest) {
                         signer_key: signer.signerAddress,
                     });
 
-                    // Cast to access potential signature field returned by API
+                    console.log("[Gasless] signAndSendTransaction result:", JSON.stringify(result));
+
+                    // Cast to access potential fields returned by API
                     const response = result as unknown as {
-                        signed_transaction: string;
+                        signed_transaction?: string;
                         signature?: string;
+                        transaction_hash?: string;
                     };
+
+                    // Try to get signature from response or extract from signed tx
+                    let signature = response.signature || response.transaction_hash;
+
+                    if (!signature && response.signed_transaction) {
+                        // Extract signature from the signed transaction
+                        try {
+                            const { VersionedTransaction, Transaction } = await import("@solana/web3.js");
+                            const bs58 = await import("bs58");
+                            const txBytes = Buffer.from(response.signed_transaction, "base64");
+
+                            try {
+                                const vtx = VersionedTransaction.deserialize(txBytes);
+                                if (vtx.signatures[0] && !vtx.signatures[0].every(b => b === 0)) {
+                                    signature = bs58.default.encode(vtx.signatures[0]);
+                                    console.log("[Gasless] Extracted signature from versioned tx:", signature);
+                                }
+                            } catch {
+                                const tx = Transaction.from(txBytes);
+                                if (tx.signature) {
+                                    signature = bs58.default.encode(tx.signature);
+                                    console.log("[Gasless] Extracted signature from legacy tx:", signature);
+                                }
+                            }
+                        } catch (extractErr) {
+                            console.log("[Gasless] Could not extract signature:", extractErr);
+                        }
+                    }
 
                     return NextResponse.json({
                         signedTransaction: response.signed_transaction,
-                        signature: response.signature,
+                        signature,
+                        success: true,
                     });
                 } catch (txError) {
                     const errorMessage = txError instanceof Error ? txError.message : String(txError);
+                    console.error("[Gasless] signAndSend error:", errorMessage);
 
                     // Handle "already processed" - this means the transaction succeeded previously
                     if (errorMessage.includes('already been processed') ||

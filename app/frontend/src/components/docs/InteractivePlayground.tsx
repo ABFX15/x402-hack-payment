@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Highlight } from "prism-react-renderer";
 import {
   Play,
   Copy,
@@ -15,6 +16,80 @@ import {
   CreditCard,
   Wallet,
 } from "lucide-react";
+
+// Dracula Soft theme - softer version of Dracula colors
+const draculaSoft = {
+  plain: {
+    color: "#f8f8f2",
+    backgroundColor: "#0d0d14",
+  },
+  styles: [
+    {
+      types: ["prolog", "constant", "builtin"],
+      style: { color: "#bd93f9" }, // Purple
+    },
+    {
+      types: ["inserted", "function"],
+      style: { color: "#50fa7b" }, // Green
+    },
+    {
+      types: ["deleted"],
+      style: { color: "#ff5555" }, // Red
+    },
+    {
+      types: ["changed"],
+      style: { color: "#ffb86c" }, // Orange
+    },
+    {
+      types: ["punctuation", "symbol"],
+      style: { color: "#f8f8f2" }, // White
+    },
+    {
+      types: ["string", "char", "tag", "selector"],
+      style: { color: "#f1fa8c" }, // Yellow
+    },
+    {
+      types: ["keyword", "variable"],
+      style: { color: "#ff79c6" }, // Pink
+    },
+    {
+      types: ["comment"],
+      style: { color: "#6272a4", fontStyle: "italic" as const }, // Comment gray
+    },
+    {
+      types: ["attr-name"],
+      style: { color: "#50fa7b" }, // Green for attributes
+    },
+    {
+      types: ["attr-value", "template-string"],
+      style: { color: "#f1fa8c" }, // Yellow
+    },
+    {
+      types: ["number", "boolean"],
+      style: { color: "#bd93f9" }, // Purple for numbers
+    },
+    {
+      types: ["class-name", "maybe-class-name"],
+      style: { color: "#8be9fd" }, // Cyan for class names
+    },
+    {
+      types: ["imports", "exports"],
+      style: { color: "#ff79c6" }, // Pink
+    },
+    {
+      types: ["operator"],
+      style: { color: "#ff79c6" }, // Pink
+    },
+    {
+      types: ["property"],
+      style: { color: "#50fa7b" }, // Green
+    },
+    {
+      types: ["regex"],
+      style: { color: "#ff5555" }, // Red
+    },
+  ],
+};
 
 // Pre-built examples
 const examples = [
@@ -246,21 +321,52 @@ export function InteractivePlayground({
               </button>
             </div>
           </div>
-          <div className="relative">
+          <div className="relative h-64 overflow-auto">
+            {/* Syntax Highlighted Code Display */}
+            <Highlight theme={draculaSoft} code={code} language="tsx">
+              {({ className, style, tokens, getLineProps, getTokenProps }) => (
+                <pre
+                  className="absolute inset-0 m-0 overflow-auto p-4 font-mono text-sm"
+                  style={{
+                    ...style,
+                    lineHeight: "1.6",
+                    backgroundColor: "transparent",
+                  }}
+                >
+                  {tokens.map((line, i) => (
+                    <div
+                      key={i}
+                      {...getLineProps({ line })}
+                      className="table-row"
+                    >
+                      <span
+                        className="table-cell select-none pr-4 text-right text-white/20 text-xs"
+                        style={{ width: "2rem" }}
+                      >
+                        {i + 1}
+                      </span>
+                      <span className="table-cell">
+                        {line.map((token, key) => (
+                          <span key={key} {...getTokenProps({ token })} />
+                        ))}
+                      </span>
+                    </div>
+                  ))}
+                </pre>
+              )}
+            </Highlight>
+            {/* Hidden textarea for editing */}
             <textarea
               value={code}
               onChange={(e) => setCode(e.target.value)}
               spellCheck={false}
-              className="h-64 w-full resize-none bg-transparent p-4 font-mono text-sm text-white/90 outline-none"
+              className="absolute inset-0 h-full w-full resize-none bg-transparent p-4 pl-12 font-mono text-sm text-transparent caret-white outline-none"
               style={{
                 lineHeight: "1.6",
                 tabSize: 2,
+                caretColor: "white",
               }}
             />
-            {/* Syntax highlighting overlay - simplified */}
-            <div className="pointer-events-none absolute inset-0 hidden p-4 font-mono text-sm">
-              <SyntaxHighlight code={code} />
-            </div>
           </div>
           {/* Action Bar */}
           <div className="flex items-center justify-between border-t border-white/5 px-4 py-3">
@@ -487,62 +593,4 @@ function CheckoutSimulator({
   }
 
   return null;
-}
-
-// Simple syntax highlighting component
-function SyntaxHighlight({ code }: { code: string }) {
-  const keywords = [
-    "import",
-    "export",
-    "from",
-    "const",
-    "let",
-    "async",
-    "await",
-    "return",
-    "function",
-  ];
-  const components = ["SettlrCheckout", "BuyButton"];
-
-  const lines = code.split("\n");
-
-  return (
-    <>
-      {lines.map((line, i) => (
-        <div key={i} className="leading-relaxed">
-          {line.split(/(\s+)/).map((word, j) => {
-            if (keywords.includes(word)) {
-              return (
-                <span key={j} className="text-purple-400">
-                  {word}
-                </span>
-              );
-            }
-            if (components.some((c) => word.includes(c))) {
-              return (
-                <span key={j} className="text-cyan-400">
-                  {word}
-                </span>
-              );
-            }
-            if (word.startsWith('"') || word.startsWith("'")) {
-              return (
-                <span key={j} className="text-green-400">
-                  {word}
-                </span>
-              );
-            }
-            if (!isNaN(Number(word)) && word.trim()) {
-              return (
-                <span key={j} className="text-orange-400">
-                  {word}
-                </span>
-              );
-            }
-            return <span key={j}>{word}</span>;
-          })}
-        </div>
-      ))}
-    </>
-  );
 }
