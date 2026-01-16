@@ -204,7 +204,70 @@ export async function POST(req: NextRequest) {
                     transaction: result.transaction,
                     instructions: result.instructions,
                     nonce: nonce, // Echo back nonce for debugging
+                });
+            }
+
+            case "broadcast": {
+                // Broadcast a fully-signed transaction directly to Solana
+                // Use this when the transaction is already signed by all parties
+                if (!transaction) {
+                    return NextResponse.json(
+                        { error: "Missing transaction" },
+                        { status: 400 }
+                    );
                 }
+
+                console.log("[Gasless] Broadcasting fully-signed transaction to Solana...");
+
+                const { Connection } = await import("@solana/web3.js");
+                const connection = new Connection(
+                    process.env.NEXT_PUBLIC_SOLANA_RPC_URL || "https://api.devnet.solana.com",
+                    "confirmed"
+                );
+
+                try {
+                    // Decode the base64 transaction
+                    const txBuffer = Buffer.from(transaction, "base64");
+
+                    // Send the transaction
+                    const signature = await connection.sendRawTransaction(txBuffer, {
+                        skipPreflight: false,
+                        preflightCommitment: "confirmed",
+                    });
+
+                    console.log("[Gasless] Transaction broadcast, signature:", signature);
+
+                    // Wait for confirmation
+                    const confirmation = await connection.confirmTransaction(signature, "confirmed");
+
+                    if (confirmation.value.err) {
+                        throw new Error(`Transaction failed: ${JSON.stringify(confirmation.value.err)}`);
+                    }
+
+                    console.log("[Gasless] Transaction confirmed!");
+
+                    return NextResponse.json({
+                        signature,
+                        confirmed: true,
+                    });
+                } catch (broadcastError) {
+                    const errorMessage = broadcastError instanceof Error ? broadcastError.message : String(broadcastError);
+
+                    // Handle "already processed" as success
+                    if (errorMessage.includes('already been processed') ||
+                        errorMessage.includes('AlreadyProcessed') ||
+                        errorMessage.includes('has already been processed')) {
+                        console.log('[Gasless] Transaction already processed - treating as success');
+                        return NextResponse.json({
+                            signature: null,
+                            alreadyProcessed: true,
+                            message: 'Transaction was already processed successfully'
+                        });
+                    }
+
+                    throw broadcastError;
+                }
+            }
 
             default:
                 return NextResponse.json(
