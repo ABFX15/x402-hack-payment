@@ -112,6 +112,26 @@ Customer pays USDC on Ethereum/Base/Arbitrum/Polygon/Optimism
 - **Privy**: Embedded wallets with email/social login and fiat on-ramp
 - **Squads**: Multisig protection for platform treasury
 
+### 🔐 Privacy (Inco Lightning)
+
+- **Inco Lightning**: FHE-encrypted payment amounts on Solana
+- **Private Receipts**: Payment amounts hidden on-chain, only merchant + customer can decrypt
+- **Private Subscriptions**: Recurring payments with hidden pricing
+- **Private Payouts**: B2B settlements hidden from competitors
+- **Privacy Dashboard**: Aggregates only; on-demand decryption for authorized parties
+
+| Inco Component         | How We Use It                                |
+| ---------------------- | -------------------------------------------- |
+| `inco_lightning` crate | CPI for encryption/decryption operations     |
+| `new_euint128()`       | Encrypt payment amounts as FHE ciphertext    |
+| `allow()`              | Grant decryption access to merchant/customer |
+| Covalidators (TEE)     | Trustless decryption for authorized parties  |
+| Allowance PDAs         | Programmable access control                  |
+
+**Inco Lightning Program ID**: `5sjEbPiqgZrYwR31ahR6Uk9wf5awoX61YGg7jExQSwaj`
+
+See [PRIVATE_SETTLR.md](PRIVATE_SETTLR.md) for full privacy architecture.
+
 ## Project Structure
 
 ```

@@ -290,3 +290,183 @@ export const PrivacyFeatures = {
     /** Inco covalidators ensure trustless decryption */
     TRUSTLESS_DECRYPTION: true,
 } as const;
+
+// ============================================================================
+// PRIVATE SETTLR - Confidential Commerce Extensions
+// ============================================================================
+
+/**
+ * Subscription billing cycle presets
+ */
+export const BillingCycles = {
+    /** Weekly (7 days) */
+    WEEKLY: 7 * 24 * 60 * 60,
+    /** Bi-weekly (14 days) */
+    BIWEEKLY: 14 * 24 * 60 * 60,
+    /** Monthly (30 days) */
+    MONTHLY: 30 * 24 * 60 * 60,
+    /** Quarterly (90 days) */
+    QUARTERLY: 90 * 24 * 60 * 60,
+    /** Yearly (365 days) */
+    YEARLY: 365 * 24 * 60 * 60,
+} as const;
+
+/**
+ * Private subscription configuration
+ */
+export interface PrivateSubscriptionConfig {
+    /** Unique subscription ID */
+    subscriptionId: string;
+    /** Customer wallet address */
+    customer: PublicKey;
+    /** Merchant wallet address */
+    merchant: PublicKey;
+    /** Monthly/recurring amount in USDC */
+    amount: number;
+    /** Billing cycle in seconds (use BillingCycles constants) */
+    billingCycleSeconds: number;
+}
+
+/**
+ * Private payout configuration
+ */
+export interface PrivatePayoutConfig {
+    /** Unique payout ID */
+    payoutId: string;
+    /** Merchant PDA address */
+    merchant: PublicKey;
+    /** Destination wallet for settlement */
+    destinationWallet: PublicKey;
+    /** Payout amount in USDC */
+    amount: number;
+    /** Optional auditor for compliance (can decrypt) */
+    auditor?: PublicKey;
+}
+
+/**
+ * Derive the private subscription PDA
+ */
+export function findPrivateSubscriptionPda(subscriptionId: string): [PublicKey, number] {
+    return PublicKey.findProgramAddressSync(
+        [Buffer.from('private_subscription'), Buffer.from(subscriptionId)],
+        SETTLR_PROGRAM_ID
+    );
+}
+
+/**
+ * Derive the private payout PDA
+ */
+export function findPrivatePayoutPda(payoutId: string): [PublicKey, number] {
+    return PublicKey.findProgramAddressSync(
+        [Buffer.from('private_payout'), Buffer.from(payoutId)],
+        SETTLR_PROGRAM_ID
+    );
+}
+
+/**
+ * Derive merchant private stats PDA
+ */
+export function findMerchantPrivateStatsPda(merchantPda: PublicKey): [PublicKey, number] {
+    return PublicKey.findProgramAddressSync(
+        [Buffer.from('merchant_private_stats'), merchantPda.toBuffer()],
+        SETTLR_PROGRAM_ID
+    );
+}
+
+/**
+ * Build accounts for creating a private subscription
+ */
+export async function buildPrivateSubscriptionAccounts(config: PrivateSubscriptionConfig) {
+    const [subscriptionPda, subscriptionBump] = findPrivateSubscriptionPda(config.subscriptionId);
+
+    return {
+        customer: config.customer,
+        merchant: config.merchant,
+        privateSubscription: subscriptionPda,
+        systemProgram: SystemProgram.programId,
+        bump: subscriptionBump,
+    };
+}
+
+/**
+ * Build accounts for initiating a private payout
+ */
+export async function buildPrivatePayoutAccounts(config: PrivatePayoutConfig) {
+    const [payoutPda, payoutBump] = findPrivatePayoutPda(config.payoutId);
+    const [statsPda, statsBump] = findMerchantPrivateStatsPda(config.merchant);
+
+    return {
+        merchant: config.merchant,
+        privatePayout: payoutPda,
+        merchantPrivateStats: statsPda,
+        destinationWallet: config.destinationWallet,
+        systemProgram: SystemProgram.programId,
+        payoutBump,
+        statsBump,
+    };
+}
+
+/**
+ * Privacy mode options for merchant dashboard
+ */
+export interface PrivacyModeConfig {
+    /** When true, individual transaction amounts are hidden */
+    hideIndividualAmounts: boolean;
+    /** When true, only show aggregate totals (encrypted sum) */
+    aggregatesOnly: boolean;
+    /** Allow on-demand decryption for specific transactions */
+    allowSelectiveDecryption: boolean;
+}
+
+/**
+ * Default privacy mode (maximum privacy)
+ */
+export const DEFAULT_PRIVACY_MODE: PrivacyModeConfig = {
+    hideIndividualAmounts: true,
+    aggregatesOnly: true,
+    allowSelectiveDecryption: true,
+};
+
+/**
+ * Aggregate data returned from private dashboard
+ * Individual amounts remain encrypted; only counts are public
+ */
+export interface PrivateDashboardData {
+    /** Encrypted total revenue handle (decrypt with merchant key) */
+    encryptedTotalRevenueHandle: bigint;
+    /** Encrypted total payouts handle */
+    encryptedTotalPayoutsHandle: bigint;
+    /** Total transaction count (can be public or private) */
+    transactionCount: number;
+    /** Total payout count */
+    payoutCount: number;
+    /** Active subscription count */
+    activeSubscriptionCount: number;
+    /** Last updated timestamp */
+    lastUpdated: Date;
+}
+
+/**
+ * Generate a unique subscription ID
+ */
+export function generateSubscriptionId(): string {
+    const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+    let id = 'sub_';
+    for (let i = 0; i < 16; i++) {
+        id += chars[Math.floor(Math.random() * chars.length)];
+    }
+    return id;
+}
+
+/**
+ * Generate a unique payout ID
+ */
+export function generatePayoutId(): string {
+    const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+    let id = 'payout_';
+    for (let i = 0; i < 12; i++) {
+        id += chars[Math.floor(Math.random() * chars.length)];
+    }
+    return id;
+}
+

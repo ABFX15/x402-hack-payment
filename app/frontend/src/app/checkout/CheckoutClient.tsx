@@ -160,6 +160,7 @@ export default function CheckoutClient({ searchParams }: CheckoutClientProps) {
   const [useGasless, setUseGasless] = useState(false); // Gasless only works with external wallets
   const [gaslessAvailable, setGaslessAvailable] = useState(false);
   const [checkingGasless, setCheckingGasless] = useState(true);
+  const [isProcessingPayment, setIsProcessingPayment] = useState(false); // Prevent double submissions
   const [privyFeePayerAddress, setPrivyFeePayerAddress] = useState<
     string | null
   >(null); // For embedded wallet gasless
@@ -613,10 +614,25 @@ export default function CheckoutClient({ searchParams }: CheckoutClientProps) {
       return;
     }
 
+    // Prevent double submissions
+    if (isProcessingPayment) {
+      console.log(
+        "[Gasless] Payment already in progress, ignoring duplicate request"
+      );
+      return;
+    }
+
+    setIsProcessingPayment(true);
     setStep("processing");
     setError("");
 
     try {
+      // Generate a unique nonce for this payment to prevent duplicate transaction errors
+      const paymentNonce = `${Date.now()}-${Math.random()
+        .toString(36)
+        .slice(2, 8)}`;
+      console.log("[Gasless] Payment nonce:", paymentNonce);
+
       // Step 1: Create transfer transaction via Kora API
       const transferResponse = await fetch("/api/gasless", {
         method: "POST",
@@ -627,6 +643,7 @@ export default function CheckoutClient({ searchParams }: CheckoutClientProps) {
           token: USDC_MINT_ADDRESS,
           source: activeWallet.address,
           destination: merchantWallet,
+          nonce: paymentNonce, // Add unique nonce
         }),
       });
 
@@ -656,6 +673,9 @@ export default function CheckoutClient({ searchParams }: CheckoutClientProps) {
         signedResult.signedTransaction
       ).toString("base64");
 
+      // Add a small delay to ensure no race conditions with wallet auto-send
+      await new Promise((resolve) => setTimeout(resolve, 500));
+
       const signAndSendResponse = await fetch("/api/gasless", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -670,9 +690,21 @@ export default function CheckoutClient({ searchParams }: CheckoutClientProps) {
         throw new Error(errorData.error || "Failed to submit transaction");
       }
 
-      const { signature } = await signAndSendResponse.json();
-      console.log("[Gasless] Transaction sent:", signature);
-      setTxSignature(signature);
+      const gaslessResult = await signAndSendResponse.json();
+      const { signature, alreadyProcessed } = gaslessResult;
+
+      if (alreadyProcessed) {
+        console.log(
+          "[Gasless] Transaction was already processed - treating as success"
+        );
+      } else {
+        console.log("[Gasless] Transaction sent:", signature);
+      }
+
+      // Set signature if available (may be null if already processed)
+      if (signature) {
+        setTxSignature(signature);
+      }
 
       // Complete checkout session if applicable
       if (sessionId) {
@@ -709,12 +741,37 @@ export default function CheckoutClient({ searchParams }: CheckoutClientProps) {
       });
     } catch (err: unknown) {
       console.error("[Gasless] Payment error:", err);
-      // If gasless fails, offer to retry with normal payment
       const errorMessage =
         err instanceof Error ? err.message : "Gasless payment failed";
-      setError(`${errorMessage}. Try disabling gasless mode.`);
+
+      // Check if it's an "already processed" error - this means success!
+      if (
+        errorMessage.includes("already been processed") ||
+        errorMessage.includes("AlreadyProcessed") ||
+        errorMessage.includes("-32002")
+      ) {
+        console.log(
+          "[Gasless] Transaction already processed - treating as success"
+        );
+        setStep("success");
+        sendToParent("settlr:success", {
+          signature: null,
+          amount,
+          merchantWallet,
+          memo,
+          gasless: true,
+          alreadyProcessed: true,
+        });
+        return;
+      }
+
+      // For other errors, show error state
+      setError(`${errorMessage}. Please try again.`);
       setStep("error");
       sendToParent("settlr:error", { message: errorMessage });
+    } finally {
+      // Always reset the processing flag
+      setIsProcessingPayment(false);
     }
   };
 

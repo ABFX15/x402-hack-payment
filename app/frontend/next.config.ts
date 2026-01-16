@@ -6,7 +6,13 @@ const nextConfig: NextConfig = {
     root: ".",
   },
   // Exclude problematic packages from server-side bundling
-  serverExternalPackages: ["pino", "pino-pretty", "thread-stream"],
+  serverExternalPackages: [
+    "pino",
+    "pino-pretty",
+    "thread-stream",
+    "privacycash",
+    "@lightprotocol/hasher.rs",
+  ],
   // Transpile Privy packages
   transpilePackages: ["@privy-io/react-auth"],
   webpack: (config, { isServer }) => {
@@ -18,6 +24,12 @@ const nextConfig: NextConfig = {
       child_process: false,
       perf_hooks: false,
       "why-is-node-running": false,
+    };
+
+    // Handle WASM files
+    config.experiments = {
+      ...config.experiments,
+      asyncWebAssembly: true,
     };
 
     // Handle pino and thread-stream which have Node.js-only dependencies

@@ -24,6 +24,8 @@ import {
   Ban,
   Users,
 } from "lucide-react";
+import { Navbar } from "@/components/ui/Navbar";
+import { Footer } from "@/components/ui/Footer";
 
 // Code block component with syntax highlighting
 function CodeBlock() {
@@ -750,53 +752,8 @@ export default function LandingPage() {
         />
       </div>
 
-      {/* Header */}
-      <header className="fixed left-0 right-0 top-0 z-50 border-b border-white/5 bg-[#0a0a0f]/80 px-4 py-4 backdrop-blur-xl md:px-8">
-        <div className="mx-auto flex max-w-6xl items-center justify-between">
-          <Link href="/" className="flex items-center gap-2">
-            <Image
-              src="/logo-new.png"
-              alt="Settlr"
-              width={100}
-              height={28}
-              quality={100}
-              className="object-contain"
-            />
-          </Link>
-          <nav className="hidden items-center gap-6 md:flex">
-            <Link
-              href="/dashboard"
-              className="text-sm text-white/50 transition-colors hover:text-white"
-            >
-              Dashboard
-            </Link>
-            <Link
-              href="/demo/store"
-              className="text-sm text-white/50 transition-colors hover:text-white"
-            >
-              Try Demo
-            </Link>
-            <Link
-              href="/docs"
-              className="text-sm text-white/50 transition-colors hover:text-white"
-            >
-              Docs
-            </Link>
-            <Link
-              href="/help"
-              className="text-sm text-white/50 transition-colors hover:text-white"
-            >
-              Help
-            </Link>
-          </nav>
-          <Link
-            href="/onboarding"
-            className="rounded-lg border border-white/10 bg-white/10 px-4 py-2 text-sm font-medium text-white transition-all hover:bg-white/20"
-          >
-            Get Started
-          </Link>
-        </div>
-      </header>
+      {/* Unified Navbar */}
+      <Navbar />
 
       {/* Hero Content */}
       <div className="relative z-10 flex min-h-screen flex-col items-center justify-center px-4 text-center">
@@ -1094,53 +1051,8 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="border-t border-white/5 px-4 py-12">
-        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 md:flex-row">
-          <div className="flex items-center gap-2">
-            <Image
-              src="/logo-new.png"
-              alt="Settlr"
-              width={80}
-              height={22}
-              className="object-contain opacity-50"
-            />
-          </div>
-          <div className="flex gap-6 text-sm text-white/30">
-            <Link
-              href="/docs"
-              className="transition-colors hover:text-white/50"
-            >
-              Docs
-            </Link>
-            <Link
-              href="/demo"
-              className="transition-colors hover:text-white/50"
-            >
-              Demo
-            </Link>
-            <a
-              href="https://www.npmjs.com/package/@settlr/sdk"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="transition-colors hover:text-white/50"
-            >
-              npm
-            </a>
-            <a
-              href="https://github.com/ABFX15/x402-hack-payment"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="transition-colors hover:text-white/50"
-            >
-              GitHub
-            </a>
-          </div>
-          <p className="text-sm text-white/30">
-            © 2026 Settlr. Built on Solana.
-          </p>
-        </div>
-      </footer>
+      {/* Unified Footer */}
+      <Footer />
 
       {/* CSS Animation for Grid */}
       <style jsx global>{`
