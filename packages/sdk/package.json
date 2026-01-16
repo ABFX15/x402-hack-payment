@@ -1,6 +1,6 @@
 {
   "name": "@settlr/sdk",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "Settlr SDK - Accept Solana USDC payments with privacy. Email checkout, gasless transactions, FHE-encrypted receipts. Private on-chain, compliant off-chain.",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
