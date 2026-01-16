@@ -112,6 +112,30 @@ Customer pays USDC on Ethereum/Base/Arbitrum/Polygon/Optimism
 - **Privy**: Embedded wallets with email/social login and fiat on-ramp
 - **Squads**: Multisig protection for platform treasury
 
+### ⚡ One-Click Payments
+
+Enable frictionless repeat purchases:
+
+```typescript
+import { createOneClickClient } from "@settlr/sdk";
+
+const oneClick = createOneClickClient();
+
+// Customer approves merchant once
+await oneClick.approve({
+  customerWallet: "...",
+  merchantWallet: "...",
+  spendingLimit: 100, // $100 limit
+});
+
+// Merchant charges later - no popups!
+await oneClick.charge({
+  customerWallet: "...",
+  merchantWallet: "...",
+  amount: 25,
+});
+```
+
 ### 🔐 Privacy (Inco Lightning)
 
 - **Inco Lightning**: FHE-encrypted payment amounts on Solana

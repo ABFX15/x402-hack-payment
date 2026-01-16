@@ -33,6 +33,7 @@ __export(index_exports, {
   BuyButton: () => BuyButton,
   CheckoutWidget: () => CheckoutWidget,
   INCO_LIGHTNING_PROGRAM_ID: () => INCO_LIGHTNING_PROGRAM_ID,
+  OneClickClient: () => OneClickClient,
   PaymentModal: () => PaymentModal,
   PrivacyFeatures: () => PrivacyFeatures,
   SETTLR_CHECKOUT_URL: () => SETTLR_CHECKOUT_URL,
@@ -47,6 +48,7 @@ __export(index_exports, {
   USDT_MINT_MAINNET: () => USDT_MINT_MAINNET,
   buildAllowanceRemainingAccounts: () => buildAllowanceRemainingAccounts,
   buildPrivateReceiptAccounts: () => buildPrivateReceiptAccounts,
+  createOneClickClient: () => createOneClickClient,
   createWebhookHandler: () => createWebhookHandler,
   encryptAmount: () => encryptAmount,
   findAllowancePda: () => findAllowancePda,
@@ -1320,11 +1322,116 @@ var PrivacyFeatures = {
   /** Inco covalidators ensure trustless decryption */
   TRUSTLESS_DECRYPTION: true
 };
+var BillingCycles = {
+  /** Weekly (7 days) */
+  WEEKLY: 7 * 24 * 60 * 60,
+  /** Bi-weekly (14 days) */
+  BIWEEKLY: 14 * 24 * 60 * 60,
+  /** Monthly (30 days) */
+  MONTHLY: 30 * 24 * 60 * 60,
+  /** Quarterly (90 days) */
+  QUARTERLY: 90 * 24 * 60 * 60,
+  /** Yearly (365 days) */
+  YEARLY: 365 * 24 * 60 * 60
+};
+
+// src/one-click.ts
+var OneClickClient = class {
+  constructor(baseUrl = "https://settlr.dev") {
+    this.baseUrl = baseUrl.replace(/\/$/, "");
+  }
+  /**
+   * Customer approves a spending limit for a merchant
+   */
+  async approve(options) {
+    const response = await fetch(`${this.baseUrl}/api/one-click`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        action: "approve",
+        ...options
+      })
+    });
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(data.error || "Failed to create approval");
+    }
+    return {
+      success: true,
+      approval: data.approval
+    };
+  }
+  /**
+   * Check if customer has active approval for merchant
+   */
+  async check(customerWallet, merchantWallet) {
+    const response = await fetch(`${this.baseUrl}/api/one-click`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        action: "check",
+        customerWallet,
+        merchantWallet
+      })
+    });
+    const data = await response.json();
+    return {
+      hasApproval: data.hasApproval || false,
+      remainingLimit: data.remainingLimit,
+      approval: data.approval
+    };
+  }
+  /**
+   * Merchant charges customer using their one-click approval
+   * No customer interaction required if approval exists with sufficient limit
+   */
+  async charge(options) {
+    const response = await fetch(`${this.baseUrl}/api/one-click`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        action: "charge",
+        ...options
+      })
+    });
+    const data = await response.json();
+    if (!response.ok) {
+      return {
+        success: false,
+        error: data.error
+      };
+    }
+    return {
+      success: true,
+      txSignature: data.txSignature,
+      remainingLimit: data.remainingLimit
+    };
+  }
+  /**
+   * Customer revokes merchant's one-click access
+   */
+  async revoke(customerWallet, merchantWallet) {
+    const response = await fetch(`${this.baseUrl}/api/one-click`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        action: "revoke",
+        customerWallet,
+        merchantWallet
+      })
+    });
+    return { success: response.ok };
+  }
+};
+function createOneClickClient(baseUrl) {
+  return new OneClickClient(baseUrl);
+}
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   BuyButton,
   CheckoutWidget,
   INCO_LIGHTNING_PROGRAM_ID,
+  OneClickClient,
   PaymentModal,
   PrivacyFeatures,
   SETTLR_CHECKOUT_URL,
@@ -1339,6 +1446,7 @@ var PrivacyFeatures = {
   USDT_MINT_MAINNET,
   buildAllowanceRemainingAccounts,
   buildPrivateReceiptAccounts,
+  createOneClickClient,
   createWebhookHandler,
   encryptAmount,
   findAllowancePda,

@@ -2337,16 +2337,56 @@ export default function CheckoutClient({ searchParams }: CheckoutClientProps) {
             )}
           </div>
 
+          {/* One-Click Payment Opt-in */}
+          <div className="mb-6 p-4 bg-gradient-to-r from-cyan-500/10 to-purple-500/10 border border-cyan-500/20 rounded-xl">
+            <div className="flex items-center gap-3 mb-2">
+              <Zap className="w-5 h-5 text-cyan-400" />
+              <span className="text-white font-medium">
+                Enable One-Click Payments?
+              </span>
+            </div>
+            <p className="text-zinc-400 text-xs mb-3">
+              Skip approval next time. Set a spending limit for {merchantName}.
+            </p>
+            <button
+              onClick={async () => {
+                try {
+                  const response = await fetch("/api/one-click", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                      action: "approve",
+                      customerWallet: activeWallet?.address,
+                      merchantWallet: merchantWallet,
+                      spendingLimit: 100, // $100 default limit
+                      expiresInDays: 30,
+                    }),
+                  });
+                  if (response.ok) {
+                    alert(
+                      "✓ One-click payments enabled! Future purchases will be instant."
+                    );
+                  }
+                } catch (e) {
+                  console.error("One-click approval failed:", e);
+                }
+              }}
+              className="w-full py-2 px-4 bg-cyan-600 hover:bg-cyan-500 text-white text-sm font-medium rounded-lg transition-colors"
+            >
+              Enable One-Click ($100 limit)
+            </button>
+          </div>
+
           <div className="space-y-3">
             <Link
               href="/demo/store"
-              className="block w-full py-3 bg-zinc-800 text-white font-semibold rounded-xl hover:bg-zinc-700 transition-colors"
+              className="block w-full py-3 bg-zinc-800 text-white font-semibold rounded-xl hover:bg-zinc-700 transition-colors text-center"
             >
               Continue Shopping
             </Link>
             <Link
               href="/"
-              className="block w-full py-2 text-zinc-400 hover:text-white transition-colors text-sm"
+              className="block w-full py-2 text-zinc-400 hover:text-white transition-colors text-sm text-center"
             >
               Back to Home
             </Link>

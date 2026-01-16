@@ -79,3 +79,13 @@ export {
     type PrivateReceiptConfig,
     type IssuePrivateReceiptResult,
 } from './privacy';
+
+// One-Click Payments
+export {
+    OneClickClient,
+    createOneClickClient,
+    type SpendingApproval,
+    type ApproveOneClickOptions,
+    type ChargeOneClickOptions,
+    type OneClickResult,
+} from './one-click';

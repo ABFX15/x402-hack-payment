@@ -18,8 +18,44 @@
 - ✅ **Pay from any chain** - Accept USDC from Ethereum, Base, Arbitrum, Polygon, Optimism (Mayan)
 - ✅ **Instant settlement** - USDC direct to your Solana wallet
 - ✅ **One component** - Drop-in React `<BuyButton>`
-- ✅ **Privacy-preserving** - FHE-encrypted receipts via Inco Lightning ⭐ NEW
+- ✅ **Privacy-preserving** - FHE-encrypted receipts via Inco Lightning
+- ✅ **One-click payments** - Returning customers pay instantly ⭐ NEW
 - ✅ **2% flat fee** - No hidden costs
+
+## ⚡ One-Click Payments (NEW)
+
+Enable frictionless repeat purchases for returning customers:
+
+```typescript
+import { createOneClickClient } from "@settlr/sdk";
+
+const oneClick = createOneClickClient("https://settlr.dev");
+
+// Step 1: Customer approves a spending limit (once)
+await oneClick.approve({
+  customerWallet: "Ac52MM...",
+  merchantWallet: "DjLFeM...",
+  spendingLimit: 100, // $100 max
+  expiresInDays: 30,
+});
+
+// Step 2: Merchant charges customer later (no popups!)
+const result = await oneClick.charge({
+  customerWallet: "Ac52MM...",
+  merchantWallet: "DjLFeM...",
+  amount: 25,
+  memo: "Premium content",
+});
+
+console.log(result.txSignature); // Payment completed instantly!
+console.log(result.remainingLimit); // $75 left
+```
+
+**Use cases:**
+
+- Gaming: Buy in-game items without interrupting gameplay
+- Subscriptions: Charge monthly without re-authentication
+- Microtransactions: Seamless small purchases
 
 ## 🔒 Privacy Features (Inco Lightning)
 

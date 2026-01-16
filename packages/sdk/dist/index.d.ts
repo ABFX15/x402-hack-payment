@@ -1036,4 +1036,111 @@ declare const PrivacyFeatures: {
     readonly TRUSTLESS_DECRYPTION: true;
 };
 
-export { BuyButton, type BuyButtonProps, CheckoutWidget, type CheckoutWidgetProps, type CreatePaymentOptions, type CreateSubscriptionOptions, INCO_LIGHTNING_PROGRAM_ID, type IssuePrivateReceiptResult, type MerchantConfig, type Payment, PaymentModal, type PaymentModalProps, type PaymentResult, type PaymentStatus, PrivacyFeatures, type PrivateReceiptConfig, SETTLR_CHECKOUT_URL, SETTLR_PROGRAM_ID, SUPPORTED_NETWORKS, SUPPORTED_TOKENS, Settlr, type SettlrConfig, SettlrProvider, type Subscription, type SubscriptionInterval, type SubscriptionPlan, type SubscriptionStatus, type SupportedToken, type TransactionOptions, USDC_MINT_DEVNET, USDC_MINT_MAINNET, USDT_MINT_DEVNET, USDT_MINT_MAINNET, type WebhookEventType, type WebhookHandler, type WebhookHandlers, type WebhookPayload, buildAllowanceRemainingAccounts, buildPrivateReceiptAccounts, createWebhookHandler, encryptAmount, findAllowancePda, findPrivateReceiptPda, formatUSDC, getTokenDecimals, getTokenMint, parseUSDC, parseWebhookPayload, shortenAddress, simulateAndGetHandle, usePaymentLink, usePaymentModal, useSettlr, verifyWebhookSignature };
+/**
+ * One-Click Payments Module
+ *
+ * Enables frictionless repeat payments for returning customers.
+ * Customer approves a spending limit once, merchant can charge without interaction.
+ */
+interface SpendingApproval {
+    id: string;
+    customerWallet: string;
+    customerEmail?: string;
+    merchantWallet: string;
+    spendingLimit: number;
+    amountSpent: number;
+    remainingLimit: number;
+    expiresAt: Date;
+    status: 'active' | 'expired' | 'revoked';
+    createdAt: Date;
+}
+interface ApproveOneClickOptions {
+    /** Customer's wallet address */
+    customerWallet: string;
+    /** Customer's email (optional, for notifications) */
+    customerEmail?: string;
+    /** Merchant's wallet address */
+    merchantWallet: string;
+    /** Maximum USDC amount the merchant can charge */
+    spendingLimit: number;
+    /** Days until approval expires (default: 30) */
+    expiresInDays?: number;
+}
+interface ChargeOneClickOptions {
+    /** Customer's wallet address */
+    customerWallet: string;
+    /** Merchant's wallet address */
+    merchantWallet: string;
+    /** Amount to charge in USDC */
+    amount: number;
+    /** Optional memo for the transaction */
+    memo?: string;
+}
+interface OneClickResult {
+    success: boolean;
+    error?: string;
+    txSignature?: string;
+    remainingLimit?: number;
+}
+/**
+ * One-Click Payment Client
+ *
+ * @example
+ * ```typescript
+ * import { OneClickClient } from '@settlr/sdk';
+ *
+ * const oneClick = new OneClickClient('https://settlr.dev');
+ *
+ * // Customer approves merchant
+ * await oneClick.approve({
+ *   customerWallet: 'Ac52MM...',
+ *   merchantWallet: 'DjLFeM...',
+ *   spendingLimit: 100, // $100 max
+ * });
+ *
+ * // Merchant charges customer later (no interaction needed)
+ * const result = await oneClick.charge({
+ *   customerWallet: 'Ac52MM...',
+ *   merchantWallet: 'DjLFeM...',
+ *   amount: 25,
+ * });
+ * ```
+ */
+declare class OneClickClient {
+    private baseUrl;
+    constructor(baseUrl?: string);
+    /**
+     * Customer approves a spending limit for a merchant
+     */
+    approve(options: ApproveOneClickOptions): Promise<{
+        success: boolean;
+        approval?: SpendingApproval;
+    }>;
+    /**
+     * Check if customer has active approval for merchant
+     */
+    check(customerWallet: string, merchantWallet: string): Promise<{
+        hasApproval: boolean;
+        remainingLimit?: number;
+        approval?: SpendingApproval;
+    }>;
+    /**
+     * Merchant charges customer using their one-click approval
+     * No customer interaction required if approval exists with sufficient limit
+     */
+    charge(options: ChargeOneClickOptions): Promise<OneClickResult>;
+    /**
+     * Customer revokes merchant's one-click access
+     */
+    revoke(customerWallet: string, merchantWallet: string): Promise<{
+        success: boolean;
+    }>;
+}
+/**
+ * Create a one-click payment client
+ *
+ * @param baseUrl - Settlr API base URL (default: https://settlr.dev)
+ */
+declare function createOneClickClient(baseUrl?: string): OneClickClient;
+
+export { type ApproveOneClickOptions, BuyButton, type BuyButtonProps, type ChargeOneClickOptions, CheckoutWidget, type CheckoutWidgetProps, type CreatePaymentOptions, type CreateSubscriptionOptions, INCO_LIGHTNING_PROGRAM_ID, type IssuePrivateReceiptResult, type MerchantConfig, OneClickClient, type OneClickResult, type Payment, PaymentModal, type PaymentModalProps, type PaymentResult, type PaymentStatus, PrivacyFeatures, type PrivateReceiptConfig, SETTLR_CHECKOUT_URL, SETTLR_PROGRAM_ID, SUPPORTED_NETWORKS, SUPPORTED_TOKENS, Settlr, type SettlrConfig, SettlrProvider, type SpendingApproval, type Subscription, type SubscriptionInterval, type SubscriptionPlan, type SubscriptionStatus, type SupportedToken, type TransactionOptions, USDC_MINT_DEVNET, USDC_MINT_MAINNET, USDT_MINT_DEVNET, USDT_MINT_MAINNET, type WebhookEventType, type WebhookHandler, type WebhookHandlers, type WebhookPayload, buildAllowanceRemainingAccounts, buildPrivateReceiptAccounts, createOneClickClient, createWebhookHandler, encryptAmount, findAllowancePda, findPrivateReceiptPda, formatUSDC, getTokenDecimals, getTokenMint, parseUSDC, parseWebhookPayload, shortenAddress, simulateAndGetHandle, usePaymentLink, usePaymentModal, useSettlr, verifyWebhookSignature };
