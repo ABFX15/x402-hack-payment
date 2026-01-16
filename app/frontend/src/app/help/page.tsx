@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
-import Image from "next/image";
 import {
   ChevronDown,
   Mail,
@@ -17,6 +16,8 @@ import {
   HelpCircle,
   ExternalLink,
 } from "lucide-react";
+import { Navbar } from "@/components/ui/Navbar";
+import { Footer } from "@/components/ui/Footer";
 
 const faqCategories = [
   {
@@ -188,233 +189,160 @@ export default function HelpPage() {
   const [activeCategory, setActiveCategory] = useState(faqCategories[0].name);
 
   return (
-    <main className="min-h-screen bg-[#0a0a0f]">
-      {/* Header */}
-      <header className="fixed left-0 right-0 top-0 z-50 border-b border-white/5 bg-[#0a0a0f]/80 px-4 py-4 backdrop-blur-xl md:px-8">
-        <div className="mx-auto flex max-w-6xl items-center justify-between">
-          <Link href="/" className="flex items-center gap-2">
-            <Image
-              src="/logo-new.png"
-              alt="Settlr"
-              width={100}
-              height={28}
-              quality={100}
-              className="object-contain"
-            />
-          </Link>
-          <nav className="hidden items-center gap-6 md:flex">
-            <Link
-              href="/"
-              className="text-sm text-white/50 transition-colors hover:text-white"
+    <>
+      <Navbar />
+      <main className="min-h-screen bg-[#0a0a0f] pt-16">
+        {/* Hero */}
+        <section className="px-4 pb-12 pt-32">
+          <div className="mx-auto max-w-4xl text-center">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="mb-4 inline-flex items-center gap-2 rounded-full border border-purple-500/30 bg-purple-500/10 px-4 py-2"
             >
-              Home
-            </Link>
+              <HelpCircle className="h-4 w-4 text-purple-400" />
+              <span className="text-sm text-purple-300">Help Center</span>
+            </motion.div>
+
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }}
+              className="mb-4 text-4xl font-bold text-white md:text-5xl"
+            >
+              How can we help?
+            </motion.h1>
+
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              className="text-lg text-gray-400"
+            >
+              Find answers to common questions or reach out to our team
+            </motion.p>
+          </div>
+        </section>
+
+        {/* Quick Links */}
+        <section className="px-4 pb-12">
+          <div className="mx-auto grid max-w-4xl gap-4 md:grid-cols-3">
             <Link
               href="/docs"
-              className="text-sm text-white/50 transition-colors hover:text-white"
+              className="flex items-center gap-4 rounded-xl border border-white/10 bg-white/5 p-4 transition-all hover:border-purple-500/30 hover:bg-white/10"
             >
-              Docs
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-purple-500/20">
+                <Book className="h-5 w-5 text-purple-400" />
+              </div>
+              <div>
+                <h3 className="font-medium text-white">Documentation</h3>
+                <p className="text-sm text-gray-400">Technical guides & API</p>
+              </div>
+              <ExternalLink className="ml-auto h-4 w-4 text-gray-400" />
             </Link>
+
             <Link
               href="/waitlist"
-              className="text-sm text-white/50 transition-colors hover:text-white"
+              className="flex items-center gap-4 rounded-xl border border-white/10 bg-white/5 p-4 transition-all hover:border-purple-500/30 hover:bg-white/10"
             >
-              Contact
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-cyan-500/20">
+                <Mail className="h-5 w-5 text-cyan-400" />
+              </div>
+              <div>
+                <h3 className="font-medium text-white">Contact Us</h3>
+                <p className="text-sm text-gray-400">
+                  Get in touch with our team
+                </p>
+              </div>
+              <ExternalLink className="ml-auto h-4 w-4 text-gray-400" />
             </Link>
-          </nav>
-          <Link
-            href="/onboarding"
-            className="rounded-lg border border-white/10 bg-white/10 px-4 py-2 text-sm font-medium text-white transition-all hover:bg-white/20"
-          >
-            Get Started
-          </Link>
-        </div>
-      </header>
 
-      {/* Hero */}
-      <section className="px-4 pb-12 pt-32">
-        <div className="mx-auto max-w-4xl text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="mb-4 inline-flex items-center gap-2 rounded-full border border-purple-500/30 bg-purple-500/10 px-4 py-2"
-          >
-            <HelpCircle className="h-4 w-4 text-purple-400" />
-            <span className="text-sm text-purple-300">Help Center</span>
-          </motion.div>
-
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="mb-4 text-4xl font-bold text-white md:text-5xl"
-          >
-            How can we help?
-          </motion.h1>
-
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="text-lg text-gray-400"
-          >
-            Find answers to common questions or reach out to our team
-          </motion.p>
-        </div>
-      </section>
-
-      {/* Quick Links */}
-      <section className="px-4 pb-12">
-        <div className="mx-auto grid max-w-4xl gap-4 md:grid-cols-3">
-          <Link
-            href="/docs"
-            className="flex items-center gap-4 rounded-xl border border-white/10 bg-white/5 p-4 transition-all hover:border-purple-500/30 hover:bg-white/10"
-          >
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-purple-500/20">
-              <Book className="h-5 w-5 text-purple-400" />
-            </div>
-            <div>
-              <h3 className="font-medium text-white">Documentation</h3>
-              <p className="text-sm text-gray-400">Technical guides & API</p>
-            </div>
-            <ExternalLink className="ml-auto h-4 w-4 text-gray-400" />
-          </Link>
-
-          <Link
-            href="/waitlist"
-            className="flex items-center gap-4 rounded-xl border border-white/10 bg-white/5 p-4 transition-all hover:border-purple-500/30 hover:bg-white/10"
-          >
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-cyan-500/20">
-              <Mail className="h-5 w-5 text-cyan-400" />
-            </div>
-            <div>
-              <h3 className="font-medium text-white">Contact Us</h3>
-              <p className="text-sm text-gray-400">
-                Get in touch with our team
-              </p>
-            </div>
-            <ExternalLink className="ml-auto h-4 w-4 text-gray-400" />
-          </Link>
-
-          <a
-            href="https://twitter.com/SettlrPay"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-4 rounded-xl border border-white/10 bg-white/5 p-4 transition-all hover:border-purple-500/30 hover:bg-white/10"
-          >
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-500/20">
-              <MessageCircle className="h-5 w-5 text-blue-400" />
-            </div>
-            <div>
-              <h3 className="font-medium text-white">Twitter/X</h3>
-              <p className="text-sm text-gray-400">@SettlrPay</p>
-            </div>
-            <ExternalLink className="ml-auto h-4 w-4 text-gray-400" />
-          </a>
-        </div>
-      </section>
-
-      {/* FAQ Section */}
-      <section className="px-4 py-12">
-        <div className="mx-auto max-w-4xl">
-          <h2 className="mb-8 text-2xl font-bold text-white">
-            Frequently Asked Questions
-          </h2>
-
-          {/* Category Tabs */}
-          <div className="mb-8 flex flex-wrap gap-2">
-            {faqCategories.map((category) => (
-              <button
-                key={category.name}
-                onClick={() => setActiveCategory(category.name)}
-                className={`flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-all ${
-                  activeCategory === category.name
-                    ? "bg-purple-500/20 text-purple-300"
-                    : "bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white"
-                }`}
-              >
-                <category.icon className="h-4 w-4" />
-                {category.name}
-              </button>
-            ))}
+            <a
+              href="https://twitter.com/SettlrPay"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-4 rounded-xl border border-white/10 bg-white/5 p-4 transition-all hover:border-purple-500/30 hover:bg-white/10"
+            >
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-500/20">
+                <MessageCircle className="h-5 w-5 text-blue-400" />
+              </div>
+              <div>
+                <h3 className="font-medium text-white">Twitter/X</h3>
+                <p className="text-sm text-gray-400">@SettlrPay</p>
+              </div>
+              <ExternalLink className="ml-auto h-4 w-4 text-gray-400" />
+            </a>
           </div>
+        </section>
 
-          {/* FAQ List */}
-          <motion.div
-            key={activeCategory}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="rounded-xl border border-white/10 bg-white/5 px-6"
-          >
-            {faqCategories
-              .find((c) => c.name === activeCategory)
-              ?.faqs.map((faq) => (
-                <FAQItem
-                  key={faq.question}
-                  question={faq.question}
-                  answer={faq.answer}
-                />
+        {/* FAQ Section */}
+        <section className="px-4 py-12">
+          <div className="mx-auto max-w-4xl">
+            <h2 className="mb-8 text-2xl font-bold text-white">
+              Frequently Asked Questions
+            </h2>
+
+            {/* Category Tabs */}
+            <div className="mb-8 flex flex-wrap gap-2">
+              {faqCategories.map((category) => (
+                <button
+                  key={category.name}
+                  onClick={() => setActiveCategory(category.name)}
+                  className={`flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-all ${
+                    activeCategory === category.name
+                      ? "bg-purple-500/20 text-purple-300"
+                      : "bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white"
+                  }`}
+                >
+                  <category.icon className="h-4 w-4" />
+                  {category.name}
+                </button>
               ))}
-          </motion.div>
-        </div>
-      </section>
+            </div>
 
-      {/* Still Need Help */}
-      <section className="px-4 py-12">
-        <div className="mx-auto max-w-2xl">
-          <div className="rounded-2xl border border-purple-500/20 bg-gradient-to-br from-purple-500/10 to-cyan-500/10 p-8 text-center">
-            <h3 className="mb-2 text-xl font-bold text-white">
-              Still have questions?
-            </h3>
-            <p className="mb-6 text-gray-400">
-              Our team is here to help. Reach out and we'll get back to you
-              within 24 hours.
-            </p>
-            <Link
-              href="/waitlist"
-              className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#a855f7] to-[#22d3ee] px-6 py-3 font-semibold text-white transition-all hover:opacity-90"
+            {/* FAQ List */}
+            <motion.div
+              key={activeCategory}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="rounded-xl border border-white/10 bg-white/5 px-6"
             >
-              <Mail className="h-5 w-5" />
-              Contact Us
-            </Link>
+              {faqCategories
+                .find((c) => c.name === activeCategory)
+                ?.faqs.map((faq) => (
+                  <FAQItem
+                    key={faq.question}
+                    question={faq.question}
+                    answer={faq.answer}
+                  />
+                ))}
+            </motion.div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Footer */}
-      <footer className="border-t border-white/5 px-4 py-12">
-        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 md:flex-row">
-          <div className="flex items-center gap-2">
-            <Image
-              src="/logo-new.png"
-              alt="Settlr"
-              width={80}
-              height={22}
-              className="object-contain opacity-50"
-            />
+        {/* Still Need Help */}
+        <section className="px-4 py-12">
+          <div className="mx-auto max-w-2xl">
+            <div className="rounded-2xl border border-purple-500/20 bg-gradient-to-br from-purple-500/10 to-cyan-500/10 p-8 text-center">
+              <h3 className="mb-2 text-xl font-bold text-white">
+                Still have questions?
+              </h3>
+              <p className="mb-6 text-gray-400">
+                Our team is here to help. Reach out and we'll get back to you
+                within 24 hours.
+              </p>
+              <Link
+                href="/waitlist"
+                className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#a855f7] to-[#22d3ee] px-6 py-3 font-semibold text-white transition-all hover:opacity-90"
+              >
+                <Mail className="h-5 w-5" />
+                Contact Us
+              </Link>
+            </div>
           </div>
-          <div className="flex gap-6 text-sm text-white/30">
-            <Link
-              href="/docs"
-              className="transition-colors hover:text-white/50"
-            >
-              Docs
-            </Link>
-            <Link
-              href="/waitlist"
-              className="transition-colors hover:text-white/50"
-            >
-              Contact
-            </Link>
-            <Link href="/" className="transition-colors hover:text-white/50">
-              Home
-            </Link>
-          </div>
-          <p className="text-sm text-white/30">
-            © 2026 Settlr. Built on Solana.
-          </p>
-        </div>
-      </footer>
-    </main>
+        </section>
+      </main>
+      <Footer />
+    </>
   );
 }

@@ -128,26 +128,52 @@ export async function POST(req: NextRequest) {
                     );
                 }
 
-                const signer = await getKoraSigner(client);
-                const result = await client.signAndSendTransaction({
-                    transaction,
-                    signer_key: signer.signerAddress,
-                });
+                try {
+                    console.log("[Gasless] signAndSend: Signing and submitting transaction...");
+                    const signer = await getKoraSigner(client);
+                    console.log("[Gasless] Using signer:", signer.signerAddress);
 
-                // Cast to access potential signature field returned by API
-                const response = result as unknown as {
-                    signed_transaction: string;
-                    signature?: string;
-                };
+                    const result = await client.signAndSendTransaction({
+                        transaction,
+                        signer_key: signer.signerAddress,
+                    });
 
-                return NextResponse.json({
-                    signedTransaction: response.signed_transaction,
-                    signature: response.signature,
-                });
+                    // Cast to access potential signature field returned by API
+                    const response = result as unknown as {
+                        signed_transaction: string;
+                        signature?: string;
+                    };
+
+                    return NextResponse.json({
+                        signedTransaction: response.signed_transaction,
+                        signature: response.signature,
+                    });
+                } catch (txError) {
+                    const errorMessage = txError instanceof Error ? txError.message : String(txError);
+
+                    // Handle "already processed" - this means the transaction succeeded previously
+                    if (errorMessage.includes('already been processed') ||
+                        errorMessage.includes('AlreadyProcessed') ||
+                        errorMessage.includes('-32002')) {
+                        console.log('[Gasless] Transaction already processed - treating as success');
+
+                        // Try to extract signature from the transaction if possible
+                        // The transaction was already submitted successfully
+                        return NextResponse.json({
+                            signedTransaction: transaction,
+                            signature: null, // Signature unknown but tx succeeded
+                            alreadyProcessed: true,
+                            message: 'Transaction was already processed successfully'
+                        });
+                    }
+
+                    // Re-throw other errors
+                    throw txError;
+                }
             }
 
             case "transfer": {
-                const { amount, token, source, destination } = body;
+                const { amount, token, source, destination, nonce } = body;
                 if (!amount || !token || !source || !destination) {
                     return NextResponse.json(
                         { error: "Missing transfer parameters" },
@@ -155,18 +181,30 @@ export async function POST(req: NextRequest) {
                     );
                 }
 
-                const result = await client.transferTransaction({
+                console.log(`[Gasless] Creating transfer: ${amount} of ${token} from ${source} to ${destination} (nonce: ${nonce || 'none'})`);
+
+                // Always create a fresh client for transfers to ensure fresh blockhash
+                const { KoraClient } = await import("@solana/kora");
+                const freshClient = new KoraClient({
+                    rpcUrl: process.env.NEXT_PUBLIC_KORA_RPC_URL || "http://localhost:8080",
+                    apiKey: process.env.KORA_API_KEY,
+                    hmacSecret: process.env.KORA_HMAC_SECRET,
+                });
+
+                const result = await freshClient.transferTransaction({
                     amount,
                     token,
                     source,
                     destination,
                 });
 
+                console.log(`[Gasless] Transfer transaction created with fresh blockhash`);
+
                 return NextResponse.json({
                     transaction: result.transaction,
                     instructions: result.instructions,
-                });
-            }
+                    nonce: nonce, // Echo back nonce for debugging
+                }
 
             default:
                 return NextResponse.json(

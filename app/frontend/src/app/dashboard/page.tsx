@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { usePrivy } from "@privy-io/react-auth";
 import { useActiveWallet } from "@/hooks/useActiveWallet";
+import Link from "next/link";
 import {
   Wallet,
   TrendingUp,
@@ -25,8 +26,8 @@ import {
   LogIn,
   Home,
 } from "lucide-react";
-import Link from "next/link";
-import Image from "next/image";
+import { Navbar } from "@/components/ui/Navbar";
+import { Footer } from "@/components/ui/Footer";
 
 interface PaymentRecord {
   id: string;
@@ -130,53 +131,8 @@ export default function DashboardPage() {
 
   return (
     <>
-      {/* Fixed Header */}
-      <header className="fixed left-0 right-0 top-0 z-50 border-b border-white/5 bg-[#0a0a0f]/80 px-4 py-4 backdrop-blur-xl md:px-8">
-        <div className="mx-auto flex max-w-6xl items-center justify-between">
-          <Link href="/" className="flex items-center gap-2">
-            <Image
-              src="/logo-new.png"
-              alt="Settlr"
-              width={100}
-              height={28}
-              quality={100}
-              className="object-contain"
-            />
-          </Link>
-          <nav className="hidden items-center gap-6 md:flex">
-            <Link
-              href="/"
-              className="text-sm text-white/50 transition-colors hover:text-white"
-            >
-              Home
-            </Link>
-            <Link
-              href="/create"
-              className="text-sm text-white/50 transition-colors hover:text-white"
-            >
-              Payment Links
-            </Link>
-            <Link
-              href="/docs"
-              className="text-sm text-white/50 transition-colors hover:text-white"
-            >
-              Docs
-            </Link>
-            <Link
-              href="/help"
-              className="text-sm text-white/50 transition-colors hover:text-white"
-            >
-              Help
-            </Link>
-          </nav>
-          <Link
-            href="/create"
-            className="rounded-lg border border-white/10 bg-white/10 px-4 py-2 text-sm font-medium text-white transition-all hover:bg-white/20"
-          >
-            + New Payment
-          </Link>
-        </div>
-      </header>
+      {/* Unified Navbar */}
+      <Navbar />
 
       <div className="min-h-screen bg-[#0a0a0f] text-white p-8 pt-32">
         <div className="max-w-7xl mx-auto">
@@ -636,6 +592,7 @@ export default function DashboardPage() {
           </motion.div>
         </div>
       </div>
+      <Footer />
     </>
   );
 }

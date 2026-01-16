@@ -48,13 +48,20 @@ export interface KoraSponsorResult {
 // Default Kora endpoint (can be self-hosted or use a public endpoint)
 const DEFAULT_KORA_RPC = process.env.NEXT_PUBLIC_KORA_RPC_URL || "http://localhost:8080";
 
+// Don't cache the client in serverless environments - create fresh each time
+// This prevents stale connection issues
 let koraClient: KoraClient | null = null;
 
 /**
  * Get or create the Kora client instance
+ * In serverless (API routes), we create fresh clients to avoid stale connections
  */
 export function getKoraClient(config?: Partial<KoraConfig>): KoraClient {
-    if (!koraClient) {
+    // In serverless/API route context, always create fresh client
+    // This avoids issues with stale connections or cached state
+    const isServerless = typeof window === 'undefined';
+
+    if (isServerless || !koraClient) {
         koraClient = new KoraClient({
             rpcUrl: config?.rpcUrl || DEFAULT_KORA_RPC,
             apiKey: config?.apiKey || process.env.KORA_API_KEY,

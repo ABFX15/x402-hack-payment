@@ -1,81 +1,168 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
+import { Navbar } from "@/components/ui/Navbar";
+import { Footer } from "@/components/ui/Footer";
+import { InteractivePlayground } from "@/components/docs/InteractivePlayground";
+import {
+  Search,
+  Book,
+  Code2,
+  Webhook,
+  HelpCircle,
+  Rocket,
+  ExternalLink,
+  Play,
+} from "lucide-react";
+
+const docsTabs = [
+  { id: "quickstart", label: "Quick Start", icon: Rocket },
+  { id: "playground", label: "Playground", icon: Play },
+  { id: "react", label: "React SDK", icon: Code2 },
+  { id: "api", label: "API Reference", icon: Book },
+  { id: "webhooks", label: "Webhooks", icon: Webhook },
+  { id: "troubleshooting", label: "Troubleshooting", icon: HelpCircle },
+];
 
 export default function DocsPage() {
+  const searchParams = useSearchParams();
+  const initialTab =
+    (searchParams.get("tab") as typeof activeTab) || "quickstart";
   const [activeTab, setActiveTab] = useState<
-    "quickstart" | "react" | "api" | "webhooks" | "troubleshooting"
-  >("quickstart");
+    | "quickstart"
+    | "playground"
+    | "react"
+    | "api"
+    | "webhooks"
+    | "troubleshooting"
+  >(initialTab);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  useEffect(() => {
+    const tab = searchParams.get("tab");
+    if (tab && docsTabs.some((t) => t.id === tab)) {
+      setActiveTab(tab as typeof activeTab);
+    }
+  }, [searchParams]);
 
   return (
-    <div className="min-h-screen bg-[#0a0a0f] text-white">
-      {/* Header */}
-      <header className="border-b border-white/10">
-        <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-          <Link href="/" className="text-xl font-bold text-purple-400">
-            Settlr
-          </Link>
-          <div className="flex items-center gap-6">
-            <Link
-              href="/demo"
-              className="text-gray-400 hover:text-white transition-colors"
-            >
-              Demo
-            </Link>
-            <a
-              href="https://github.com/ABFX15/x402-hack-payment"
-              target="_blank"
-              className="text-gray-400 hover:text-white transition-colors"
-            >
-              GitHub
-            </a>
-          </div>
-        </div>
-      </header>
+    <>
+      <Navbar />
+      <div className="min-h-screen bg-[#0a0a0f] text-white pt-16">
+        <div className="flex">
+          {/* Sidebar */}
+          <aside className="hidden lg:block fixed left-0 top-16 bottom-0 w-64 border-r border-white/5 bg-[#0d0d14] overflow-y-auto">
+            <div className="p-4">
+              {/* Search */}
+              <div className="relative mb-6">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-white/40" />
+                <input
+                  type="text"
+                  placeholder="Search docs..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full rounded-lg border border-white/10 bg-white/5 py-2 pl-10 pr-4 text-sm text-white placeholder:text-white/40 focus:border-purple-500/50 focus:outline-none"
+                />
+              </div>
 
-      <div className="max-w-6xl mx-auto px-6 py-12">
-        {/* Hero */}
-        <div className="mb-12">
-          <h1 className="text-4xl font-bold mb-4">Documentation</h1>
-          <p className="text-xl text-gray-400">
-            Everything you need to accept USDC payments with Settlr.
-          </p>
-        </div>
+              {/* Navigation */}
+              <nav className="space-y-1">
+                {docsTabs.map((tab) => {
+                  const Icon = tab.icon;
+                  const isActive = activeTab === tab.id;
+                  return (
+                    <button
+                      key={tab.id}
+                      onClick={() => setActiveTab(tab.id as typeof activeTab)}
+                      className={`flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all ${
+                        isActive
+                          ? "bg-purple-500/10 text-purple-400"
+                          : "text-white/60 hover:bg-white/5 hover:text-white"
+                      }`}
+                    >
+                      <Icon className="h-4 w-4" />
+                      {tab.label}
+                    </button>
+                  );
+                })}
+              </nav>
 
-        {/* Navigation Tabs */}
-        <div className="flex gap-1 mb-8 border-b border-white/10 overflow-x-auto">
-          {[
-            { id: "quickstart", label: "Quick Start" },
-            { id: "react", label: "React SDK" },
-            { id: "api", label: "API Reference" },
-            { id: "webhooks", label: "Webhooks" },
-            { id: "troubleshooting", label: "Troubleshooting" },
-          ].map((tab) => (
-            <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id as typeof activeTab)}
-              className={`px-6 py-3 font-medium transition-colors ${
-                activeTab === tab.id
-                  ? "text-purple-400 border-b-2 border-purple-400"
-                  : "text-gray-500 hover:text-gray-300"
-              }`}
-            >
-              {tab.label}
-            </button>
-          ))}
-        </div>
+              {/* External Links */}
+              <div className="mt-8 border-t border-white/5 pt-6">
+                <p className="mb-3 text-xs font-semibold uppercase text-white/40">
+                  Resources
+                </p>
+                <div className="space-y-1">
+                  <a
+                    href="https://www.npmjs.com/package/@settlr/sdk"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-white/60 hover:bg-white/5 hover:text-white"
+                  >
+                    npm Package
+                    <ExternalLink className="h-3 w-3" />
+                  </a>
+                  <a
+                    href="https://github.com/ABFX15/x402-hack-payment"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-white/60 hover:bg-white/5 hover:text-white"
+                  >
+                    GitHub
+                    <ExternalLink className="h-3 w-3" />
+                  </a>
+                </div>
+              </div>
+            </div>
+          </aside>
 
-        {/* Content */}
-        <div className="prose prose-invert max-w-none">
-          {activeTab === "quickstart" && <QuickStartContent />}
-          {activeTab === "react" && <ReactSDKContent />}
-          {activeTab === "api" && <APIContent />}
-          {activeTab === "webhooks" && <WebhooksContent />}
-          {activeTab === "troubleshooting" && <TroubleshootingContent />}
+          {/* Main Content */}
+          <main className="flex-1 lg:ml-64">
+            <div className="max-w-4xl mx-auto px-6 py-12">
+              {/* Hero */}
+              <div className="mb-10">
+                <h1 className="text-4xl font-bold mb-4">Documentation</h1>
+                <p className="text-xl text-white/60">
+                  Everything you need to accept USDC payments with Settlr.
+                </p>
+              </div>
+
+              {/* Mobile Navigation Tabs */}
+              <div className="flex gap-1 mb-8 border-b border-white/10 overflow-x-auto lg:hidden">
+                {docsTabs.map((tab) => (
+                  <button
+                    key={tab.id}
+                    onClick={() => setActiveTab(tab.id as typeof activeTab)}
+                    className={`px-4 py-3 text-sm font-medium whitespace-nowrap transition-colors ${
+                      activeTab === tab.id
+                        ? "text-purple-400 border-b-2 border-purple-400"
+                        : "text-white/50 hover:text-white/80"
+                    }`}
+                  >
+                    {tab.label}
+                  </button>
+                ))}
+              </div>
+
+              {/* Content */}
+              <div className="prose prose-invert max-w-none">
+                {activeTab === "quickstart" && <QuickStartContent />}
+                {activeTab === "playground" && <PlaygroundContent />}
+                {activeTab === "react" && <ReactSDKContent />}
+                {activeTab === "api" && <APIContent />}
+                {activeTab === "webhooks" && <WebhooksContent />}
+                {activeTab === "troubleshooting" && <TroubleshootingContent />}
+              </div>
+            </div>
+          </main>
         </div>
       </div>
-    </div>
+      <div className="lg:ml-64">
+        <Footer />
+      </div>
+    </>
   );
 }
 
@@ -237,6 +324,112 @@ function CheckoutPage() {
             title="Gasless Payments"
             description="Users don't need SOL for gas. We cover it."
           />
+        </div>
+
+        {/* Interactive Playground */}
+        <div className="mt-16">
+          <h2 className="text-2xl font-bold mb-4">Try It Live</h2>
+          <p className="text-gray-400 mb-6">
+            Edit the code below and click "Try It" to see how the checkout
+            works. No setup required.
+          </p>
+          <InteractivePlayground showExamples={true} />
+        </div>
+      </section>
+    </div>
+  );
+}
+
+function PlaygroundContent() {
+  return (
+    <div className="space-y-8">
+      <section>
+        <h2 className="text-2xl font-bold mb-4">Interactive Playground</h2>
+        <p className="text-gray-400 mb-6">
+          Experiment with the Settlr SDK in real-time. Edit the code, try
+          different configurations, and see the checkout flow in action — no
+          setup required.
+        </p>
+
+        {/* Main Playground */}
+        <InteractivePlayground showExamples={true} />
+
+        {/* Tips Section */}
+        <div className="mt-12 grid md:grid-cols-2 gap-6">
+          <div className="rounded-xl border border-white/10 bg-[#12121a] p-6">
+            <h3 className="text-lg font-semibold text-white mb-3">
+              💡 Pro Tips
+            </h3>
+            <ul className="text-sm text-white/60 space-y-2">
+              <li>
+                • Change the{" "}
+                <code className="text-purple-400 bg-purple-500/10 px-1 rounded">
+                  amount
+                </code>{" "}
+                prop to test different prices
+              </li>
+              <li>
+                • Add a{" "}
+                <code className="text-purple-400 bg-purple-500/10 px-1 rounded">
+                  memo
+                </code>{" "}
+                for order descriptions
+              </li>
+              <li>
+                • Use{" "}
+                <code className="text-purple-400 bg-purple-500/10 px-1 rounded">
+                  onSuccess
+                </code>{" "}
+                to handle completed payments
+              </li>
+              <li>• Try the dropdown to load different examples</li>
+            </ul>
+          </div>
+          <div className="rounded-xl border border-white/10 bg-[#12121a] p-6">
+            <h3 className="text-lg font-semibold text-white mb-3">
+              🚀 Ready to Integrate?
+            </h3>
+            <p className="text-sm text-white/60 mb-4">
+              When you're ready to accept real payments, create an account to
+              get your API key.
+            </p>
+            <a
+              href="/onboarding"
+              className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-purple-500 to-cyan-500 px-4 py-2 text-sm font-semibold text-white"
+            >
+              Get API Key →
+            </a>
+          </div>
+        </div>
+
+        {/* Example Use Cases */}
+        <div className="mt-12">
+          <h3 className="text-xl font-semibold text-white mb-6">
+            Example Use Cases
+          </h3>
+          <div className="grid md:grid-cols-3 gap-4">
+            <div className="rounded-lg border border-white/5 bg-white/5 p-4">
+              <span className="text-2xl">🎮</span>
+              <h4 className="font-medium text-white mt-2">Gaming</h4>
+              <p className="text-sm text-white/50 mt-1">
+                Tournament entries, in-game purchases, deposits
+              </p>
+            </div>
+            <div className="rounded-lg border border-white/5 bg-white/5 p-4">
+              <span className="text-2xl">🛒</span>
+              <h4 className="font-medium text-white mt-2">E-commerce</h4>
+              <p className="text-sm text-white/50 mt-1">
+                Product checkout, cart payments, subscriptions
+              </p>
+            </div>
+            <div className="rounded-lg border border-white/5 bg-white/5 p-4">
+              <span className="text-2xl">💼</span>
+              <h4 className="font-medium text-white mt-2">Freelance</h4>
+              <p className="text-sm text-white/50 mt-1">
+                Invoice payments, project deposits, tips
+              </p>
+            </div>
+          </div>
         </div>
       </section>
     </div>
