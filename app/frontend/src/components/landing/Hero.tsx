@@ -99,8 +99,8 @@ export function Hero() {
                 className="mt-3 text-[13px] font-medium"
                 style={{ color: t.onDarkMuted }}
               >
-                Cannabis · iGaming · high-risk · cross-border — checkout,
-                payouts, invoicing &amp; compliance in one API.
+                High-risk e-commerce · iGaming · cross-border · cannabis —
+                checkout, payouts, invoicing &amp; compliance in one API.
               </p>
 
               {/* ── CTAs ───────────────────────────────────── */}
@@ -186,10 +186,10 @@ export function Hero() {
                   </div>
                   <div>
                     <p className="text-sm font-semibold text-white">
-                      Invoice Paid
+                      Checkout Paid
                     </p>
                     <p className="text-xs text-white/60">
-                      $47,500 · Wholesale order · 0.6s
+                      $248.00 · Store order · 0.6s
                     </p>
                   </div>
                 </div>
@@ -228,12 +228,12 @@ export function Hero() {
       {/* ── sr-only for SEO ────────────────────────────── */}
       <p className="sr-only">
         Offbank is USDC payment infrastructure for businesses banks won&apos;t
-        reliably serve — cannabis, iGaming, high-risk, and cross-border
-        merchants. Accept payments via checkout, invoicing, or a POS terminal,
-        send instant payouts to anyone by email, and cash out to USD — all
-        through one API and dashboard. When traditional processors freeze
-        accounts, Offbank keeps settling: under a second, 1% flat, non-custodial,
-        built on Solana.
+        reliably serve — high-risk e-commerce, iGaming, cross-border, and
+        cannabis merchants. Accept payments via a drop-in checkout, invoicing,
+        or a POS terminal, send instant payouts to anyone by email, and cash out
+        to USD — all through one API and dashboard. When traditional processors
+        freeze accounts, Offbank keeps settling: under a second, 1% flat,
+        non-custodial, built on Solana.
       </p>
     </section>
   );

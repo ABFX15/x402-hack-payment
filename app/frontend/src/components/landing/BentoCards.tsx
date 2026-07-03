@@ -55,7 +55,7 @@ const cards = [
     countTo: 34,
     prefix: "$",
     suffix: "B",
-    desc: "US restricted-commerce TAM banks won't reliably serve, including cannabis, CBD, hemp, firearms, and cross-border wholesale",
+    desc: "US high-risk commerce TAM banks won't reliably serve, including high-risk e-commerce, iGaming, CBD, hemp, firearms, cross-border wholesale, and cannabis",
     img: "/nobg-globe.png",
     span: "sm:col-span-2",
     bg: "#f7f7f7",

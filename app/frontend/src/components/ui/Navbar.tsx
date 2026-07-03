@@ -26,6 +26,7 @@ import {
   Gamepad2,
   Plane,
   QrCode,
+  ShoppingBag,
 } from "lucide-react";
 
 const navLinks = [
@@ -125,10 +126,10 @@ const industryLinks = [
     description: "Every vertical we serve, in one place",
   },
   {
-    href: "/industries/cannabis",
-    label: "Cannabis & Wholesalers",
-    icon: Leaf,
-    description: "B2B settlement for state-legal operators",
+    href: "/industries/high-risk-ecommerce",
+    label: "High-Risk E-Commerce",
+    icon: ShoppingBag,
+    description: "Drop-in USDC checkout for stores Stripe drops",
   },
   {
     href: "/industries/igaming",
@@ -153,6 +154,12 @@ const industryLinks = [
     label: "International / Cross-border",
     icon: Plane,
     description: "Settle cross-border without SWIFT",
+  },
+  {
+    href: "/industries/cannabis",
+    label: "Cannabis & Wholesalers",
+    icon: Leaf,
+    description: "B2B settlement for state-legal operators",
   },
 ];
 

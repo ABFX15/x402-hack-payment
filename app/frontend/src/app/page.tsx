@@ -63,7 +63,7 @@ export default function HomePage() {
                   height: 512,
                 },
                 description:
-                  "Shutdown-proof B2B payment infrastructure for cannabis distributors. When your processor freezes or goes down, Offbank keeps settling. 1% flat, non-custodial, USDC on Solana.",
+                  "Self-custodial USDC payment infrastructure for merchants processors won't touch — high-risk e-commerce, iGaming, cross-border, and cannabis. Drop-in checkout, instant payouts, and invoicing. When your processor freezes or goes down, Offbank keeps settling. 1% flat, non-custodial, USDC on Solana.",
                 foundingDate: "2025",
                 sameAs: ["https://x.com/offbankpay"],
                 contactPoint: {
@@ -74,11 +74,13 @@ export default function HomePage() {
                 areaServed: "US",
                 knowsAbout: [
                   "stablecoin settlement",
-                  "cannabis B2B payments",
+                  "high-risk e-commerce checkout",
+                  "iGaming payments",
                   "USDC",
                   "Solana blockchain",
                   "non-custodial payments",
                   "high-risk merchant processing",
+                  "cannabis B2B payments",
                 ],
               },
               {

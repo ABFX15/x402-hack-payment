@@ -7,6 +7,7 @@ import {
   Crosshair,
   Globe,
   Gamepad2,
+  ShoppingBag,
 } from "lucide-react";
 import { Navbar } from "@/components/ui/Navbar";
 import { Footer } from "@/components/ui/Footer";
@@ -14,16 +15,16 @@ import { Footer } from "@/components/ui/Footer";
 export const metadata: Metadata = {
   title: "Industries | Offbank",
   description:
-    "USDC payments for businesses banks won't serve — cannabis, iGaming, CBD, hemp, firearms, and cross-border wholesale. Checkout, payouts, and invoicing. 1% flat. Non-custodial.",
+    "USDC payments for businesses banks won't serve — high-risk e-commerce, iGaming, CBD, hemp, firearms, cross-border wholesale, and cannabis. Checkout, payouts, and invoicing. 1% flat. Non-custodial.",
   alternates: { canonical: "/industries" },
 };
 
 const industries = [
   {
-    href: "/industries/cannabis",
-    icon: Leaf,
-    title: "Cannabis & Wholesalers",
-    desc: "B2B settlement for state-legal cannabis operators. LeafLink-native.",
+    href: "/industries/high-risk-ecommerce",
+    icon: ShoppingBag,
+    title: "High-Risk E-Commerce",
+    desc: "Drop-in USDC checkout for stores Stripe drops — vape, smoke-shop, kratom, nutra, adult, 2A gear. No chargebacks.",
   },
   {
     href: "/industries/igaming",
@@ -48,6 +49,12 @@ const industries = [
     icon: Globe,
     title: "International Wholesale",
     desc: "Cross-border B2B settlement without SWIFT or correspondent fees.",
+  },
+  {
+    href: "/industries/cannabis",
+    icon: Leaf,
+    title: "Cannabis & Wholesalers",
+    desc: "B2B settlement for state-legal cannabis operators. LeafLink-native.",
   },
 ];
 

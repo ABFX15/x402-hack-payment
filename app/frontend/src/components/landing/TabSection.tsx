@@ -112,9 +112,9 @@ function ProblemTab() {
             className="mt-3 text-[15px] font-normal leading-relaxed"
             style={{ color: t.bodyLight }}
           >
-            Restricted-commerce operators (cannabis, CBD and hemp, firearms,
-            cross-border wholesale) still can&apos;t access basic financial
-            infrastructure.
+            High-risk operators (online stores Stripe drops, iGaming, CBD and
+            hemp, firearms, cross-border wholesale, cannabis) still can&apos;t
+            access basic financial infrastructure.
           </p>
           <div className="mt-5 space-y-2.5">
             {[
