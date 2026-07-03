@@ -19,42 +19,49 @@ export const metadata: Metadata = {
   alternates: { canonical: "/industries" },
 };
 
-const industries = [
+// The two verticals we lead with — checkout-native and fastest to live.
+const primaryIndustries = [
   {
     href: "/industries/high-risk-ecommerce",
     icon: ShoppingBag,
     title: "High-Risk E-Commerce",
-    desc: "Drop-in USDC checkout for stores Stripe drops — vape, smoke-shop, kratom, nutra, adult, 2A gear. No chargebacks.",
+    desc: "A drop-in USDC checkout for online stores payment processors drop — vape hardware, smoke-shop, kratom, nutra, adult and 2A gear. Sell retail with the checkout, bill wholesale buyers with B2B invoicing. No chargebacks, global by default.",
+    points: ["Drop-in checkout widget", "B2B invoicing for wholesale", "No chargebacks"],
   },
   {
     href: "/industries/igaming",
     icon: Gamepad2,
     title: "iGaming & Online Gaming",
-    desc: "Crypto deposits and instant USDC player payouts. No chargebacks.",
+    desc: "Crypto deposits at checkout and instant USDC player payouts in under a second. No card processor to freeze you, no rolling reserves, no disputes weeks later. Fast withdrawals become your retention edge.",
+    points: ["Instant player payouts", "Crypto deposits", "No processor freezes"],
   },
+];
+
+// The wider restricted-commerce market we also serve (secondary to the two above).
+const alsoServing = [
   {
     href: "/industries/cbd-hemp",
     icon: Sprout,
     title: "CBD & Hemp",
-    desc: "Hemp-derived cannabinoids, kratom, kava, botanicals. No Stripe risk.",
+    desc: "Hemp-derived cannabinoids, kratom, kava, botanicals.",
   },
   {
     href: "/industries/firearms",
     icon: Crosshair,
     title: "Firearms & Ammunition",
-    desc: "FFLs, ammo manufacturers, and 2A retail. No viewpoint deboarding.",
+    desc: "FFLs, ammo manufacturers, and 2A retail.",
   },
   {
     href: "/industries/international-wholesale",
     icon: Globe,
     title: "International Wholesale",
-    desc: "Cross-border B2B settlement without SWIFT or correspondent fees.",
+    desc: "Cross-border B2B settlement without SWIFT.",
   },
   {
     href: "/industries/cannabis",
     icon: Leaf,
     title: "Cannabis & Wholesalers",
-    desc: "B2B settlement for state-legal cannabis operators. LeafLink-native.",
+    desc: "State-legal cannabis operators. LeafLink-native.",
   },
 ];
 
@@ -79,32 +86,73 @@ export default function IndustriesHubPage() {
             Built for commerce banks won&apos;t touch.
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-[18px] leading-[1.6] text-white/75">
-            One rail for every business banks won&apos;t serve. 1% flat USDC
-            settlement, non-custodial, with USD off-ramp. Pick your category to
-            see how it works.
+            We focus on two: online stores payment processors drop, and iGaming.
+            1% flat USDC settlement, non-custodial, with USD off-ramp — checkout,
+            invoicing, and instant payouts in one rail.
           </p>
         </div>
       </section>
 
+      {/* Two primary verticals — the focus */}
       <section className="bg-white py-20">
         <div className="mx-auto max-w-[1100px] px-6">
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {industries.map(({ href, icon: Icon, title, desc }) => (
+          <div className="grid gap-6 md:grid-cols-2">
+            {primaryIndustries.map(({ href, icon: Icon, title, desc, points }) => (
               <Link
                 key={href}
                 href={href}
-                className="group relative flex flex-col rounded-2xl border border-[#eee] bg-[#fafafa] p-6 transition hover:-translate-y-0.5 hover:border-[#34c759]/40 hover:bg-white hover:shadow-lg"
+                className="group relative flex flex-col rounded-2xl border border-[#eee] bg-[#fafafa] p-8 transition hover:-translate-y-0.5 hover:border-[#34c759]/40 hover:bg-white hover:shadow-lg"
               >
-                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#34c759]/10">
-                  <Icon className="h-5 w-5 text-[#34c759]" />
+                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#34c759]/10">
+                  <Icon className="h-6 w-6 text-[#34c759]" />
                 </div>
-                <h2 className="mt-5 text-lg font-bold">{title}</h2>
-                <p className="mt-2 flex-1 text-[14px] leading-relaxed text-[#5c5c5c]">
+                <h2 className="mt-5 text-2xl font-bold">{title}</h2>
+                <p className="mt-3 text-[15px] leading-relaxed text-[#5c5c5c]">
                   {desc}
                 </p>
-                <span className="mt-5 inline-flex items-center gap-1 text-sm font-semibold text-[#34c759]">
-                  Learn more
+                <ul className="mt-5 flex flex-wrap gap-2">
+                  {points.map((p) => (
+                    <li
+                      key={p}
+                      className="rounded-full bg-[#34c759]/10 px-3 py-1 text-[12px] font-semibold text-[#027a48]"
+                    >
+                      {p}
+                    </li>
+                  ))}
+                </ul>
+                <span className="mt-6 inline-flex items-center gap-1 text-sm font-semibold text-[#34c759]">
+                  See how it works
                   <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
+                </span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Secondary — the wider restricted-commerce market we also serve */}
+      <section className="bg-white pb-20">
+        <div className="mx-auto max-w-[1100px] px-6">
+          <p className="mb-6 text-sm font-semibold uppercase tracking-wider text-[#98a2b3]">
+            Also serving the wider restricted-commerce market
+          </p>
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {alsoServing.map(({ href, icon: Icon, title, desc }) => (
+              <Link
+                key={href}
+                href={href}
+                className="group flex flex-col rounded-xl border border-[#eee] bg-[#fafafa] p-5 transition hover:border-[#34c759]/40 hover:bg-white hover:shadow-md"
+              >
+                <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#34c759]/10">
+                  <Icon className="h-4.5 w-4.5 text-[#34c759]" />
+                </div>
+                <h3 className="mt-4 text-base font-bold">{title}</h3>
+                <p className="mt-1.5 flex-1 text-[13px] leading-relaxed text-[#5c5c5c]">
+                  {desc}
+                </p>
+                <span className="mt-4 inline-flex items-center gap-1 text-[13px] font-semibold text-[#34c759]">
+                  Learn more
+                  <ArrowRight className="h-3.5 w-3.5 transition group-hover:translate-x-0.5" />
                 </span>
               </Link>
             ))}

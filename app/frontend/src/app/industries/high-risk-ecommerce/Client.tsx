@@ -1,6 +1,6 @@
 "use client";
 
-import { CreditCard, ShieldCheck, Globe, RefreshCw } from "lucide-react";
+import { CreditCard, ShieldCheck, Globe, FileText } from "lucide-react";
 import {
   IndustryTemplate,
   type IndustryConfig,
@@ -47,14 +47,14 @@ const config: IndustryConfig = {
       icon: ShieldCheck,
     },
     {
-      title: "Sell to anyone, anywhere",
-      desc: "USDC clears from a customer in Berlin exactly like one in Denver — same speed, same 1% cost. No declined international cards, no FX spread eating the sale.",
-      icon: Globe,
+      title: "B2B invoicing for wholesale",
+      desc: "Run both sides of the business: the checkout takes retail orders, and USDC invoices bill your wholesale buyers. Email a payment link, they pay on-chain, and it reconciles itself — net-terms without the 90-day processor reserve or the wire fees.",
+      icon: FileText,
     },
     {
-      title: "Cash out to USD on your schedule",
-      desc: "Settle to your own wallet and off-ramp to your bank when you're ready — you hold the funds the whole time, not a processor sitting on a 90-day reserve.",
-      icon: RefreshCw,
+      title: "Sell to anyone, anywhere",
+      desc: "USDC clears from a customer in Berlin exactly like one in Denver — same speed, same 1% cost. No declined international cards, no FX spread eating the sale. Cash out to USD on your own schedule.",
+      icon: Globe,
     },
   ],
   useCases: [

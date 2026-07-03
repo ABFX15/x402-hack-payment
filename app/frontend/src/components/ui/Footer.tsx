@@ -14,10 +14,9 @@ const columns = [
   {
     title: "Industries",
     links: [
+      { href: "/industries/high-risk-ecommerce", label: "High-Risk E-Commerce" },
+      { href: "/industries/igaming", label: "iGaming" },
       { href: "/industries", label: "All Industries" },
-      { href: "/industries/cannabis", label: "Cannabis" },
-      { href: "/industries/cbd-hemp", label: "CBD & Hemp" },
-      { href: "/industries/firearms", label: "Firearms" },
     ],
   },
   {

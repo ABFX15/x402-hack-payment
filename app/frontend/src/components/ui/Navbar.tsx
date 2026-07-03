@@ -13,9 +13,6 @@ import {
   FileCheck,
   Play,
   BookOpen,
-  Leaf,
-  Sprout,
-  Crosshair,
   Globe,
   LinkIcon,
   FileText,
@@ -24,7 +21,6 @@ import {
   CreditCard,
   Send,
   Gamepad2,
-  Plane,
   QrCode,
   ShoppingBag,
 } from "lucide-react";
@@ -118,18 +114,14 @@ const productLinks = [
   },
 ];
 
+// We lead with two verticals. The wider restricted-commerce market lives on the
+// /industries hub ("also serving"), not the primary nav.
 const industryLinks = [
-  {
-    href: "/industries",
-    label: "All Industries",
-    icon: Globe,
-    description: "Every vertical we serve, in one place",
-  },
   {
     href: "/industries/high-risk-ecommerce",
     label: "High-Risk E-Commerce",
     icon: ShoppingBag,
-    description: "Drop-in USDC checkout for stores Stripe drops",
+    description: "Drop-in USDC checkout + B2B invoicing for stores Stripe drops",
   },
   {
     href: "/industries/igaming",
@@ -138,28 +130,10 @@ const industryLinks = [
     description: "Instant USDC deposits and player payouts",
   },
   {
-    href: "/industries/cbd-hemp",
-    label: "CBD & Hemp",
-    icon: Sprout,
-    description: "Hemp-derived cannabinoids and botanicals",
-  },
-  {
-    href: "/industries/firearms",
-    label: "Firearms & Ammunition",
-    icon: Crosshair,
-    description: "FFLs, ammo manufacturers, 2A retail",
-  },
-  {
-    href: "/industries/international-wholesale",
-    label: "International / Cross-border",
-    icon: Plane,
-    description: "Settle cross-border without SWIFT",
-  },
-  {
-    href: "/industries/cannabis",
-    label: "Cannabis & Wholesalers",
-    icon: Leaf,
-    description: "B2B settlement for state-legal operators",
+    href: "/industries",
+    label: "All Industries",
+    icon: Globe,
+    description: "Cannabis, CBD, firearms, cross-border & more",
   },
 ];
 
