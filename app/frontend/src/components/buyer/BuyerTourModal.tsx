@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * BuyerTourModal — 3-step intro for first-time invoice/checkout buyers.
+ * BuyerTourModal - 3-step intro for first-time invoice/checkout buyers.
  * Renders once per browser (gated by localStorage) so repeat buyers don't
  * see it again. Dismissible at any time.
  */
@@ -26,7 +26,7 @@ const STEPS = [
   {
     icon: Undo2,
     title: "Refunds are merchant-initiated",
-    body: "Need a refund or have a dispute? Reply to the merchant who sent the invoice — they can issue a refund directly from their dashboard. Offbank is the rails, not the seller.",
+    body: "Need a refund or have a dispute? Reply to the merchant who sent the invoice - they can issue a refund directly from their dashboard. Offbank is the rails, not the seller.",
   },
 ];
 
@@ -43,7 +43,7 @@ export function BuyerTourModal() {
         return () => window.clearTimeout(t);
       }
     } catch {
-      /* localStorage blocked — skip the tour */
+      /* localStorage blocked - skip the tour */
     }
   }, []);
 

@@ -47,7 +47,7 @@ const integrations = [
     name: "Zapier Connector",
     tagline: "Connect stablecoin payments to 8,000+ apps",
     description:
-      "Trigger USDC settlements from any Zapier workflow. Connect Offbank to your CRM, project management, invoicing, or any of 8,000+ apps — no code required. No settlement connectors like this exist yet.",
+      "Trigger USDC settlements from any Zapier workflow. Connect Offbank to your CRM, project management, invoicing, or any of 8,000+ apps - no code required. No settlement connectors like this exist yet.",
     color: "#FF4A00",
     highlights: [
       "Trigger settlements from any Zapier event",
@@ -62,7 +62,7 @@ const integrations = [
     name: "WooCommerce Plugin",
     tagline: "Stablecoin checkout for 36% of e-commerce",
     description:
-      "Add USDC checkout to any WooCommerce store. Customers pay with stablecoins, you receive instant settlement — no chargebacks, no 2.9% card fees. Free via the WordPress plugin directory.",
+      "Add USDC checkout to any WooCommerce store. Customers pay with stablecoins, you receive instant settlement - no chargebacks, no 2.9% card fees. Free via the WordPress plugin directory.",
     color: "#7F54B3",
     highlights: [
       "One-click install from WordPress directory",
@@ -77,10 +77,10 @@ const integrations = [
     name: "Shopify App",
     tagline: "Stablecoin payments where Shopify's native crypto falls short",
     description:
-      "Accept USDC payments on Shopify with a native app. Fills the gap that Shopify's built-in Solana integration doesn't cover — subscription billing, no-wallet checkout for buyers, and instant merchant settlement.",
+      "Accept USDC payments on Shopify with a native app. Fills the gap that Shopify's built-in Solana integration doesn't cover - subscription billing, no-wallet checkout for buyers, and instant merchant settlement.",
     color: "#95BF47",
     highlights: [
-      "Native Shopify app — no custom code",
+      "Native Shopify app - no custom code",
       "Subscription billing support",
       "No-wallet checkout for buyers",
       "Instant settlement to your wallet",
@@ -124,7 +124,7 @@ const cannabisPOS = [
     name: "Flowhub",
     role: "POS & Compliance",
     description:
-      "Trigger B2B USDC settlement from Flowhub POS transactions. Receipts sync back to Flowhub for METRC-compliant reconciliation — no double data entry.",
+      "Trigger B2B USDC settlement from Flowhub POS transactions. Receipts sync back to Flowhub for METRC-compliant reconciliation - no double data entry.",
     url: "https://flowhub.com",
     highlights: [
       "POS-triggered invoice generation",
@@ -148,7 +148,7 @@ const cannabisPOS = [
     name: "LeafLink",
     role: "B2B Marketplace",
     description:
-      "Settle LeafLink marketplace transactions in USDC instead of waiting 30–60 days for ACH. Instant finality for every purchase order.",
+      "Settle LeafLink marketplace transactions in USDC instead of waiting 30-60 days for ACH. Instant finality for every purchase order.",
     url: "https://leaflink.com",
     highlights: [
       "Replace net-30 terms with instant USDC",
@@ -163,7 +163,7 @@ export default function IntegrationsPage() {
     <main
       className="relative min-h-screen bg-[#FFFFFF] text-[#212121] antialiased"
       style={{
-        fontFamily: "var(--font-inter), system-ui, -apple-system, sans-serif",
+        fontFamily: "var(--font-geist-sans), system-ui, -apple-system, sans-serif",
       }}
     >
       <script
@@ -252,7 +252,7 @@ export default function IntegrationsPage() {
           <Reveal delay={0.1}>
             <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-[#5c5c5c]">
               Connect Offbank to your existing stack. Send and receive USDC from
-              the tools you already use — no custom code required for most
+              the tools you already use - no custom code required for most
               integrations.
             </p>
           </Reveal>
@@ -347,7 +347,7 @@ export default function IntegrationsPage() {
               style={{ color: "#5c5c5c" }}
             >
               Offbank connects to the cannabis-specific platforms your team
-              already uses — so B2B settlement flows directly from your POS or
+              already uses - so B2B settlement flows directly from your POS or
               procurement system.
             </p>
           </div>

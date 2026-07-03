@@ -1084,7 +1084,7 @@ function StepBlinks({ form }: { form: DemoForm }) {
             transition={{ delay: 0.2, ...spring }}
             className="overflow-hidden rounded-2xl border border-[#d3d3d3] bg-white shadow-lg"
           >
-            {/* Card header — simulates wallet rendering */}
+            {/* Card header - simulates wallet rendering */}
             <div className="relative h-40 bg-gradient-to-br from-[#212121] to-[#1a2940] p-5">
               <div className="flex items-start justify-between">
                 <div>
@@ -1533,7 +1533,7 @@ export default function DemoPage() {
                       "linear-gradient(135deg, #34c759 0%, #2ba048 100%)",
                   }}
                 >
-                  Get Started
+                  Get started
                   <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
                 </Link>
                 <button

@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * Affiliate Payouts — pay affiliates/partners instantly in USDC, any amount,
+ * Affiliate Payouts - pay affiliates/partners instantly in USDC, any amount,
  * no minimum threshold. The flow iGaming operators can't get anywhere else.
  * Affiliates are remembered locally; payouts go out via the shared payout rails
  * (each recipient gets a claim link + email and claims with any wallet).
@@ -175,7 +175,7 @@ export default function AffiliatesPage() {
             Affiliate Payouts
           </h1>
           <p className="mt-1 text-[15px] text-[#667085]">
-            Pay affiliates instantly in USDC — any amount, no minimum, anywhere.
+            Pay affiliates instantly in USDC - any amount, no minimum, anywhere.
           </p>
         </div>
         {affiliates.length > 0 && (
@@ -298,7 +298,7 @@ export default function AffiliatesPage() {
       )}
 
       <p className="mt-6 text-[13px] text-[#98a2b3]">
-        Recipients claim with any Solana wallet — or by email if they don&rsquo;t
+        Recipients claim with any Solana wallet - or by email if they don&rsquo;t
         have one yet. Same rails power the{" "}
         <a href="/products/instant-cashout" className="text-[#34c759] hover:underline">
           instant cashout

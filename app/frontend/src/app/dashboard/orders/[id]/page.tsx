@@ -122,7 +122,7 @@ function getWorkflowSteps(
     {
       step: "settled",
       label: "Settled",
-      sub: isPaid ? "On-chain ✓" : "—",
+      sub: isPaid ? "On-chain ✓" : "-",
       done: isPaid,
       active: false,
     },
@@ -441,7 +441,7 @@ export default function OrderDetailPage() {
                 <tr key={i}>
                   <td className="py-3 text-[#212121]">{li.description}</td>
                   <td className="py-3 font-mono text-[#5c5c5c] text-xs">
-                    {li.sku || "—"}
+                    {li.sku || "-"}
                   </td>
                   <td className="py-3 text-center text-[#8a8a8a]">
                     {li.quantity}

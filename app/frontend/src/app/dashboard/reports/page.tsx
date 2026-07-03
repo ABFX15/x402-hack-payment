@@ -684,7 +684,7 @@ export default function ReportsPage() {
                                 </span>
                               </td>
                               <td className="px-4 py-3 font-mono text-xs text-[#212121]">
-                                {r.invoiceNumber || "—"}
+                                {r.invoiceNumber || "-"}
                               </td>
                               <td className="px-4 py-3">
                                 <div className="text-xs text-[#212121]">
@@ -699,23 +699,23 @@ export default function ReportsPage() {
                               <td className="px-4 py-3 text-right font-mono text-[#212121]">
                                 {r.invoiceAmount !== null
                                   ? `$${fmt(r.invoiceAmount)}`
-                                  : "—"}
+                                  : "-"}
                               </td>
                               <td className="px-4 py-3 text-right font-mono text-[#34c759]">
                                 {r.paymentAmount !== null
                                   ? `$${fmt(r.paymentAmount)}`
-                                  : "—"}
+                                  : "-"}
                               </td>
                               <td className="px-4 py-3 text-center text-xs text-[#5c5c5c]">
-                                {r.dueDate || "—"}
+                                {r.dueDate || "-"}
                               </td>
                               <td className="px-4 py-3 text-center text-xs text-[#5c5c5c]">
-                                {r.paidDate || "—"}
+                                {r.paidDate || "-"}
                               </td>
                               <td className="px-4 py-3 text-center text-xs text-[#8a8a8a]">
                                 {r.daysToPayment !== null
                                   ? `${r.daysToPayment}d`
-                                  : "—"}
+                                  : "-"}
                               </td>
                               <td className="px-4 py-3 text-center">
                                 {r.paymentSignature ? (
@@ -728,7 +728,7 @@ export default function ReportsPage() {
                                     <ExternalLink className="h-3.5 w-3.5 inline" />
                                   </a>
                                 ) : (
-                                  "—"
+                                  "-"
                                 )}
                               </td>
                             </tr>
@@ -829,7 +829,7 @@ export default function ReportsPage() {
                           <td className="px-4 py-3 text-center text-[#8a8a8a]">
                             {b.avgDaysToPay !== null
                               ? `${b.avgDaysToPay}d`
-                              : "—"}
+                              : "-"}
                           </td>
                           <td className="px-4 py-3 text-center text-xs text-[#5c5c5c]">
                             {b.lastPayment
@@ -837,7 +837,7 @@ export default function ReportsPage() {
                                   "en-US",
                                   { month: "short", day: "numeric" },
                                 )
-                              : "—"}
+                              : "-"}
                           </td>
                         </tr>
                       ))
@@ -954,7 +954,7 @@ export default function ReportsPage() {
                   </h3>
                   <p className="text-xs text-[#5c5c5c] mt-1">
                     Year-end exports for your accountant. Offbank doesn&apos;t
-                    file with the IRS — these are for your records.
+                    file with the IRS - these are for your records.
                   </p>
                   <p className="text-xs text-[#5c5c5c] mt-2">
                     Receiving private payments via{" "}
@@ -1077,7 +1077,7 @@ export default function ReportsPage() {
                   </div>
                   <div className="text-xs text-[#5c5c5c] mt-1">
                     Per-counterparty totals + monthly gross. Mirrors IRS Form
-                    1099-K boxes 1, 5a–5l.
+                    1099-K boxes 1, 5a-5l.
                   </div>
                   <div className="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-[#34c759]">
                     <Download className="h-3.5 w-3.5" />
@@ -1110,7 +1110,7 @@ export default function ReportsPage() {
                 </button>
               </div>
 
-              {/* Monthly bar (1099-K boxes 5a–5l) */}
+              {/* Monthly bar (1099-K boxes 5a-5l) */}
               {taxSummary && taxSummary.transactionCount > 0 && (
                 <div className="rounded-xl border border-[#d3d3d3] bg-[#ffffff] p-5">
                   <div className="flex items-center justify-between mb-4">
@@ -1118,7 +1118,7 @@ export default function ReportsPage() {
                       Monthly gross
                     </h4>
                     <span className="text-xs text-[#8a8a8a]">
-                      1099-K boxes 5a – 5l
+                      1099-K boxes 5a - 5l
                     </span>
                   </div>
                   <div className="grid grid-cols-12 gap-1 items-end h-32">

@@ -46,7 +46,7 @@ interface PaymentRecord {
 }
 
 function shortenAddress(addr: string): string {
-  if (!addr || addr.length < 10) return addr || "—";
+  if (!addr || addr.length < 10) return addr || "-";
   return `${addr.slice(0, 4)}...${addr.slice(-4)}`;
 }
 

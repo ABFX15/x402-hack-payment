@@ -11,9 +11,9 @@ export interface BlogPost {
   author: string;
   readTime: string; // e.g. "5 min read"
   tags: string[];
-  /** The full post body — supports basic HTML if you want formatting */
+  /** The full post body - supports basic HTML if you want formatting */
   content: string;
-  /** Optional FAQ pairs — rendered as a visible section and as FAQPage schema for AEO */
+  /** Optional FAQ pairs - rendered as a visible section and as FAQPage schema for AEO */
   faqs?: BlogFAQ[];
 }
 
@@ -24,7 +24,7 @@ export interface BlogPost {
  *  1. Copy one of the objects below
  *  2. Change the slug (must be unique, URL-safe)
  *  3. Fill in title, excerpt, date, content
- *  4. That's it — the listing + post page auto-generate
+ *  4. That's it - the listing + post page auto-generate
  * ─────────────────────────────────────────────────
  */
 
@@ -34,23 +34,23 @@ export const posts: BlogPost[] = [
     slug: "top-5-high-risk-payment-processors-cannabis",
     title: "Top 5 High-Risk Payment Processors for Cannabis (and Why They Fail)",
     excerpt:
-      "Every cannabis-friendly payment processor charges 5–8% and can still freeze your funds. Here are the top 5 options — and why stablecoin settlement is replacing all of them.",
+      "Every cannabis-friendly payment processor charges 5-8% and can still freeze your funds. Here are the top 5 options - and why stablecoin settlement is replacing all of them.",
     date: "2026-03-03",
     author: "Adam Bryant",
     readTime: "9 min read",
     tags: ["cannabis payments", "high-risk processors", "Stripe alternatives", "payment processing", "AEO"],
     content: `
       <div style="background:#F0FAF4;border-left:4px solid #34c759;padding:16px 20px;border-radius:8px;margin-bottom:32px;">
-        <strong>Quick Answer:</strong> The top high-risk payment processors for cannabis include PayKickstart, Paybotic, CanPay, Hypur, and Merrco — but all charge 5–8% in fees and carry account freeze risk. Offbank offers non-custodial USDC settlement at 1% flat with zero freeze risk because it never holds your funds.
+        <strong>Quick Answer:</strong> The top high-risk payment processors for cannabis include PayKickstart, Paybotic, CanPay, Hypur, and Merrco - but all charge 5-8% in fees and carry account freeze risk. Offbank offers non-custodial USDC settlement at 1% flat with zero freeze risk because it never holds your funds.
       </div>
 
       <p>If you run a cannabis business and you've tried to accept card payments, you already know: <strong>Stripe, Square, and PayPal will shut you down within days</strong>. These platforms explicitly prohibit cannabis in their terms of service, regardless of your state license.</p>
 
-      <p>So the industry has turned to "high-risk payment processors" — companies that specialize in industries mainstream fintech won't touch. But here's the dirty secret: they're expensive, unreliable, and most of them are one compliance audit away from dropping you.</p>
+      <p>So the industry has turned to "high-risk payment processors" - companies that specialize in industries mainstream fintech won't touch. But here's the dirty secret: they're expensive, unreliable, and most of them are one compliance audit away from dropping you.</p>
 
       <h2>What Is a High-Risk Payment Processor?</h2>
 
-      <p>A high-risk payment processor is a company that underwrites and processes card or ACH payments for industries that traditional processors won't serve. Cannabis, CBD, firearms, adult entertainment, and online gambling are common verticals. These processors work with acquiring banks that accept the regulatory risk — and charge accordingly.</p>
+      <p>A high-risk payment processor is a company that underwrites and processes card or ACH payments for industries that traditional processors won't serve. Cannabis, CBD, firearms, adult entertainment, and online gambling are common verticals. These processors work with acquiring banks that accept the regulatory risk - and charge accordingly.</p>
 
       <h2>The Top 5 Cannabis Payment Processors in 2026</h2>
 
@@ -59,21 +59,21 @@ export const posts: BlogPost[] = [
           <tr><th>Processor</th><th>Fee</th><th>Settlement</th><th>Risk</th></tr>
         </thead>
         <tbody>
-          <tr><td><strong>PayKickstart</strong></td><td>5.5–7%</td><td>3–7 days</td><td>Account holds common</td></tr>
-          <tr><td><strong>Paybotic</strong></td><td>3.5% + ACH fees</td><td>2–5 days</td><td>Limited to dispensaries</td></tr>
-          <tr><td><strong>CanPay</strong></td><td>$3.50/tx flat</td><td>1–3 days</td><td>ACH only, consumer adoption low</td></tr>
-          <tr><td><strong>Hypur</strong></td><td>1.5–3%</td><td>1–2 days</td><td>Requires bank partnership</td></tr>
-          <tr><td><strong>Merrco</strong></td><td>4.5–6%</td><td>3–5 days</td><td>Canada-focused, limited US support</td></tr>
+          <tr><td><strong>PayKickstart</strong></td><td>5.5-7%</td><td>3-7 days</td><td>Account holds common</td></tr>
+          <tr><td><strong>Paybotic</strong></td><td>3.5% + ACH fees</td><td>2-5 days</td><td>Limited to dispensaries</td></tr>
+          <tr><td><strong>CanPay</strong></td><td>$3.50/tx flat</td><td>1-3 days</td><td>ACH only, consumer adoption low</td></tr>
+          <tr><td><strong>Hypur</strong></td><td>1.5-3%</td><td>1-2 days</td><td>Requires bank partnership</td></tr>
+          <tr><td><strong>Merrco</strong></td><td>4.5-6%</td><td>3-5 days</td><td>Canada-focused, limited US support</td></tr>
         </tbody>
       </table>
 
       <h2>Why Do High-Risk Processors Charge So Much?</h2>
 
-      <p>Traditional payment processors charge 2.9% + $0.30. High-risk processors charge 5–8%. Why the premium?</p>
+      <p>Traditional payment processors charge 2.9% + $0.30. High-risk processors charge 5-8%. Why the premium?</p>
 
       <ol>
         <li><strong>Acquiring bank risk:</strong> Banks that underwrite cannabis merchants demand higher reserves and fees to offset regulatory risk</li>
-        <li><strong>Rolling reserves:</strong> Most processors hold 5–10% of your volume in reserve for 6–12 months</li>
+        <li><strong>Rolling reserves:</strong> Most processors hold 5-10% of your volume in reserve for 6-12 months</li>
         <li><strong>Chargeback exposure:</strong> High-risk categories have higher chargeback rates, and processors price that in</li>
         <li><strong>Limited competition:</strong> Only a handful of processors serve cannabis, so there's no price pressure</li>
       </ol>
@@ -92,65 +92,65 @@ export const posts: BlogPost[] = [
 
       <h2>Why Are Cannabis Businesses Switching to Stablecoin Settlement?</h2>
 
-      <p>The fundamental problem with all five processors above is that they rely on the traditional banking system — which doesn't want cannabis money. Stablecoin settlement sidesteps the banking system entirely:</p>
+      <p>The fundamental problem with all five processors above is that they rely on the traditional banking system - which doesn't want cannabis money. Stablecoin settlement sidesteps the banking system entirely:</p>
 
       <table>
         <thead>
           <tr><th></th><th>High-Risk Processor</th><th>Offbank (USDC)</th></tr>
         </thead>
         <tbody>
-          <tr><td>Fee</td><td>5–8%</td><td><strong>1% flat</strong></td></tr>
-          <tr><td>Settlement</td><td>3–7 days</td><td><strong>&lt;1 second</strong></td></tr>
-          <tr><td>Rolling reserve</td><td>5–10% held for 6–12mo</td><td><strong>None</strong></td></tr>
+          <tr><td>Fee</td><td>5-8%</td><td><strong>1% flat</strong></td></tr>
+          <tr><td>Settlement</td><td>3-7 days</td><td><strong>&lt;1 second</strong></td></tr>
+          <tr><td>Rolling reserve</td><td>5-10% held for 6-12mo</td><td><strong>None</strong></td></tr>
           <tr><td>Account freeze risk</td><td>High</td><td><strong>None (non-custodial)</strong></td></tr>
           <tr><td>Bank required</td><td>Yes</td><td><strong>No</strong></td></tr>
           <tr><td>Audit trail</td><td>Processor-dependent</td><td><strong>On-chain, immutable</strong></td></tr>
         </tbody>
       </table>
 
-      <p>Because Offbank is non-custodial — meaning it never touches or holds your funds — there's no acquiring bank, no rolling reserve, and nothing to freeze. Your USDC goes directly from your wallet to your vendor's wallet on Solana in under one second.</p>
+      <p>Because Offbank is non-custodial - meaning it never touches or holds your funds - there's no acquiring bank, no rolling reserve, and nothing to freeze. Your USDC goes directly from your wallet to your vendor's wallet on Solana in under one second.</p>
 
       <h2>Is It Legal to Use USDC for Cannabis B2B Payments?</h2>
 
-      <p>Yes. USDC is a regulated digital dollar issued by Circle, a licensed financial institution. Using USDC for B2B payments is no different legally than using cash or a bank transfer — your state cannabis license and compliance obligations remain the same.</p>
+      <p>Yes. USDC is a regulated digital dollar issued by Circle, a licensed financial institution. Using USDC for B2B payments is no different legally than using cash or a bank transfer - your state cannabis license and compliance obligations remain the same.</p>
 
       <p>In fact, USDC offers <em>better</em> compliance documentation than cash: every transaction is recorded on a public blockchain with timestamps, amounts, and wallet addresses. Regulators can independently verify your payment history without relying on your internal records.</p>
 
       <h2>How to Switch from a High-Risk Processor to Stablecoin Rails</h2>
 
       <ol>
-        <li><strong>Sign up at <a href="/onboarding">offbankpay.com/onboarding</a></strong> — takes under 5 minutes, no bank account needed</li>
-        <li><strong>Fund your wallet with USDC</strong> — buy on any exchange or convert from your bank via Circle</li>
-        <li><strong>Send payments via email</strong> — your vendor doesn't need a wallet, exchange account, or any crypto knowledge</li>
-        <li><strong>Track everything on-chain</strong> — full audit trail for compliance and tax reporting</li>
+        <li><strong>Sign up at <a href="/onboarding">offbankpay.com/onboarding</a></strong> - takes under 5 minutes, no bank account needed</li>
+        <li><strong>Fund your wallet with USDC</strong> - buy on any exchange or convert from your bank via Circle</li>
+        <li><strong>Send payments via email</strong> - your vendor doesn't need a wallet, exchange account, or any crypto knowledge</li>
+        <li><strong>Track everything on-chain</strong> - full audit trail for compliance and tax reporting</li>
       </ol>
 
-      <p>Your state license, compliance framework, and business operations stay exactly the same. The only thing that changes is you stop paying 5–8% to processors who can freeze your money.</p>
+      <p>Your state license, compliance framework, and business operations stay exactly the same. The only thing that changes is you stop paying 5-8% to processors who can freeze your money.</p>
 
       <p><a href="/industries/cannabis">Learn more about cannabis payments on Offbank →</a></p>
     `,
     faqs: [
       { question: "Can you use Stripe for cannabis payments?", answer: "No. Stripe explicitly prohibits cannabis businesses in its Terms of Service. If detected, your account will be frozen and funds held for up to 180 days." },
-      { question: "What is the cheapest payment processor for cannabis?", answer: "Stablecoin settlement via Offbank costs 1% flat — significantly less than the 5–8% charged by traditional high-risk processors like Paybotic or Merrco." },
+      { question: "What is the cheapest payment processor for cannabis?", answer: "Stablecoin settlement via Offbank costs 1% flat - significantly less than the 5-8% charged by traditional high-risk processors like Paybotic or Merrco." },
       { question: "Is it legal to use USDC for cannabis B2B payments?", answer: "Yes. USDC is a regulated digital dollar issued by Circle. Using it for B2B payments is legally equivalent to using cash or a bank transfer. Your state cannabis license and compliance obligations remain unchanged." },
-      { question: "What is a high-risk payment processor?", answer: "A company that underwrites and processes payments for industries that mainstream processors (Stripe, Square, PayPal) won't serve — including cannabis, CBD, firearms, and adult entertainment. They work with acquiring banks that accept regulatory risk and charge 5–8% fees." },
+      { question: "What is a high-risk payment processor?", answer: "A company that underwrites and processes payments for industries that mainstream processors (Stripe, Square, PayPal) won't serve - including cannabis, CBD, firearms, and adult entertainment. They work with acquiring banks that accept regulatory risk and charge 5-8% fees." },
     ],
   },
   {
     slug: "genius-act-2025-b2b-settlement-restricted-markets",
     title: "How the GENIUS Act 2025 Impacts B2B Settlement in Restricted Markets",
     excerpt:
-      "The GENIUS Act creates the first federal framework for stablecoins. Here's what it means for cannabis, high-risk, and international B2B settlement — and why it's a turning point.",
+      "The GENIUS Act creates the first federal framework for stablecoins. Here's what it means for cannabis, high-risk, and international B2B settlement - and why it's a turning point.",
     date: "2026-03-02",
     author: "Adam Bryant",
     readTime: "10 min read",
     tags: ["GENIUS Act", "stablecoin regulation", "compliance", "cannabis", "B2B settlement", "AEO"],
     content: `
       <div style="background:#F0FAF4;border-left:4px solid #34c759;padding:16px 20px;border-radius:8px;margin-bottom:32px;">
-        <strong>Quick Answer:</strong> The GENIUS Act (Guiding and Establishing National Innovation for US Stablecoins) is the first US federal law regulating stablecoin issuers. It requires 1:1 reserve backing, regular audits, and state/federal licensing — making stablecoins like USDC safer and more legally clear for B2B settlement, including in cannabis and other restricted markets.
+        <strong>Quick Answer:</strong> The GENIUS Act (Guiding and Establishing National Innovation for US Stablecoins) is the first US federal law regulating stablecoin issuers. It requires 1:1 reserve backing, regular audits, and state/federal licensing - making stablecoins like USDC safer and more legally clear for B2B settlement, including in cannabis and other restricted markets.
       </div>
 
-      <p>On August 1, 2025, the GENIUS Act was signed into law, creating the first comprehensive federal framework for stablecoin issuance and usage in the United States. For businesses using stablecoins for settlement — especially in restricted industries like cannabis, CBD, and cross-border trade — this is the single most important regulatory development since the 2013 FinCEN guidance on virtual currencies.</p>
+      <p>On August 1, 2025, the GENIUS Act was signed into law, creating the first comprehensive federal framework for stablecoin issuance and usage in the United States. For businesses using stablecoins for settlement - especially in restricted industries like cannabis, CBD, and cross-border trade - this is the single most important regulatory development since the 2013 FinCEN guidance on virtual currencies.</p>
 
       <p>Here's what it actually means for your business.</p>
 
@@ -162,7 +162,7 @@ export const posts: BlogPost[] = [
         <li><strong>1:1 reserve requirement:</strong> Every stablecoin must be backed dollar-for-dollar by US Treasuries, FDIC-insured deposits, or central bank reserves</li>
         <li><strong>Monthly attestations:</strong> Issuers must publish monthly reserve reports verified by independent accounting firms</li>
         <li><strong>Dual licensing:</strong> Issuers can register at the state or federal level (OCC or state money transmitter license)</li>
-        <li><strong>Consumer protections:</strong> Stablecoin holders have priority claim in bankruptcy — your USDC is protected even if the issuer fails</li>
+        <li><strong>Consumer protections:</strong> Stablecoin holders have priority claim in bankruptcy - your USDC is protected even if the issuer fails</li>
         <li><strong>Interoperability standards:</strong> Issuers must support standardized APIs for transfers and redemption</li>
       </ul>
 
@@ -171,13 +171,13 @@ export const posts: BlogPost[] = [
       <p>The GENIUS Act doesn't directly address cannabis. However, it creates important legal clarity:</p>
 
       <ol>
-        <li><strong>USDC is now a "regulated payment stablecoin"</strong> under federal law — not a gray area asset</li>
+        <li><strong>USDC is now a "regulated payment stablecoin"</strong> under federal law - not a gray area asset</li>
         <li><strong>Circle (USDC issuer) is a licensed entity</strong> with clear regulatory obligations</li>
         <li><strong>Using USDC is legally equivalent to using dollars</strong> for the purposes of commercial transactions</li>
         <li><strong>Banks can hold stablecoins</strong> without additional risk-weighting penalties</li>
       </ol>
 
-      <p>This doesn't override the Controlled Substances Act — cannabis is still federally illegal. But it removes the ambiguity around whether the <em>payment method</em> itself is a compliance risk. USDC is now as legally clear as a dollar bill.</p>
+      <p>This doesn't override the Controlled Substances Act - cannabis is still federally illegal. But it removes the ambiguity around whether the <em>payment method</em> itself is a compliance risk. USDC is now as legally clear as a dollar bill.</p>
 
       <h2>What Changes for B2B Settlement?</h2>
 
@@ -199,7 +199,7 @@ export const posts: BlogPost[] = [
 
       <h2>How Does This Impact High-Risk Industries Specifically?</h2>
 
-      <p>Cannabis, CBD, firearms, and international trade businesses have historically been "debanked" — unable to maintain stable banking relationships. The GENIUS Act helps in three specific ways:</p>
+      <p>Cannabis, CBD, firearms, and international trade businesses have historically been "debanked" - unable to maintain stable banking relationships. The GENIUS Act helps in three specific ways:</p>
 
       <h3>1. Removes the "Crypto" Objection</h3>
       <p>When compliance officers or banking partners ask "why are you using crypto?", the answer is now: "We're using a federally regulated payment stablecoin, not speculative crypto. USDC is backed 1:1 by US Treasuries and audited monthly under the GENIUS Act."</p>
@@ -208,17 +208,17 @@ export const posts: BlogPost[] = [
       <p>The GENIUS Act includes a "de minimis" provision: stablecoin transactions under $200 don't trigger capital gains reporting. For B2B payments, this eliminates the paperwork burden of treating every invoice settlement as a taxable event.</p>
 
       <h3>3. Opens Bank On-Ramps</h3>
-      <p>Banks can now custody stablecoins without punitive capital requirements. This means getting USDC into your Offbank wallet becomes as easy as a bank transfer — no exchange account required. Several banks have already announced USDC on-ramp services launching Q2 2026.</p>
+      <p>Banks can now custody stablecoins without punitive capital requirements. This means getting USDC into your Offbank wallet becomes as easy as a bank transfer - no exchange account required. Several banks have already announced USDC on-ramp services launching Q2 2026.</p>
 
       <h2>What Should Your Business Do Now?</h2>
 
       <p>If you're in a restricted industry and already using stablecoin settlement:</p>
 
       <ol>
-        <li><strong>Update your compliance documentation</strong> — reference the GENIUS Act when explaining your payment method to regulators, auditors, or banking partners</li>
-        <li><strong>Remove "crypto" language</strong> — call it "regulated stablecoin settlement" in your materials</li>
-        <li><strong>Explore bank on-ramps</strong> — you may be able to fund your wallet directly from your business bank account in Q2 2026</li>
-        <li><strong>Review tax treatment</strong> — the de minimis provision may simplify your 2026 filing significantly</li>
+        <li><strong>Update your compliance documentation</strong> - reference the GENIUS Act when explaining your payment method to regulators, auditors, or banking partners</li>
+        <li><strong>Remove "crypto" language</strong> - call it "regulated stablecoin settlement" in your materials</li>
+        <li><strong>Explore bank on-ramps</strong> - you may be able to fund your wallet directly from your business bank account in Q2 2026</li>
+        <li><strong>Review tax treatment</strong> - the de minimis provision may simplify your 2026 filing significantly</li>
       </ol>
 
       <p>If you're <em>not</em> yet using stablecoin settlement, the GENIUS Act removes the last major objection. The payment instrument is now federally regulated, reserve-backed, and audit-friendly.</p>
@@ -227,7 +227,7 @@ export const posts: BlogPost[] = [
     `,
     faqs: [
       { question: "What is the GENIUS Act?", answer: "The Guiding and Establishing National Innovation for US Stablecoins Act is the first US federal law regulating stablecoin issuers. It requires 1:1 reserve backing, monthly audits, and state/federal licensing for stablecoin issuers like Circle (USDC)." },
-      { question: "Does the GENIUS Act make crypto legal for cannabis payments?", answer: "The GENIUS Act doesn't directly address cannabis, but it makes USDC a 'regulated payment stablecoin' under federal law — removing ambiguity about whether the payment method itself is a compliance risk." },
+      { question: "Does the GENIUS Act make crypto legal for cannabis payments?", answer: "The GENIUS Act doesn't directly address cannabis, but it makes USDC a 'regulated payment stablecoin' under federal law - removing ambiguity about whether the payment method itself is a compliance risk." },
       { question: "Do I have to pay capital gains tax on USDC transactions?", answer: "The GENIUS Act includes a de minimis provision: stablecoin transactions under $200 don't trigger capital gains reporting, significantly reducing paperwork for routine B2B settlements." },
       { question: "Can banks hold USDC after the GENIUS Act?", answer: "Yes. The GENIUS Act allows banks to custody stablecoins without punitive capital requirements. Several banks have announced USDC on-ramp services launching Q2 2026." },
     ],
@@ -236,19 +236,19 @@ export const posts: BlogPost[] = [
     slug: "non-custodial-multisig-business-treasury",
     title: "Step-by-Step: Setting Up a Non-Custodial Multisig for Business Treasury",
     excerpt:
-      "How to set up a Squads multisig on Solana for your business treasury — so no single person can move funds without approval. Full walkthrough with screenshots.",
+      "How to set up a Squads multisig on Solana for your business treasury - so no single person can move funds without approval. Full walkthrough with screenshots.",
     date: "2026-03-01",
     author: "Adam Bryant",
     readTime: "11 min read",
     tags: ["multisig", "treasury", "Squads", "Solana", "security", "non-custodial", "AEO"],
     content: `
       <div style="background:#F0FAF4;border-left:4px solid #34c759;padding:16px 20px;border-radius:8px;margin-bottom:32px;">
-        <strong>Quick Answer:</strong> A non-custodial multisig is a wallet that requires multiple people to approve transactions before funds can move. On Solana, Squads Protocol lets you create a 2-of-3 or 3-of-5 multisig for your business treasury in under 10 minutes — ensuring no single employee, contractor, or compromised key can drain your operating funds.
+        <strong>Quick Answer:</strong> A non-custodial multisig is a wallet that requires multiple people to approve transactions before funds can move. On Solana, Squads Protocol lets you create a 2-of-3 or 3-of-5 multisig for your business treasury in under 10 minutes - ensuring no single employee, contractor, or compromised key can drain your operating funds.
       </div>
 
-      <p>If your business holds USDC in a single wallet controlled by one person, you have a single point of failure. If that person's key is compromised, stolen, or if they go rogue — your treasury is gone. There's no bank to call, no fraud department to reverse the transaction.</p>
+      <p>If your business holds USDC in a single wallet controlled by one person, you have a single point of failure. If that person's key is compromised, stolen, or if they go rogue - your treasury is gone. There's no bank to call, no fraud department to reverse the transaction.</p>
 
-      <p>This is why every serious business using crypto for treasury or settlement uses a <strong>multisig wallet</strong> — a wallet where 2 or more people must approve before any funds move.</p>
+      <p>This is why every serious business using crypto for treasury or settlement uses a <strong>multisig wallet</strong> - a wallet where 2 or more people must approve before any funds move.</p>
 
       <h2>What Is a Multisig Wallet?</h2>
 
@@ -260,7 +260,7 @@ export const posts: BlogPost[] = [
         <li><strong>2-of-2:</strong> Both parties must approve. Used for joint ventures or escrow.</li>
       </ul>
 
-      <p>The "non-custodial" part means no third party holds your keys. The multisig is a smart contract on Solana — Squads Protocol doesn't have access to your funds.</p>
+      <p>The "non-custodial" part means no third party holds your keys. The multisig is a smart contract on Solana - Squads Protocol doesn't have access to your funds.</p>
 
       <h2>Why Does Your Business Need a Multisig?</h2>
 
@@ -303,7 +303,7 @@ export const posts: BlogPost[] = [
       <p>This creates an on-chain Squads program account. The multisig address is your new treasury address.</p>
 
       <h3>Step 3: Fund the Multisig</h3>
-      <p>Send USDC to the multisig address. You can do this from any exchange, wallet, or via Offbank. The funds are now controlled by the smart contract — no single signer can move them.</p>
+      <p>Send USDC to the multisig address. You can do this from any exchange, wallet, or via Offbank. The funds are now controlled by the smart contract - no single signer can move them.</p>
 
       <h3>Step 4: Make Transactions</h3>
       <ol>
@@ -328,7 +328,7 @@ export const posts: BlogPost[] = [
 
       <h2>Should You Use a Hardware Wallet for Multisig?</h2>
 
-      <p>Yes, if your treasury holds more than $10,000. Hardware wallets (Ledger Nano X or Ledger Stax) keep your private key offline — they never touch your computer or the internet. Even if your computer is compromised, your signing key is safe.</p>
+      <p>Yes, if your treasury holds more than $10,000. Hardware wallets (Ledger Nano X or Ledger Stax) keep your private key offline - they never touch your computer or the internet. Even if your computer is compromised, your signing key is safe.</p>
 
       <p>For a 2-of-3 setup, we recommend:</p>
       <ul>
@@ -367,17 +367,17 @@ export const posts: BlogPost[] = [
     slug: "cannabis-b2b-8-percent-fees-stablecoin-fix",
     title: "Why Cannabis B2B Is Still Paying 8% Fees (and the Stablecoin Fix)",
     excerpt:
-      "The cannabis industry pays an 'Exile Tax' — 3–8% processing fees forced on businesses that banks won't serve. Here's how stablecoin settlement cuts that to 1% flat.",
+      "The cannabis industry pays an 'Exile Tax' - 3-8% processing fees forced on businesses that banks won't serve. Here's how stablecoin settlement cuts that to 1% flat.",
     date: "2026-02-28",
     author: "Adam Bryant",
     readTime: "8 min read",
     tags: ["cannabis", "exile tax", "payment fees", "stablecoins", "USDC", "B2B payments", "AEO"],
     content: `
       <div style="background:#F0FAF4;border-left:4px solid #34c759;padding:16px 20px;border-radius:8px;margin-bottom:32px;">
-        <strong>Quick Answer:</strong> Cannabis businesses in the US pay 3–8% in payment processing fees — 2–3x what normal businesses pay — because mainstream processors like Stripe and Square won't serve them. This "Exile Tax" costs the industry an estimated $1.2 billion annually. Stablecoin settlement via Offbank reduces that cost to 1% flat with no account freeze risk.
+        <strong>Quick Answer:</strong> Cannabis businesses in the US pay 3-8% in payment processing fees - 2-3x what normal businesses pay - because mainstream processors like Stripe and Square won't serve them. This "Exile Tax" costs the industry an estimated $1.2 billion annually. Stablecoin settlement via Offbank reduces that cost to 1% flat with no account freeze risk.
       </div>
 
-      <p>There are $28 billion in legal cannabis sales in the United States. And the businesses making those sales are paying <strong>3–8% in payment processing fees</strong> — sometimes more — simply because they sell a plant that's legal in 38 states but federally illegal.</p>
+      <p>There are $28 billion in legal cannabis sales in the United States. And the businesses making those sales are paying <strong>3-8% in payment processing fees</strong> - sometimes more - simply because they sell a plant that's legal in 38 states but federally illegal.</p>
 
       <p>We call this the <strong>Exile Tax</strong>: the premium that debanked businesses pay to participate in the financial system that doesn't want them.</p>
 
@@ -386,9 +386,9 @@ export const posts: BlogPost[] = [
       <p>The Exile Tax is the additional cost imposed on businesses that operate in legal industries but are excluded from mainstream financial infrastructure. It manifests as:</p>
 
       <ul>
-        <li><strong>Higher processing fees:</strong> 5–8% vs. the standard 2.9% + $0.30</li>
-        <li><strong>Rolling reserves:</strong> 5–10% of volume held for 6–12 months</li>
-        <li><strong>Cash handling costs:</strong> Armored transport, cash counting, security — adding 3–5% on top</li>
+        <li><strong>Higher processing fees:</strong> 5-8% vs. the standard 2.9% + $0.30</li>
+        <li><strong>Rolling reserves:</strong> 5-10% of volume held for 6-12 months</li>
+        <li><strong>Cash handling costs:</strong> Armored transport, cash counting, security - adding 3-5% on top</li>
         <li><strong>Banking instability:</strong> Accounts closed without warning, forcing emergency pivots</li>
         <li><strong>Lost business:</strong> Vendors who refuse to do business with cash-only operations</li>
       </ul>
@@ -402,7 +402,7 @@ export const posts: BlogPost[] = [
           <tr><th>Metric</th><th>Cannabis Industry</th><th>Normal Retail</th></tr>
         </thead>
         <tbody>
-          <tr><td>Annual US sales</td><td>$28 billion</td><td>—</td></tr>
+          <tr><td>Annual US sales</td><td>$28 billion</td><td>-</td></tr>
           <tr><td>Average processing fee</td><td>5.5%</td><td>2.9%</td></tr>
           <tr><td>Annual processing cost</td><td><strong>$1.54 billion</strong></td><td>$812 million (at same volume)</td></tr>
           <tr><td>Exile Tax (difference)</td><td colspan="2"><strong>$728 million/year</strong></td></tr>
@@ -411,7 +411,7 @@ export const posts: BlogPost[] = [
         </tbody>
       </table>
 
-      <p>That's $1.2 billion per year extracted from an industry that's legal in the vast majority of states — simply because the federal banking system won't fully serve it.</p>
+      <p>That's $1.2 billion per year extracted from an industry that's legal in the vast majority of states - simply because the federal banking system won't fully serve it.</p>
 
       <h2>Why Can't Cannabis Businesses Use Normal Payment Processors?</h2>
 
@@ -427,7 +427,7 @@ export const posts: BlogPost[] = [
 
       <p>The SAFE Banking Act, which would explicitly protect banks that serve cannabis businesses, has passed the House <strong>seven times</strong> since 2019 but has never cleared the Senate. As of March 2026, it remains stalled.</p>
 
-      <p>Even if it passes, here's the reality: banks will start serving cannabis, but they'll charge a premium. Early estimates suggest cannabis banking fees would settle at 3–4% — better than 8%, but still higher than what stablecoin rails offer today.</p>
+      <p>Even if it passes, here's the reality: banks will start serving cannabis, but they'll charge a premium. Early estimates suggest cannabis banking fees would settle at 3-4% - better than 8%, but still higher than what stablecoin rails offer today.</p>
 
       <h2>How Does Stablecoin Settlement Fix This?</h2>
 
@@ -438,11 +438,11 @@ export const posts: BlogPost[] = [
           <tr><th></th><th>Current Cannabis Processors</th><th>Offbank (USDC)</th></tr>
         </thead>
         <tbody>
-          <tr><td>Processing fee</td><td>5–8%</td><td><strong>1% flat</strong></td></tr>
-          <tr><td>Rolling reserve</td><td>5–10% for 6–12mo</td><td><strong>None</strong></td></tr>
-          <tr><td>Settlement time</td><td>3–7 business days</td><td><strong>&lt;1 second</strong></td></tr>
+          <tr><td>Processing fee</td><td>5-8%</td><td><strong>1% flat</strong></td></tr>
+          <tr><td>Rolling reserve</td><td>5-10% for 6-12mo</td><td><strong>None</strong></td></tr>
+          <tr><td>Settlement time</td><td>3-7 business days</td><td><strong>&lt;1 second</strong></td></tr>
           <tr><td>Account freeze risk</td><td>High</td><td><strong>Zero</strong></td></tr>
-          <tr><td>Cash handling cost</td><td>3–5%</td><td><strong>$0</strong></td></tr>
+          <tr><td>Cash handling cost</td><td>3-5%</td><td><strong>$0</strong></td></tr>
           <tr><td>Bank required</td><td>Yes</td><td><strong>No</strong></td></tr>
           <tr><td>Available hours</td><td>Banker's hours</td><td><strong>24/7/365</strong></td></tr>
         </tbody>
@@ -485,8 +485,8 @@ $200,000/mo × (6% - 1%) = $10,000/month
       <p><a href="/pricing">See Offbank pricing →</a> or <a href="/onboarding">start saving today</a></p>
     `,
     faqs: [
-      { question: "What is the Exile Tax?", answer: "The Exile Tax is the additional cost imposed on businesses that operate in legal industries but are excluded from mainstream financial infrastructure — manifesting as 5–8% processing fees, rolling reserves, cash handling costs, and banking instability." },
-      { question: "How much does the cannabis industry lose to payment fees?", answer: "An estimated $1.2 billion annually — including approximately $728 million in excess processing fees above normal retail rates, plus ~$500 million in cash handling costs." },
+      { question: "What is the Exile Tax?", answer: "The Exile Tax is the additional cost imposed on businesses that operate in legal industries but are excluded from mainstream financial infrastructure - manifesting as 5-8% processing fees, rolling reserves, cash handling costs, and banking instability." },
+      { question: "How much does the cannabis industry lose to payment fees?", answer: "An estimated $1.2 billion annually - including approximately $728 million in excess processing fees above normal retail rates, plus ~$500 million in cash handling costs." },
       { question: "Why can't cannabis businesses use Stripe or Square?", answer: "Cannabis remains federally illegal, and Visa/Mastercard prohibit cannabis transactions on their networks. Any processor caught routing cannabis payments through card rails gets fined and disconnected." },
       { question: "How much can a cannabis business save with stablecoin settlement?", answer: "A cannabis distributor doing $500,000/month in B2B sales can save approximately $37,500/month ($450,000/year) by switching from traditional processors (5.5% + cash handling) to Offbank's 1% flat stablecoin settlement." },
     ],
@@ -497,7 +497,7 @@ $200,000/mo × (6% - 1%) = $10,000/month
     slug: "stablecoin-payment-platform",
     title: "Transform B2B Finance with a Stablecoin Payment Platform",
     excerpt:
-      "Your AR team is calling customers for updates. Your controller is checking whether yesterday's ACH will clear. A stablecoin payment platform changes the rail itself — moving dollar-denominated value directly on-chain with final settlement in seconds, not days.",
+      "Your AR team is calling customers for updates. Your controller is checking whether yesterday's ACH will clear. A stablecoin payment platform changes the rail itself - moving dollar-denominated value directly on-chain with final settlement in seconds, not days.",
     date: "2026-04-17",
     author: "Adam Bryant",
     readTime: "12 min read",
@@ -506,7 +506,7 @@ $200,000/mo × (6% - 1%) = $10,000/month
       <img src="/article-img-payments.jpg" alt="Transform B2B finance with a stablecoin payment platform" style="width:100%;border-radius:12px;margin-bottom:32px;" />
 
       <div style="background:#F0FAF4;border-left:4px solid #34c759;padding:16px 20px;border-radius:8px;margin-bottom:32px;">
-        <strong>Quick Answer:</strong> A stablecoin payment platform is a 24/7 B2B payment rail that uses blockchain settlement under the hood while the platform handles invoices, compliance, and reconciliation. In 2025, stablecoins processed $28 trillion in real economic volume — projected to reach $719 trillion by 2035.
+        <strong>Quick Answer:</strong> A stablecoin payment platform is a 24/7 B2B payment rail that uses blockchain settlement under the hood while the platform handles invoices, compliance, and reconciliation. In 2025, stablecoins processed $28 trillion in real economic volume - projected to reach $719 trillion by 2035.
       </div>
 
       <nav style="background:#FAFAF8;border:1px solid #e5e5e5;border-radius:12px;padding:24px 28px;margin-bottom:32px;">
@@ -639,7 +639,7 @@ $200,000/mo × (6% - 1%) = $10,000/month
           <tr><td><strong>Settlement speed</strong></td><td>Delayed, dependent on bank processing windows</td><td>Delayed, manual deposit and collection steps</td><td>Near real-time with on-chain confirmation</td></tr>
           <tr><td><strong>Availability</strong></td><td>Limited by banking hours and cutoffs</td><td>Limited by physical handling and deposit timing</td><td>Operates continuously, 24/7</td></tr>
           <tr><td><strong>Finality</strong></td><td>Can involve reversals, recalls, or uncertainty</td><td>Checks can bounce, cash requires physical verification</td><td>Final settlement on-chain once confirmed</td></tr>
-          <tr><td><strong>Operational overhead</strong></td><td>High coordination between AP, AR, bank ops</td><td>Highest burden — people must move and verify funds</td><td>Lower reconciliation burden — status is verifiable</td></tr>
+          <tr><td><strong>Operational overhead</strong></td><td>High coordination between AP, AR, bank ops</td><td>Highest burden - people must move and verify funds</td><td>Lower reconciliation burden - status is verifiable</td></tr>
           <tr><td><strong>Auditability</strong></td><td>Fragmented across banks, processors, emails</td><td>Often the weakest paper trail</td><td>Native on-chain audit trail</td></tr>
           <tr><td><strong>Bank-sensitive industries</strong></td><td>Unpredictable when banks tighten posture</td><td>Often used as a fallback, not scalable</td><td>Bank-independent payment continuity</td></tr>
         </tbody>
@@ -750,11 +750,11 @@ $200,000/mo × (6% - 1%) = $10,000/month
       <p>Then define the operating flow:</p>
 
       <ol>
-        <li><strong>Invoice creation</strong> — Generate invoices or payment links from a platform that can associate each payment with a counterparty and transaction record.</li>
-        <li><strong>Counterparty onboarding</strong> — Collect business details, verify who the recipient is, and complete the required compliance checks before money moves.</li>
-        <li><strong>Payment receipt or payout approval</strong> — Assign clear internal approval authority. Blockchain speed is helpful only if your internal process doesn't recreate the same delay.</li>
-        <li><strong>Ledger and reconciliation handling</strong> — Decide how on-chain payment confirmations map into ERP or accounting workflows. The ledger should support close, not complicate it.</li>
-        <li><strong>Exception management</strong> — Document what happens if a recipient wants fiat conversion, misses an email claim, or needs support during first use.</li>
+        <li><strong>Invoice creation</strong> - Generate invoices or payment links from a platform that can associate each payment with a counterparty and transaction record.</li>
+        <li><strong>Counterparty onboarding</strong> - Collect business details, verify who the recipient is, and complete the required compliance checks before money moves.</li>
+        <li><strong>Payment receipt or payout approval</strong> - Assign clear internal approval authority. Blockchain speed is helpful only if your internal process doesn't recreate the same delay.</li>
+        <li><strong>Ledger and reconciliation handling</strong> - Decide how on-chain payment confirmations map into ERP or accounting workflows. The ledger should support close, not complicate it.</li>
+        <li><strong>Exception management</strong> - Document what happens if a recipient wants fiat conversion, misses an email claim, or needs support during first use.</li>
       </ol>
 
       <p>One feature that meaningfully lowers friction is walletless claiming. According to <a href="https://alphapoint.com/blog/stablecoin-payment-integration-for-banks-apis-methods-and-the-2026-roadmap/" target="_blank" rel="noopener">AlphaPoint's stablecoin payment integration roadmap</a>, direct on-chain integration can support <strong>near-real-time settlement in 1 to 30 seconds</strong> and non-custodial <strong>email-claiming</strong>, where a recipient clicks a link to claim USDC using a temporary keypair, with the transaction verifiable on-chain and chargebacks cut by <strong>100%</strong>. That matters because many counterparties don't want to manage crypto infrastructure on day one. They just want to get paid.</p>
@@ -781,11 +781,11 @@ $200,000/mo × (6% - 1%) = $10,000/month
       <p><a href="/onboarding">Get started →</a> or <a href="/pricing">see pricing</a></p>
     `,
     faqs: [
-      { question: "Is a stablecoin payment platform compliant?", answer: "It can be, if the operating model is built correctly. A stablecoin payment platform should support business verification, sanctions screening, and AML controls as part of onboarding and transaction flow. The rail doesn't remove compliance responsibility — it gives you a clearer and more traceable way to execute it." },
+      { question: "Is a stablecoin payment platform compliant?", answer: "It can be, if the operating model is built correctly. A stablecoin payment platform should support business verification, sanctions screening, and AML controls as part of onboarding and transaction flow. The rail doesn't remove compliance responsibility - it gives you a clearer and more traceable way to execute it." },
       { question: "What if my partners are not crypto native?", answer: "Most suppliers and buyers don't need to understand blockchain. They need a straightforward way to receive or send a payment, verify that it happened, and convert funds when necessary. Good platforms reduce friction with invoice links, guided flows, and walletless options for first-time users." },
       { question: "How do treasury and accounting teams handle stablecoin payments?", answer: "With policy first. Treasury defines who can initiate payments, who approves them, how keys are controlled, and when conversion to banked dollars is required. Accounting defines how stablecoin receipts and disbursements are recorded, reconciled, and documented. The rail helps because the underlying payment record is verifiable and timestamped." },
       { question: "How do you convert USDC back into dollars?", answer: "That depends on the platform and your treasury setup. Some teams hold USDC for outbound supplier payments and reduce the number of conversions. Others convert incoming funds to dollars based on internal policy. The practical answer is to choose a workflow that matches your cash needs, vendor expectations, and bank strategy." },
-      { question: "Is this only useful for cross-border payments?", answer: "No. It's useful anywhere legacy rails create delay, uncertainty, or access risk. Cannabis finance teams often get value from stablecoin settlement even in domestic transactions because the core issue isn't geography — it's friction, finality, and continuity." },
+      { question: "Is this only useful for cross-border payments?", answer: "No. It's useful anywhere legacy rails create delay, uncertainty, or access risk. Cannabis finance teams often get value from stablecoin settlement even in domestic transactions because the core issue isn't geography - it's friction, finality, and continuity." },
       { question: "What should a CFO ask before adopting a stablecoin payment platform?", answer: "Ask: Who controls the funds? How are KYB, OFAC, and AML handled? What does the recipient experience look like? How is reconciliation managed? What happens when a payment exception occurs? Can the system support your approval and treasury controls? If a vendor can't answer those clearly, the rail may be fast but the operation still won't be dependable." },
     ],
   },
@@ -795,7 +795,7 @@ $200,000/mo × (6% - 1%) = $10,000/month
     slug: "cannabis-payment-processing-safe-banking-act-2026",
     title: "Cannabis Payment Processing & The SAFE Banking Act 2026",
     excerpt:
-      "Invoices go out to dispensary buyers. Payment terms stretch. Someone asks whether a large ACH will get flagged. The core reality of cannabis payment processing in wholesale is a billion-dollar infrastructure problem — and SAFE Banking alone won't fix it.",
+      "Invoices go out to dispensary buyers. Payment terms stretch. Someone asks whether a large ACH will get flagged. The core reality of cannabis payment processing in wholesale is a billion-dollar infrastructure problem - and SAFE Banking alone won't fix it.",
     date: "2026-04-19",
     author: "Adam Bryant",
     readTime: "14 min read",
@@ -875,7 +875,7 @@ $200,000/mo × (6% - 1%) = $10,000/month
 
       <h3 id="why-processors-classify-cannabis-as-high-risk">Why processors classify cannabis as high risk</h3>
 
-      <p>Cannabis merchants automatically fall into the <strong>high-risk</strong> category because federal illegality clashes with state legalization. That forces them toward specialized processors that charge materially more than standard low-risk merchant setups. As <a href="https://paymentnerds.com/blog/high-risk-payment-gateways-for-cannabis-ecommerce/" target="_blank" rel="noopener">Payment Nerds explains</a>, standard processors charge <strong>1.5–3%</strong> for low-risk verticals, while cannabis-specific providers charge substantially more because they carry compliance overhead, fraud exposure, and sponsor bank risk.</p>
+      <p>Cannabis merchants automatically fall into the <strong>high-risk</strong> category because federal illegality clashes with state legalization. That forces them toward specialized processors that charge materially more than standard low-risk merchant setups. As <a href="https://paymentnerds.com/blog/high-risk-payment-gateways-for-cannabis-ecommerce/" target="_blank" rel="noopener">Payment Nerds explains</a>, standard processors charge <strong>1.5-3%</strong> for low-risk verticals, while cannabis-specific providers charge substantially more because they carry compliance overhead, fraud exposure, and sponsor bank risk.</p>
 
       <p>That "high-risk" label isn't just a pricing issue. It affects:</p>
 
@@ -946,7 +946,7 @@ $200,000/mo × (6% - 1%) = $10,000/month
 
       <img src="/friction.png" alt="Shipping boxes representing logistical challenges in cannabis B2B payment processing" style="width:100%;border-radius:12px;margin:24px 0;" />
 
-      <p>As <a href="https://payboticfinancial.com/cannabis-payment-guide/" target="_blank" rel="noopener">Paybotic's cannabis payment guide</a> notes, most public discussion centers on retail methods, while wholesalers still rely on checks, wires, and cash. That leaves cultivators and distributors dealing with <strong>30–60 day collection cycles</strong>, account freezes, and heavy operational drag.</p>
+      <p>As <a href="https://payboticfinancial.com/cannabis-payment-guide/" target="_blank" rel="noopener">Paybotic's cannabis payment guide</a> notes, most public discussion centers on retail methods, while wholesalers still rely on checks, wires, and cash. That leaves cultivators and distributors dealing with <strong>30-60 day collection cycles</strong>, account freezes, and heavy operational drag.</p>
 
       <h3 id="wholesale-pain-looks-different-from-retail-pain">Wholesale pain looks different from retail pain</h3>
 
@@ -988,7 +988,7 @@ $200,000/mo × (6% - 1%) = $10,000/month
 
       <p><strong>Wires</strong> are usable for high-value transfers where both sides accept the bank process and cutoff times. They are less attractive for routine wholesale volume. Treasury teams end up approving each payment manually, buyers pay more per transfer, and remittance often arrives outside the ERP workflow.</p>
 
-      <p><strong>ACH</strong> remains the default compliant bank rail for many cannabis businesses because it avoids prohibited card network use. For AP and AR teams, though, ACH solves legality more than operations. Traditional ACH typically settles in <strong>1–3 business days</strong>, requires account linking, and can still expose the merchant to reversals or disruption if activity is flagged. Teams dealing with high fees can also review <a href="/blog/cannabis-b2b-8-percent-fees-stablecoin-fix">why many cannabis B2B payments still carry inflated costs</a>.</p>
+      <p><strong>ACH</strong> remains the default compliant bank rail for many cannabis businesses because it avoids prohibited card network use. For AP and AR teams, though, ACH solves legality more than operations. Traditional ACH typically settles in <strong>1-3 business days</strong>, requires account linking, and can still expose the merchant to reversals or disruption if activity is flagged. Teams dealing with high fees can also review <a href="/blog/cannabis-b2b-8-percent-fees-stablecoin-fix">why many cannabis B2B payments still carry inflated costs</a>.</p>
 
       <p><strong>Real-time bank payment tools</strong> improve speed where supported by the provider, sponsor bank, and receiving institution. They still sit inside the same bank-controlled compliance structure. That means faster messaging does not always equal guaranteed access, universal availability, or reduced account risk.</p>
 
@@ -1006,7 +1006,7 @@ $200,000/mo × (6% - 1%) = $10,000/month
           <tr><td><strong>Cash</strong></td><td>Immediate physical exchange</td><td>Operationally high, varies</td><td>Low reversal, high handling risk</td></tr>
           <tr><td><strong>Check</strong></td><td>Slow, manual clearing</td><td>Bank and admin costs vary</td><td>Moderate, subject to return/delay</td></tr>
           <tr><td><strong>Wire</strong></td><td>Faster than check, manual</td><td>Higher bank-dependent cost</td><td>Moderate, bank dependent</td></tr>
-          <tr><td><strong>ACH</strong></td><td>1–3 business days</td><td>Bank-dependent</td><td>Meaningful if flagged/reversed</td></tr>
+          <tr><td><strong>ACH</strong></td><td>1-3 business days</td><td>Bank-dependent</td><td>Meaningful if flagged/reversed</td></tr>
           <tr><td><strong>Real-time bank tools</strong></td><td>Faster where available</td><td>Provider-dependent</td><td>Lower delay, still bank-tied</td></tr>
         </tbody>
       </table>
@@ -1052,7 +1052,7 @@ $200,000/mo × (6% - 1%) = $10,000/month
     `,
     faqs: [
       { question: "Does SAFE Banking fix wholesale payment problems?", answer: "Not by itself. It may improve the banking environment if it advances, but it won't automatically solve invoice delays, reconciliation overhead, or the need for fast final settlement between businesses. Wholesale operators still need rails that match B2B payment behavior." },
-      { question: "What's the difference between payment processing and settlement?", answer: "Processing is the acceptance and routing layer — how a payment gets initiated, verified, and passed through a system. Settlement is when funds are delivered and final. That distinction matters in cannabis because a transaction can look accepted while the business still carries delay, review risk, or reversal exposure before funds are usable." },
+      { question: "What's the difference between payment processing and settlement?", answer: "Processing is the acceptance and routing layer - how a payment gets initiated, verified, and passed through a system. Settlement is when funds are delivered and final. That distinction matters in cannabis because a transaction can look accepted while the business still carries delay, review risk, or reversal exposure before funds are usable." },
       { question: "Can stablecoin-based B2B payments be operationally usable?", answer: "Yes, if the platform is designed for ordinary finance teams rather than crypto specialists. The right setup should support business onboarding, compliance checks, invoicing, payment links, and a simple receiving experience for counterparties. A tool that lets recipients claim funds through familiar workflows has a much better chance of adoption." },
       { question: "What should finance teams evaluate before switching rails?", answer: "Start with operational fit: settlement certainty (does the method provide finality quickly?), compliance design (are KYB, OFAC, and transaction monitoring built in?), counterparty usability (can buyers and suppliers complete payments without extra friction?), audit trail quality, and business continuity (if one provider fails, how exposed is your order-to-cash process?)." },
     ],

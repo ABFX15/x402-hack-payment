@@ -95,9 +95,9 @@ const cards = [
     accent: true,
   },
   {
-    stat: "5–9%",
+    stat: "5-9%",
     countTo: 9,
-    prefix: "5–",
+    prefix: "5-",
     suffix: "%",
     desc: "What high-risk processors charge, because they can",
     img: "/nobg-document.png",

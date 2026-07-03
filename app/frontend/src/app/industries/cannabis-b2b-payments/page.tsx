@@ -72,11 +72,11 @@ const faqs = [
   },
   {
     q: "What is the cheapest way to process B2B cannabis payments?",
-    a: "The cheapest method for B2B cannabis payments is stablecoin settlement at 1% flat (Offbank). Traditional high-risk merchant processors charge 5–9%. Cash handling costs $60,000–$120,000/year for a $2M operation. ACH-based solutions like Aeropay charge 3–5% but carry NACHA rejection risk.",
+    a: "The cheapest method for B2B cannabis payments is stablecoin settlement at 1% flat (Offbank). Traditional high-risk merchant processors charge 5-9%. Cash handling costs $60,000-$120,000/year for a $2M operation. ACH-based solutions like Aeropay charge 3-5% but carry NACHA rejection risk.",
   },
   {
     q: "Can cannabis businesses send wire transfers to suppliers?",
-    a: "Most cannabis businesses cannot reliably send B2B wire transfers. Only 4–6% of US banks actively maintain cannabis banking programs, and those that do restrict wire functionality. Stablecoin settlement provides an equivalent, instant, verifiable, bank-independent transfers of any size.",
+    a: "Most cannabis businesses cannot reliably send B2B wire transfers. Only 4-6% of US banks actively maintain cannabis banking programs, and those that do restrict wire functionality. Stablecoin settlement provides an equivalent, instant, verifiable, bank-independent transfers of any size.",
   },
   {
     q: "What states allow stablecoin payments for cannabis?",
@@ -88,7 +88,7 @@ const faqs = [
   },
   {
     q: "How much can a cannabis business save by eliminating cash?",
-    a: "A cannabis business processing $2 million annually can save $60,000–$100,000 per year by eliminating cash handling. This includes eliminated armored car fees ($24,000–$48,000), reduced labor ($15,000–$25,000), eliminated shrinkage ($10,000–$40,000), and lower processing fees vs. high-risk merchant accounts.",
+    a: "A cannabis business processing $2 million annually can save $60,000-$100,000 per year by eliminating cash handling. This includes eliminated armored car fees ($24,000-$48,000), reduced labor ($15,000-$25,000), eliminated shrinkage ($10,000-$40,000), and lower processing fees vs. high-risk merchant accounts.",
   },
   {
     q: "Does Offbank integrate with cannabis POS systems like Flowhub, Dutchie, or LeafLink?",
@@ -301,7 +301,7 @@ export default function CannabisB2BPaymentsPage() {
           <p className="sr-only">
             Cannabis B2B supply chain payments, cultivators, processors,
             distributors, and retailers, move an estimated $30 billion annually
-            in the US. 30–50% is still transacted in cash due to banking
+            in the US. 30-50% is still transacted in cash due to banking
             restrictions. Offbank provides non-custodial USDC settlement at 1%
             flat, enabling instant digital payments across the entire cannabis
             supply chain without bank interference.
@@ -400,7 +400,7 @@ export default function CannabisB2BPaymentsPage() {
             <div className="grid grid-cols-2 gap-y-10 sm:grid-cols-4">
               {[
                 { value: "$34B+", label: "US cannabis annual revenue" },
-                { value: "30–50%", label: "Transacted in cash" },
+                { value: "30-50%", label: "Transacted in cash" },
                 { value: "38", label: "States with legal programs" },
                 { value: "62%", label: "Had bank accounts closed" },
               ].map((stat) => (
@@ -444,22 +444,22 @@ export default function CannabisB2BPaymentsPage() {
               {
                 icon: Ban,
                 title: "Banks won't serve cannabis",
-                desc: "Only 4–6% of US banks maintain cannabis banking programs. Account freezes and closures are routine.",
+                desc: "Only 4-6% of US banks maintain cannabis banking programs. Account freezes and closures are routine.",
               },
               {
                 icon: DollarSign,
-                title: "5–9% processing fees",
-                desc: "High-risk merchant accounts charge 5–9% with rolling reserves of 10–20%. A $500K/month operation pays $25K–$45K monthly.",
+                title: "5-9% processing fees",
+                desc: "High-risk merchant accounts charge 5-9% with rolling reserves of 10-20%. A $500K/month operation pays $25K-$45K monthly.",
               },
               {
                 icon: AlertTriangle,
                 title: "Cash transport risk",
-                desc: "Cannabis businesses are 4–5× more likely to be robbed. Armed transport costs $2,000–$8,000/month per location.",
+                desc: "Cannabis businesses are 4-5× more likely to be robbed. Armed transport costs $2,000-$8,000/month per location.",
               },
               {
                 icon: Clock,
                 title: "Settlement takes days",
-                desc: "High-risk processors settle in 3–7 business days. No weekend or holiday processing. Working capital is trapped.",
+                desc: "High-risk processors settle in 3-7 business days. No weekend or holiday processing. Working capital is trapped.",
               },
               {
                 icon: FileText,
@@ -710,7 +710,7 @@ export default function CannabisB2BPaymentsPage() {
               {
                 name: "LeafLink",
                 role: "B2B Marketplace",
-                desc: "Settle LeafLink marketplace transactions in USDC instead of waiting 30–60 days for ACH. Instant finality for every purchase order.",
+                desc: "Settle LeafLink marketplace transactions in USDC instead of waiting 30-60 days for ACH. Instant finality for every purchase order.",
                 highlights: [
                   "Replace 30-day net terms with instant USDC",
                   "Purchase order ↔ invoice sync",
@@ -817,7 +817,7 @@ export default function CannabisB2BPaymentsPage() {
                     Cash Handling
                   </p>
                   <p className="mt-2 text-3xl font-bold text-white">
-                    $78K–$195K
+                    $78K-$195K
                   </p>
                   <p
                     className="mt-1 text-xs"
@@ -834,13 +834,13 @@ export default function CannabisB2BPaymentsPage() {
                     High-Risk Processor
                   </p>
                   <p className="mt-2 text-3xl font-bold text-white">
-                    $100K–$180K
+                    $100K-$180K
                   </p>
                   <p
                     className="mt-1 text-xs"
                     style={{ color: "rgba(255,255,255,0.35)" }}
                   >
-                    5–9% fees + reserves + monthly charges
+                    5-9% fees + reserves + monthly charges
                   </p>
                 </div>
                 <div

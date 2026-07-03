@@ -44,7 +44,7 @@ export default function BubblePage() {
   return (
     <main
       className="relative min-h-screen bg-[#FFFFFF] text-[#212121] antialiased"
-      style={{ fontFamily: "var(--font-inter), system-ui, -apple-system, sans-serif" }}
+      style={{ fontFamily: "var(--font-geist-sans), system-ui, -apple-system, sans-serif" }}
     >
       <script
         type="application/ld+json"
@@ -99,7 +99,7 @@ export default function BubblePage() {
             <p className="mt-6 max-w-2xl text-lg leading-relaxed text-[#5c5c5c]">
               3M+ apps run on Bubble.io. Zero of them have native stablecoin
               payment infrastructure. The Offbank plugin gives every no-code
-              builder drag-and-drop USDC checkout and settlement — no blockchain
+              builder drag-and-drop USDC checkout and settlement - no blockchain
               knowledge required.
             </p>
           </Reveal>
@@ -158,7 +158,7 @@ export default function BubblePage() {
               {
                 icon: MousePointerClick,
                 title: "Drag-and-drop setup",
-                text: "Drop the Offbank checkout element onto any page. Configure amount, recipient, and style — all visually.",
+                text: "Drop the Offbank checkout element onto any page. Configure amount, recipient, and style - all visually.",
               },
               {
                 icon: Zap,
@@ -168,7 +168,7 @@ export default function BubblePage() {
               {
                 icon: Shield,
                 title: "No chargebacks",
-                text: "Stablecoin payments are final. Build with confidence — no disputes, no fraud reversals eating your margins.",
+                text: "Stablecoin payments are final. Build with confidence - no disputes, no fraud reversals eating your margins.",
               },
               {
                 icon: Globe,
@@ -278,7 +278,7 @@ export default function BubblePage() {
               {
                 step: "03",
                 title: "Wire up workflows",
-                text: "Use Bubble workflows to trigger actions on payment success — update database, send emails, unlock access.",
+                text: "Use Bubble workflows to trigger actions on payment success - update database, send emails, unlock access.",
               },
             ].map((item, i) => (
               <Reveal key={item.step} delay={i * 0.08}>
@@ -312,10 +312,10 @@ export default function BubblePage() {
 
         <div className="mt-12 grid gap-3 sm:grid-cols-2">
           {[
-            "Visual checkout element — drag and drop",
+            "Visual checkout element - drag and drop",
             "USDC payments with gasless UX for buyers",
             "Workflow triggers on payment events",
-            "Settlement actions — send USDC from workflows",
+            "Settlement actions - send USDC from workflows",
             "Works with Bubble's user authentication",
             "Customizable styles to match your app",
             "Webhook events for external integrations",

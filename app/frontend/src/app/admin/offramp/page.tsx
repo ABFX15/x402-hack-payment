@@ -110,7 +110,7 @@ export default function OfframpConsolePage() {
       URL.revokeObjectURL(url);
 
       setMsg(
-        `Batch ${data.batch.id} created — ${data.batch.requestIds.length} payouts, ${fmtUSD(
+        `Batch ${data.batch.id} created - ${data.batch.requestIds.length} payouts, ${fmtUSD(
           data.batch.totalAmount,
         )}. Compliance CSV downloaded.`,
       );
@@ -138,7 +138,7 @@ export default function OfframpConsolePage() {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Settle failed");
-      setMsg(`Batch settled — ${data.settled} payouts marked complete.`);
+      setMsg(`Batch settled - ${data.settled} payouts marked complete.`);
       loadQueue();
     } catch (e) {
       setMsg(e instanceof Error ? e.message : "Failed");
@@ -217,7 +217,7 @@ export default function OfframpConsolePage() {
       ) : (
         <div className="space-y-8">
           <Section
-            title={`Pending — ${fmtUSD(queue?.pendingTotal ?? 0)}`}
+            title={`Pending - ${fmtUSD(queue?.pendingTotal ?? 0)}`}
             empty="No pending payouts."
             rows={pending}
           />
@@ -293,9 +293,9 @@ function Section({
                 <tr key={r.id} className="border-t border-[#F1F5F9]">
                   <td className="px-4 py-2 font-medium text-[#212121]">{fmtUSD(r.amount)}</td>
                   <td className="px-4 py-2 text-[#64748B]">{r.method}</td>
-                  <td className="px-4 py-2 text-[#64748B]">{r.licenseNumber || "—"}</td>
+                  <td className="px-4 py-2 text-[#64748B]">{r.licenseNumber || "-"}</td>
                   <td className="px-4 py-2 text-[#64748B]">{shorten(r.wallet)}</td>
-                  <td className="px-4 py-2 text-[#64748B]">{r.riskScore ?? "—"}</td>
+                  <td className="px-4 py-2 text-[#64748B]">{r.riskScore ?? "-"}</td>
                 </tr>
               ))}
             </tbody>

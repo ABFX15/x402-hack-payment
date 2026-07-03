@@ -136,7 +136,7 @@ export default function PaymentLinksPage() {
                   boxShadow: "0 4px 24px rgba(27,107,74,0.25)",
                 }}
               >
-                Get Started
+                Get started
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
               </Link>
               <Link
@@ -730,7 +730,7 @@ export default function PaymentLinksPage() {
                       boxShadow: "0 4px 24px rgba(27,107,74,0.3)",
                     }}
                   >
-                    Get Started
+                    Get started
                     <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
                   </Link>
                   <Link

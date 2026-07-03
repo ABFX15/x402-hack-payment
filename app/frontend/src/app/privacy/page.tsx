@@ -213,7 +213,7 @@ export default function PrivacyPage() {
       setCurrentStep(2);
       addLog("✅ Payment processed (hidden in TEE)");
       addLog(
-        `   Amount: ${session.amount / 1e6} USDC — invisible to observers`,
+        `   Amount: ${session.amount / 1e6} USDC - invisible to observers`,
       );
     } catch (e: any) {
       setError(e.message);
@@ -227,7 +227,7 @@ export default function PrivacyPage() {
     if (!session.paymentId) return;
     setLoading(true);
     setError(null);
-    addLog("Settling — committing state to Solana...");
+    addLog("Settling - committing state to Solana...");
 
     try {
       const res = await fetch(API, {
@@ -572,11 +572,11 @@ export default function PrivacyPage() {
                   <span className="text-xs text-[#8a8a8a]">
                     {session.status === "idle" && "Ready"}
                     {session.status === "pending" &&
-                      "Session created — awaiting delegation"}
+                      "Session created - awaiting delegation"}
                     {session.status === "active" &&
-                      "Hidden inside TEE — processing..."}
+                      "Hidden inside TEE - processing..."}
                     {session.status === "processed" &&
-                      "Processed — ready to settle"}
+                      "Processed - ready to settle"}
                     {session.status === "settled" && "Settled on Solana ✓"}
                   </span>
                 </div>
@@ -634,7 +634,7 @@ export default function PrivacyPage() {
                     session.status === "processed") && (
                     <div className="space-y-1">
                       <p className="text-[#34c759]">
-                        // ⚠️ Account delegated to PER — data hidden
+                        // ⚠️ Account delegated to PER - data hidden
                       </p>
                       <p className="text-[#5c5c5c]">
                         payment_id:{" "}
@@ -699,7 +699,7 @@ export default function PrivacyPage() {
                   {session.status === "settled" && (
                     <div className="space-y-1">
                       <p className="text-[#34c759]">
-                        // ✅ Payment settled — final state on-chain
+                        // ✅ Payment settled - final state on-chain
                       </p>
                       <p className="text-[#5c5c5c]">
                         payment_id:{" "}
@@ -826,7 +826,7 @@ export default function PrivacyPage() {
               {
                 title: "Sub-10ms Latency",
                 description:
-                  "Inside the ephemeral rollup, transactions execute in under 10ms with zero gas fees. No block time waiting — instant confirmation for payment processing.",
+                  "Inside the ephemeral rollup, transactions execute in under 10ms with zero gas fees. No block time waiting - instant confirmation for payment processing.",
                 icon: Zap,
                 color: "yellow",
               },
@@ -879,7 +879,7 @@ export default function PrivacyPage() {
             <p className="mx-auto max-w-xl text-sm text-[#8a8a8a]">
               Private payments powered by MagicBlock&apos;s Private Ephemeral
               Rollups. Real-world use case: stablecoin payouts where payment
-              data is hidden during processing — only the merchant and customer
+              data is hidden during processing - only the merchant and customer
               see state.
             </p>
             <div className="mt-4 flex flex-wrap items-center justify-center gap-4 text-xs text-[#8a8a8a]">

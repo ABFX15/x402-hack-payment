@@ -146,7 +146,7 @@ export default function TreasuryPage() {
         const fv = await fetch(`/api/treasury/fiat-view?wallet=${publicKey}`);
         if (fv.ok) setFiatView(await fv.json());
       } catch {
-        /* non-fatal — the balance cards still render */
+        /* non-fatal - the balance cards still render */
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to fetch");
@@ -215,7 +215,7 @@ export default function TreasuryPage() {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  // Not authenticated — show login prompt
+  // Not authenticated - show login prompt
   if (!connected) {
     return (
       <div>
@@ -342,7 +342,7 @@ export default function TreasuryPage() {
           </button>
         </div>
 
-        {/* Virtual ledger — plain-USD summary. The blockchain is invisible:
+        {/* Virtual ledger - plain-USD summary. The blockchain is invisible:
             the operator just sees USD available and what's clearing to bank. */}
         {fiatView && (
           <motion.div

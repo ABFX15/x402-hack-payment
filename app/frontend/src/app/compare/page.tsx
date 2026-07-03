@@ -95,21 +95,21 @@ const features: {
     rows: [
       {
         label: "Time to cash",
-        values: ["Seconds", "Days to weeks", "3–7 business days", "Seconds"],
-        note: "Offbank settles on Solana in under 2 seconds. ACH takes 2–5 business days. High-risk processors hold funds 3–7 days plus rolling reserves.",
+        values: ["Seconds", "Days to weeks", "3-7 business days", "Seconds"],
+        note: "Offbank settles on Solana in under 2 seconds. ACH takes 2-5 business days. High-risk processors hold funds 3-7 days plus rolling reserves.",
       },
       {
         label: "Processing fees",
-        values: ["1% flat", "Varies", "5–9%+", "0.5–2%"],
-        note: "High-risk merchant accounts for cannabis typically charge 5–9% with rolling reserves of 10–20% held for up to 6 months.",
+        values: ["1% flat", "Varies", "5-9%+", "0.5-2%"],
+        note: "High-risk merchant accounts for cannabis typically charge 5-9% with rolling reserves of 10-20% held for up to 6 months.",
       },
       {
         label: "Rolling reserves",
-        values: [false, false, "10–20%", false],
+        values: [false, false, "10-20%", false],
       },
       {
         label: "Monthly fees",
-        values: ["$0", "Varies", "$50–$500+", "From $0"],
+        values: ["$0", "Varies", "$50-$500+", "From $0"],
       },
       {
         label: "Weekend & holiday settlement",
@@ -117,8 +117,8 @@ const features: {
       },
       {
         label: "Cost on $500K/month",
-        values: ["$5,000", "Varies", "$25K–$45K", "$2.5K–$10K"],
-        note: "A cannabis distributor processing $500K/month pays $5,000 on Offbank vs. $25,000–$45,000 on a typical high-risk processor.",
+        values: ["$5,000", "Varies", "$25K-$45K", "$2.5K-$10K"],
+        note: "A cannabis distributor processing $500K/month pays $5,000 on Offbank vs. $25,000-$45,000 on a typical high-risk processor.",
       },
     ],
   },
@@ -171,7 +171,7 @@ export default function ComparePage() {
     <main
       className="relative min-h-screen bg-[#FFFFFF] text-[#5c5c5c] antialiased"
       style={{
-        fontFamily: "var(--font-inter), system-ui, -apple-system, sans-serif",
+        fontFamily: "var(--font-geist-sans), system-ui, -apple-system, sans-serif",
       }}
     >
       <script
@@ -233,7 +233,7 @@ export default function ComparePage() {
             {
               icon: DollarSign,
               title: "Lower the cost of getting paid",
-              text: "1% flat instead of high-risk processing fees that can reach 5–9%+.",
+              text: "1% flat instead of high-risk processing fees that can reach 5-9%+.",
               color: "#34c759",
             },
             {
@@ -390,7 +390,7 @@ export default function ComparePage() {
                 },
                 {
                   icon: DollarSign,
-                  text: "Lower high-risk processing costs from 5–9% to 1%",
+                  text: "Lower high-risk processing costs from 5-9% to 1%",
                 },
                 {
                   icon: BarChart3,

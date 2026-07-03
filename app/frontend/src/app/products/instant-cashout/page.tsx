@@ -6,12 +6,12 @@ import { Footer } from "@/components/ui/Footer";
 import { CodeBlock } from "@/components/CodeBlock";
 
 export const metadata: Metadata = {
-  title: "Instant Cashout — Pay Players & Winners in Seconds | Offbank",
+  title: "Instant Cashout - Pay Players & Winners in Seconds | Offbank",
   description:
     "Pay out winnings in USDC in under a second, by email or wallet, any amount, anywhere. Make instant cashouts your retention weapon. Non-custodial, no chargebacks.",
   alternates: { canonical: "/products/instant-cashout" },
   openGraph: {
-    title: "Instant Cashout — Pay Players & Winners in Seconds",
+    title: "Instant Cashout - Pay Players & Winners in Seconds",
     description:
       "USDC withdrawals in under a second, by email or wallet. The retention weapon for iGaming.",
     url: "https://offbankpay.com/products/instant-cashout",
@@ -22,7 +22,7 @@ const features = [
   {
     icon: Zap,
     title: "Paid in under a second",
-    desc: "One API call sends a player their winnings in USDC. No batch windows, no “pending 3–5 business days.” The thing players judge you on — solved.",
+    desc: "One API call sends a player their winnings in USDC. No batch windows, no “pending 3-5 business days.” The thing players judge you on - solved.",
   },
   {
     icon: Mail,
@@ -37,7 +37,7 @@ const features = [
   {
     icon: Globe,
     title: "Global, any amount",
-    desc: "Pay a $20 winner or a $50k jackpot, in Manila or Lisbon, at the same speed and cost. Cards choke on large or cross-border payouts — USDC doesn’t.",
+    desc: "Pay a $20 winner or a $50k jackpot, in Manila or Lisbon, at the same speed and cost. Cards choke on large or cross-border payouts - USDC doesn’t.",
   },
 ];
 
@@ -63,7 +63,7 @@ export default function InstantCashoutPage() {
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-[18px] leading-[1.6] text-white/75">
             Players judge a book by how fast it pays. Settle withdrawals in USDC
-            in under a second — by email or wallet, any amount, anywhere — and
+            in under a second - by email or wallet, any amount, anywhere - and
             turn “instant cashouts” into the feature that wins and keeps players.
             Non-custodial, no chargebacks, no processor to freeze you.
           </p>
@@ -120,7 +120,7 @@ import { Offbank } from "@offbank/sdk";
 
 const offbank = new Offbank({ apiKey: process.env.OFFBANK_API_KEY! });
 
-// Player cashes out — settles in USDC, instantly
+// Player cashes out - settles in USDC, instantly
 await offbank.payouts.create({
   email: "player@example.com",
   amount: 250.0,

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "WooCommerce Settlement — Non-Custodial USDC for WordPress",
+  title: "WooCommerce Settlement - Non-Custodial USDC for WordPress",
   description:
     "Add non-custodial USDC settlement to WooCommerce. 1% flat fee, instant finality, no bank interference.",
   alternates: { canonical: "/integrations/woocommerce" },
@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: "https://offbankpay.com/integrations/woocommerce",
     siteName: "Offbank",
-    title: "WooCommerce Settlement — Non-Custodial USDC for WordPress",
+    title: "WooCommerce Settlement - Non-Custodial USDC for WordPress",
     description:
       "Non-custodial USDC settlement for WooCommerce. 1% flat, instant finality.",
     images: [
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "WooCommerce Settlement — Non-Custodial USDC for WordPress",
+    title: "WooCommerce Settlement - Non-Custodial USDC for WordPress",
     description:
       "Non-custodial USDC settlement for WooCommerce. 1% flat, instant finality.",
     images: ["/twitter-image?v=3"],

@@ -349,7 +349,7 @@ export default function CannabisPage() {
                       "linear-gradient(135deg, #34c759 0%, #2ba048 100%)",
                   }}
                 >
-                  Get Started
+                  Get started
                   <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
                 </Link>
                 <Link
@@ -703,7 +703,7 @@ export default function CannabisPage() {
                 background: "linear-gradient(135deg, #34c759 0%, #2ba048 100%)",
               }}
             >
-              Get Started
+              Get started
               <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
             </Link>
             <Link

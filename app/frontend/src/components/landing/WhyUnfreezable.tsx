@@ -5,22 +5,57 @@ import { Check, X, Snowflake, KeyRound } from "lucide-react";
 import { t, spring, staggerContainer, fadeUpScale } from "./shared";
 
 /**
- * The core USP: the market forces high-risk merchants into a false choice —
+ * The core USP: the market forces high-risk merchants into a false choice -
  * custodial processors (bankable, but they can freeze you) vs. raw crypto
  * (unfreezable, but you're on your own for compliance/off-ramp). Offbank is the
  * only option that's BOTH. This section makes that choice visible.
  */
 
-type Row = { label: string; custodial: boolean; rawCrypto: boolean; offbank: boolean };
+type Row = {
+  label: string;
+  custodial: boolean;
+  rawCrypto: boolean;
+  offbank: boolean;
+};
 
 const rows: Row[] = [
-  { label: "No one can freeze your funds", custodial: false, rawCrypto: true, offbank: true },
-  { label: "You hold the keys (self-custodial)", custodial: false, rawCrypto: true, offbank: true },
+  {
+    label: "No one can freeze your funds",
+    custodial: false,
+    rawCrypto: true,
+    offbank: true,
+  },
+  {
+    label: "You hold the keys (self-custodial)",
+    custodial: false,
+    rawCrypto: true,
+    offbank: true,
+  },
   { label: "No chargebacks", custodial: false, rawCrypto: true, offbank: true },
-  { label: "KYB / AML built in", custodial: true, rawCrypto: false, offbank: true },
-  { label: "Compliant USD off-ramp", custodial: true, rawCrypto: false, offbank: true },
-  { label: "Audit trail your bank accepts", custodial: true, rawCrypto: false, offbank: true },
-  { label: "Instant global payouts", custodial: false, rawCrypto: true, offbank: true },
+  {
+    label: "KYB / AML built in",
+    custodial: true,
+    rawCrypto: false,
+    offbank: true,
+  },
+  {
+    label: "Compliant USD off-ramp",
+    custodial: true,
+    rawCrypto: false,
+    offbank: true,
+  },
+  {
+    label: "Audit trail your bank accepts",
+    custodial: true,
+    rawCrypto: false,
+    offbank: true,
+  },
+  {
+    label: "Instant global payouts",
+    custodial: false,
+    rawCrypto: true,
+    offbank: true,
+  },
 ];
 
 function Cell({ on }: { on: boolean }) {
@@ -29,8 +64,8 @@ function Cell({ on }: { on: boolean }) {
       <Check className="h-3.5 w-3.5 text-[#34c759]" strokeWidth={3} />
     </span>
   ) : (
-    <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-[#e74c3c]/12">
-      <X className="h-3.5 w-3.5 text-[#e74c3c]" strokeWidth={3} />
+    <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-black/[0.06]">
+      <X className="h-3.5 w-3.5 text-[#8a8a8a]" strokeWidth={3} />
     </span>
   );
 }
@@ -57,9 +92,9 @@ export function WhyUnfreezable() {
             Everyone makes you choose. We don&apos;t.
           </h2>
           <p className="mt-5 text-[17px] leading-[1.6] text-white/70">
-            Custodial processors keep you compliant — but they hold your money,
+            Custodial processors keep you compliant - but they hold your money,
             so they can freeze you exactly like a bank. Raw crypto can&apos;t be
-            frozen — but leaves you stranded on compliance and cash-out. Offbank
+            frozen - but leaves you stranded on compliance and cash-out. Offbank
             is the only rail that&apos;s both.
           </p>
         </motion.div>
@@ -80,7 +115,9 @@ export function WhyUnfreezable() {
             <div className="px-2 py-4 text-[12px] font-semibold leading-tight text-white/60 sm:text-[13px]">
               Custodial
               <br />
-              <span className="font-normal text-white/35">CoinsPaid&hellip;</span>
+              <span className="font-normal text-white/35">
+                CoinsPaid&hellip;
+              </span>
             </div>
             <div className="px-2 py-4 text-[12px] font-semibold leading-tight text-white/60 sm:text-[13px]">
               Raw crypto
@@ -135,10 +172,10 @@ export function WhyUnfreezable() {
             <strong className="font-semibold text-white">
               A custodial processor structurally can&apos;t promise this.
             </strong>{" "}
-            If someone else holds your money, someone else can freeze it. Offbank
-            never touches your funds — they settle straight to a wallet only you
-            control. That&apos;s a guarantee a bank, Stripe, or CoinsPaid can
-            never make.
+            If someone else holds your money, someone else can freeze it.
+            Offbank never touches your funds - they settle straight to a wallet
+            only you control. That&apos;s a guarantee a bank, Stripe, or
+            CoinsPaid can never make.
           </p>
         </motion.div>
       </div>

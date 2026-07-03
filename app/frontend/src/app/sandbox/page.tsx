@@ -1,9 +1,9 @@
 "use client";
 
 /**
- * /sandbox — interactive checkout playground. Configure an amount + items and
+ * /sandbox - interactive checkout playground. Configure an amount + items and
  * launch the real Offbank widget in SANDBOX mode (it can be completed with a
- * "Simulate payment" button — no wallet or funds needed). Built for demos.
+ * "Simulate payment" button - no wallet or funds needed). Built for demos.
  */
 
 import { useState } from "react";
@@ -37,7 +37,7 @@ export default function SandboxPage() {
     if (!w.OffbankCheckout) return;
     w.OffbankCheckout.open({
       merchant: DEMO_MERCHANT,
-      // Demo EVM receiving address — surfaces the "Pay with Ethereum" option.
+      // Demo EVM receiving address - surfaces the "Pay with Ethereum" option.
       evm: "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045",
       amount: amt,
       name: name || "Demo Store",
@@ -79,7 +79,7 @@ export default function SandboxPage() {
       </h1>
       <p className="mt-3 text-lg text-[#475467]">
         Configure a checkout and launch the real widget. In sandbox mode you
-        complete it with a single &ldquo;Simulate payment&rdquo; click — no
+        complete it with a single &ldquo;Simulate payment&rdquo; click - no
         wallet, no USDC, no setup.
       </p>
 
@@ -140,7 +140,7 @@ export default function SandboxPage() {
 
       {result && (
         <div className="mt-4 rounded-xl border border-[#34c759]/30 bg-[#34c759]/5 px-4 py-3 text-sm text-[#027a48]">
-          ✓ Payment received{result.amount ? ` — $${result.amount.toFixed(2)}` : ""}.
+          ✓ Payment received{result.amount ? ` - $${result.amount.toFixed(2)}` : ""}.
           Your <code>onSuccess</code> fired with signature{" "}
           <span className="font-mono">{result.signature.slice(0, 18)}…</span>
         </div>

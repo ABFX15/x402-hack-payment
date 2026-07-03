@@ -11,24 +11,24 @@ const config: IndustryConfig = {
   eyebrow: "International B2B Wholesale",
   title: "Settle cross-border in seconds. Without SWIFT.",
   subhead:
-    "International B2B wholesale runs on wire, NET-30/60, and FX spreads that quietly bleed 2–4% per transaction. Offbank settles cross-border in USDC at 1% flat, same workflow whether your counterparty is in Houston, Hamburg, or Hanoi.",
+    "International B2B wholesale runs on wire, NET-30/60, and FX spreads that quietly bleed 2-4% per transaction. Offbank settles cross-border in USDC at 1% flat, same workflow whether your counterparty is in Houston, Hamburg, or Hanoi.",
   heroStats: [
-    { value: "1%", label: "Flat fee, vs 2–4% wire + FX stack" },
+    { value: "1%", label: "Flat fee, vs 2-4% wire + FX stack" },
     { value: "<5s", label: "Cross-border finality" },
     { value: "190+", label: "Countries reachable" },
   ],
   problems: [
     {
-      title: "SWIFT wires take 2–5 business days",
+      title: "SWIFT wires take 2-5 business days",
       desc: "Friday wire? See you Wednesday. Weekend? Forget it. Counterparty timezone holiday? Add another day. Cashflow planning becomes guesswork.",
     },
     {
       title: "Correspondent banks skim every hop",
-      desc: "Originating bank → correspondent → intermediary → beneficiary. Each takes a fee. $25–80 in fees per wire, plus FX spread of 1–3%.",
+      desc: "Originating bank → correspondent → intermediary → beneficiary. Each takes a fee. $25-80 in fees per wire, plus FX spread of 1-3%.",
     },
     {
       title: "Letters of credit are slow and expensive",
-      desc: "Bank-issued LCs cost 0.75–2% per quarter, take days to amend, and tie up working capital. Trade finance hasn't materially evolved in 50 years.",
+      desc: "Bank-issued LCs cost 0.75-2% per quarter, take days to amend, and tie up working capital. Trade finance hasn't materially evolved in 50 years.",
     },
     {
       title: "Emerging-market banking is patchy",

@@ -81,7 +81,7 @@ export default function OnboardingPageWrapper() {
 function OnboardingPageInner() {
   const { connected: walletConnected } = useWallet();
   const { setVisible } = useWalletModal();
-  // Unified signer — works for both extension wallets AND Privy email wallets.
+  // Unified signer - works for both extension wallets AND Privy email wallets.
   const {
     publicKey,
     connected,
@@ -93,7 +93,7 @@ function OnboardingPageInner() {
 
   // If the connected wallet is already a registered merchant, send them
   // straight to the dashboard. This makes /onboarding safe to link from
-  // anywhere — re-visitors don't get stuck in a setup wizard.
+  // anywhere - re-visitors don't get stuck in a setup wizard.
   const onboardingStatus = useOnboardingStatus();
   useEffect(() => {
     if (onboardingStatus.status === "onboarded") {
@@ -224,7 +224,7 @@ function OnboardingPageInner() {
         () =>
           reject(
             new Error(
-              "TIMEOUT: Network is slow. The transaction may still confirm — check your wallet history before retrying.",
+              "TIMEOUT: Network is slow. The transaction may still confirm - check your wallet history before retrying.",
             ),
           ),
         VAULT_TIMEOUT_MS,
@@ -268,7 +268,7 @@ function OnboardingPageInner() {
         confirmBlockhash = data.blockhash;
         confirmLastValidBlockHeight = data.lastValidBlockHeight;
       } else if (sponsorRes.status === 503) {
-        // Sponsorship unavailable — self-pay path (wallet must hold SOL).
+        // Sponsorship unavailable - self-pay path (wallet must hold SOL).
         const built = await buildCreateVaultTransaction(
           creatorPubkey,
           connection,
@@ -306,7 +306,7 @@ function OnboardingPageInner() {
           timeoutPromise,
         ]);
       } catch (confirmErr) {
-        // "Block height exceeded" / timeout doesn't always mean failure — the
+        // "Block height exceeded" / timeout doesn't always mean failure - the
         // tx may have landed. Verify the vault account exists before erroring.
         const exists = await connection.getAccountInfo(
           new PublicKey(multisigPda),
@@ -328,7 +328,7 @@ function OnboardingPageInner() {
       const lc = raw.toLowerCase();
       if (lc.startsWith("timeout") || lc.includes("timeout")) {
         friendly =
-          "Network was slow and we lost the transaction. Check your wallet — if the vault was created we'll detect it on retry.";
+          "Network was slow and we lost the transaction. Check your wallet - if the vault was created we'll detect it on retry.";
       } else if (
         lc.includes("user rejected") ||
         lc.includes("user denied") ||
@@ -343,14 +343,14 @@ function OnboardingPageInner() {
         lc.includes("0xfffffffe")
       ) {
         friendly =
-          "Couldn't cover the network fee for your vault. Our fee sponsor may be temporarily unavailable — try again in a moment, or top up this wallet with ~0.05 SOL.";
+          "Couldn't cover the network fee for your vault. Our fee sponsor may be temporarily unavailable - try again in a moment, or top up this wallet with ~0.05 SOL.";
       } else if (
         lc.includes("blockhash") ||
         lc.includes("expired") ||
         lc.includes("not found")
       ) {
         friendly =
-          "Transaction expired before confirmation. Click again — the network is congested.";
+          "Transaction expired before confirmation. Click again - the network is congested.";
       } else if (lc.includes("does not support")) {
         friendly =
           "Your wallet can't sign this transaction. Switch to Phantom, Solflare, or use email sign-in.";
@@ -476,7 +476,7 @@ function OnboardingPageInner() {
             Invite Required
           </h2>
           <p className="mb-6 text-lg" style={{ color: c.slate }}>
-            Offbank is invite-only right now. Click below to start onboarding —
+            Offbank is invite-only right now. Click below to start onboarding -
             if you have an invite code from a partner, paste it on the next
             screen.
           </p>
@@ -486,7 +486,7 @@ function OnboardingPageInner() {
             style={{ background: c.green }}
           >
             <Shield className="w-5 h-5" />
-            Get Started
+            Get started
           </Link>
           <p className="mt-4 text-xs" style={{ color: c.muted }}>
             Already approved? Check your email for the invite link.
@@ -668,7 +668,7 @@ function OnboardingPageInner() {
         </AnimatePresence>
 
         {/* ═══════════════════════════════════════ */}
-        {/*  STEP 1 — Email-first OR connect wallet */}
+        {/*  STEP 1 - Email-first OR connect wallet */}
         {/* ═══════════════════════════════════════ */}
         {state.step === 1 && (
           <div className="space-y-4">
@@ -709,7 +709,7 @@ function OnboardingPageInner() {
                     Connect an existing wallet
                   </h2>
                   <p className="text-sm" style={{ color: c.muted }}>
-                    For Solana power-users — sets up a Squads multisig vault
+                    For Solana power-users - sets up a Squads multisig vault
                   </p>
                 </div>
               </div>
@@ -760,7 +760,7 @@ function OnboardingPageInner() {
                       Why wallet-first?
                     </p>
                     <p className="text-xs leading-relaxed">
-                      Your wallet is your identity on Solana — no email/password
+                      Your wallet is your identity on Solana - no email/password
                       to phish, no database to hack. We&apos;ll create a Squads
                       multisig vault secured by this wallet so no single key can
                       access your funds without authorization.
@@ -803,7 +803,7 @@ function OnboardingPageInner() {
         )}
 
         {/* ═══════════════════════════════════════ */}
-        {/*  STEP 2 — Business Information         */}
+        {/*  STEP 2 - Business Information         */}
         {/* ═══════════════════════════════════════ */}
         {state.step === 2 && (
           <motion.div
@@ -937,7 +937,7 @@ function OnboardingPageInner() {
         )}
 
         {/* ═══════════════════════════════════════ */}
-        {/*  STEP 3 — Create Squads Vault          */}
+        {/*  STEP 3 - Create Squads Vault          */}
         {/* ═══════════════════════════════════════ */}
         {state.step === 3 && (
           <motion.div
@@ -958,7 +958,7 @@ function OnboardingPageInner() {
                   Create Your Vault
                 </h2>
                 <p className="text-sm" style={{ color: c.muted }}>
-                  Squads multisig — institutional treasury security
+                  Squads multisig - institutional treasury security
                 </p>
               </div>
             </div>
@@ -1092,7 +1092,7 @@ function OnboardingPageInner() {
         )}
 
         {/* ═══════════════════════════════════════ */}
-        {/*  STEP 4 — Webhook + Finalize           */}
+        {/*  STEP 4 - Webhook + Finalize           */}
         {/* ═══════════════════════════════════════ */}
         {state.step === 4 && (
           <motion.div
@@ -1213,7 +1213,7 @@ function OnboardingPageInner() {
         )}
 
         {/* ═══════════════════════════════════════ */}
-        {/*  STEP 5 — Success                      */}
+        {/*  STEP 5 - Success                      */}
         {/* ═══════════════════════════════════════ */}
         {state.step === 5 && (
           <motion.div

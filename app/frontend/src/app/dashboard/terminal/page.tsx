@@ -20,7 +20,7 @@ type Status = "idle" | "awaiting" | "paid";
 
 const PRESETS = [25, 50, 100, 250];
 
-// Soft elevation — the single biggest "slick" upgrade over flat 1px borders.
+// Soft elevation - the single biggest "slick" upgrade over flat 1px borders.
 const CARD =
   "rounded-3xl bg-white ring-1 ring-black/[0.04] shadow-[0_1px_2px_rgba(16,24,40,0.04),0_12px_32px_-16px_rgba(16,24,40,0.18)]";
 
@@ -89,7 +89,7 @@ export default function TerminalPage() {
           setStatus("paid");
         }
       } catch {
-        /* transient RPC error — keep polling */
+        /* transient RPC error - keep polling */
       }
     }, 2500);
 

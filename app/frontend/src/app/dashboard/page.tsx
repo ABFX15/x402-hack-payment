@@ -75,7 +75,7 @@ function formatUSD(amount: number): string {
 }
 
 function shortenAddress(addr: string): string {
-  if (!addr || addr.length < 10) return addr || "—";
+  if (!addr || addr.length < 10) return addr || "-";
   return `${addr.slice(0, 4)}...${addr.slice(-4)}`;
 }
 
@@ -94,7 +94,7 @@ const DAY_LABELS = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
 
 export default function DashboardPage() {
   const { setVisible: openWalletModal } = useWalletModal();
-  // Unified connection — true for both extension wallets AND Privy email logins.
+  // Unified connection - true for both extension wallets AND Privy email logins.
   const { publicKey, connected } = useActiveWallet();
   const onboarding = useOnboardingStatus();
   const { status: sessionStatus } = useWalletSession();
@@ -127,7 +127,7 @@ export default function DashboardPage() {
         fetch(`/api/payments?wallet=${publicKey}`),
       ]);
 
-      // Detect session expiry on any 401 — surfaces silent auth drops.
+      // Detect session expiry on any 401 - surfaces silent auth drops.
       if (
         treasuryRes.status === 401 ||
         statsRes.status === 401 ||
@@ -154,14 +154,14 @@ export default function DashboardPage() {
 
       if (failures.length > 0) {
         setFetchError(
-          `Couldn’t refresh ${failures.join(", ")} — retrying in 30s.`,
+          `Couldn’t refresh ${failures.join(", ")} - retrying in 30s.`,
         );
       } else {
         setFetchError(null);
       }
     } catch (err) {
       console.error("Failed to fetch dashboard data:", err);
-      setFetchError("Couldn’t reach Offbank — retrying in 30s.");
+      setFetchError("Couldn’t reach Offbank - retrying in 30s.");
     } finally {
       setLoading(false);
     }
@@ -252,7 +252,7 @@ export default function DashboardPage() {
     );
   }
 
-  // Wallet connected but not yet onboarded — don't show empty dashboard,
+  // Wallet connected but not yet onboarded - don't show empty dashboard,
   // route them to finish setup. This is the "easier route for clients":
   // a wallet that hits /dashboard without an account gets a clear CTA
   // instead of an unexplained empty state.
@@ -280,7 +280,7 @@ export default function DashboardPage() {
           </h2>
           <p className="text-[#8a8a8a] mb-6 text-sm">
             Your wallet is connected, but you haven't completed onboarding yet.
-            It takes about 60 seconds — KYB only happens at first settlement.
+            It takes about 60 seconds - KYB only happens at first settlement.
           </p>
           <div className="flex gap-2 justify-center">
             <Link
@@ -305,7 +305,7 @@ export default function DashboardPage() {
             >
               Try the 60-second demo
             </Link>{" "}
-            — no signup, no wallet required.
+            - no signup, no wallet required.
           </p>
         </motion.div>
       </div>
@@ -427,7 +427,7 @@ export default function DashboardPage() {
                   You’re set up. Send your first invoice.
                 </h2>
                 <p className="mt-1 text-sm text-[#5c5c5c]">
-                  Paste a buyer’s email and an amount — we’ll send a payment
+                  Paste a buyer’s email and an amount - we’ll send a payment
                   link, settle USDC to your vault, and let you cash out to USD
                   when you’re ready.
                 </p>

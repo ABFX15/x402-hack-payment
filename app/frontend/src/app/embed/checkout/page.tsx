@@ -1,19 +1,19 @@
 "use client";
 
 /**
- * Embeddable store checkout — rendered inside an iframe on a merchant's online
+ * Embeddable store checkout - rendered inside an iframe on a merchant's online
  * store (via /embed.js), driven by the live cart total at checkout time.
  *
  * Two config modes:
- *   • Param mode  — store passes merchant + amount (+ items, order) in the URL.
+ *   • Param mode  - store passes merchant + amount (+ items, order) in the URL.
  *                   Amount integrity is enforced by the store verifying the
  *                   webhook server-side before fulfilling.
- *   • Session mode — store creates a checkout session server-side (amount fixed
+ *   • Session mode - store creates a checkout session server-side (amount fixed
  *                   on the server, untamperable) and passes ?session=ID.
  *
  * Two ways to pay USDC straight to the merchant's wallet:
- *   1. Pay with wallet — connect an injected wallet (Phantom/Solflare) in-page.
- *   2. Scan the Solana Pay QR — pay from any wallet on another device.
+ *   1. Pay with wallet - connect an injected wallet (Phantom/Solflare) in-page.
+ *   2. Scan the Solana Pay QR - pay from any wallet on another device.
  *
  * Either way we confirm on-chain, close out the session (fires the merchant
  * webhook → store marks the order paid), and postMessage the result to the
@@ -65,7 +65,7 @@ interface Config {
   items: LineItem[];
   sessionId: string | null;
   sandbox: boolean;
-  /** Optional EVM (Ethereum/Base) receiving address — enables paying from an
+  /** Optional EVM (Ethereum/Base) receiving address - enables paying from an
    * Ethereum wallet (MetaMask etc.). */
   evm: string;
 }
@@ -77,7 +77,7 @@ function postToParent(msg: Record<string, unknown>) {
   try {
     window.parent?.postMessage(msg, "*");
   } catch {
-    /* not framed — ignore */
+    /* not framed - ignore */
   }
 }
 
@@ -119,12 +119,12 @@ function getSolanaWallets(): SolWallet[] {
 
   // Phantom exposes itself at window.phantom.solana (and window.solana.isPhantom).
   push("Phantom", w.phantom?.solana || (w.solana?.isPhantom ? w.solana : null));
-  // Solflare — window.solflare (and sometimes window.solana.isSolflare).
+  // Solflare - window.solflare (and sometimes window.solana.isSolflare).
   push(
     "Solflare",
     w.solflare || (w.solana?.isSolflare ? w.solana : null),
   );
-  // Backpack — window.backpack (xNFT provider) or window.solana.isBackpack.
+  // Backpack - window.backpack (xNFT provider) or window.solana.isBackpack.
   push(
     "Backpack",
     w.backpack?.solana || w.backpack || (w.solana?.isBackpack ? w.solana : null),
@@ -161,7 +161,7 @@ function EmbedCheckout() {
       let resolved: Config | null = null;
 
       if (sessionParam) {
-        // Session mode — fetch the server-fixed amount/merchant.
+        // Session mode - fetch the server-fixed amount/merchant.
         try {
           const res = await fetch(
             `/api/checkout/sessions?id=${encodeURIComponent(sessionParam)}`,
@@ -222,7 +222,7 @@ function EmbedCheckout() {
       setCfg(resolved);
       setHasWallet(!!getSolanaProvider());
       setSolWallets(getSolanaWallets());
-      // Some wallet extensions inject a tick after load — re-scan shortly.
+      // Some wallet extensions inject a tick after load - re-scan shortly.
       setTimeout(() => {
         if (!cancelled) setSolWallets(getSolanaWallets());
       }, 300);
@@ -279,7 +279,7 @@ function EmbedCheckout() {
           });
           if (res.ok && !cancelled) sessionIdRef.current = (await res.json()).id;
         } catch {
-          /* session is optional — confirmation still works */
+          /* session is optional - confirmation still works */
         }
       }
     })();
@@ -334,7 +334,7 @@ function EmbedCheckout() {
     setError(null);
     provider = provider || getSolanaProvider();
     if (!provider) {
-      setError("No browser wallet found — scan the QR with your phone instead.");
+      setError("No browser wallet found - scan the QR with your phone instead.");
       return;
     }
     setStatus("paying");
@@ -385,7 +385,7 @@ function EmbedCheckout() {
         "confirmed",
       );
       if (conf.value.err) {
-        throw new Error("Payment didn't settle — check your USDC balance.");
+        throw new Error("Payment didn't settle - check your USDC balance.");
       }
       closeOut(signature, buyer.toBase58());
     } catch (e) {
@@ -412,7 +412,7 @@ function EmbedCheckout() {
       const ok = await waitForEvmReceipt(txHash, provider);
       if (!ok) {
         throw new Error(
-          "Payment didn't confirm — check your USDC balance on " +
+          "Payment didn't confirm - check your USDC balance on " +
             EVM_CHAINS[evmChain].name +
             ".",
         );
@@ -485,7 +485,7 @@ function EmbedCheckout() {
         }
         closeOut(signature, customerWallet);
       } catch {
-        /* transient RPC error — keep polling */
+        /* transient RPC error - keep polling */
       }
     }, 2500);
 
@@ -594,7 +594,7 @@ function EmbedCheckout() {
               </div>
             )}
 
-            {/* Solana wallets — one button each, so the buyer picks the wallet
+            {/* Solana wallets - one button each, so the buyer picks the wallet
                 they actually use (Phantom / Solflare / Backpack). */}
             {solWallets.length > 0 ? (
               <div className="flex w-full max-w-[18rem] flex-col gap-1.5">
@@ -646,7 +646,7 @@ function EmbedCheckout() {
             )}
             {!hasWallet && status === "awaiting" && (
               <p className="mt-2 max-w-[16rem] text-[12px] text-[#98a2b3]">
-                No browser wallet detected — scan below with your phone.
+                No browser wallet detected - scan below with your phone.
               </p>
             )}
             {error && status === "awaiting" && (
@@ -655,7 +655,7 @@ function EmbedCheckout() {
               </p>
             )}
 
-            {/* EVM path — pay USDC from an Ethereum / Base wallet */}
+            {/* EVM path - pay USDC from an Ethereum / Base wallet */}
             {cfg && isEvmAddress(cfg.evm) && (
               <div className="mt-4 w-full max-w-[18rem]">
                 <div className="mb-2 flex items-center gap-3 text-[12px] text-[#98a2b3]">

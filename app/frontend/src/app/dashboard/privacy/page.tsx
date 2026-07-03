@@ -123,7 +123,7 @@ export default function PrivacyDashboardPage() {
       setError(
         err instanceof Error
           ? err.message
-          : "Failed to derive key — wallet rejected the signature",
+          : "Failed to derive key - wallet rejected the signature",
       );
     } finally {
       setDeriving(false);
@@ -404,7 +404,7 @@ function StatusBadge({
     key_published_no_unlock: {
       bg: "#eff6ff",
       text: "#1e40af",
-      label: "Locked — sign to unlock",
+      label: "Locked - sign to unlock",
     },
     unlocked: { bg: "#ecfdf5", text: "#065f46", label: "Unlocked" },
     key_mismatch: { bg: "#fef2f2", text: "#991b1b", label: "Key mismatch" },
@@ -425,7 +425,7 @@ function KeyRow({ label, value }: { label: string; value: string | null }) {
     <div className="flex items-center justify-between gap-3 text-xs">
       <span className="text-[#8a8a8a] uppercase tracking-wide">{label}</span>
       <code className="font-mono text-[#212121] truncate max-w-[60%]">
-        {value || "—"}
+        {value || "-"}
       </code>
     </div>
   );

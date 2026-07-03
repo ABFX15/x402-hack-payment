@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * Payment Links — the no-code front end for the checkout widget. A merchant
+ * Payment Links - the no-code front end for the checkout widget. A merchant
  * sets an amount, gets a shareable hosted checkout link + a copy-paste embed
  * snippet, and a QR. Links are stateless (encoded in the URL) so they never
  * expire; recent ones are remembered locally for convenience.
@@ -181,7 +181,7 @@ export default function PaymentLinksPage() {
           Payment Links
         </h1>
         <p className="mt-1 text-[15px] text-[#667085]">
-          Create a checkout link or embed snippet — get paid in USDC anywhere.
+          Create a checkout link or embed snippet - get paid in USDC anywhere.
         </p>
       </div>
 
@@ -303,7 +303,7 @@ export default function PaymentLinksPage() {
                 </a>
               </div>
               <p className="mt-2 text-[13px] text-[#667085]">
-                Share this link by email, text, or QR — the buyer pays with their
+                Share this link by email, text, or QR - the buyer pays with their
                 wallet or by scanning.
               </p>
             </div>
@@ -326,7 +326,7 @@ export default function PaymentLinksPage() {
                 <QRCodeSVG value={generated.url} size={180} level="M" />
               </div>
               <p className="mt-3 text-[13px] text-[#667085]">
-                Print it or show it on screen — scanning opens the checkout.
+                Print it or show it on screen - scanning opens the checkout.
               </p>
             </div>
           )}

@@ -599,7 +599,7 @@ export default function CollectionsPage() {
                           className="px-4 py-12 text-center text-[#8a8a8a]"
                         >
                           <CheckCircle2 className="h-8 w-8 mx-auto text-[#34c759] mb-2" />
-                          No overdue invoices — all caught up!
+                          No overdue invoices - all caught up!
                         </td>
                       </tr>
                     ) : (

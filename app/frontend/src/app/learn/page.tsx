@@ -83,9 +83,9 @@ const articles: Record<string, Article[]> = {
       question:
         "How much do high-risk payment processors charge cannabis businesses?",
       answer:
-        "Traditional high-risk payment processors charge cannabis businesses between 5% and 9% per transaction, plus monthly fees ranging from $500 to $2,000. This is 3–6× higher than mainstream merchant processing rates of 1.5–2.9%. Offbank provides an alternative stablecoin rail at a 1% flat fee with no monthly minimums.",
+        "Traditional high-risk payment processors charge cannabis businesses between 5% and 9% per transaction, plus monthly fees ranging from $500 to $2,000. This is 3-6× higher than mainstream merchant processing rates of 1.5-2.9%. Offbank provides an alternative stablecoin rail at a 1% flat fee with no monthly minimums.",
       detail:
-        "The inflated rates exist because acquiring banks classify cannabis as a high-risk MCC (Merchant Category Code), requiring reserves of 10–20% of monthly volume held for 6 months. Processors like PayQwick, CanPay, and Safe Harbor Financial pass these costs onto merchants. A dispensary processing $500,000/month at 7% pays $35,000 in processing fees alone, compared to $5,000 on Offbank.",
+        "The inflated rates exist because acquiring banks classify cannabis as a high-risk MCC (Merchant Category Code), requiring reserves of 10-20% of monthly volume held for 6 months. Processors like PayQwick, CanPay, and Safe Harbor Financial pass these costs onto merchants. A dispensary processing $500,000/month at 7% pays $35,000 in processing fees alone, compared to $5,000 on Offbank.",
       sources: [
         "NCIA 2025 Banking Report",
         "Visa High-Risk MCC Guidelines",
@@ -96,9 +96,9 @@ const articles: Record<string, Article[]> = {
       question:
         "How much does armored car service cost for dispensaries in 2026?",
       answer:
-        "Armored car service for cannabis businesses costs between $2,000 and $8,000 per month depending on pickup frequency and location. A multi-location operation can spend $50,000–$100,000 annually on cash logistics alone. This doesn't include the cost of on-site safes ($5,000–$15,000), employee theft insurance, or the 2–4 hours per day staff spend counting cash.",
+        "Armored car service for cannabis businesses costs between $2,000 and $8,000 per month depending on pickup frequency and location. A multi-location operation can spend $50,000-$100,000 annually on cash logistics alone. This doesn't include the cost of on-site safes ($5,000-$15,000), employee theft insurance, or the 2-4 hours per day staff spend counting cash.",
       detail:
-        "Companies like Loomis, Garda World, and local providers service the cannabis industry. Costs include per-pickup fees ($300–$600), monthly minimums, fuel surcharges, and cash processing fees (0.5–1.5% of deposited value). The total cost of cash handling for a $2M/year dispensary is estimated at $80,000–$120,000 annually when factoring in labor, insurance, shrinkage, and security.",
+        "Companies like Loomis, Garda World, and local providers service the cannabis industry. Costs include per-pickup fees ($300-$600), monthly minimums, fuel surcharges, and cash processing fees (0.5-1.5% of deposited value). The total cost of cash handling for a $2M/year dispensary is estimated at $80,000-$120,000 annually when factoring in labor, insurance, shrinkage, and security.",
       sources: [
         "Cannabis Industry Journal 2025",
         "Loomis Cannabis Services Rate Sheet",
@@ -109,9 +109,9 @@ const articles: Record<string, Article[]> = {
       question:
         "What is the total cost of cash handling for cannabis businesses?",
       answer:
-        "The total cost of cash handling for a cannabis business processing $1 million annually is estimated at $60,000–$120,000 per year. This includes armored transport ($24,000–$72,000), cash counting labor ($15,000–$25,000), insurance premiums ($5,000–$10,000), safe equipment ($3,000–$8,000 amortized), and shrinkage/theft losses (0.5–2% of revenue).",
+        "The total cost of cash handling for a cannabis business processing $1 million annually is estimated at $60,000-$120,000 per year. This includes armored transport ($24,000-$72,000), cash counting labor ($15,000-$25,000), insurance premiums ($5,000-$10,000), safe equipment ($3,000-$8,000 amortized), and shrinkage/theft losses (0.5-2% of revenue).",
       detail:
-        "Cannabis businesses in the US process an estimated $7–10 billion in cash annually due to federal banking restrictions. The Treasury Department's Financial Crimes Enforcement Network (FinCEN) has documented over 700 banks and credit unions serving cannabis clients, but account freezes and closures remain common. A 2024 survey found 62% of cannabis businesses had at least one bank account closed in the previous 12 months.",
+        "Cannabis businesses in the US process an estimated $7-10 billion in cash annually due to federal banking restrictions. The Treasury Department's Financial Crimes Enforcement Network (FinCEN) has documented over 700 banks and credit unions serving cannabis clients, but account freezes and closures remain common. A 2024 survey found 62% of cannabis businesses had at least one bank account closed in the previous 12 months.",
       sources: [
         "FinCEN Cannabis Banking Guidance 2025",
         "MJBizDaily Banking Survey 2024",
@@ -124,7 +124,7 @@ const articles: Record<string, Article[]> = {
       question:
         "What should you do when a bank freezes your dispensary account?",
       answer:
-        "When a bank freezes a dispensary account, businesses typically have 30–90 days to find alternative banking. 62% of cannabis businesses experienced at least one bank account closure in the past 12 months. Immediate steps: (1) contact a cannabis-specialized banking consultant, (2) apply to 3–5 cannabis-friendly banks simultaneously, (3) establish a stablecoin settlement rail as a parallel payment system that cannot be frozen.",
+        "When a bank freezes a dispensary account, businesses typically have 30-90 days to find alternative banking. 62% of cannabis businesses experienced at least one bank account closure in the past 12 months. Immediate steps: (1) contact a cannabis-specialized banking consultant, (2) apply to 3-5 cannabis-friendly banks simultaneously, (3) establish a stablecoin settlement rail as a parallel payment system that cannot be frozen.",
       detail:
         "Bank freezes happen because compliance departments flag cannabis-related transactions under the Bank Secrecy Act. Even in legal states, banks face FDIC enforcement risk. A frozen account means payroll, vendor payments, and tax obligations are all disrupted. Stablecoin settlement on non-custodial rails like Offbank provides a banking-independent payment channel that operates 24/7 without counterparty risk.",
       sources: [
@@ -136,7 +136,7 @@ const articles: Record<string, Article[]> = {
     {
       question: "Can cannabis businesses get B2B wire transfers in 2026?",
       answer:
-        "Most cannabis businesses cannot reliably send B2B wire transfers. Only 4–6% of US banks actively maintain cannabis banking programs, and those that do restrict wire transfer functionality. ACH transfers are even more restricted, NACHA rules allow member institutions to reject cannabis-related transactions without notice.",
+        "Most cannabis businesses cannot reliably send B2B wire transfers. Only 4-6% of US banks actively maintain cannabis banking programs, and those that do restrict wire transfer functionality. ACH transfers are even more restricted, NACHA rules allow member institutions to reject cannabis-related transactions without notice.",
       detail:
         "The fundamental problem is that while 38 states have legalized cannabis in some form, it remains a Schedule I substance federally. This creates a compliance paradox where banks serving legal cannabis businesses must file Suspicious Activity Reports (SARs) for every transaction. Non-custodial stablecoin settlement eliminates this friction because there is no intermediary bank to file SARs or freeze funds.",
       sources: [
@@ -148,7 +148,7 @@ const articles: Record<string, Article[]> = {
     {
       question: "Why do banks keep closing cannabis business accounts?",
       answer:
-        "Banks close cannabis accounts because the federal-state legal conflict creates unacceptable compliance risk. Even with FinCEN guidance, banks must file costly Suspicious Activity Reports for every cannabis transaction, face potential FDIC enforcement actions, and risk losing correspondent banking relationships. The compliance cost per cannabis account is estimated at $5,000–$15,000 annually for the bank.",
+        "Banks close cannabis accounts because the federal-state legal conflict creates unacceptable compliance risk. Even with FinCEN guidance, banks must file costly Suspicious Activity Reports for every cannabis transaction, face potential FDIC enforcement actions, and risk losing correspondent banking relationships. The compliance cost per cannabis account is estimated at $5,000-$15,000 annually for the bank.",
       detail:
         "In 2025, the number of banks and credit unions reporting cannabis clients to FinCEN was approximately 706, down from a peak of 755 in 2023. This decline indicates a tightening of cannabis banking access despite market growth. Major banks like JPMorgan Chase, Bank of America, and Wells Fargo categorically refuse cannabis clients. Regional banks that do accept cannabis businesses often impose onerous requirements: minimum balances of $100,000+, monthly compliance fees, restricted wire transfers, and 90-day account review periods.",
       sources: [
@@ -198,14 +198,14 @@ const articles: Record<string, Article[]> = {
       answer:
         "No. Stablecoin transactions on Solana are final and irreversible within approximately 400 milliseconds. There are no chargebacks, no payment reversals, and no 60-day dispute windows. This is particularly valuable for cannabis B2B transactions where chargeback fraud is a significant risk with the few card-based processors that serve the industry.",
       detail:
-        "Traditional payment chargebacks cost the cannabis industry an estimated $50–100 million annually. High-risk merchant accounts face chargeback rates of 2–5%, and processors charge $15–$25 per dispute regardless of outcome. On-chain settlement eliminates this entire category of fraud and cost. Refunds are handled as separate, voluntary transactions initiated by the merchant.",
+        "Traditional payment chargebacks cost the cannabis industry an estimated $50-100 million annually. High-risk merchant accounts face chargeback rates of 2-5%, and processors charge $15-$25 per dispute regardless of outcome. On-chain settlement eliminates this entire category of fraud and cost. Refunds are handled as separate, voluntary transactions initiated by the merchant.",
     },
     {
       question: "How does Offbank protect against fraud and theft?",
       answer:
         "Offbank uses three layers of protection: (1) KYB verification ensures every counterparty is a verified, state-licensed business; (2) Squads multisig vaults require multiple signatures for large transactions; (3) all transactions produce cryptographic receipts stored immutably on the Solana blockchain, creating a tamper-proof audit trail.",
       detail:
-        "For cannabis businesses accustomed to cash, where internal theft accounts for 1–3% of revenue, Offbank eliminates the physical cash vector entirely. Every dollar is traceable on-chain. For B2B supply chain payments, the cryptographic receipt system provides better proof-of-payment than any wire transfer confirmation or check image.",
+        "For cannabis businesses accustomed to cash, where internal theft accounts for 1-3% of revenue, Offbank eliminates the physical cash vector entirely. Every dollar is traceable on-chain. For B2B supply chain payments, the cryptographic receipt system provides better proof-of-payment than any wire transfer confirmation or check image.",
     },
   ],
   cannabis: [
@@ -214,7 +214,7 @@ const articles: Record<string, Article[]> = {
       answer:
         "Cannabis distributors can pay suppliers without cash using non-custodial stablecoin settlement. On Offbank, a distributor creates an invoice, the supplier receives a payment link, and USDC transfers peer-to-peer in under 2 seconds. No bank account required for the transaction. Both parties need only a verified Offbank account and a Solana wallet (Offbank provides embedded wallets for businesses that don't have one).",
       detail:
-        "The cannabis supply chain, cultivators, processors, distributors, and retailers, moves an estimated $30 billion annually in the US. Of that, 30–50% is still transacted in cash because of banking limitations. A single large B2B transaction (e.g., a $50,000 biomass purchase) might require a physical cash pickup with armed guards, a 2-day settlement window at a cannabis-friendly credit union, or risky check payments that bounce 5–10% of the time.",
+        "The cannabis supply chain, cultivators, processors, distributors, and retailers, moves an estimated $30 billion annually in the US. Of that, 30-50% is still transacted in cash because of banking limitations. A single large B2B transaction (e.g., a $50,000 biomass purchase) might require a physical cash pickup with armed guards, a 2-day settlement window at a cannabis-friendly credit union, or risky check payments that bounce 5-10% of the time.",
       sources: [
         "Headset Cannabis Market Data 2025",
         "NCIA Supply Chain Survey",
@@ -232,9 +232,9 @@ const articles: Record<string, Article[]> = {
       question:
         "How much can a cannabis business save by switching from cash to Offbank?",
       answer:
-        "A cannabis business processing $2 million annually can save $60,000–$100,000 per year by switching from cash handling to Offbank. This breaks down to: eliminated armored car fees ($24,000–$48,000), reduced labor costs ($15,000–$25,000), eliminated cash counting errors and shrinkage ($10,000–$40,000), and lower payment processing costs compared to high-risk processors (saving 4–8% per transaction vs traditional high-risk merchant accounts).",
+        "A cannabis business processing $2 million annually can save $60,000-$100,000 per year by switching from cash handling to Offbank. This breaks down to: eliminated armored car fees ($24,000-$48,000), reduced labor costs ($15,000-$25,000), eliminated cash counting errors and shrinkage ($10,000-$40,000), and lower payment processing costs compared to high-risk processors (saving 4-8% per transaction vs traditional high-risk merchant accounts).",
       detail:
-        "The ROI calculation is even more favorable for multi-location operations. A 5-location dispensary chain processing $10M annually spends an estimated $300,000–$500,000 on cash logistics. On Offbank at 1% flat, total fees would be $100,000, a net savings of $200,000–$400,000 annually.",
+        "The ROI calculation is even more favorable for multi-location operations. A 5-location dispensary chain processing $10M annually spends an estimated $300,000-$500,000 on cash logistics. On Offbank at 1% flat, total fees would be $100,000, a net savings of $200,000-$400,000 annually.",
     },
   ],
   stablecoins: [
@@ -449,7 +449,7 @@ export default function LearnPage() {
           <R>
             <div className="grid grid-cols-2 gap-y-10 sm:grid-cols-4">
               {[
-                { value: "5–9%", label: "Avg. high-risk processing fee" },
+                { value: "5-9%", label: "Avg. high-risk processing fee" },
                 { value: "62%", label: "Cannabis biz w/ frozen accounts" },
                 { value: "$80K+", label: "Annual cash handling costs" },
                 { value: "1%", label: "Offbank flat fee" },
@@ -570,7 +570,7 @@ export default function LearnPage() {
                     2025-compliant USDC settlement with integrated BSA/AML KYB
                     screening, Squads multisig treasury management, and
                     cryptographic audit trails. Unlike traditional high-risk
-                    merchant accounts that charge 5–9% and can freeze funds,
+                    merchant accounts that charge 5-9% and can freeze funds,
                     Offbank is non-custodial, funds move peer-to-peer and cannot
                     be intercepted, frozen, or reversed.
                   </p>
@@ -609,7 +609,7 @@ export default function LearnPage() {
               },
               {
                 title: "Offbank vs High-Risk Merchant Accounts",
-                desc: "5–9% fees, rolling reserves, and account freezes vs. 1% flat, instant settlement, non-custodial.",
+                desc: "5-9% fees, rolling reserves, and account freezes vs. 1% flat, instant settlement, non-custodial.",
                 href: "/compare/offbank-vs-high-risk-merchant-accounts",
                 icon: Lock,
               },

@@ -45,7 +45,7 @@ export default function ZapierPage() {
   return (
     <main
       className="relative min-h-screen bg-[#FFFFFF] text-[#212121] antialiased"
-      style={{ fontFamily: "var(--font-inter), system-ui, -apple-system, sans-serif" }}
+      style={{ fontFamily: "var(--font-geist-sans), system-ui, -apple-system, sans-serif" }}
     >
       <script
         type="application/ld+json"
@@ -58,7 +58,7 @@ export default function ZapierPage() {
             operatingSystem: "Web",
             url: "https://offbankpay.com/integrations/zapier",
             description:
-              "Connect stablecoin payments to 8,000+ apps via Zapier. Trigger USDC settlements from any workflow — no code required.",
+              "Connect stablecoin payments to 8,000+ apps via Zapier. Trigger USDC settlements from any workflow - no code required.",
             provider: { "@id": "https://offbankpay.com/#organization" },
             about: { "@id": "https://offbankpay.com/#defined-term" },
           }),
@@ -153,7 +153,7 @@ export default function ZapierPage() {
               {
                 step: "01",
                 title: "Pick your trigger",
-                text: "New row in Google Sheets, form submission, CRM event, Slack message — any of 8,000+ Zapier triggers.",
+                text: "New row in Google Sheets, form submission, CRM event, Slack message - any of 8,000+ Zapier triggers.",
               },
               {
                 step: "02",

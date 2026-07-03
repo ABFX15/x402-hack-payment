@@ -49,7 +49,7 @@ export default function BlogPage() {
     <main
       className="relative min-h-screen bg-[#FFFFFF] text-[#212121] antialiased"
       style={{
-        fontFamily: "var(--font-inter), system-ui, -apple-system, sans-serif",
+        fontFamily: "var(--font-geist-sans), system-ui, -apple-system, sans-serif",
       }}
     >
       <Navbar />

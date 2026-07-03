@@ -15,17 +15,17 @@ import { Footer } from "@/components/ui/Footer";
 export const metadata: Metadata = {
   title: "Industries | Offbank",
   description:
-    "USDC payments for businesses banks won't serve — high-risk e-commerce, iGaming, CBD, hemp, firearms, cross-border wholesale, and cannabis. Checkout, payouts, and invoicing. 1% flat. Non-custodial.",
+    "USDC payments for businesses banks won't serve - high-risk e-commerce, iGaming, CBD, hemp, firearms, cross-border wholesale, and cannabis. Checkout, payouts, and invoicing. 1% flat. Non-custodial.",
   alternates: { canonical: "/industries" },
 };
 
-// The two verticals we lead with — checkout-native and fastest to live.
+// The two verticals we lead with - checkout-native and fastest to live.
 const primaryIndustries = [
   {
     href: "/industries/high-risk-ecommerce",
     icon: ShoppingBag,
     title: "High-Risk E-Commerce",
-    desc: "A drop-in USDC checkout for online stores payment processors drop — vape hardware, smoke-shop, kratom, nutra, adult and 2A gear. Sell retail with the checkout, bill wholesale buyers with B2B invoicing. No chargebacks, global by default.",
+    desc: "A drop-in USDC checkout for online stores payment processors drop - vape hardware, smoke-shop, kratom, nutra, adult and 2A gear. Sell retail with the checkout, bill wholesale buyers with B2B invoicing. No chargebacks, global by default.",
     points: ["Drop-in checkout widget", "B2B invoicing for wholesale", "No chargebacks"],
   },
   {
@@ -87,13 +87,13 @@ export default function IndustriesHubPage() {
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-[18px] leading-[1.6] text-white/75">
             We focus on two: online stores payment processors drop, and iGaming.
-            1% flat USDC settlement, non-custodial, with USD off-ramp — checkout,
+            1% flat USDC settlement, non-custodial, with USD off-ramp - checkout,
             invoicing, and instant payouts in one rail.
           </p>
         </div>
       </section>
 
-      {/* Two primary verticals — the focus */}
+      {/* Two primary verticals - the focus */}
       <section className="bg-white py-20">
         <div className="mx-auto max-w-[1100px] px-6">
           <div className="grid gap-6 md:grid-cols-2">
@@ -130,7 +130,7 @@ export default function IndustriesHubPage() {
         </div>
       </section>
 
-      {/* Secondary — the wider restricted-commerce market we also serve */}
+      {/* Secondary - the wider restricted-commerce market we also serve */}
       <section className="bg-white pb-20">
         <div className="mx-auto max-w-[1100px] px-6">
           <p className="mb-6 text-sm font-semibold uppercase tracking-wider text-[#98a2b3]">

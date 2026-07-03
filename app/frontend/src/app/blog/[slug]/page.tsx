@@ -76,7 +76,7 @@ export default function BlogPostPage() {
     <main
       className="relative min-h-screen bg-[#FFFFFF] text-[#212121] antialiased"
       style={{
-        fontFamily: "var(--font-inter), system-ui, -apple-system, sans-serif",
+        fontFamily: "var(--font-geist-sans), system-ui, -apple-system, sans-serif",
       }}
     >
       {/* JSON-LD for blog post */}
@@ -104,7 +104,7 @@ export default function BlogPostPage() {
         }}
       />
 
-      {/* FAQ schema for AEO — only if post has FAQs */}
+      {/* FAQ schema for AEO - only if post has FAQs */}
       {post.faqs && post.faqs.length > 0 && (
         <script
           type="application/ld+json"
@@ -196,7 +196,7 @@ export default function BlogPostPage() {
             />
           </Reveal>
 
-          {/* FAQ section — visible for AEO + user trust */}
+          {/* FAQ section - visible for AEO + user trust */}
           {post.faqs && post.faqs.length > 0 && (
             <Reveal delay={0.3}>
               <div className="mt-14">

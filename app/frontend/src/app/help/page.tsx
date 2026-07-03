@@ -76,7 +76,7 @@ const faqs: Record<string, { q: string; a: string }[]> = {
   "getting-started": [
     {
       q: "How do I get started with Offbank?",
-      a: "Sign up, complete KYB verification, and you're settling USDC the same day. Buyers pay by email — we provision a managed wallet on their behalf, settle to your Squads vault, and you cash out to USD when you're ready.",
+      a: "Sign up, complete KYB verification, and you're settling USDC the same day. Buyers pay by email - we provision a managed wallet on their behalf, settle to your Squads vault, and you cash out to USD when you're ready.",
     },
     {
       q: "Do I need any crypto knowledge?",
@@ -118,7 +118,7 @@ const faqs: Record<string, { q: string; a: string }[]> = {
   refunds: [
     {
       q: "How do refunds work?",
-      a: "Refunds are initiated through the dashboard or API. USDC is returned to the buyer's original payment method — their managed Offbank wallet or the wallet they connected.",
+      a: "Refunds are initiated through the dashboard or API. USDC is returned to the buyer's original payment method - their managed Offbank wallet or the wallet they connected.",
     },
     {
       q: "How long do refunds take?",

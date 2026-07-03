@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * EmailFirstSignup — top-of-onboarding card. Privy email/google login →
+ * EmailFirstSignup - top-of-onboarding card. Privy email/google login →
  * embedded Solana wallet → /api/auth/privy/verify (sets offbank_session)
  * → /api/merchants/register → /dashboard.
  *
@@ -71,7 +71,7 @@ function EmailFirstSignupInner({ defaultBusinessName, onError }: Props) {
     const fallback = solanaWallets[0];
     const wallet = (embedded ?? fallback)?.address;
     if (!wallet) {
-      failed("Wallet still being provisioned — try again in a few seconds");
+      failed("Wallet still being provisioned - try again in a few seconds");
       return;
     }
 
@@ -170,7 +170,7 @@ function EmailFirstSignupInner({ defaultBusinessName, onError }: Props) {
           <p className="text-sm text-[#8a8a8a]">
             {authenticated
               ? `Signed in as ${identity}.`
-              : "Recommended — no wallet required. Takes 30 seconds."}
+              : "Recommended - no wallet required. Takes 30 seconds."}
           </p>
         </div>
         {!authenticated && (

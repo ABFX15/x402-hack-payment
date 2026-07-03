@@ -349,7 +349,7 @@ export default function SettingsPage() {
                 Cash Out (Off-Ramp)
               </h2>
               <p className="text-xs text-[#8a8a8a]">
-                Convert USDC to USD via Sphere — ACH, Wire, or SEPA
+                Convert USDC to USD via Sphere - ACH, Wire, or SEPA
               </p>
             </div>
           </div>
@@ -366,7 +366,7 @@ export default function SettingsPage() {
             <p className="text-xs text-[#8a8a8a] mb-3">
               Sphere is a licensed money transmitter that converts your USDC to
               fiat in your bank account. We pre-fill your wallet address and
-              amount — you complete the cash-out on Sphere&apos;s platform.
+              amount - you complete the cash-out on Sphere&apos;s platform.
             </p>
             <a
               href={`/offramp${wallet ? `?wallet=${wallet}` : ""}`}
@@ -382,7 +382,7 @@ export default function SettingsPage() {
                 Auto cash-out after each settlement
               </p>
               <p className="text-xs text-[#8a8a8a]">
-                Beta — converts above your minimum threshold automatically
+                Beta - converts above your minimum threshold automatically
               </p>
             </div>
             <button
@@ -539,7 +539,7 @@ export default function SettingsPage() {
                 </label>
                 <div className="flex items-center gap-2">
                   <code className="flex-1 truncate rounded-lg border border-[#d3d3d3] bg-white px-3 py-2 text-xs font-mono text-[#5c5c5c]">
-                    {webhookUrl || "—"}
+                    {webhookUrl || "-"}
                   </code>
                   <button
                     onClick={copyWebhook}
@@ -695,7 +695,7 @@ export default function SettingsPage() {
             </h2>
             <p className="text-sm text-[#8a8a8a]">
               Add an EVM address to let buyers pay USDC from an Ethereum wallet
-              (MetaMask etc.) on Base, Ethereum, Polygon, Arbitrum, or Optimism —
+              (MetaMask etc.) on Base, Ethereum, Polygon, Arbitrum, or Optimism -
               alongside Solana. Funds land directly in this wallet.
             </p>
           </div>
@@ -737,16 +737,16 @@ export default function SettingsPage() {
             </h2>
             <p className="text-sm text-[#8a8a8a]">
               Authenticate the Offbank SDK & API (payouts, checkout). Keep keys
-              secret — treat them like passwords.
+              secret - treat them like passwords.
             </p>
           </div>
         </div>
 
-        {/* Freshly created key — shown once */}
+        {/* Freshly created key - shown once */}
         {freshKey && (
           <div className="mb-4 rounded-xl border border-[#34c759]/40 bg-[#34c759]/5 p-4">
             <p className="mb-2 text-sm font-medium text-[#027a48]">
-              Your new key — copy it now, it won&rsquo;t be shown again.
+              Your new key - copy it now, it won&rsquo;t be shown again.
             </p>
             <div className="flex items-center gap-2">
               <code className="flex-1 overflow-x-auto rounded-lg bg-[#0d1117] px-3 py-2 font-mono text-[12px] text-[#e6edf3]">
@@ -896,7 +896,7 @@ export default function SettingsPage() {
           <code className="rounded bg-[#f2f2f2] px-1 py-0.5 font-mono text-[12px]">
             X-Offbank-Signature
           </code>{" "}
-          header (HMAC-SHA256). Keep it secret — anyone with it can forge
+          header (HMAC-SHA256). Keep it secret - anyone with it can forge
           webhooks.
         </p>
       </section>

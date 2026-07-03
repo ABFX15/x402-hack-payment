@@ -1,16 +1,16 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Bubble Plugin — No-Code USDC Settlement",
+  title: "Bubble Plugin - No-Code USDC Settlement",
   description:
-    "Add instant USDC settlement to your Bubble app. No code required — drag-and-drop non-custodial payment infrastructure.",
+    "Add instant USDC settlement to your Bubble app. No code required - drag-and-drop non-custodial payment infrastructure.",
   alternates: { canonical: "/integrations/bubble" },
   openGraph: {
     type: "website",
     locale: "en_US",
     url: "https://offbankpay.com/integrations/bubble",
     siteName: "Offbank",
-    title: "Bubble Plugin — No-Code USDC Settlement",
+    title: "Bubble Plugin - No-Code USDC Settlement",
     description:
       "Add instant USDC settlement to your Bubble app. No code required.",
     images: [
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Bubble Plugin — No-Code USDC Settlement",
+    title: "Bubble Plugin - No-Code USDC Settlement",
     description:
       "Add instant USDC settlement to your Bubble app. No code required.",
     images: ["/twitter-image?v=3"],

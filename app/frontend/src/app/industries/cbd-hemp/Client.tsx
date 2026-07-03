@@ -13,7 +13,7 @@ const config: IndustryConfig = {
   subhead:
     "CBD, hemp-derived cannabinoids, kratom, kava, and adjacent botanicals are technically legal, but processors keep treating you like you aren't. Settle in USDC instead. 1% flat. Cash out to USD on your schedule.",
   heroStats: [
-    { value: "1%", label: "Flat fee, vs 4–9% high-risk" },
+    { value: "1%", label: "Flat fee, vs 4-9% high-risk" },
     { value: "<5s", label: "Settlement finality" },
     { value: "0", label: "Custody / freeze risk" },
   ],
@@ -23,7 +23,7 @@ const config: IndustryConfig = {
       desc: "One TRO from compliance, one back-end policy update, and your processor disappears. Funds held 90+ days while you scramble for a backup.",
     },
     {
-      title: "High-risk processors charge 4–9%",
+      title: "High-risk processors charge 4-9%",
       desc: "Even if you find one that'll keep you, the fee stack, discount rate, monthly, chargeback reserve, eats most of your margin.",
     },
     {
@@ -48,7 +48,7 @@ const config: IndustryConfig = {
     },
     {
       title: "Cash out to USD via Sphere",
-      desc: "ACH, wire, or SEPA on demand. Move USDC → USD into your operating bank in 1–2 business days.",
+      desc: "ACH, wire, or SEPA on demand. Move USDC → USD into your operating bank in 1-2 business days.",
       icon: Globe,
     },
     {
@@ -88,7 +88,7 @@ const config: IndustryConfig = {
     },
     {
       q: "How fast can I cash out USDC to USD?",
-      a: "Sphere off-ramp via ACH typically 1–2 business days. Wire same-day for higher amounts. SEPA for EU. You control when, there's no hold, no reserve.",
+      a: "Sphere off-ramp via ACH typically 1-2 business days. Wire same-day for higher amounts. SEPA for EU. You control when, there's no hold, no reserve.",
     },
   ],
 };

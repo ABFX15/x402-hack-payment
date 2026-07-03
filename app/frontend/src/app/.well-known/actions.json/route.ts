@@ -1,5 +1,5 @@
 /**
- * GET /.well-known/actions.json — Solana Actions manifest
+ * GET /.well-known/actions.json - Solana Actions manifest
  *
  * Tells Blinks-compatible clients which URL patterns on this domain
  * are Solana Actions so they can be rendered as interactive cards.

@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import { Check, Copy } from "lucide-react";
 
 /**
- * CodeBlock — a colorful, copyable code snippet with a little window chrome.
+ * CodeBlock - a colorful, copyable code snippet with a little window chrome.
  * Lightweight syntax highlighting (HTML + JS) done with one tokenizer pass and
  * rendered as colored spans (React-escaped, no dangerouslySetInnerHTML, no dep).
  */

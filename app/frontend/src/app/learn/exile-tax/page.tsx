@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     title:
       "The Exile Tax, Why Stablecoins Are the Only Solution for the Debanked",
     description:
-      "Cannabis operators pay 5–12% in fees because banks won't serve them. This whitepaper explains why stablecoins are the structural fix.",
+      "Cannabis operators pay 5-12% in fees because banks won't serve them. This whitepaper explains why stablecoins are the structural fix.",
     type: "article",
     url: "https://offbankpay.com/learn/exile-tax",
   },
@@ -86,7 +86,7 @@ export default function ExileTaxWhitepaper() {
                 name: "What is the Exile Tax?",
                 acceptedAnswer: {
                   "@type": "Answer",
-                  text: "The Exile Tax is the 5–12% premium that cannabis and other legal-but-debanked businesses pay because traditional banks and payment processors refuse to serve them. It manifests as high-risk processing fees, armored cash transport, insurance surcharges, and lost working capital from extended net terms.",
+                  text: "The Exile Tax is the 5-12% premium that cannabis and other legal-but-debanked businesses pay because traditional banks and payment processors refuse to serve them. It manifests as high-risk processing fees, armored cash transport, insurance surcharges, and lost working capital from extended net terms.",
                 },
               },
               {
@@ -94,7 +94,7 @@ export default function ExileTaxWhitepaper() {
                 name: "How much does the Exile Tax cost the cannabis industry?",
                 acceptedAnswer: {
                   "@type": "Answer",
-                  text: "Approximately $4.7 billion per year. U.S. cannabis revenue exceeded $30 billion in 2025, and operators surrender an estimated 8–15% of gross revenue to the combined costs of cash handling, high-risk processing fees, and compliance overhead.",
+                  text: "Approximately $4.7 billion per year. U.S. cannabis revenue exceeded $30 billion in 2025, and operators surrender an estimated 8-15% of gross revenue to the combined costs of cash handling, high-risk processing fees, and compliance overhead.",
                 },
               },
               {
@@ -110,7 +110,7 @@ export default function ExileTaxWhitepaper() {
                 name: "How do stablecoins solve the cannabis banking problem?",
                 acceptedAnswer: {
                   "@type": "Answer",
-                  text: "Stablecoins like USDC are non-custodial, no bank sits between buyer and seller. Settlement is peer-to-peer on Solana in under 5 seconds, at 1% flat vs. 8–12% charged by high-risk processors. The GENIUS Act of 2025 provides a federal regulatory framework for stablecoin issuers, making USDC a regulated, compliant payment rail that doesn't depend on traditional banking relationships.",
+                  text: "Stablecoins like USDC are non-custodial, no bank sits between buyer and seller. Settlement is peer-to-peer on Solana in under 5 seconds, at 1% flat vs. 8-12% charged by high-risk processors. The GENIUS Act of 2025 provides a federal regulatory framework for stablecoin issuers, making USDC a regulated, compliant payment rail that doesn't depend on traditional banking relationships.",
                 },
               },
               {
@@ -357,17 +357,17 @@ export default function ExileTaxWhitepaper() {
                   {[
                     [
                       "High-risk processing fees",
-                      "5–12% per tx",
-                      'Specialist processors (so-called "cannabis-friendly") charge 5–12× standard card rates, plus rolling reserves that freeze 10–15% of revenue for 6 months',
+                      "5-12% per tx",
+                      'Specialist processors (so-called "cannabis-friendly") charge 5-12× standard card rates, plus rolling reserves that freeze 10-15% of revenue for 6 months',
                     ],
                     [
                       "Armored cash transport",
-                      "$1,200–$3,000/mo per location",
+                      "$1,200-$3,000/mo per location",
                       "Operators that can't find any processor pay Brink's or Loomis for weekly cash pickups. Every cash touchpoint is a robbery risk and a compliance liability",
                     ],
                     [
                       "Cash insurance premiums",
-                      "2–5× standard rates",
+                      "2-5× standard rates",
                       "Insurers price cash-heavy businesses as high-risk. Dispensaries pay significantly more for property and casualty coverage",
                     ],
                     [
@@ -382,7 +382,7 @@ export default function ExileTaxWhitepaper() {
                     ],
                     [
                       "Compliance overhead",
-                      "$50K–$200K/year",
+                      "$50K-$200K/year",
                       "Enhanced monitoring, SAR filing, legal counsel for banking relationships that can be revoked at any time. Many operators employ full-time compliance staff solely to maintain bank access",
                     ],
                   ].map(([comp, cost, how]) => (
@@ -849,18 +849,18 @@ export default function ExileTaxWhitepaper() {
                 </thead>
                 <tbody className="divide-y" style={{ borderColor: p.border }}>
                   {[
-                    ["Processing fees", "5–12% per tx", "1% flat"],
+                    ["Processing fees", "5-12% per tx", "1% flat"],
                     [
                       "Cash transport",
-                      "$1,200–$3,000/mo",
+                      "$1,200-$3,000/mo",
                       "$0 (digital settlement)",
                     ],
                     [
                       "Rolling reserves",
-                      "10–15% frozen 6 months",
+                      "10-15% frozen 6 months",
                       "None (atomic settlement)",
                     ],
-                    ["Settlement time", "3–5 business days", "<5 seconds"],
+                    ["Settlement time", "3-5 business days", "<5 seconds"],
                     [
                       "Working capital lockup",
                       "Net-30/60 terms",

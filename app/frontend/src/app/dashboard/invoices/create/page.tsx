@@ -395,7 +395,7 @@ export default function CreateInvoicePage() {
       )}
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Left Column — Form */}
+        {/* Left Column - Form */}
         <div className="lg:col-span-2 space-y-6">
           {/* Recipient Information */}
           <div className="rounded-xl bg-[#ffffff] border border-[#d3d3d3] p-6">
@@ -608,7 +608,7 @@ export default function CreateInvoicePage() {
           </div>
         </div>
 
-        {/* Right Column — Invoice Summary */}
+        {/* Right Column - Invoice Summary */}
         <div className="space-y-4">
           <div className="rounded-xl bg-[#ffffff] border border-[#d3d3d3] p-6 sticky top-20">
             <h3 className="text-[11px] font-semibold uppercase tracking-[0.15em] text-[#5c5c5c] mb-5">

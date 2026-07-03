@@ -138,7 +138,7 @@ export default function InvoicesPage() {
                   boxShadow: "0 4px 24px rgba(27,107,74,0.25)",
                 }}
               >
-                Get Started
+                Get started
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
               </Link>
               <Link
@@ -732,9 +732,9 @@ export default function InvoicesPage() {
                     {
                       label: "Settlement",
                       us: "< 5 seconds",
-                      them: "3–5 business days",
+                      them: "3-5 business days",
                     },
-                    { label: "Fees", us: "1% flat", them: "5–9% + hidden" },
+                    { label: "Fees", us: "1% flat", them: "5-9% + hidden" },
                     {
                       label: "Custody risk",
                       us: "Non-custodial",
@@ -831,7 +831,7 @@ export default function InvoicesPage() {
                       boxShadow: "0 4px 24px rgba(27,107,74,0.3)",
                     }}
                   >
-                    Get Started
+                    Get started
                     <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
                   </Link>
                   <Link

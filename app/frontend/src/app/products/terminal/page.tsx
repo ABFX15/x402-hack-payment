@@ -5,12 +5,12 @@ import { Navbar } from "@/components/ui/Navbar";
 import { Footer } from "@/components/ui/Footer";
 
 export const metadata: Metadata = {
-  title: "POS Terminal — Take USDC Payments In Person | Offbank",
+  title: "POS Terminal - Take USDC Payments In Person | Offbank",
   description:
     "Turn any screen into a crypto point of sale. Show a QR, the customer scans and pays USDC, you see it settle live in under a second. Non-custodial, 1% flat.",
   alternates: { canonical: "/products/terminal" },
   openGraph: {
-    title: "Offbank POS Terminal — Take USDC Payments In Person",
+    title: "Offbank POS Terminal - Take USDC Payments In Person",
     description:
       "Show a QR, customer scans, USDC settles to your wallet live. Non-custodial, 1% flat.",
     url: "https://offbankpay.com/products/terminal",
@@ -26,12 +26,12 @@ const features = [
   {
     icon: Zap,
     title: "Settles live, in under a second",
-    desc: "The terminal watches the chain for that exact sale and flips to “Paid” the instant it confirms — no waiting, no batch settlement.",
+    desc: "The terminal watches the chain for that exact sale and flips to “Paid” the instant it confirms - no waiting, no batch settlement.",
   },
   {
     icon: Wallet,
     title: "Straight to your wallet",
-    desc: "USDC lands in your own wallet. Offbank never holds it — non-custodial by design, so there’s no account to freeze and nothing to withdraw.",
+    desc: "USDC lands in your own wallet. Offbank never holds it - non-custodial by design, so there’s no account to freeze and nothing to withdraw.",
   },
   {
     icon: ShieldCheck,
@@ -43,7 +43,7 @@ const features = [
 const steps = [
   { n: "1", t: "Enter the amount", d: "Type the sale total on your phone, tablet, or POS screen." },
   { n: "2", t: "Customer scans", d: "They scan the Solana Pay QR with any wallet and approve." },
-  { n: "3", t: "Paid, instantly", d: "The terminal confirms on-chain and shows “Paid” — done." },
+  { n: "3", t: "Paid, instantly", d: "The terminal confirms on-chain and shows “Paid” - done." },
 ];
 
 export default function TerminalProductPage() {

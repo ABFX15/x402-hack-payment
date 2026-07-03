@@ -1,13 +1,13 @@
 "use client";
 
 /**
- * /dashboard/team — invite controllers, accountants, and viewers.
+ * /dashboard/team - invite controllers, accountants, and viewers.
  *
  * Uses /api/team for CRUD. Each invited member receives an email link
  * (TODO: wire lib/email to send it) that resolves to /onboarding/accept-invite
  * which in turn provisions a Privy account scoped to this merchant's vault.
  *
- * This UI is intentionally minimal — it surfaces the gap so cannabis
+ * This UI is intentionally minimal - it surfaces the gap so cannabis
  * distributors with multiple staff can at least see who has access. The
  * Squads multisig configured during onboarding remains the on-chain
  * source of truth for signature thresholds.
@@ -154,7 +154,7 @@ export default function TeamPage() {
           </h3>
           <p className="mx-auto mt-1 max-w-md text-sm text-[#5c5c5c]">
             Invite your accountant to view-only or your operations controller to
-            co-sign large transfers. They sign in with their own email — no
+            co-sign large transfers. They sign in with their own email - no
             shared credentials.
           </p>
           <button
@@ -281,11 +281,11 @@ export default function TeamPage() {
                   disabled={inviteBusy}
                   className="w-full rounded-xl border border-[#d3d3d3] bg-white px-4 py-3 text-sm text-[#212121] outline-none focus:border-[#34c759]"
                 >
-                  <option value="admin">Admin — co-sign settlement</option>
+                  <option value="admin">Admin - co-sign settlement</option>
                   <option value="accountant">
-                    Accountant — view ledger + export
+                    Accountant - view ledger + export
                   </option>
-                  <option value="viewer">Viewer — read-only dashboard</option>
+                  <option value="viewer">Viewer - read-only dashboard</option>
                 </select>
               </div>
 

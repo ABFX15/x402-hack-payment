@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Live Demo — B2B Settlement Rail for Restricted Commerce",
+  title: "Live Demo - B2B Settlement Rail for Restricted Commerce",
   description:
     "See how Offbank settles B2B invoices in under 5 seconds. Non-custodial, 1% flat, with a cryptographic audit trail. Try payment links and invoice settlement live.",
   keywords: [
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     siteName: "Offbank",
-    title: "Offbank Demo — B2B Settlement Rail in Action",
+    title: "Offbank Demo - B2B Settlement Rail in Action",
     description:
       "Create a payment link or settle a B2B invoice. Non-custodial, instant, with an on-chain audit trail.",
     url: "https://offbankpay.com/demo",
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Offbank Demo — B2B Settlement Rail",
+    title: "Offbank Demo - B2B Settlement Rail",
     description:
       "Non-custodial B2B settlement in under 5 seconds. Try payment links and invoice settlement live.",
     images: ["/twitter-image?v=3"],

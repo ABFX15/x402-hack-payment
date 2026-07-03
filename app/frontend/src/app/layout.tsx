@@ -1,11 +1,5 @@
 import type { Metadata } from "next";
-import {
-  Geist,
-  Geist_Mono,
-  Inter,
-  Fraunces,
-  JetBrains_Mono,
-} from "next/font/google";
+import { Geist, Geist_Mono, JetBrains_Mono } from "next/font/google";
 import Script from "next/script";
 import ClientLayout from "@/components/ClientLayout";
 import "./globals.css";
@@ -22,18 +16,6 @@ const geistMono = Geist_Mono({
   display: "swap",
 });
 
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const fraunces = Fraunces({
-  variable: "--font-fraunces",
-  subsets: ["latin"],
-  display: "swap",
-});
-
 const jetbrainsMono = JetBrains_Mono({
   variable: "--font-jetbrains",
   subsets: ["latin"],
@@ -42,11 +24,11 @@ const jetbrainsMono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Offbank — USDC payments for businesses banks won't serve",
+    default: "Offbank - USDC payments for businesses banks won't serve",
     template: "%s | Offbank",
   },
   description:
-    "Offbank is USDC payment infrastructure for cannabis, iGaming, high-risk and cross-border businesses. Accept payments, send instant payouts, and invoice — 1% flat, instant finality, non-custodial. No bank to freeze you.",
+    "Offbank is USDC payment infrastructure for cannabis, iGaming, high-risk and cross-border businesses. Accept payments, send instant payouts, and invoice - 1% flat, instant finality, non-custodial. No bank to freeze you.",
   alternates: { canonical: "/" },
   authors: [{ name: "Offbank" }],
   icons: {
@@ -65,24 +47,24 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: "https://offbankpay.com",
     siteName: "Offbank",
-    title: "Offbank — USDC payments for businesses banks won't serve",
+    title: "Offbank - USDC payments for businesses banks won't serve",
     description:
-      "Accept payments, send instant payouts, and invoice in USDC — for cannabis, iGaming, high-risk and cross-border businesses. 1% flat, instant, non-custodial. No bank to freeze you.",
+      "Accept payments, send instant payouts, and invoice in USDC - for cannabis, iGaming, high-risk and cross-border businesses. 1% flat, instant, non-custodial. No bank to freeze you.",
     images: [
       {
         url: "/opengraph-image?v=3",
         width: 1200,
         height: 630,
-        alt: "Offbank — USDC payments for businesses banks won't serve",
+        alt: "Offbank - USDC payments for businesses banks won't serve",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
     site: "@offbankpay",
-    title: "Offbank — USDC payments for businesses banks won't serve",
+    title: "Offbank - USDC payments for businesses banks won't serve",
     description:
-      "Accept payments, send instant payouts, and invoice in USDC — for cannabis, iGaming, high-risk and cross-border businesses. 1% flat, instant, non-custodial.",
+      "Accept payments, send instant payouts, and invoice in USDC - for cannabis, iGaming, high-risk and cross-border businesses. 1% flat, instant, non-custodial.",
     images: ["/twitter-image?v=3"],
     creator: "@offbankpay",
   },
@@ -136,7 +118,7 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
 
-        {/* Google Ads Tag (gtag.js) — lazyOnload to avoid competing for bandwidth */}
+        {/* Google Ads Tag (gtag.js) - lazyOnload to avoid competing for bandwidth */}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=AW-17871897491"
           strategy="lazyOnload"
@@ -151,7 +133,7 @@ export default function RootLayout({
         </Script>
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} ${fraunces.variable} ${jetbrainsMono.variable} noise-global antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${jetbrainsMono.variable} noise-global antialiased`}
         style={{ background: "#FFFFFF" }}
       >
         <ClientLayout>{children}</ClientLayout>
@@ -184,7 +166,7 @@ export default function RootLayout({
           <a href="/blog">Blog</a>
           <a href="/help">Help Center</a>
           <a href="/onboarding">Apply for the Private Rail</a>
-          <a href="/onboarding">Get Started</a>
+          <a href="/onboarding">Get started</a>
           <a href="/privacy">Privacy Policy</a>
         </nav>
       </body>

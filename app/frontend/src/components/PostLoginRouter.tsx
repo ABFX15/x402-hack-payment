@@ -16,7 +16,7 @@ import { useOnboardingStatus } from "@/hooks/useOnboardingStatus";
  * Customer-facing pages (checkout, invoice, demo, etc.) never redirect.
  */
 
-// Pages that require merchant onboarding — redirect fires here
+// Pages that require merchant onboarding - redirect fires here
 const PROTECTED_PATHS = ["/dashboard", "/create"];
 
 function isProtectedPath(pathname: string): boolean {

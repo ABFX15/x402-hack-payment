@@ -99,7 +99,7 @@ const OFFRAMP_DATA: Record<string, RegionOffRamps> = {
         name: "Pix",
         type: "e-wallet",
         speed: "Instant",
-        description: "Receive via Pix key — CPF, phone, or email",
+        description: "Receive via Pix key - CPF, phone, or email",
       },
       {
         name: "Bank Transfer",
@@ -145,7 +145,7 @@ const OFFRAMP_DATA: Record<string, RegionOffRamps> = {
         name: "UPI",
         type: "e-wallet",
         speed: "Instant",
-        description: "Send to any UPI ID — Google Pay, PhonePe, Paytm",
+        description: "Send to any UPI ID - Google Pay, PhonePe, Paytm",
       },
       {
         name: "IMPS / NEFT",
@@ -481,7 +481,7 @@ export default function ClaimPage({
               </motion.div>
             )}
 
-            {/* ────── Ready — main claim view ────── */}
+            {/* ────── Ready - main claim view ────── */}
             {step === "ready" && payout && (
               <motion.div
                 key="ready"
@@ -821,7 +821,7 @@ export default function ClaimPage({
               className="fixed inset-0 z-40 bg-[#FFFFFF]/40 backdrop-blur-sm"
             />
 
-            {/* Modal — bottom sheet on mobile, centered on desktop */}
+            {/* Modal - bottom sheet on mobile, centered on desktop */}
             <motion.div
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}

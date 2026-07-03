@@ -126,7 +126,7 @@ function LoginPageInner() {
           Sign in to Offbank
         </h1>
         <p className="mb-8 text-sm text-center" style={{ color: c.muted }}>
-          Use your email — we&apos;ll send a one-time code.
+          Use your email - we&apos;ll send a one-time code.
         </p>
 
         {/* Privy email login (recommended) */}

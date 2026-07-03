@@ -2,7 +2,7 @@ import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
 
-export const alt = "Offbank — Enterprise Payments for the Debanked";
+export const alt = "Offbank - Enterprise Payments for the Debanked";
 export const size = {
   width: 1200,
   height: 630,
@@ -39,7 +39,7 @@ export default async function Image() {
           }}
         />
 
-        {/* Top accent bar — green */}
+        {/* Top accent bar - green */}
         <div
           style={{
             position: "absolute",
@@ -64,7 +64,7 @@ export default async function Image() {
             position: "relative",
           }}
         >
-          {/* Left side — text */}
+          {/* Left side - text */}
           <div
             style={{
               display: "flex",
@@ -174,7 +174,7 @@ export default async function Image() {
             </div>
           </div>
 
-          {/* Right side — code snippet card */}
+          {/* Right side - code snippet card */}
           <div
             style={{
               display: "flex",

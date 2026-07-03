@@ -72,37 +72,37 @@ const comparisonRows = [
       },
       {
         label: "Armored car pickups (3x/week)",
-        cash: "$36,000–$72,000",
+        cash: "$36,000-$72,000",
         offbank: "$0",
         winner: "offbank",
       },
       {
         label: "Cash counting labor (2hr/day)",
-        cash: "$18,000–$28,000",
+        cash: "$18,000-$28,000",
         offbank: "$0",
         winner: "offbank",
       },
       {
         label: "Safe & vault equipment",
-        cash: "$5,000–$15,000",
+        cash: "$5,000-$15,000",
         offbank: "$0",
         winner: "offbank",
       },
       {
         label: "Cash handling insurance",
-        cash: "$6,000–$12,000",
+        cash: "$6,000-$12,000",
         offbank: "$0",
         winner: "offbank",
       },
       {
         label: "Shrinkage & employee theft",
-        cash: "$10,000–$60,000 (0.5–3%)",
+        cash: "$10,000-$60,000 (0.5-3%)",
         offbank: "$0",
         winner: "offbank",
       },
       {
         label: "CIT (cash-in-transit) insurance",
-        cash: "$3,000–$8,000",
+        cash: "$3,000-$8,000",
         offbank: "$0",
         winner: "offbank",
       },
@@ -113,7 +113,7 @@ const comparisonRows = [
     items: [
       {
         label: "Settlement speed",
-        cash: "1–3 business days (after deposit)",
+        cash: "1-3 business days (after deposit)",
         offbank: "< 2 seconds",
         winner: "offbank",
       },
@@ -198,7 +198,7 @@ const faqs = [
 /*  PAGE                                                   */
 /* ════════════════════════════════════════════════════════ */
 export default function OffbankVsCashPage() {
-  const cashTotal = "$78,000 – $195,000";
+  const cashTotal = "$78,000 - $195,000";
   const offbankTotal = "$20,000";
 
   return (
@@ -236,7 +236,7 @@ export default function OffbankVsCashPage() {
             headline:
               "Offbank vs Cash & Armored Cars: Cannabis Payment Cost Comparison 2026",
             description:
-              "Complete cost comparison between cash handling (armored cars, safes, counting labor) and Offbank stablecoin settlement for cannabis businesses. A dispensary processing $2M/year can save $58,000–$175,000 annually.",
+              "Complete cost comparison between cash handling (armored cars, safes, counting labor) and Offbank stablecoin settlement for cannabis businesses. A dispensary processing $2M/year can save $58,000-$175,000 annually.",
             author: {
               "@type": "Organization",
               name: "Offbank",
@@ -304,7 +304,7 @@ export default function OffbankVsCashPage() {
               className="mx-auto mt-6 max-w-lg text-lg leading-relaxed"
               style={{ color: p.slate }}
             >
-              Cannabis businesses spend $78K–$195K per year on cash logistics.
+              Cannabis businesses spend $78K-$195K per year on cash logistics.
               Here&apos;s the line-by-line breakdown of what you&apos;re
               actually paying, and what Offbank costs instead.
             </p>
@@ -495,17 +495,17 @@ export default function OffbankVsCashPage() {
               {
                 icon: AlertTriangle,
                 title: "Armed robbery risk",
-                desc: "Cannabis businesses are 4–5× more likely to be robbed than other retail. In 2024, dispensary robberies resulted in $8.8M in losses industry-wide.",
+                desc: "Cannabis businesses are 4-5× more likely to be robbed than other retail. In 2024, dispensary robberies resulted in $8.8M in losses industry-wide.",
               },
               {
                 icon: Users,
                 title: "Employee theft",
-                desc: "Internal theft accounts for 1–3% of revenue at cash-heavy businesses. That's $20,000–$60,000 on $2M revenue.",
+                desc: "Internal theft accounts for 1-3% of revenue at cash-heavy businesses. That's $20,000-$60,000 on $2M revenue.",
               },
               {
                 icon: Clock,
                 title: "Lost productivity",
-                desc: "Staff spend 2–4 hours daily counting, reconciling, and securing cash. That's $15,000–$25,000 in annual labor costs.",
+                desc: "Staff spend 2-4 hours daily counting, reconciling, and securing cash. That's $15,000-$25,000 in annual labor costs.",
               },
               {
                 icon: Banknote,
@@ -624,7 +624,7 @@ export default function OffbankVsCashPage() {
                       WebkitTextFillColor: "transparent",
                     }}
                   >
-                    $58K–$175K
+                    $58K-$175K
                   </span>{" "}
                   per year
                 </h2>

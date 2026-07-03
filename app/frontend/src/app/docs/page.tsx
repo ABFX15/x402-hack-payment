@@ -129,7 +129,7 @@ function DocsPageInner() {
               <div className="mb-10">
                 <h1 className="text-4xl font-bold mb-4">Documentation</h1>
                 <p className="text-xl text-[#5c5c5c]">
-                  Accept USDC, send instant payouts, and invoice — from a
+                  Accept USDC, send instant payouts, and invoice - from a
                   one-line widget, the SDK, or the dashboard. Pick a section to
                   get going.
                 </p>
@@ -194,7 +194,7 @@ function QuickStartContent() {
         <h2 className="text-2xl font-bold mb-4">Get started</h2>
         <p className="text-[#8a8a8a] mb-6">
           Offbank is self-custodial USDC payment infrastructure for merchants
-          processors won&apos;t touch — high-risk e-commerce and iGaming. Accept
+          processors won&apos;t touch - high-risk e-commerce and iGaming. Accept
           payments, send instant payouts, and invoice in USDC. Funds settle
           straight to a wallet you control, in under a second, 1% flat.
         </p>
@@ -224,7 +224,7 @@ function QuickStartContent() {
             <span className="text-2xl">🧾</span>
             <h4 className="font-semibold mt-3 mb-1">Dashboard</h4>
             <p className="text-sm text-[#8a8a8a]">
-              Create invoices and payment links by hand — no code. Best for
+              Create invoices and payment links by hand - no code. Best for
               wholesale billing and one-offs.
             </p>
           </div>
@@ -241,7 +241,7 @@ function QuickStartContent() {
             create a key (<code className="font-mono text-[12px]">sk_live_…</code>
             ). Grab your{" "}
             <strong className="text-[#5c5c5c]">Webhook signing secret</strong>{" "}
-            from the same page. Keep both server-side — they can move money.
+            from the same page. Keep both server-side - they can move money.
           </p>
         </div>
 
@@ -249,7 +249,7 @@ function QuickStartContent() {
         <h3 className="text-xl font-semibold mb-3">2. Install the SDK</h3>
         <CodeBlock language="bash">{`npm install @offbank/sdk`}</CodeBlock>
         <p className="text-[#8a8a8a] text-sm mt-4 mb-3">
-          Create a checkout session — the amount is fixed server-side, so it
+          Create a checkout session - the amount is fixed server-side, so it
           can&apos;t be tampered with:
         </p>
         <CodeBlock language="typescript">
@@ -266,7 +266,7 @@ const session = await offbank.checkout.sessions.create({
   webhookUrl: "https://store.com/api/offbank-webhook",
 });
 
-// Redirect the buyer to session.url — or hand session.id to the widget.
+// Redirect the buyer to session.url - or hand session.id to the widget.
 console.log(session.url);`}
         </CodeBlock>
 
@@ -275,7 +275,7 @@ console.log(session.url);`}
           Or drop in the checkout widget
         </h3>
         <p className="text-[#8a8a8a] text-sm mb-3">
-          No build step — add one script and open the checkout with the live
+          No build step - add one script and open the checkout with the live
           cart total. Confirmation is verified on-chain server-side before your
           webhook fires.
         </p>
@@ -300,7 +300,7 @@ console.log(session.url);`}
   amount: 250.0,
   memo: "Withdrawal #48210",
 });
-// Recipient gets a claim link and picks any wallet — settles in seconds.`}
+// Recipient gets a claim link and picks any wallet - settles in seconds.`}
         </CodeBlock>
 
         {/* Feature cards */}
@@ -313,7 +313,7 @@ console.log(session.url);`}
           <FeatureCard
             icon="🛡️"
             title="Can't be frozen"
-            description="Self-custodial — funds land in a wallet only you control."
+            description="Self-custodial - funds land in a wallet only you control."
           />
           <FeatureCard
             icon="🚫"
@@ -357,7 +357,7 @@ function SdkParam({
       </div>
       <div className="text-[13px] leading-relaxed text-[#8a8a8a]">
         <code className="font-mono text-[#027a48]">{type}</code>
-        <span className="mx-1.5">—</span>
+        <span className="mx-1.5">-</span>
         {children}
       </div>
     </div>
@@ -400,7 +400,7 @@ function SdkContent() {
           <code className="font-mono text-[13px]">invoices</code>,{" "}
           <code className="font-mono text-[13px]">payouts</code>, and{" "}
           <code className="font-mono text-[13px]">webhooks</code>. Server-side
-          only — your API key can move money.
+          only - your API key can move money.
         </p>
 
         {/* Install */}
@@ -444,7 +444,7 @@ const offbank = new Offbank({
           is the whole flow.
         </p>
         <CodeBlock language="typescript">
-          {`// 1. checkout.ts — create a session and send the buyer to it
+          {`// 1. checkout.ts - create a session and send the buyer to it
 import { Offbank } from "@offbank/sdk";
 const offbank = new Offbank({ apiKey: process.env.OFFBANK_API_KEY! });
 
@@ -462,12 +462,12 @@ export async function startCheckout(cartTotal: number, orderId: string) {
 }`}
         </CodeBlock>
         <CodeBlock language="typescript">
-          {`// 2. app/api/offbank-webhook/route.ts — fulfil when Offbank confirms it
+          {`// 2. app/api/offbank-webhook/route.ts - fulfil when Offbank confirms it
 import { Offbank } from "@offbank/sdk";
 const offbank = new Offbank({ apiKey: process.env.OFFBANK_API_KEY! });
 
 export async function POST(req: Request) {
-  const body = await req.text(); // RAW body — needed to verify the signature
+  const body = await req.text(); // RAW body - needed to verify the signature
 
   const ok = offbank.webhooks.verify(
     body,
@@ -479,7 +479,7 @@ export async function POST(req: Request) {
 
   const event = JSON.parse(body);
   if (event.event === "payment.completed") {
-    // Offbank already verified this on-chain — safe to ship the order.
+    // Offbank already verified this on-chain - safe to ship the order.
     await fulfilOrder(event.data.metadata.orderId, event.data.paymentSignature);
   }
   return Response.json({ received: true });
@@ -501,7 +501,7 @@ export async function POST(req: Request) {
           </p>
           <div className="rounded-lg border border-[#d3d3d3] p-4 mb-4">
             <SdkParam name="merchantWallet" type="string" required>
-              Your Solana wallet — where USDC settles.
+              Your Solana wallet - where USDC settles.
             </SdkParam>
             <SdkParam name="merchantName" type="string" required>
               Shown to the buyer on the checkout.
@@ -606,11 +606,11 @@ const one = await offbank.invoices.get("inv_9hwbf9...");`}
         {/* payouts.create */}
         <SdkMethod
           signature="offbank.payouts.create(params)"
-          lead="Send USDC to anyone by email — iGaming cashouts, affiliate commissions, supplier runs. They claim with any wallet (or one we provision) and it settles in seconds."
+          lead="Send USDC to anyone by email - iGaming cashouts, affiliate commissions, supplier runs. They claim with any wallet (or one we provision) and it settles in seconds."
         >
           <div className="rounded-lg border border-[#d3d3d3] p-4 mb-4">
             <SdkParam name="email" type="string" required>
-              Recipient — they get a claim link.
+              Recipient - they get a claim link.
             </SdkParam>
             <SdkParam name="amount" type="number" required>
               Amount in whole USDC.
@@ -636,7 +636,7 @@ await Promise.all(
         {/* webhooks.verify */}
         <SdkMethod
           signature="offbank.webhooks.verify(rawBody, signatureHeader, secret, toleranceSeconds?)"
-          lead="Verify a webhook is genuinely from Offbank before you trust it. Returns true only if the HMAC-SHA256 signature matches (constant-time) and — if you pass a tolerance — the timestamp is fresh. Always pass the RAW request body, not a re-serialized object."
+          lead="Verify a webhook is genuinely from Offbank before you trust it. Returns true only if the HMAC-SHA256 signature matches (constant-time) and - if you pass a tolerance - the timestamp is fresh. Always pass the RAW request body, not a re-serialized object."
         >
           <div className="rounded-lg border border-[#d3d3d3] p-4 mb-4">
             <SdkParam name="rawBody" type="string" required>
@@ -684,7 +684,7 @@ try {
 }`}
           </CodeBlock>
           <p className="text-[13px] text-[#8a8a8a] mt-3">
-            Fully typed — every method&apos;s params and return value are
+            Fully typed - every method&apos;s params and return value are
             inferred, and you can import types like{" "}
             <code className="font-mono">Invoice</code> or{" "}
             <code className="font-mono">CheckoutSession</code> from the package.
@@ -705,7 +705,7 @@ function InvoicesContent() {
       <section>
         <h2 className="text-2xl font-bold mb-4">Invoices &amp; Payments</h2>
         <p className="text-[#8a8a8a] mb-6">
-          Create USDC invoices for any B2B transaction — wholesale orders,
+          Create USDC invoices for any B2B transaction - wholesale orders,
           services, net-terms billing. Buyers pay via a one-click payment link
           and funds settle to your wallet instantly.
         </p>
@@ -989,7 +989,7 @@ function APIContent() {
           </h3>
           <p className="text-[#8a8a8a] text-sm mb-3">
             Server-to-server calls authenticate with your{" "}
-            <strong className="text-[#5c5c5c]">API key</strong> — send it as an{" "}
+            <strong className="text-[#5c5c5c]">API key</strong> - send it as an{" "}
             <code className="font-mono text-[12px]">x-api-key</code> header (or{" "}
             <code className="font-mono text-[12px]">
               Authorization: Bearer
@@ -1073,7 +1073,7 @@ function APIContent() {
         </h3>
         <Endpoint method="POST" path="/payouts">
           <p className="text-[#8a8a8a] text-sm">
-            Send USDC to anyone by email — iGaming cashouts, affiliate
+            Send USDC to anyone by email - iGaming cashouts, affiliate
             commissions, supplier runs. They claim with any wallet (or one we
             provision) and it settles in seconds. Requires an API key.
           </p>
@@ -1085,7 +1085,7 @@ function APIContent() {
 
         <p className="text-[13px] text-[#8a8a8a] mt-4">
           On success, Offbank verifies every payment on-chain and fires a signed{" "}
-          <code className="font-mono">payment.completed</code> webhook — see the
+          <code className="font-mono">payment.completed</code> webhook - see the
           Webhooks tab.
         </p>
       </section>
@@ -1149,7 +1149,7 @@ import { Offbank } from '@offbank/sdk';
 const offbank = new Offbank({ apiKey: process.env.OFFBANK_API_KEY! });
 
 export async function POST(req: NextRequest) {
-  const body = await req.text(); // raw body — required to verify the signature
+  const body = await req.text(); // raw body - required to verify the signature
 
   const ok = offbank.webhooks.verify(
     body,
@@ -1163,7 +1163,7 @@ export async function POST(req: NextRequest) {
 
   const event = JSON.parse(body);
   if (event.event === 'payment.completed') {
-    // Offbank already verified this payment on-chain — safe to fulfil.
+    // Offbank already verified this payment on-chain - safe to fulfil.
     await markPaid(event.data.paymentId, event.data.paymentSignature);
   }
 
@@ -1256,7 +1256,7 @@ function IntegrationsContent() {
             <h3 className="font-semibold mb-1">Checkout widget</h3>
             <p className="text-sm text-[#8a8a8a]">
               One <code className="font-mono text-[12px]">&lt;script&gt;</code>{" "}
-              tag on any site — Shopify, WooCommerce, or custom. See Getting
+              tag on any site - Shopify, WooCommerce, or custom. See Getting
               Started for the snippet.
             </p>
           </div>

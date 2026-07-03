@@ -13,7 +13,7 @@ const config: IndustryConfig = {
   subhead:
     "FFLs, ammunition manufacturers, optics, suppressors, and 2A retail keep getting cut off by Stripe, PayPal, and Square, for selling fully legal products. Offbank settles in USDC, peer-to-peer, at 1%. No reputational risk reviews. No surprise reserves.",
   heroStats: [
-    { value: "1%", label: "Flat fee, vs 4–8% high-risk" },
+    { value: "1%", label: "Flat fee, vs 4-8% high-risk" },
     { value: "0", label: "Account freezes possible" },
     { value: "<5s", label: "Settlement finality" },
   ],
@@ -28,7 +28,7 @@ const config: IndustryConfig = {
     },
     {
       title: "High-risk processors gouge",
-      desc: "The few processors that accept firearms charge 4–8% plus reserve withholding. Margin disappears.",
+      desc: "The few processors that accept firearms charge 4-8% plus reserve withholding. Margin disappears.",
     },
     {
       title: "B2B wholesale is paper cheques",
@@ -53,7 +53,7 @@ const config: IndustryConfig = {
     },
     {
       title: "Cash out to USD on your schedule",
-      desc: "Sphere off-ramp pushes USDC to your bank via ACH or wire. 1–2 business days. You control timing.",
+      desc: "Sphere off-ramp pushes USDC to your bank via ACH or wire. 1-2 business days. You control timing.",
       icon: Zap,
     },
   ],
@@ -88,7 +88,7 @@ const config: IndustryConfig = {
     },
     {
       q: "How does cash-out to USD work?",
-      a: "Sphere off-ramp converts USDC → USD and pushes via ACH (1–2 days), wire (same day), or SEPA (EU). You initiate when ready. No mandatory holds.",
+      a: "Sphere off-ramp converts USDC → USD and pushes via ACH (1-2 days), wire (same day), or SEPA (EU). You initiate when ready. No mandatory holds.",
     },
   ],
 };

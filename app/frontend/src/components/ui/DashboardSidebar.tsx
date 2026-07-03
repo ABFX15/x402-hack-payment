@@ -30,7 +30,7 @@ import {
   Users,
 } from "lucide-react";
 
-// Focused nav — the money loop + the tools that support it. Niche/overlapping
+// Focused nav - the money loop + the tools that support it. Niche/overlapping
 // pages (orders, settlements, receivables, collections, team, privacy, cloak,
 // subscriptions, webhooks) still exist and are reachable, just not surfaced here.
 const navItems = [
@@ -65,12 +65,12 @@ export function DashboardSidebar() {
     try {
       await disconnect();
     } catch {
-      /* not connected via adapter — fine */
+      /* not connected via adapter - fine */
     }
     try {
       if (privyAuthenticated) await privyLogout();
     } catch {
-      /* not logged in via Privy — fine */
+      /* not logged in via Privy - fine */
     }
     window.location.href = "/";
   };

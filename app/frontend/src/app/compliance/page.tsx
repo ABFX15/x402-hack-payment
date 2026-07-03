@@ -203,7 +203,7 @@ export default function CompliancePage() {
             "@context": "https://schema.org",
             "@type": "Article",
             headline:
-              "Offbank Compliance Documentation — AML Program, KYB, Transaction Monitoring & SAR Process",
+              "Offbank Compliance Documentation - AML Program, KYB, Transaction Monitoring & SAR Process",
             description:
               "Complete compliance documentation for Offbank: AML program structure, KYB verification, OFAC screening, transaction monitoring typologies, SAR filing procedures, and record retention policy.",
             author: {
@@ -278,7 +278,7 @@ export default function CompliancePage() {
               style={{ color: palette.slate }}
             >
               How Offbank achieves full regulatory compliance for
-              restricted-commerce B2B settlements — without custody, without
+              restricted-commerce B2B settlements - without custody, without
               banks, and without compromising on speed or privacy.
             </p>
           </Reveal>
@@ -340,7 +340,7 @@ export default function CompliancePage() {
                 className="text-sm leading-relaxed"
                 style={{ color: palette.slate }}
               >
-                Offbank is a <strong>non-custodial</strong> settlement protocol —
+                Offbank is a <strong>non-custodial</strong> settlement protocol -
                 a software layer, not a money services business. We never hold,
                 pool, or have unilateral control over user funds. Payments move
                 directly between counterparties via on-chain smart contracts on
@@ -470,7 +470,7 @@ export default function CompliancePage() {
       </section>
 
       {/* ═══════════════════════════════════════════
-          SECTION 1 — GENIUS ACT
+          SECTION 1 - GENIUS ACT
          ═══════════════════════════════════════════ */}
       <SectionAnchor id="genius-act" />
       <section className="pb-24">
@@ -514,38 +514,38 @@ export default function CompliancePage() {
               {
                 title: "Permitted Payment Stablecoins Only",
                 description:
-                  "Offbank exclusively uses USDC issued by Circle — a fully reserved, audited, and GENIUS Act-compliant payment stablecoin. We do not support algorithmic, offshore, or unregistered stablecoins. Every dollar that flows through Offbank is backed 1:1 by U.S. Treasury obligations and cash equivalents.",
-                badge: "§3 — Definitions",
+                  "Offbank exclusively uses USDC issued by Circle - a fully reserved, audited, and GENIUS Act-compliant payment stablecoin. We do not support algorithmic, offshore, or unregistered stablecoins. Every dollar that flows through Offbank is backed 1:1 by U.S. Treasury obligations and cash equivalents.",
+                badge: "§3 - Definitions",
               },
               {
                 title: "Issuer Compliance Requirements",
                 description:
-                  "Circle, as the USDC issuer, maintains registration with FinCEN, state-level licenses, and undergoes monthly reserve attestations by a Big Four accounting firm. Offbank verifies that all stablecoins routed through our protocol originate from compliant issuers — a check embedded at the smart contract level.",
-                badge: "§4 — Registration",
+                  "Circle, as the USDC issuer, maintains registration with FinCEN, state-level licenses, and undergoes monthly reserve attestations by a Big Four accounting firm. Offbank verifies that all stablecoins routed through our protocol originate from compliant issuers - a check embedded at the smart contract level.",
+                badge: "§4 - Registration",
               },
               {
                 title: "Redemption Guarantees",
                 description:
-                  "USDC provides 1:1 redemption to U.S. dollars on demand. Because Offbank is non-custodial, recipients can redeem their USDC directly through Circle or any compliant on-ramp/off-ramp. We never create a redemption bottleneck — there is no pooling, no lock-up, and no withdrawal queue.",
-                badge: "§5 — Redemption",
+                  "USDC provides 1:1 redemption to U.S. dollars on demand. Because Offbank is non-custodial, recipients can redeem their USDC directly through Circle or any compliant on-ramp/off-ramp. We never create a redemption bottleneck - there is no pooling, no lock-up, and no withdrawal queue.",
+                badge: "§5 - Redemption",
               },
               {
                 title: "Reserve & Transparency Requirements",
                 description:
                   "Circle publishes monthly reserve reports and undergoes annual audits under the GENIUS Act's transparency mandate. Offbank surfaces this information in our compliance dashboard, giving operators direct visibility into the backing of every dollar settled on our rails.",
-                badge: "§6 — Reserves",
+                badge: "§6 - Reserves",
               },
               {
                 title: "Consumer & Business Protection",
                 description:
-                  "By operating non-custodially on public blockchain infrastructure (Solana), every Offbank transaction produces an immutable, timestamped receipt. Both counterparties can independently verify settlement status, amount, and timing — no reliance on Offbank's systems for proof of payment.",
-                badge: "§8 — Protection",
+                  "By operating non-custodially on public blockchain infrastructure (Solana), every Offbank transaction produces an immutable, timestamped receipt. Both counterparties can independently verify settlement status, amount, and timing - no reliance on Offbank's systems for proof of payment.",
+                badge: "§8 - Protection",
               },
               {
                 title: "Interoperability & Open Standards",
                 description:
                   "Offbank is built on Solana's public, permissionless infrastructure using open-source smart contracts. Our protocol is interoperable with any wallet, exchange, or DeFi protocol that supports SPL tokens. No vendor lock-in, no proprietary rails, no walled gardens.",
-                badge: "§10 — Interoperability",
+                badge: "§10 - Interoperability",
               },
             ].map((item, i) => (
               <Reveal key={item.title} delay={i * 0.04}>
@@ -591,7 +591,7 @@ export default function CompliancePage() {
       </section>
 
       {/* ═══════════════════════════════════════════
-          SECTION 2 — BSA/AML
+          SECTION 2 - BSA/AML
          ═══════════════════════════════════════════ */}
       <SectionAnchor id="bsa-aml" />
       <section className="pb-24">
@@ -621,7 +621,7 @@ export default function CompliancePage() {
             >
               While Offbank is not a money transmitter, we proactively implement
               Bank Secrecy Act and Anti-Money Laundering controls as a matter of
-              principles — and because our customers in restricted industries
+              principles - and because our customers in restricted industries
               need this protection to operate confidently.
             </p>
           </Reveal>
@@ -638,7 +638,7 @@ export default function CompliancePage() {
                 icon: AlertTriangle,
                 title: "Transaction Monitoring",
                 description:
-                  "Offbank monitors settlement patterns for anomalous activity — unusual volumes, rapid-fire transactions, structuring patterns, and sanctioned-jurisdiction exposure. Flagged transactions are held for manual review before settlement.",
+                  "Offbank monitors settlement patterns for anomalous activity - unusual volumes, rapid-fire transactions, structuring patterns, and sanctioned-jurisdiction exposure. Flagged transactions are held for manual review before settlement.",
               },
               {
                 icon: FileCheck,
@@ -701,7 +701,7 @@ export default function CompliancePage() {
                   fontFamily: "var(--font-heading)",
                 }}
               >
-                Transaction Lifecycle — AML Controls
+                Transaction Lifecycle - AML Controls
               </h3>
               <div className="space-y-6">
                 <TimelineItem
@@ -717,7 +717,7 @@ export default function CompliancePage() {
                 <TimelineItem
                   step="3"
                   title="Settlement Execution"
-                  description="Approved transactions are routed through on-chain smart contracts. The settlement instruction, compliance metadata, and timestamps are embedded in the transaction — immutable and auditable."
+                  description="Approved transactions are routed through on-chain smart contracts. The settlement instruction, compliance metadata, and timestamps are embedded in the transaction - immutable and auditable."
                 />
                 <TimelineItem
                   step="4"
@@ -732,7 +732,7 @@ export default function CompliancePage() {
       </section>
 
       {/* ═══════════════════════════════════════════
-          SECTION 2B — AML COMPLIANCE PROGRAM
+          SECTION 2B - AML COMPLIANCE PROGRAM
          ═══════════════════════════════════════════ */}
       <SectionAnchor id="aml-program" />
       <section className="pb-24">
@@ -764,7 +764,7 @@ export default function CompliancePage() {
               Program modeled on FinCEN&apos;s five-pillar framework. Even
               though our non-custodial architecture likely exempts us from MSB
               registration, we hold ourselves to MSB-grade standards because our
-              customers — cannabis operators and other restricted businesses —
+              customers - cannabis operators and other restricted businesses -
               need a payment provider they can hand to an auditor without
               hesitation.
             </p>
@@ -773,27 +773,27 @@ export default function CompliancePage() {
           <div className="mt-10 space-y-6">
             {[
               {
-                title: "Pillar 1 — Designated Compliance Officer",
+                title: "Pillar 1 - Designated Compliance Officer",
                 description:
                   "Offbank designates a qualified Compliance Officer responsible for the day-to-day administration of the AML program, including policy updates, staff training, and regulatory reporting. The Compliance Officer reports directly to the CEO and has authority to halt transactions pending investigation. Current CO credentials and contact are available to regulators and KYB-verified merchants upon request.",
               },
               {
-                title: "Pillar 2 — Internal Policies, Procedures & Controls",
+                title: "Pillar 2 - Internal Policies, Procedures & Controls",
                 description:
                   "Our AML program includes documented procedures for: (a) customer onboarding and KYB verification, (b) ongoing transaction monitoring and risk scoring, (c) OFAC and sanctions list screening, (d) SAR identification, investigation, and filing, (e) record retention and document management, (f) escalation protocols for high-risk transactions, and (g) periodic policy review and update (minimum annually). All procedures are version-controlled and audit-logged.",
               },
               {
-                title: "Pillar 3 — Training Program",
+                title: "Pillar 3 - Training Program",
                 description:
                   "All Offbank employees with access to customer data or transaction systems complete AML/BSA training at onboarding and annually thereafter. Training covers: identifying red flags for money laundering and terrorist financing, SAR filing obligations, OFAC compliance requirements, cannabis-industry-specific AML considerations, and proper escalation procedures. Training completion is documented and retained for 5 years.",
               },
               {
-                title: "Pillar 4 — Independent Testing",
+                title: "Pillar 4 - Independent Testing",
                 description:
                   "Offbank engages independent third-party auditors to test AML program effectiveness at least annually. Testing scope includes: review of KYB procedures, sample testing of OFAC screening results, evaluation of transaction monitoring thresholds and alert resolution, SAR filing timeliness and completeness, and staff training adequacy. Audit findings are tracked to remediation.",
               },
               {
-                title: "Pillar 5 — Risk-Based Customer Due Diligence",
+                title: "Pillar 5 - Risk-Based Customer Due Diligence",
                 description:
                   "Every Offbank merchant receives a risk rating at onboarding (Standard, Elevated, or High) based on: industry classification, geographic exposure, expected transaction volume and velocity, beneficial ownership complexity, and adverse media screening results. High-risk merchants receive Enhanced Due Diligence (EDD) including quarterly re-verification, lower transaction monitoring thresholds, and manual review of transactions above $10,000.",
               },
@@ -943,7 +943,7 @@ export default function CompliancePage() {
       </section>
 
       {/* ═══════════════════════════════════════════
-          SECTION 3 — KYB PROCESS
+          SECTION 3 - KYB PROCESS
          ═══════════════════════════════════════════ */}
       <SectionAnchor id="kyb" />
       <section className="pb-24">
@@ -973,7 +973,7 @@ export default function CompliancePage() {
             >
               Every business on Offbank goes through Know Your Business
               verification before their first settlement. This is non-negotiable
-              — even for industries that banks refuse to serve.
+              - even for industries that banks refuse to serve.
             </p>
           </Reveal>
 
@@ -983,7 +983,7 @@ export default function CompliancePage() {
                 step: "1",
                 title: "Business Entity Verification",
                 description:
-                  "We verify the legal existence and good standing of the business entity — articles of incorporation, state registrations, EIN confirmation, and operating licenses. For cannabis operators, this includes state cannabis license verification.",
+                  "We verify the legal existence and good standing of the business entity - articles of incorporation, state registrations, EIN confirmation, and operating licenses. For cannabis operators, this includes state cannabis license verification.",
               },
               {
                 step: "2",
@@ -1001,7 +1001,7 @@ export default function CompliancePage() {
                 step: "4",
                 title: "Bank & Financial Verification",
                 description:
-                  "We verify that the business has a legitimate banking relationship (or is actively seeking one — many of our customers are underbanked by design of the traditional system). Off-ramp and on-ramp pathways are established during onboarding.",
+                  "We verify that the business has a legitimate banking relationship (or is actively seeking one - many of our customers are underbanked by design of the traditional system). Off-ramp and on-ramp pathways are established during onboarding.",
               },
               {
                 step: "5",
@@ -1126,7 +1126,7 @@ export default function CompliancePage() {
                               style={{ color: palette.green }}
                             />
                           ) : (
-                            <span style={{ color: palette.muted }}>—</span>
+                            <span style={{ color: palette.muted }}>-</span>
                           )}
                         </td>
                         <td className="px-4 py-3 sm:px-6">
@@ -1136,7 +1136,7 @@ export default function CompliancePage() {
                               style={{ color: palette.green }}
                             />
                           ) : (
-                            <span style={{ color: palette.muted }}>—</span>
+                            <span style={{ color: palette.muted }}>-</span>
                           )}
                         </td>
                       </tr>
@@ -1150,7 +1150,7 @@ export default function CompliancePage() {
       </section>
 
       {/* ═══════════════════════════════════════════
-          TRANSACTION MONITORING — DEEP DIVE
+          TRANSACTION MONITORING - DEEP DIVE
          ═══════════════════════════════════════════ */}
       <SectionAnchor id="transaction-monitoring" />
       <section className="pb-24">
@@ -1183,7 +1183,7 @@ export default function CompliancePage() {
             >
               Offbank runs real-time and batch-level transaction monitoring
               across every settlement. Below are the specific typologies,
-              thresholds, and actions we take — not vague promises, but the
+              thresholds, and actions we take - not vague promises, but the
               actual rules engine that processes every dollar on the platform.
             </p>
           </Reveal>
@@ -1194,7 +1194,7 @@ export default function CompliancePage() {
               {
                 title: "Structuring Detection",
                 description:
-                  "Transactions are analyzed for patterns consistent with structuring — the intentional breaking of large amounts into smaller transactions to avoid reporting thresholds. We flag: (a) multiple transactions from the same sender within 24 hours that aggregate above $10,000, (b) transactions consistently just below round-number thresholds, (c) rapid sequential transfers between related wallets.",
+                  "Transactions are analyzed for patterns consistent with structuring - the intentional breaking of large amounts into smaller transactions to avoid reporting thresholds. We flag: (a) multiple transactions from the same sender within 24 hours that aggregate above $10,000, (b) transactions consistently just below round-number thresholds, (c) rapid sequential transfers between related wallets.",
                 threshold: "Aggregate > $10,000/24h or pattern match",
                 action: "Auto-hold + manual review within 4 hours",
               },
@@ -1215,7 +1215,7 @@ export default function CompliancePage() {
               {
                 title: "Geographic Risk Signals",
                 description:
-                  "IP geolocation, wallet provenance analysis, and counterparty jurisdiction are evaluated against: OFAC-sanctioned countries (Cuba, Iran, North Korea, Syria, Crimea region), FATF grey-list and black-list jurisdictions, jurisdictions with known deficiencies in cannabis regulation. VPN detection is active — transactions from known VPN exit nodes associated with sanctioned regions trigger enhanced review.",
+                  "IP geolocation, wallet provenance analysis, and counterparty jurisdiction are evaluated against: OFAC-sanctioned countries (Cuba, Iran, North Korea, Syria, Crimea region), FATF grey-list and black-list jurisdictions, jurisdictions with known deficiencies in cannabis regulation. VPN detection is active - transactions from known VPN exit nodes associated with sanctioned regions trigger enhanced review.",
                 threshold: "Any sanctioned jurisdiction indicator",
                 action: "Block or enhanced review depending on signal strength",
               },
@@ -1350,7 +1350,7 @@ export default function CompliancePage() {
                 <TimelineItem
                   step="1"
                   title="Alert Generation"
-                  description="Transaction monitoring rules or manual review generate an alert. Alerts are triaged by severity: Critical (immediate freeze — sanctions hits, confirmed structuring), High (review within 4 hours — threshold breaches, velocity anomalies), Medium (review within 24 hours — geographic risk signals, unusual patterns), Low (batch review — minor deviations, informational)."
+                  description="Transaction monitoring rules or manual review generate an alert. Alerts are triaged by severity: Critical (immediate freeze - sanctions hits, confirmed structuring), High (review within 4 hours - threshold breaches, velocity anomalies), Medium (review within 24 hours - geographic risk signals, unusual patterns), Low (batch review - minor deviations, informational)."
                 />
                 <TimelineItem
                   step="2"
@@ -1365,7 +1365,7 @@ export default function CompliancePage() {
                 <TimelineItem
                   step="4"
                   title="Filing with FinCEN"
-                  description="SARs are filed electronically with FinCEN via BSA E-Filing within 30 calendar days of the initial alert (15 days if the subject is not identifiable and additional time is needed). Offbank maintains direct BSA E-Filing access — we do not rely on third-party intermediaries for SAR submission."
+                  description="SARs are filed electronically with FinCEN via BSA E-Filing within 30 calendar days of the initial alert (15 days if the subject is not identifiable and additional time is needed). Offbank maintains direct BSA E-Filing access - we do not rely on third-party intermediaries for SAR submission."
                 />
                 <TimelineItem
                   step="5"
@@ -1548,7 +1548,7 @@ export default function CompliancePage() {
       </section>
 
       {/* ═══════════════════════════════════════════
-          SECTION 4 — ARCHITECTURE
+          SECTION 4 - ARCHITECTURE
          ═══════════════════════════════════════════ */}
       <SectionAnchor id="architecture" />
       <section className="pb-24">
@@ -1576,7 +1576,7 @@ export default function CompliancePage() {
               className="mt-4 max-w-2xl text-sm leading-relaxed"
               style={{ color: palette.slate }}
             >
-              Compliance is not a feature bolted on after the fact — it is
+              Compliance is not a feature bolted on after the fact - it is
               embedded in every layer of the Offbank protocol. Here is how it
               works end-to-end.
             </p>
@@ -1635,7 +1635,7 @@ export default function CompliancePage() {
               {
                 title: "Non-Custodial by Design",
                 description:
-                  "Offbank smart contracts are escrow programs — funds move atomically from sender to receiver in a single transaction. At no point does Offbank (or any Offbank-controlled wallet) have unilateral control over user funds.",
+                  "Offbank smart contracts are escrow programs - funds move atomically from sender to receiver in a single transaction. At no point does Offbank (or any Offbank-controlled wallet) have unilateral control over user funds.",
               },
               {
                 title: "On-Chain Compliance Stamps",
@@ -1701,7 +1701,7 @@ export default function CompliancePage() {
                   fontFamily: "var(--font-heading)",
                 }}
               >
-                Regulatory Landscape — 2026
+                Regulatory Landscape - 2026
               </h3>
               <div className="space-y-4">
                 {[
@@ -1830,11 +1830,11 @@ export default function CompliancePage() {
             {[
               {
                 q: "Is Offbank a money transmitter?",
-                a: "No. Offbank is a non-custodial technology provider. We never hold, pool, or have unilateral control over user funds. Under FinCEN guidance FIN-2019-G001, non-custodial software that facilitates peer-to-peer transfers is not classified as a money transmitter. Our smart contracts execute atomic settlements — funds move directly from sender to receiver in a single on-chain transaction with no Offbank-controlled intermediary wallet.",
+                a: "No. Offbank is a non-custodial technology provider. We never hold, pool, or have unilateral control over user funds. Under FinCEN guidance FIN-2019-G001, non-custodial software that facilitates peer-to-peer transfers is not classified as a money transmitter. Our smart contracts execute atomic settlements - funds move directly from sender to receiver in a single on-chain transaction with no Offbank-controlled intermediary wallet.",
               },
               {
                 q: "Why do you implement BSA/AML controls if you're not an MSB?",
-                a: "Because our customers need it. Cannabis operators and other restricted businesses have been burned by payment providers that lacked compliance infrastructure and got shut down. By voluntarily maintaining MSB-grade AML controls — OFAC screening, transaction monitoring, SAR filing, KYB verification — we give our merchants a compliance layer they can present to auditors, banking partners, and regulators. It also protects us from regulatory risk as the stablecoin landscape evolves.",
+                a: "Because our customers need it. Cannabis operators and other restricted businesses have been burned by payment providers that lacked compliance infrastructure and got shut down. By voluntarily maintaining MSB-grade AML controls - OFAC screening, transaction monitoring, SAR filing, KYB verification - we give our merchants a compliance layer they can present to auditors, banking partners, and regulators. It also protects us from regulatory risk as the stablecoin landscape evolves.",
               },
               {
                 q: "How do you screen wallets against OFAC sanctions?",
@@ -1850,15 +1850,15 @@ export default function CompliancePage() {
               },
               {
                 q: "How long do you retain compliance records?",
-                a: "All compliance records — KYB files, OFAC screening results, SAR documentation, transaction monitoring alerts, and audit reports — are retained for 5 years from the relevant date (account closure, screening date, filing date, or resolution date, respectively). On-chain transaction records are permanently accessible on the Solana blockchain. Off-chain enrichment data (compliance metadata, risk scores, case notes) is retained for 5 years in encrypted storage.",
+                a: "All compliance records - KYB files, OFAC screening results, SAR documentation, transaction monitoring alerts, and audit reports - are retained for 5 years from the relevant date (account closure, screening date, filing date, or resolution date, respectively). On-chain transaction records are permanently accessible on the Solana blockchain. Off-chain enrichment data (compliance metadata, risk scores, case notes) is retained for 5 years in encrypted storage.",
               },
               {
                 q: "Can my auditor access Offbank's compliance data?",
-                a: "Yes. KYB-verified merchants can export their full compliance history via the dashboard or API: transaction records with compliance stamps, KYB verification status and documentation, OFAC screening results for all counterparties, risk scores and monitoring alert history, and aggregate compliance statistics. We also provide direct auditor read-access upon merchant authorization — your auditor can independently verify compliance data without going through your team.",
+                a: "Yes. KYB-verified merchants can export their full compliance history via the dashboard or API: transaction records with compliance stamps, KYB verification status and documentation, OFAC screening results for all counterparties, risk scores and monitoring alert history, and aggregate compliance statistics. We also provide direct auditor read-access upon merchant authorization - your auditor can independently verify compliance data without going through your team.",
               },
               {
                 q: "Is USDC actually safe to use for regulated businesses?",
-                a: "USDC is issued by Circle, which is registered with FinCEN, holds state money transmitter licenses, and complies with the GENIUS Act of 2025 — the first comprehensive federal stablecoin framework. USDC reserves are held in U.S. Treasury obligations and cash at regulated financial institutions, with monthly reserve attestations by a Big Four accounting firm. USDC is also MiCA-compliant in the EU. It is the most regulated stablecoin in the United States.",
+                a: "USDC is issued by Circle, which is registered with FinCEN, holds state money transmitter licenses, and complies with the GENIUS Act of 2025 - the first comprehensive federal stablecoin framework. USDC reserves are held in U.S. Treasury obligations and cash at regulated financial institutions, with monthly reserve attestations by a Big Four accounting firm. USDC is also MiCA-compliant in the EU. It is the most regulated stablecoin in the United States.",
               },
             ].map((item, i) => (
               <Reveal key={item.q} delay={i * 0.03}>
@@ -1914,7 +1914,7 @@ export default function CompliancePage() {
                 Compliance Should Not Be a Competitive Disadvantage
               </h2>
               <p className="mx-auto mt-4 max-w-lg text-sm leading-relaxed text-white/70">
-                Your industry was abandoned by banks — not by regulators. Offbank
+                Your industry was abandoned by banks - not by regulators. Offbank
                 gives you the compliance infrastructure that traditional finance
                 refused to build for you.
               </p>
@@ -1927,7 +1927,7 @@ export default function CompliancePage() {
                       "linear-gradient(135deg, #34c759 0%, #2ba048 100%)",
                   }}
                 >
-                  Get Started
+                  Get started
                   <ArrowRight className="h-4 w-4" />
                 </Link>
                 <Link

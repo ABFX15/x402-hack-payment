@@ -119,7 +119,7 @@ function ProblemTab() {
           <div className="mt-5 space-y-2.5">
             {[
               "Banks freeze accounts without warning",
-              "High-risk processors charge 5–9%",
+              "High-risk processors charge 5-9%",
               "Moving physical cash is dangerous",
               "No recourse when funds are frozen",
             ].map((item, i) => (
@@ -130,7 +130,7 @@ function ProblemTab() {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ ...spring, delay: 0.15 + i * 0.06 }}
               >
-                <CheckCircle2 className="h-4 w-4 shrink-0 text-[#e74c3c]" />
+                <CheckCircle2 className="h-4 w-4 shrink-0 text-[#8a8a8a]" />
                 <span className="text-sm" style={{ color: t.slate }}>
                   {item}
                 </span>
@@ -140,7 +140,7 @@ function ProblemTab() {
         </div>
         <div className="grid grid-cols-2 gap-3">
           {[
-            { stat: "5–9%", label: "Processing fees" },
+            { stat: "5-9%", label: "Processing fees" },
             { stat: "72hrs", label: "Avg. freeze time" },
             { stat: "$0", label: "Recourse" },
             { stat: "100%", label: "Cash dependent" },
@@ -153,7 +153,7 @@ function ProblemTab() {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ ...spring, delay: 0.1 + i * 0.06 }}
             >
-              <p className="text-2xl font-bold text-[#e74c3c]">{s.stat}</p>
+              <p className="text-2xl font-bold text-[#212121]">{s.stat}</p>
               <p className="mt-1 text-xs" style={{ color: "#5c5c5c" }}>
                 {s.label}
               </p>

@@ -391,10 +391,10 @@ export function VaultCard() {
               {vaultInfo
                 ? vaultBalance !== null
                   ? vaultBalance.toFixed(2)
-                  : "—"
+                  : "-"
                 : balance !== null
                 ? balance.toFixed(2)
-                : "—"}
+                : "-"}
             </span>
             <span className="text-sm text-[#8a8a8a] mb-1">USDC</span>
           </div>

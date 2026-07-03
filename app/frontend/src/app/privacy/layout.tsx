@@ -18,7 +18,7 @@ export const metadata: Metadata = {
         url: "/opengraph-image?v=3",
         width: 1200,
         height: 630,
-        alt: "Offbank — Privacy Policy",
+        alt: "Offbank - Privacy Policy",
       },
     ],
   },

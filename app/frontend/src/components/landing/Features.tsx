@@ -33,7 +33,7 @@ const features = [
   },
   {
     title: "1% Flat\nFee",
-    desc: "Not 5–9% like high-risk processors. One percent, every transaction, no surprises.",
+    desc: "Not 5-9% like high-risk processors. One percent, every transaction, no surprises.",
     img: "/nobg-envelope.png",
   },
 ];

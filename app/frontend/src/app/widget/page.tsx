@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * /widget — showcase + docs for the embeddable checkout widget. Loads the same
+ * /widget - showcase + docs for the embeddable checkout widget. Loads the same
  * /embed.js a merchant would, so the "Try it live" button is the real widget.
  */
 
@@ -29,7 +29,7 @@ const PROGRAMMATIC = `// Call this from your store's checkout button,
 // with the LIVE cart total at that moment:
 OffbankCheckout.open({
   merchant: "YOUR_SOLANA_ADDRESS",
-  evm: "YOUR_EVM_ADDRESS",         // optional — accept Ethereum/Base too
+  evm: "YOUR_EVM_ADDRESS",         // optional - accept Ethereum/Base too
   amount: cart.total,              // dynamic
   name: "Your Store",
   orderId: order.id,
@@ -75,7 +75,7 @@ export default function WidgetPage() {
       </h1>
       <p className="mt-4 text-lg text-[#475467]">
         Drop in one script and a button. Your buyer pays stablecoin straight to
-        your wallet — settles instantly, no card processor, no chargebacks,
+        your wallet - settles instantly, no card processor, no chargebacks,
         works across borders.
       </p>
 
@@ -102,7 +102,7 @@ export default function WidgetPage() {
 
       {lastPaid && (
         <div className="mt-4 rounded-lg border border-[#34c759]/30 bg-[#34c759]/5 px-4 py-3 text-sm text-[#027a48]">
-          ✓ Demo payment received — signature{" "}
+          ✓ Demo payment received - signature{" "}
           <span className="font-mono">{lastPaid.slice(0, 16)}…</span>
         </div>
       )}
@@ -135,7 +135,7 @@ export default function WidgetPage() {
           },
           {
             t: "Settles instantly",
-            d: "USDC lands in your wallet on-chain — final in seconds.",
+            d: "USDC lands in your wallet on-chain - final in seconds.",
           },
           {
             t: "You're notified",
@@ -153,7 +153,7 @@ export default function WidgetPage() {
       </div>
 
       <p className="mt-10 text-[13px] text-[#98a2b3]">
-        The widget is one piece of Offbank — invoicing, a POS terminal, supplier
+        The widget is one piece of Offbank - invoicing, a POS terminal, supplier
         payouts, and compliance tooling come with it.
       </p>
     </div>

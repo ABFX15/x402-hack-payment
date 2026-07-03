@@ -3,7 +3,7 @@ import { Navbar } from "@/components/ui/Navbar";
 import { Footer } from "@/components/ui/Footer";
 
 export const metadata: Metadata = {
-  title: "Terms of Service — Offbank",
+  title: "Terms of Service - Offbank",
   description:
     "Offbank Terms of Service. Read the conditions that govern use of the Offbank stablecoin settlement platform.",
   alternates: { canonical: "/terms" },

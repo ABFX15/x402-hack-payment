@@ -75,7 +75,7 @@ const WalletModal: FC<WalletModalProps> = ({ visible, onClose }) => {
 
   // After `select(name)` completes, the wallet-adapter swaps `wallet` to
   // the chosen adapter on the next render. With autoConnect disabled
-  // (e.g. on /login) we have to explicitly call connect() — otherwise
+  // (e.g. on /login) we have to explicitly call connect() - otherwise
   // the wallet popup never fires. Trigger it once the selected adapter
   // has actually been wired up.
   useEffect(() => {

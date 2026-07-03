@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * BusinessVerification — the merchant's own KYB step.
+ * BusinessVerification - the merchant's own KYB step.
  *
  * Mounts the Sumsub WebSDK so a merchant can verify their business (license +
  * beneficial-owner ID). Verification runs under the merchant's WALLET as the
@@ -185,7 +185,7 @@ export function BusinessVerification() {
             </div>
             <p className="mt-0.5 text-sm text-[#8a8a8a]">
               Upload your business license and owner ID. This is the KYB step
-              banks and settlement partners require — and it&rsquo;s what flips
+              banks and settlement partners require - and it&rsquo;s what flips
               your compliance dossier to{" "}
               <span className="font-medium text-[#212121]">Verified</span>.
             </p>

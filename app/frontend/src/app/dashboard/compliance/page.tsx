@@ -101,7 +101,7 @@ export default function ComplianceSettingsPage() {
 
   // Open a clean, branded, print-ready report and trigger the browser's
   // print dialog (→ "Save as PDF"). This is the presentable artifact you
-  // hand a bank / credit-union compliance officer — not raw JSON.
+  // hand a bank / credit-union compliance officer - not raw JSON.
   const downloadDossier = () => {
     if (!dossier) return;
     const d = dossier;
@@ -148,8 +148,8 @@ export default function ComplianceSettingsPage() {
 
   <h2>Business</h2>
   <table>
-    ${row("Legal name", d.business.name || "—")}
-    ${row("License number", d.business.licenseNumber || "—")}
+    ${row("Legal name", d.business.name || "-")}
+    ${row("License number", d.business.licenseNumber || "-")}
     <tr><td style="padding:10px 0;color:#64748b;font-size:14px">Settlement wallet</td><td style="padding:10px 0;text-align:right" class="mono">${d.business.wallet}</td></tr>
   </table>
 
@@ -185,7 +185,7 @@ export default function ComplianceSettingsPage() {
 
     const w = window.open("", "_blank");
     if (!w) {
-      // Pop-up blocked — fall back to the JSON export so the click still does something.
+      // Pop-up blocked - fall back to the JSON export so the click still does something.
       downloadJson();
       return;
     }
@@ -325,10 +325,10 @@ export default function ComplianceSettingsPage() {
           </div>
         </motion.div>
 
-        {/* Merchant KYB — verifying the business itself; feeds the dossier */}
+        {/* Merchant KYB - verifying the business itself; feeds the dossier */}
         <BusinessVerification />
 
-        {/* Compliance dossier — the bank/OTC-ready proof of clean funds */}
+        {/* Compliance dossier - the bank/OTC-ready proof of clean funds */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -341,7 +341,7 @@ export default function ComplianceSettingsPage() {
               <div>
                 <p className="font-semibold text-[#212121]">Compliance dossier</p>
                 <p className="mt-0.5 text-sm text-[#8a8a8a]">
-                  One report proving your funds are clean — identity, KYB, AML
+                  One report proving your funds are clean - identity, KYB, AML
                   screening, on-chain volume, and settlement history. Send it to a
                   bank or settlement partner.
                 </p>
@@ -389,7 +389,7 @@ export default function ComplianceSettingsPage() {
                 />
               </div>
               <p className="mt-3 text-xs text-[#8a8a8a]">
-                &ldquo;Download PDF&rdquo; opens a print-ready report — choose
+                &ldquo;Download PDF&rdquo; opens a print-ready report - choose
                 &ldquo;Save as PDF&rdquo;.{" "}
                 <button
                   onClick={downloadJson}

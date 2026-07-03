@@ -44,7 +44,7 @@ export default function ShopifyPage() {
   return (
     <main
       className="relative min-h-screen bg-[#FFFFFF] text-[#212121] antialiased"
-      style={{ fontFamily: "var(--font-inter), system-ui, -apple-system, sans-serif" }}
+      style={{ fontFamily: "var(--font-geist-sans), system-ui, -apple-system, sans-serif" }}
     >
       <script
         type="application/ld+json"
@@ -162,7 +162,7 @@ export default function ShopifyPage() {
               {
                 icon: DollarSign,
                 title: "Non-custodial settlement",
-                text: "Funds settle directly to your wallet. No custodian holds your money — you control the keys.",
+                text: "Funds settle directly to your wallet. No custodian holds your money - you control the keys.",
               },
               {
                 icon: Shield,
@@ -267,7 +267,7 @@ export default function ShopifyPage() {
             {[
               "USDC payment method via Shopify Payments API",
               "Automatic order fulfillment on confirmed payment",
-              "Gasless UX — buyers never touch network fees",
+              "Gasless UX - buyers never touch network fees",
               "Subscription billing for recurring products",
               "Works alongside Shopify Payments, PayPal, etc.",
               "Real-time webhook events for payment status",

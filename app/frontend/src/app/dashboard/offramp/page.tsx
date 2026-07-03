@@ -137,7 +137,7 @@ const OFFRAMP_DATA: Record<string, RegionOffRamps> = {
         name: "Pix",
         type: "e-wallet",
         speed: "Instant",
-        description: "Receive via Pix key — CPF, phone, or email",
+        description: "Receive via Pix key - CPF, phone, or email",
       },
       {
         name: "Bank Transfer",
@@ -183,7 +183,7 @@ const OFFRAMP_DATA: Record<string, RegionOffRamps> = {
         name: "UPI",
         type: "e-wallet",
         speed: "Instant",
-        description: "Send to any UPI ID — Google Pay, PhonePe, Paytm",
+        description: "Send to any UPI ID - Google Pay, PhonePe, Paytm",
       },
       {
         name: "IMPS / NEFT",
@@ -1023,7 +1023,7 @@ export default function OfframpPage() {
                   {
                     icon: Banknote,
                     title: "Receive funds",
-                    desc: "Money arrives via your chosen method — often instantly",
+                    desc: "Money arrives via your chosen method - often instantly",
                   },
                 ].map((item) => (
                   <div key={item.title} className="flex items-start gap-3">

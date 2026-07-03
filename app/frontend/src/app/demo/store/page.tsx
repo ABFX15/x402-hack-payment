@@ -245,7 +245,7 @@ export default function DemoStorePage() {
             Pick a plan. Pay with USDC.
           </h2>
           <p className="text-[var(--text-secondary)] max-w-md mx-auto">
-            Try the checkout flow — select a plan and complete payment.
+            Try the checkout flow - select a plan and complete payment.
             <span className="text-[var(--accent-primary)] font-medium">
               {" "}
               Gasless • Instant settlement.
@@ -394,7 +394,7 @@ export default function DemoStorePage() {
                 Pay with USDC • Zero Gas Fees
               </h3>
               <p className="text-sm text-[var(--text-muted)]">
-                Pay with USDC — no SOL required. Offbank covers the gas so
+                Pay with USDC - no SOL required. Offbank covers the gas so
                 checkout is seamless for every user.
               </p>
             </div>

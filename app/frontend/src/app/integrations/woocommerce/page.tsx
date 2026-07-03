@@ -44,7 +44,7 @@ export default function WooCommercePage() {
   return (
     <main
       className="relative min-h-screen bg-[#FFFFFF] text-[#212121] antialiased"
-      style={{ fontFamily: "var(--font-inter), system-ui, -apple-system, sans-serif" }}
+      style={{ fontFamily: "var(--font-geist-sans), system-ui, -apple-system, sans-serif" }}
     >
       <script
         type="application/ld+json"
@@ -267,7 +267,7 @@ export default function WooCommercePage() {
             {[
               "USDC payment gateway for WooCommerce",
               "Automatic order status updates on payment",
-              "Gasless checkout — customers never see gas fees",
+              "Gasless checkout - customers never see gas fees",
               "Subscription support for recurring products",
               "WordPress plugin directory distribution (free)",
               "Works alongside existing payment methods",

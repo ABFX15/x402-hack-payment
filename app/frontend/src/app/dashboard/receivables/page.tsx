@@ -116,9 +116,9 @@ function RiskBadge({ score }: { score: number }) {
 function AgingBar({ buckets }: { buckets: Record<string, AgingBucket> }) {
   const labels: { key: string; label: string; color: string }[] = [
     { key: "current", label: "Current", color: "bg-[#34c759]" },
-    { key: "1-30", label: "1–30 days", color: "bg-[#ffc107]" },
-    { key: "31-60", label: "31–60 days", color: "bg-[#d29500]" },
-    { key: "61-90", label: "61–90 days", color: "bg-[#e74c3c]/80" },
+    { key: "1-30", label: "1-30 days", color: "bg-[#ffc107]" },
+    { key: "31-60", label: "31-60 days", color: "bg-[#d29500]" },
+    { key: "61-90", label: "61-90 days", color: "bg-[#e74c3c]/80" },
     { key: "90+", label: "90+ days", color: "bg-[#e74c3c]" },
   ];
 
@@ -415,7 +415,7 @@ export default function ReceivablesPage() {
             <div className="text-center py-10">
               <DollarSign className="h-8 w-8 text-[#5c5c5c] mx-auto mb-3" />
               <p className="text-sm text-[#8a8a8a]">
-                All caught up — no outstanding invoices
+                All caught up - no outstanding invoices
               </p>
             </div>
           ) : (
@@ -553,7 +553,7 @@ export default function ReceivablesPage() {
                 <span className="font-mono font-semibold text-[#212121]">
                   {s.avgDaysToPayment} days
                 </span>{" "}
-                — that&apos;s cash back in your business faster.
+                - that&apos;s cash back in your business faster.
               </p>
             </div>
           </div>

@@ -27,7 +27,7 @@ export default function AboutPage() {
             <p>
               Offbank is non-custodial stablecoin settlement infrastructure
               purpose-built for cannabis wholesalers and high-risk B2B supply
-              chains. We replace cash drops and predatory 8–12% payment
+              chains. We replace cash drops and predatory 8-12% payment
               processors with instant, on-chain USDC settlement at a 1% flat
               fee.
             </p>
@@ -39,7 +39,7 @@ export default function AboutPage() {
               Cannabis operators move <strong>$34 billion annually</strong>{" "}
               through cash or high-risk merchant accounts. Banks close their
               accounts for being &ldquo;high-risk.&rdquo; Wire transfers take
-              3–5 business days. Cash-heavy operations routinely fail compliance
+              3-5 business days. Cash-heavy operations routinely fail compliance
               audits.
             </p>
             <p>

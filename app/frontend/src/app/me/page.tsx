@@ -567,7 +567,7 @@ export default function RecipientDashboard() {
                 >
                   Offbank
                 </a>{" "}
-                — non-custodial settlement infrastructure
+                - non-custodial settlement infrastructure
               </p>
             </motion.div>
           )}

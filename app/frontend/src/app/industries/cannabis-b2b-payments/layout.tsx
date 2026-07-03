@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-// Noindex this older landing variant — primary canonical is /industries/cannabis.
+// Noindex this older landing variant - primary canonical is /industries/cannabis.
 // Kept reachable so existing inbound links don't break, but excluded from
 // search to avoid Google flagging duplicate cannabis content.
 export const metadata: Metadata = {

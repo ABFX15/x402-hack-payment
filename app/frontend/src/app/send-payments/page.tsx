@@ -47,7 +47,7 @@ export default function SendPaymentsPage() {
   return (
     <main
       className="relative min-h-screen bg-[#FFFFFF] text-[#212121] antialiased"
-      style={{ fontFamily: "var(--font-inter), system-ui, -apple-system, sans-serif" }}
+      style={{ fontFamily: "var(--font-geist-sans), system-ui, -apple-system, sans-serif" }}
     >
       {/* JSON-LD */}
       <script
@@ -137,7 +137,7 @@ export default function SendPaymentsPage() {
                 step: "01",
                 icon: Code2,
                 title: "Call the API",
-                text: "Send a settlement with one SDK call — just a wallet address and an amount in USDC. We handle gas, multisig, and finality.",
+                text: "Send a settlement with one SDK call - just a wallet address and an amount in USDC. We handle gas, multisig, and finality.",
                 code: `await offbank.settle({
   to: "worker@email.com",
   amount: 50,
@@ -148,7 +148,7 @@ export default function SendPaymentsPage() {
                 step: "02",
                 icon: Mail,
                 title: "Recipient gets an email",
-                text: "They click a link to claim their payment. An embedded wallet is created automatically — no app download, no seed phrase, no crypto knowledge.",
+                text: "They click a link to claim their payment. An embedded wallet is created automatically - no app download, no seed phrase, no crypto knowledge.",
               },
               {
                 step: "03",
@@ -197,7 +197,7 @@ export default function SendPaymentsPage() {
           <p className="mt-4 max-w-xl text-[#8a8a8a] leading-relaxed">
             Stablecoin payments remove the middlemen. No correspondent banks, no
             FX desks, no 3-day settlement windows. Just USDC moving from your
-            platform to your recipient — instantly.
+            platform to your recipient - instantly.
           </p>
         </Reveal>
 
@@ -223,7 +223,7 @@ export default function SendPaymentsPage() {
             },
             {
               icon: Shield,
-              title: "Non-custodial — we never hold funds",
+              title: "Non-custodial - we never hold funds",
               text: "Payments flow directly via on-chain smart contracts. Offbank never takes custody of your money or your recipients' money.",
               color: "#f87171",
             },
@@ -299,7 +299,7 @@ export default function SendPaymentsPage() {
               {
                 icon: Zap,
                 title: "Gasless for recipients",
-                text: "We cover all network fees. Recipients never pay gas — stablecoin payments are free to receive.",
+                text: "We cover all network fees. Recipients never pay gas - stablecoin payments are free to receive.",
               },
             ].map((item, i) => (
               <Reveal key={item.title} delay={i * 0.06}>

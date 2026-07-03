@@ -48,7 +48,7 @@ const comparisonRows = [
   {
     feature: "Settlement Speed",
     offbank: "< 1 second",
-    stripe: "2–7 business days",
+    stripe: "2-7 business days",
     winner: "offbank",
   },
   {
@@ -77,7 +77,7 @@ const comparisonRows = [
   },
   {
     feature: "Frozen Accounts",
-    offbank: "Non-custodial — funds flow directly",
+    offbank: "Non-custodial - funds flow directly",
     stripe: "Stripe holds funds, freezing reported",
     winner: "offbank",
   },
@@ -95,8 +95,8 @@ const comparisonRows = [
   },
   {
     feature: "Marketplace Support",
-    offbank: "Yes — split payments, multi-party",
-    stripe: "Yes — Stripe Connect",
+    offbank: "Yes - split payments, multi-party",
+    stripe: "Yes - Stripe Connect",
     winner: "tie",
   },
   {
@@ -118,7 +118,7 @@ const painPoints = [
     icon: Globe,
     title: "Debanked? Stripe won't serve you.",
     description:
-      "Stripe Connect won't touch cannabis or other high-risk verticals. Offbank is built for the debanked — non-custodial USDC, no bank interference.",
+      "Stripe Connect won't touch cannabis or other high-risk verticals. Offbank is built for the debanked - non-custodial USDC, no bank interference.",
   },
   {
     icon: DollarSign,
@@ -130,7 +130,7 @@ const painPoints = [
     icon: Lock,
     title: "Funds frozen without warning?",
     description:
-      "Stripe holds your money in reserve and can freeze accounts with little notice. Offbank is non-custodial — funds flow directly from your wallet to theirs.",
+      "Stripe holds your money in reserve and can freeze accounts with little notice. Offbank is non-custodial - funds flow directly from your wallet to theirs.",
   },
   {
     icon: Building2,
@@ -157,7 +157,7 @@ const faqs = [
   },
   {
     q: "Do I need to understand crypto?",
-    a: "No. Offbank abstracts all blockchain complexity. You call an API with an email and an amount. We handle wallets, transactions, and delivery. Your recipients see a branded claim page — no crypto knowledge needed.",
+    a: "No. Offbank abstracts all blockchain complexity. You call an API with an email and an amount. We handle wallets, transactions, and delivery. Your recipients see a branded claim page - no crypto knowledge needed.",
   },
   {
     q: "How does Offbank handle compliance?",
@@ -165,7 +165,7 @@ const faqs = [
   },
   {
     q: "Can I migrate from Stripe Connect?",
-    a: "Yes. Most teams integrate Offbank in under an hour. You can run both systems in parallel during migration — use Stripe for card processing and Offbank for settlement.",
+    a: "Yes. Most teams integrate Offbank in under an hour. You can run both systems in parallel during migration - use Stripe for card processing and Offbank for settlement.",
   },
   {
     q: "What about chargebacks?",
@@ -239,7 +239,7 @@ export default function StripeConnectComparison() {
                     "linear-gradient(135deg, #34c759 0%, #2ba048 100%)",
                 }}
               >
-                Start Sending — Free
+                Start Sending - Free
                 <ArrowRight className="h-4 w-4" />
               </Link>
               <Link
@@ -335,7 +335,7 @@ export default function StripeConnectComparison() {
               className="mx-auto max-w-2xl text-lg"
               style={{ color: SLATE }}
             >
-              Feature-by-feature. No spin — just facts.
+              Feature-by-feature. No spin - just facts.
             </motion.p>
           </motion.div>
 
@@ -451,7 +451,7 @@ export default function StripeConnectComparison() {
             >
               <code>
                 <span style={{ color: "#8a8a8a" }}>
-                  {"// Offbank REST API — pay a contractor in 5 lines\n"}
+                  {"// Offbank REST API - pay a contractor in 5 lines\n"}
                 </span>
                 <span style={{ color: MUTED }}>{"const res = await "}</span>
                 <span style={{ color: "white" }}>{"fetch"}</span>
@@ -622,7 +622,7 @@ export default function StripeConnectComparison() {
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "WebPage",
-            name: "Offbank vs Stripe Connect — Faster, Cheaper B2B Settlement",
+            name: "Offbank vs Stripe Connect - Faster, Cheaper B2B Settlement",
             description:
               "Compare Offbank and Stripe Connect for B2B settlement. Offbank settles in seconds with non-custodial USDC, costs 1% flat, and serves high-risk industries.",
             url: "https://offbankpay.com/vs/stripe-connect",

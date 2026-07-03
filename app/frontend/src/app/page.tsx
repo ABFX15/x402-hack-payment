@@ -68,7 +68,7 @@ export default function HomePage() {
                   height: 512,
                 },
                 description:
-                  "Self-custodial USDC payment infrastructure for merchants processors won't touch — high-risk e-commerce, iGaming, cross-border, and cannabis. Drop-in checkout, instant payouts, and invoicing. When your processor freezes or goes down, Offbank keeps settling. 1% flat, non-custodial, USDC on Solana.",
+                  "Self-custodial USDC payment infrastructure for merchants processors won't touch - high-risk e-commerce, iGaming, cross-border, and cannabis. Drop-in checkout, instant payouts, and invoicing. When your processor freezes or goes down, Offbank keeps settling. 1% flat, non-custodial, USDC on Solana.",
                 foundingDate: "2025",
                 sameAs: ["https://x.com/offbankpay"],
                 contactPoint: {
@@ -130,7 +130,7 @@ export default function HomePage() {
       <div
         className="min-h-screen bg-white text-[#5c5c5c]"
         style={{
-          fontFamily: "var(--font-inter), system-ui, -apple-system, sans-serif",
+          fontFamily: "var(--font-geist-sans), system-ui, -apple-system, sans-serif",
         }}
       >
         <Navbar />

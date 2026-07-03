@@ -41,7 +41,7 @@ export default function DevelopersPage() {
               Build on Offbank
             </h1>
             <p className="text-xl text-[#5c5c5c] leading-relaxed">
-              Take USDC, invoice, and pay anyone — from one npm package. Install{" "}
+              Take USDC, invoice, and pay anyone - from one npm package. Install{" "}
               <code className="rounded bg-[#f2f2f2] px-1.5 py-0.5 font-mono text-[15px] text-[#212121]">
                 @offbank/sdk
               </code>{" "}
@@ -72,7 +72,7 @@ export default function DevelopersPage() {
               </h2>
               <p className="text-sm text-[#5c5c5c]">
                 The complete <code className="font-mono text-[12px]">@offbank/sdk</code>{" "}
-                guide — install, initialize, and every method (checkout,
+                guide - install, initialize, and every method (checkout,
                 invoices, payouts, webhook verification) with parameters,
                 runnable examples, and response shapes.
               </p>
@@ -91,7 +91,7 @@ export default function DevelopersPage() {
                 <ArrowRight className="h-4 w-4 text-[#8a8a8a] group-hover:text-[#34c759] group-hover:translate-x-0.5 transition-all" />
               </h2>
               <p className="text-sm text-[#5c5c5c]">
-                Every SDK call over plain HTTP — checkout sessions, invoices,
+                Every SDK call over plain HTTP - checkout sessions, invoices,
                 payouts. Request + response examples, API-key auth.
               </p>
             </Link>
@@ -135,7 +135,7 @@ export default function DevelopersPage() {
                 <ArrowRight className="h-4 w-4 text-[#8a8a8a] group-hover:text-[#34c759] group-hover:translate-x-0.5 transition-all" />
               </h2>
               <p className="text-sm text-[#5c5c5c]">
-                Pay anyone in USDC by email or wallet — affiliate commissions,
+                Pay anyone in USDC by email or wallet - affiliate commissions,
                 player cashouts, supplier runs. Single or batch, instant.
               </p>
             </Link>
@@ -202,7 +202,7 @@ import { Offbank } from "@offbank/sdk";
 
 const offbank = new Offbank({ apiKey: process.env.OFFBANK_API_KEY! });
 
-// Affiliate commission, player cashout, supplier payment — same call
+// Affiliate commission, player cashout, supplier payment - same call
 await offbank.payouts.create({
   email: "alice@example.com",
   amount: 250.0,
@@ -217,7 +217,7 @@ await Promise.all([
             />
             <p className="mt-4 text-sm text-[#5c5c5c]">
               Each recipient gets a claim link (and email) and claims with any
-              Solana wallet — or one we provision on first claim. Your webhook
+              Solana wallet - or one we provision on first claim. Your webhook
               fires when it settles. No minimum amounts, no batch windows.
             </p>
           </div>

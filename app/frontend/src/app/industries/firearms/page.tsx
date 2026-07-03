@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Firearms & Ammunition Payments, USDC Settlement",
     description:
-      "Settlement for FFLs, ammo manufacturers, and accessories, without account freezes, viewpoint deboarding, or 4–8% high-risk fees.",
+      "Settlement for FFLs, ammo manufacturers, and accessories, without account freezes, viewpoint deboarding, or 4-8% high-risk fees.",
     url: "https://offbankpay.com/industries/firearms",
   },
 };

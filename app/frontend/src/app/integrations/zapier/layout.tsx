@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Zapier Integration — Automate Settlements",
+  title: "Zapier Integration - Automate Settlements",
   description:
     "Trigger Offbank USDC settlements from any Zapier workflow. Connect 5,000+ apps to non-custodial B2B settlement.",
   alternates: { canonical: "/integrations/zapier" },
@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: "https://offbankpay.com/integrations/zapier",
     siteName: "Offbank",
-    title: "Zapier Integration — Automate Settlements",
+    title: "Zapier Integration - Automate Settlements",
     description:
       "Trigger Offbank settlements from any Zapier workflow. Connect 5,000+ apps.",
     images: [
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Zapier Integration — Automate Settlements",
+    title: "Zapier Integration - Automate Settlements",
     description:
       "Trigger Offbank settlements from any Zapier workflow. Connect 5,000+ apps.",
     images: ["/twitter-image?v=3"],

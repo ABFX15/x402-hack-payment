@@ -8,7 +8,7 @@ export default async function InvoicePayPage({
   const { token } = await paramsPromise;
   return (
     <>
-      <h1 className="sr-only">Invoice Payment — Offbank</h1>
+      <h1 className="sr-only">Invoice Payment - Offbank</h1>
       <InvoiceWrapper token={token} />
     </>
   );

@@ -116,7 +116,7 @@ export default function InvoicePayClient({
   } = useWallet();
   const { setVisible: openWalletModal } = useWalletModal();
 
-  // Privy email-first — honours the "no wallet needed" promise from the
+  // Privy email-first - honours the "no wallet needed" promise from the
   // landing page. If the buyer signs in with email, we provision a managed
   // Solana wallet for them and use it as the payer.
   const privyEnabled = !!process.env.NEXT_PUBLIC_PRIVY_APP_ID;
@@ -142,11 +142,11 @@ export default function InvoicePayClient({
   const [txSignature, setTxSignature] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
   const [selectedAsset, setSelectedAsset] = useState(0);
-  // True while a Transak (USD on-ramp) order is in flight — drives a poll
+  // True while a Transak (USD on-ramp) order is in flight - drives a poll
   // that flips the page to "paid" once the webhook settles the invoice.
   const [transakPending, setTransakPending] = useState(false);
   // Cloak: shielded payment opt-in. `merchantCloakNk` is fetched from
-  // /api/merchants/cloak-key — when present, the buyer can flip
+  // /api/merchants/cloak-key - when present, the buyer can flip
   // `payPrivately` to route through the Cloak shielded pool. The
   // merchant doesn't need a Cloak account to *receive* funds, only
   // their published viewing key so the chain note is encrypted to them.
@@ -213,7 +213,7 @@ export default function InvoicePayClient({
           setTransakPending(false);
         }
       } catch {
-        /* transient — keep polling */
+        /* transient - keep polling */
       }
     }, 5000);
     return () => clearInterval(id);
@@ -226,7 +226,7 @@ export default function InvoicePayClient({
   const handlePay = async () => {
     if (!invoice) return;
     if (!payerAddress) {
-      // No signer at all — ask the user to choose a sign-in path.
+      // No signer at all - ask the user to choose a sign-in path.
       if (privyEnabled) {
         privy.login();
       } else {
@@ -412,7 +412,7 @@ export default function InvoicePayClient({
 
       let sig: string;
       if (usingPrivy && privyEmbeddedWallet) {
-        // Privy embedded wallet path — buyer paid with email.
+        // Privy embedded wallet path - buyer paid with email.
         const privySign = (
           privyEmbeddedWallet as unknown as {
             signTransaction?: (tx: Transaction) => Promise<Transaction>;
@@ -672,7 +672,7 @@ export default function InvoicePayClient({
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
-                  {/* Left — Invoice Details */}
+                  {/* Left - Invoice Details */}
                   <div className="lg:col-span-3 space-y-6">
                     {/* Amount Due Card */}
                     <div className="rounded-xl bg-[#ffffff] border border-[#d3d3d3] p-6">
@@ -811,7 +811,7 @@ export default function InvoicePayClient({
                       )}
                   </div>
 
-                  {/* Right — Select Asset + Pay */}
+                  {/* Right - Select Asset + Pay */}
                   <div className="lg:col-span-2 space-y-4">
                     {(state === "ready" || state === "paying") && (
                       <>
@@ -885,7 +885,7 @@ export default function InvoicePayClient({
                                   className="flex w-full items-center justify-center gap-2 rounded-lg bg-[#34c759] py-4 text-sm font-bold text-white hover:bg-[#2ba048] transition-colors"
                                 >
                                   <Mail className="h-4 w-4" />
-                                  Pay with email — no wallet needed
+                                  Pay with email - no wallet needed
                                 </button>
                               )}
                               <button
@@ -950,13 +950,13 @@ export default function InvoicePayClient({
                                     </p>
                                   )}
 
-                                  {/* OTC — $25K+ */}
+                                  {/* OTC - $25K+ */}
                                   {(invoice?.total || 0) >= 25000 && (
                                     <button
                                       onClick={() => {
                                         // For invoices, direct to contact for OTC
                                         window.open(
-                                          `mailto:otc@settlr.dev?subject=OTC Quote Request — Invoice ${
+                                          `mailto:otc@settlr.dev?subject=OTC Quote Request - Invoice ${
                                             invoice?.invoiceNumber || ""
                                           }&body=Amount: $${(
                                             invoice?.total || 0
@@ -967,7 +967,7 @@ export default function InvoicePayClient({
                                       className="flex w-full items-center justify-center gap-2 rounded-lg bg-[#f2f2f2] py-4 text-sm font-semibold text-[#212121] border border-[#d3d3d3] hover:bg-[#d3d3d3]/50 transition-colors"
                                     >
                                       <Building2 className="h-4 w-4" />
-                                      OTC Desk — Large Transfer
+                                      OTC Desk - Large Transfer
                                       {(invoice?.total || 0) >= 100000
                                         ? " (Recommended)"
                                         : ""}
@@ -1061,7 +1061,7 @@ export default function InvoicePayClient({
                             </span>
                           </div>
                           <p className="text-xs text-[#5c5c5c] leading-relaxed">
-                            Your payment settles in seconds — no hold periods,
+                            Your payment settles in seconds - no hold periods,
                             no processing delays. A small network fee (typically
                             &lt;$0.01) applies.
                           </p>

@@ -118,7 +118,7 @@ function shortenAddress(addr: string): string {
 }
 
 // ---------------------------------------------------------------------------
-// Component — Completely standalone. Uses admin secret + direct Phantom.
+// Component - Completely standalone. Uses admin secret + direct Phantom.
 // ---------------------------------------------------------------------------
 
 export default function AdminDashboardPage() {
@@ -208,7 +208,7 @@ export default function AdminDashboardPage() {
   // Force-unselect any previously-chosen wallet so wallet-adapter's
   // autoConnect won't immediately reconnect to it (e.g. Phantom) when the
   // picker opens. wallet-adapter caches the chosen wallet name in
-  // localStorage AND in an in-memory React state — calling select(null)
+  // localStorage AND in an in-memory React state - calling select(null)
   // alone leaves stale state behind, so the cleanest "switch wallet" is
   // to wipe storage and hard-reload the page with ?pick=1 so the modal
   // re-opens automatically with no wallet pre-selected.
@@ -310,7 +310,7 @@ export default function AdminDashboardPage() {
         credentials: "include",
       });
       if (!res.ok) {
-        // 401/403 just means we're not yet admin — silently ignore
+        // 401/403 just means we're not yet admin - silently ignore
         setMultisigInfo(null);
         return;
       }
@@ -383,7 +383,7 @@ export default function AdminDashboardPage() {
       });
       await connection.confirmTransaction(sig, "confirmed");
       setSuccess(
-        `Executed proposal #${transactionIndex} — funds transferred to vault USDC ATA`,
+        `Executed proposal #${transactionIndex} - funds transferred to vault USDC ATA`,
       );
       fetchTreasuryData();
       fetchMultisigInfo();
@@ -470,7 +470,7 @@ export default function AdminDashboardPage() {
           `Approved ${email} but email failed to send. Check RESEND_API_KEY on Vercel.`,
         );
       } else {
-        setSuccess(`Approved ${email} — invite email sent!`);
+        setSuccess(`Approved ${email} - invite email sent!`);
       }
       fetchWaitlist();
     } catch (err: any) {
@@ -561,7 +561,7 @@ export default function AdminDashboardPage() {
       setClaimTxSig(sig);
       setSuccess(
         body.mode === "multisig"
-          ? `Claim proposal #${body.transactionIndex} created — needs ${body.threshold}/${body.memberCount} approvals before it can execute. Funds will land in the multisig vault USDC ATA.`
+          ? `Claim proposal #${body.transactionIndex} created - needs ${body.threshold}/${body.memberCount} approvals before it can execute. Funds will land in the multisig vault USDC ATA.`
           : `Claimed ${formatUSD(
               body.amount,
             )} USDC! Funds sent to your wallet.`,
@@ -932,7 +932,7 @@ export default function AdminDashboardPage() {
               {isAuthority && (data?.treasuryBalance ?? 0) > 0 && (
                 <p className="text-xs text-[#8a8a8a] mt-2 text-center">
                   {isMultisigMode
-                    ? `Creates a Squads proposal — needs ${multisigInfo?.threshold}/${multisigInfo?.members?.length} approvals before funds move to the vault USDC ATA`
+                    ? `Creates a Squads proposal - needs ${multisigInfo?.threshold}/${multisigInfo?.members?.length} approvals before funds move to the vault USDC ATA`
                     : "Signs a transaction to transfer USDC from treasury PDA to your wallet"}
                 </p>
               )}
@@ -961,7 +961,7 @@ export default function AdminDashboardPage() {
                 {!multisigInfo.authorityMatches && (
                   <div className="flex items-center gap-2 text-xs text-amber-700 bg-amber-100 px-3 py-1.5 rounded-lg">
                     <ShieldAlert className="w-4 h-4" />
-                    Authority drift — vault PDA does not match on-chain
+                    Authority drift - vault PDA does not match on-chain
                     authority. Run setup script.
                   </div>
                 )}
@@ -1125,7 +1125,7 @@ export default function AdminDashboardPage() {
                   <p className="text-2xl font-bold text-[#212121]">
                     {data?.platformConfig
                       ? `${(data.platformConfig.feeBps / 100).toFixed(1)}%`
-                      : "—"}
+                      : "-"}
                   </p>
                 )}
               </div>
@@ -1434,7 +1434,7 @@ export default function AdminDashboardPage() {
             />
           </div>
 
-          {/* Auth for waitlist admin — already authenticated */}
+          {/* Auth for waitlist admin - already authenticated */}
           {waitlistEntries.length === 0 && !waitlistLoading && (
             <div className="text-center py-4">
               <button

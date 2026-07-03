@@ -71,7 +71,7 @@ export function Pricing() {
               className="mt-8 block rounded-full bg-white py-3 text-center text-sm font-semibold shadow-md transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg"
               style={{ color: t.green }}
             >
-              Get Started
+              Get started
             </Link>
           </div>
 

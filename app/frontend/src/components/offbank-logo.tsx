@@ -4,7 +4,7 @@ import Image from "next/image";
 
 const LOGO_SRC = "/new-logo-no-bg.png";
 
-/* ─── OffbankLogo — logo icon + "Offbank" text ─── */
+/* ─── OffbankLogo - logo icon + "Offbank" text ─── */
 export function OffbankLogo({
   size = "lg",
   variant = "dark",
@@ -36,7 +36,7 @@ export function OffbankLogo({
         className={`${textSizes[size]} font-bold leading-none tracking-tight`}
         style={{
           color: textColor,
-          fontFamily: "var(--font-inter), system-ui, -apple-system, sans-serif",
+          fontFamily: "var(--font-geist-sans), system-ui, -apple-system, sans-serif",
         }}
       >
         Offbank
@@ -45,7 +45,7 @@ export function OffbankLogo({
   );
 }
 
-/* ─── OffbankLogoWithIcon — alias for OffbankLogo ─── */
+/* ─── OffbankLogoWithIcon - alias for OffbankLogo ─── */
 export function OffbankLogoWithIcon({
   size = "lg",
   variant = "dark",
@@ -56,7 +56,7 @@ export function OffbankLogoWithIcon({
   return <OffbankLogo size={size} variant={variant} />;
 }
 
-/* ─── OffbankLogoMono — monochrome variant ─── */
+/* ─── OffbankLogoMono - monochrome variant ─── */
 export function OffbankLogoMono({
   size = "lg",
   variant = "dark",

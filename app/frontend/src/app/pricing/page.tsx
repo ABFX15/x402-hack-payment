@@ -39,12 +39,12 @@ const plans = [
     features: [
       "Unlimited invoices & payment links",
       "USDC settlement to your vault",
-      "Buyer pays by email — no wallet required",
+      "Buyer pays by email - no wallet required",
       "BSA/AML transaction monitoring",
       "USD off-ramp to your bank",
       "Email support",
     ],
-    cta: "Get Started",
+    cta: "Get started",
     href: "/onboarding",
     popular: false,
   },
@@ -103,7 +103,7 @@ const faqs = [
   },
   {
     q: "Can I try before committing?",
-    a: "Yes — the live demo runs the full settlement flow with test funds. No card, no signup, no wallet required.",
+    a: "Yes - the live demo runs the full settlement flow with test funds. No card, no signup, no wallet required.",
   },
 ];
 

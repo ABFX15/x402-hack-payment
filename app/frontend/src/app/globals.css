@@ -60,8 +60,9 @@ html {
   --accent: #ffc107;
   --info: #7086f2;
 
-  /* Serif heading font */
-  --font-heading: var(--font-fraunces), Georgia, "Times New Roman", serif;
+  /* Sans display heading font */
+  --font-heading: var(--font-geist-sans), "SF Pro Display", system-ui,
+    sans-serif;
 }
 
 @theme inline {
@@ -82,34 +83,33 @@ html {
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-inter), var(--font-sans), system-ui, -apple-system,
-    sans-serif;
+  font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
   min-height: 100vh;
   overflow-x: hidden;
 }
 
-/* Infrastructure Authority typography — serif headings, mono data */
+/* Sans display headings, mono for data */
 h1,
 h2,
 h3 {
   font-family: var(--font-heading);
   color: #212121;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.025em;
 }
 
 h1 {
   font-weight: 800;
-  line-height: 1.1;
+  line-height: 1.05;
 }
 
 h2 {
   font-weight: 700;
-  line-height: 1.2;
+  line-height: 1.15;
 }
 
 h3 {
   font-weight: 600;
-  line-height: 1.3;
+  line-height: 1.25;
 }
 
 code,

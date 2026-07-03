@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * Cloak — shielded payments dashboard.
+ * Cloak - shielded payments dashboard.
  *
  * One page, two responsibilities (mirroring /dashboard/privacy):
  *
@@ -13,7 +13,7 @@
  *   2. INBOX
  *      Scan the on-chain Cloak program for chain notes encrypted to this
  *      merchant's `nk` and render a decrypted, sorted history of incoming
- *      private payments. The scan is fully client-side — only the merchant
+ *      private payments. The scan is fully client-side - only the merchant
  *      ever sees plaintext amounts.
  *
  * The spend secret is derived on demand from `SETTLR_SIGN_IN_MESSAGE`
@@ -137,7 +137,7 @@ export default function CloakDashboardPage() {
       setError(
         err instanceof Error
           ? err.message
-          : "Failed to derive Cloak keys — wallet rejected the signature.",
+          : "Failed to derive Cloak keys - wallet rejected the signature.",
       );
     } finally {
       setDeriving(false);
@@ -389,7 +389,7 @@ export default function CloakDashboardPage() {
       <div>
         <h1 className="text-2xl md:text-3xl font-bold text-[#212121] mb-1 flex items-center gap-2">
           <EyeOff className="w-7 h-7 text-[#1e40af]" />
-          Cloak — shielded payments
+          Cloak - shielded payments
         </h1>
         <p className="text-[#5c5c5c] text-sm">
           Accept ZK-private USDC payments. Amounts and counterparties are hidden
@@ -487,7 +487,7 @@ export default function CloakDashboardPage() {
             </h2>
             <p className="text-[#8a8a8a] text-xs mt-1">
               Scans on-chain Cloak chain notes encrypted to your viewing key.
-              Fully client-side — Offbank never sees plaintext.
+              Fully client-side - Offbank never sees plaintext.
             </p>
           </div>
           <div className="flex gap-2">
@@ -647,7 +647,7 @@ function SetupBadge({ status }: { status: SetupStatus }) {
     published_locked: {
       bg: "#eff6ff",
       text: "#1e40af",
-      label: "Locked — sign to unlock",
+      label: "Locked - sign to unlock",
     },
     unlocked: { bg: "#ecfdf5", text: "#065f46", label: "Unlocked" },
   };
@@ -679,7 +679,7 @@ function KeyRow({
           mono ? "font-mono" : ""
         } text-[#212121] truncate max-w-[60%]`}
       >
-        {value || "—"}
+        {value || "-"}
       </code>
     </div>
   );
@@ -723,7 +723,7 @@ function Stat({ label, value }: { label: string; value: string }) {
 function TxRow({ tx }: { tx: ScanResult["transactions"][number] }) {
   const ts = tx.timestamp
     ? new Date(Number(tx.timestamp) * 1000).toLocaleString()
-    : "—";
+    : "-";
   const amount = (Number(tx.amount) / 1_000_000).toFixed(2);
   return (
     <div className="py-3 flex items-start justify-between gap-3">

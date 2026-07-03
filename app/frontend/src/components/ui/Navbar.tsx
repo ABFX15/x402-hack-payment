@@ -104,7 +104,7 @@ const productLinks = [
     href: "/sandbox",
     label: "Try the sandbox",
     icon: Play,
-    description: "Run the checkout live — no funds needed",
+    description: "Run the checkout live - no funds needed",
   },
 ];
 
@@ -448,7 +448,7 @@ export function Navbar() {
               background: "linear-gradient(135deg, #34c759 0%, #2ba048 100%)",
             }}
           >
-            Get Started
+            Get started
           </Link>
         </div>
 
@@ -579,7 +579,7 @@ export function Navbar() {
                       "linear-gradient(135deg, #34c759 0%, #2ba048 100%)",
                   }}
                 >
-                  Get Started
+                  Get started
                 </Link>
               </div>
             </div>

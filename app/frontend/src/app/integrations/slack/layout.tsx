@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Slack Notifications — Settlement Alerts in Slack",
+  title: "Slack Notifications - Settlement Alerts in Slack",
   description:
     "Get real-time Offbank settlement notifications in Slack. Know instantly when payments are sent, confirmed, and settled.",
   alternates: { canonical: "/integrations/slack" },
@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: "https://offbankpay.com/integrations/slack",
     siteName: "Offbank",
-    title: "Slack Notifications — Settlement Alerts in Slack",
+    title: "Slack Notifications - Settlement Alerts in Slack",
     description:
       "Get real-time settlement notifications in Slack. Know when payments settle.",
     images: [
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Slack Notifications — Settlement Alerts in Slack",
+    title: "Slack Notifications - Settlement Alerts in Slack",
     description:
       "Real-time settlement notifications in Slack. Know when payments settle.",
     images: ["/twitter-image?v=3"],

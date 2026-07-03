@@ -15,16 +15,16 @@ export const t = {
     border: "#d3d3d3",
     cardBg: "#f2f2f2",
     bgOff: "#f2f2f2",
-    /** Deep base behind dark hero imagery — keeps text legible if the
+    /** Deep base behind dark hero imagery - keeps text legible if the
      *  background image is slow or fails to load. */
     heroBase: "#0a0a0a",
     /** Text colors on dark/imagery backgrounds. */
     onDark: "#ffffff",
     onDarkBody: "#e5e5e5",
     onDarkMuted: "#c4c4c4",
-    /** Inter clean sans-serif for all text */
-    sans: "var(--font-inter), system-ui, -apple-system, sans-serif",
-    /** Serif heading font */
+    /** Geist sans-serif for all text */
+    sans: "var(--font-geist-sans), system-ui, -apple-system, sans-serif",
+    /** Same sans stack for display headings (no serif) */
     serif: "var(--font-heading)",
     /** alias for body text on light bg, matches bodyLight */
     slate: "#5c5c5c",

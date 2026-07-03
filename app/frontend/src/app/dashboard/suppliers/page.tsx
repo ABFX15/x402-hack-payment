@@ -131,7 +131,7 @@ export default function SuppliersPage() {
       );
       if (conf.value.err) {
         throw new Error(
-          "Payment didn't settle on-chain — check you hold enough USDC.",
+          "Payment didn't settle on-chain - check you hold enough USDC.",
         );
       }
 
@@ -169,7 +169,7 @@ export default function SuppliersPage() {
         <div>
           <h1 className="text-2xl font-bold text-[#212121]">Pay Suppliers</h1>
           <p className="mt-0.5 text-sm text-[#94A3B8]">
-            Pay distributors and suppliers in USD — instant, no bank, no fees on the rail.
+            Pay distributors and suppliers in USD - instant, no bank, no fees on the rail.
           </p>
         </div>
         <button

@@ -157,7 +157,7 @@ export default function CheckoutClient({ searchParams }: CheckoutClientProps) {
     disconnect,
   } = useWallet();
   const { setVisible: openWalletModal } = useWalletModal();
-  // Privy email-first — the embedded Solana wallet auto-registers via the
+  // Privy email-first - the embedded Solana wallet auto-registers via the
   // Wallet Standard, so wallet-adapter picks it up after login. No extra
   // signing path needed here.
   const privyEnabled = !!process.env.NEXT_PUBLIC_PRIVY_APP_ID;
@@ -290,7 +290,7 @@ export default function CheckoutClient({ searchParams }: CheckoutClientProps) {
   // Auto off-ramp: trigger when payment succeeds
   useEffect(() => {
     if (step === "success" && merchantWallet && amount > 0 && txSignature) {
-      // Fire-and-forget — don't block the success screen
+      // Fire-and-forget - don't block the success screen
       fetch("/api/auto-offramp", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -309,7 +309,7 @@ export default function CheckoutClient({ searchParams }: CheckoutClientProps) {
           }
         })
         .catch(() => {
-          // Silent fail — off-ramp is secondary to the payment
+          // Silent fail - off-ramp is secondary to the payment
         });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -447,7 +447,7 @@ export default function CheckoutClient({ searchParams }: CheckoutClientProps) {
   // Issue a private receipt for the payment.
   //
   // Privacy model: the on-chain USDC transfer is unchanged (amount visible
-  // on Solscan — that is unavoidable without a real ZK shielding integration).
+  // on Solscan - that is unavoidable without a real ZK shielding integration).
   // What this hides from observers / DB readers is the *receipt metadata*:
   // memo, line items, customer email, exact split, etc.
   //
@@ -482,7 +482,7 @@ export default function CheckoutClient({ searchParams }: CheckoutClientProps) {
             recipientPubkey = keyData.receiptPubkey || null;
           } else if (keyRes.status === 404) {
             console.warn(
-              "[Privacy] Merchant has not published a receipt-encryption pubkey — receipt will be stored unencrypted (handle/hash only).",
+              "[Privacy] Merchant has not published a receipt-encryption pubkey - receipt will be stored unencrypted (handle/hash only).",
             );
           }
         } catch (err) {
@@ -1139,7 +1139,7 @@ export default function CheckoutClient({ searchParams }: CheckoutClientProps) {
   // Process payment (standard - user pays gas)
   const processPayment = async () => {
     // Privacy mode is now an additive layer applied AFTER the on-chain
-    // transfer (see issuePrivateReceipt) — no separate code path. The
+    // transfer (see issuePrivateReceipt) - no separate code path. The
     // USDC transfer is identical; only the receipt metadata is encrypted
     // and stored off-chain so observers / DB readers cannot see line
     // items, customer email, or memo.
@@ -1476,13 +1476,13 @@ export default function CheckoutClient({ searchParams }: CheckoutClientProps) {
                 </div>
               ) : (
                 <div className="space-y-3">
-                  {/* Pay with email — primary CTA for buyers without a wallet */}
+                  {/* Pay with email - primary CTA for buyers without a wallet */}
                   {privyEnabled && (
                     <button
                       onClick={() => privy.login()}
                       className="w-full py-4 bg-[#34c759] text-white font-bold rounded-xl flex items-center justify-center gap-3 hover:bg-[#2ba048] transition-colors"
                     >
-                      Pay with email — no wallet needed
+                      Pay with email - no wallet needed
                     </button>
                   )}
 
@@ -1501,7 +1501,7 @@ export default function CheckoutClient({ searchParams }: CheckoutClientProps) {
                       : "Connect Wallet (Phantom/Solflare)"}
                   </button>
 
-                  {/* Pay with card — fiat on-ramp for non-crypto users */}
+                  {/* Pay with card - fiat on-ramp for non-crypto users */}
                   {
                     <>
                       <div className="flex items-center gap-3 text-[#8a8a8a] text-xs">
@@ -1510,7 +1510,7 @@ export default function CheckoutClient({ searchParams }: CheckoutClientProps) {
                         <div className="flex-1 h-px bg-[#d3d3d3]" />
                       </div>
 
-                      {/* Card option — amounts up to $5K */}
+                      {/* Card option - amounts up to $5K */}
                       {amount <= 5000 && (
                         <button
                           onClick={() => {
@@ -1538,7 +1538,7 @@ export default function CheckoutClient({ searchParams }: CheckoutClientProps) {
                         </button>
                       )}
 
-                      {/* Bank transfer — amounts $100–$100K */}
+                      {/* Bank transfer - amounts $100-$100K */}
                       {amount >= 100 && amount <= 100000 && (
                         <button
                           onClick={() => {
@@ -1561,7 +1561,7 @@ export default function CheckoutClient({ searchParams }: CheckoutClientProps) {
                         </button>
                       )}
 
-                      {/* OTC — amounts $25K+ */}
+                      {/* OTC - amounts $25K+ */}
                       {amount >= 25000 && (
                         <button
                           onClick={() => {
@@ -1570,7 +1570,7 @@ export default function CheckoutClient({ searchParams }: CheckoutClientProps) {
                           className="w-full py-4 bg-[#f2f2f2] text-[#212121] font-semibold rounded-xl flex items-center justify-center gap-3 hover:bg-[#d3d3d3]/50 transition-colors border border-[#d3d3d3]"
                         >
                           <Landmark className="w-5 h-5" />
-                          OTC Desk — Large Transfer
+                          OTC Desk - Large Transfer
                           {amount >= 100000 ? " (Recommended)" : ""}
                         </button>
                       )}
@@ -2187,7 +2187,7 @@ export default function CheckoutClient({ searchParams }: CheckoutClientProps) {
                           className="w-full py-3 bg-[#34c759] text-white text-sm font-semibold rounded-lg flex items-center justify-center gap-2 hover:bg-[#2ba048] transition-colors"
                         >
                           <Landmark className="w-4 h-4" />
-                          Request OTC Quote — ${needed.toLocaleString()} USDC
+                          Request OTC Quote - ${needed.toLocaleString()} USDC
                         </button>
                       )}
                     </div>
@@ -2201,7 +2201,7 @@ export default function CheckoutClient({ searchParams }: CheckoutClientProps) {
                 {IS_DEVNET && (
                   <>
                     <div className="text-center text-[#8a8a8a] text-xs mb-2">
-                      — or for testing —
+                      - or for testing -
                     </div>
                     <a
                       href="https://faucet.circle.com/"
@@ -2324,7 +2324,7 @@ export default function CheckoutClient({ searchParams }: CheckoutClientProps) {
     );
   }
 
-  // OTC quote step — large transfer ($25K+)
+  // OTC quote step - large transfer ($25K+)
   if (step === "otc-quote") {
     return (
       <div className="min-h-screen bg-[#f7f7f7] flex flex-col items-center justify-center p-4">
@@ -2348,7 +2348,7 @@ export default function CheckoutClient({ searchParams }: CheckoutClientProps) {
               </div>
               <div>
                 <h2 className="text-xl font-semibold text-[#212121]">
-                  OTC Desk — Large Transfer
+                  OTC Desk - Large Transfer
                 </h2>
                 <p className="text-[#8a8a8a] text-sm">
                   Best rates for transfers over $25,000

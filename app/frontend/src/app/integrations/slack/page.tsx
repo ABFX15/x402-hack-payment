@@ -45,7 +45,7 @@ export default function SlackPage() {
   return (
     <main
       className="relative min-h-screen bg-[#FFFFFF] text-[#212121] antialiased"
-      style={{ fontFamily: "var(--font-inter), system-ui, -apple-system, sans-serif" }}
+      style={{ fontFamily: "var(--font-geist-sans), system-ui, -apple-system, sans-serif" }}
     >
       <script
         type="application/ld+json"
@@ -107,7 +107,7 @@ export default function SlackPage() {
               </code>{" "}
               and it&apos;s done. Send stablecoin payments to anyone from the
               channel where your team already works. Approval workflows, thread
-              receipts, and settlement notifications — all inside Slack.
+              receipts, and settlement notifications - all inside Slack.
             </p>
           </Reveal>
 
@@ -159,7 +159,7 @@ export default function SlackPage() {
               {
                 command: "/pay alice@email.com 250",
                 description:
-                  "Send $250 USDC to alice@email.com. She gets an email with a claim link — no wallet needed.",
+                  "Send $250 USDC to alice@email.com. She gets an email with a claim link - no wallet needed.",
               },
               {
                 command: "/pay-batch payroll.csv",
@@ -276,7 +276,7 @@ export default function SlackPage() {
               },
               {
                 title: "Developer teams",
-                text: "Pay bug bounties and open-source contributors instantly. /pay contributor@github.com 500 — done.",
+                text: "Pay bug bounties and open-source contributors instantly. /pay contributor@github.com 500 - done.",
               },
               {
                 title: "Sales teams",
@@ -308,7 +308,7 @@ export default function SlackPage() {
 
         <div className="mt-12 grid gap-3 sm:grid-cols-2">
           {[
-            "/pay slash command — send USDC by email",
+            "/pay slash command - send USDC by email",
             "Batch settlements via CSV upload",
             "Manager approval workflows with thread buttons",
             "On-chain receipt links in every confirmation",
