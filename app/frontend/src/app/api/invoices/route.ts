@@ -16,11 +16,12 @@ import {
 import { sendInvoiceEmail } from "@/lib/email";
 import { emitEvent } from "@/lib/pipeline";
 import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
-import { requireMerchantSession } from "@/lib/merchant-auth";
+import { requireMerchantAuth } from "@/lib/merchant-auth";
 
 // ─── Auth helper ───
-// Authenticates via signed-message session cookie set by /api/auth/wallet/verify.
-const authenticate = requireMerchantSession;
+// Accepts EITHER a merchant API key (SDK / REST) OR the dashboard session
+// cookie, so invoices can be created both programmatically and from the UI.
+const authenticate = requireMerchantAuth;
 
 export async function POST(request: NextRequest) {
     try {

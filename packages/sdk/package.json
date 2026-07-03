@@ -1,0 +1,39 @@
+{
+  "name": "@offbank/sdk",
+  "version": "0.1.0",
+  "description": "Offbank server-side SDK — USDC invoicing, checkout sessions, payouts, and webhook verification for high-risk e-commerce & iGaming.",
+  "license": "MIT",
+  "homepage": "https://offbankpay.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ABFX15/offbank"
+  },
+  "keywords": [
+    "offbank",
+    "usdc",
+    "stablecoin",
+    "payments",
+    "invoicing",
+    "solana",
+    "crypto-checkout",
+    "high-risk"
+  ],
+  "type": "commonjs",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "prepublishOnly": "npm run build"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0",
+    "@types/node": "^20.0.0"
+  }
+}

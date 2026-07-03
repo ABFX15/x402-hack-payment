@@ -14,7 +14,7 @@
 
 import { NextRequest } from "next/server";
 import { getSessionWallet, isValidSolanaAddress } from "@/lib/wallet-session";
-import { getOrCreateMerchantByWallet } from "@/lib/db";
+import { getOrCreateMerchantByWallet, validateApiKey } from "@/lib/db";
 
 export interface MerchantSession {
     valid: true;
@@ -54,4 +54,35 @@ export async function requireMerchantSession(
     } catch {
         return null;
     }
+}
+
+/**
+ * Authenticate a merchant via EITHER an API key (`x-api-key` header or
+ * `Authorization: Bearer <key>`) OR the browser session cookie. Use this on
+ * routes that must serve both the dashboard (session) and the SDK / REST API
+ * (API key) — e.g. invoices. Returns null if neither succeeds.
+ */
+export async function requireMerchantAuth(
+    request: NextRequest,
+): Promise<MerchantSession | null> {
+    const apiKey =
+        request.headers.get("x-api-key") ||
+        request.headers.get("authorization")?.replace(/^Bearer /i, "");
+
+    if (apiKey) {
+        const v = await validateApiKey(apiKey);
+        if (v.valid && v.merchantId && v.merchantWallet) {
+            return {
+                valid: true,
+                merchantId: v.merchantId,
+                merchantWallet: v.merchantWallet,
+                merchantName: v.merchantName || "Merchant",
+            };
+        }
+        // An explicit but invalid API key is a hard failure — don't silently
+        // fall through to session auth.
+        return null;
+    }
+
+    return requireMerchantSession(request);
 }
