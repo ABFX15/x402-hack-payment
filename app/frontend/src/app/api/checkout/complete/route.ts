@@ -1,35 +1,31 @@
 import { logger } from "@/lib/logger";
 import { NextRequest, NextResponse } from "next/server";
-import { explorerUrl } from "@/lib/constants";
 import { checkoutSessions } from "../store";
-import {
-    getCheckoutSession,
-    updateCheckoutSession,
-    createPayment,
-    Payment,
-    CheckoutSession,
-} from "@/lib/db";
-import { screenPaymentParties } from "@/lib/range";
-import { verifyUsdcTransferToMerchant } from "@/lib/verify-payment";
-import crypto from "crypto";
+import { getCheckoutSession } from "@/lib/db";
+import { finalizeCheckoutPayment } from "@/lib/checkout-finalize";
+import { EVM_CHAINS, type EvmChainKey } from "@/lib/evm";
 
 /**
  * POST /api/checkout/complete
- * 
- * Called after a successful payment to update session and trigger webhook
- * Includes Range Security wallet screening before completing payment
- * 
+ *
+ * Called by the client after it paid, to (independently) verify the payment
+ * on-chain and complete the session. Verification, atomic completion,
+ * idempotency, screening and webhook delivery all live in
+ * finalizeCheckoutPayment — the SAME path the reconciliation sweeper uses — so
+ * this route is a thin adapter.
+ *
  * Request body:
  * {
  *   sessionId: string,
- *   signature: string,
- *   customerWallet: string
+ *   signature: string,       // Solana tx signature OR 0x… EVM tx hash
+ *   customerWallet: string,
+ *   chain?: EvmChainKey       // required for EVM payments
  * }
  */
 export async function POST(request: NextRequest) {
     try {
         const body = await request.json();
-        const { sessionId, signature, customerWallet } = body;
+        const { sessionId, signature, customerWallet, chain } = body;
 
         if (!sessionId || !signature || !customerWallet) {
             return NextResponse.json(
@@ -43,118 +39,60 @@ export async function POST(request: NextRequest) {
         if (!session) {
             session = checkoutSessions.get(sessionId) || null;
         }
-
         if (!session) {
-            return NextResponse.json(
-                { error: "Session not found" },
-                { status: 404 }
-            );
+            return NextResponse.json({ error: "Session not found" }, { status: 404 });
         }
 
-        if (session.status !== "pending") {
-            return NextResponse.json(
-                { error: `Session already ${session.status}` },
-                { status: 400 }
-            );
-        }
+        const evmChain: EvmChainKey | undefined =
+            chain && EVM_CHAINS[chain as EvmChainKey]
+                ? (chain as EvmChainKey)
+                : undefined;
 
-        // On-chain verification: the signature MUST be a confirmed transaction
-        // that credited at least the session amount in USDC to the merchant's
-        // wallet. Without this, a client could mark a session "completed" (and
-        // trigger the merchant's webhook → order fulfilment) with any string.
-        const verification = await verifyUsdcTransferToMerchant({
+        const result = await finalizeCheckoutPayment({
+            session,
             signature,
-            merchantWallet: session.merchantWallet,
-            totalUsdc: session.amount,
-        });
-        if (!verification.ok) {
-            logger.warn(
-                `[checkout/complete] payment verification failed for ${sessionId}: ${verification.error}`,
-            );
-            return NextResponse.json(
-                {
-                    error: "payment_verification_failed",
-                    message:
-                        verification.error ||
-                        "Could not verify this payment on-chain.",
-                },
-                { status: 400 },
-            );
-        }
-
-        // Range Security: Screen both payer and merchant wallets
-        const riskScreening = await screenPaymentParties(
             customerWallet,
-            session.merchantWallet,
-            { testMode: process.env.NODE_ENV !== 'production' }
-        );
+            evmChain,
+        });
 
-        if (!riskScreening.canProceed) {
-            logger.warn(`[Range] Payment blocked: ${riskScreening.blockedParty}`, {
-                sessionId,
-                customerWallet,
-                merchantWallet: session.merchantWallet,
-                payerRisk: riskScreening.payer.summary,
-                merchantRisk: riskScreening.merchant.summary,
-            });
-
+        if (!result.ok) {
+            const status =
+                result.code === "risk_blocked"
+                    ? 403
+                    : result.code === "error"
+                        ? 502
+                        : 400;
+            logger.warn(
+                `[checkout/complete] ${result.code} for ${sessionId}: ${result.error}`,
+            );
             return NextResponse.json(
                 {
-                    error: "Payment blocked by risk screening",
-                    reason: riskScreening.blockedParty === 'payer'
-                        ? riskScreening.payer.summary
-                        : riskScreening.merchant.summary,
-                    blockedParty: riskScreening.blockedParty,
+                    error: result.code || "completion_failed",
+                    message: result.error,
+                    blockedParty: result.blockedParty,
                 },
-                { status: 403 }
+                { status },
             );
         }
 
-        logger.info(`[Range] Payment parties cleared: payer=${riskScreening.payer.riskLevel}, merchant=${riskScreening.merchant.riskLevel}`);
-
-        // Update session status
-        await updateCheckoutSession(sessionId, { status: "completed" });
-
-        // Also update legacy in-memory store
-        session.status = "completed";
-        session.paymentSignature = signature;
-        session.customerWallet = customerWallet;
-        session.completedAt = Date.now();
-        checkoutSessions.set(sessionId, session);
-
-        // Create payment record using database layer
-        const payment = await createPayment({
-            sessionId: session.id,
-            merchantId: session.merchantId,
-            merchantName: session.merchantName,
-            merchantWallet: session.merchantWallet,
-            customerWallet: customerWallet,
-            amount: session.amount,
-            currency: session.currency,
-            description: session.description,
-            metadata: session.metadata,
-            txSignature: signature,
-            explorerUrl: explorerUrl(signature),
-            createdAt: session.createdAt,
-            completedAt: Date.now(),
-            status: "completed",
-        });
-
-        // Trigger webhook asynchronously
-        if (session.webhookUrl) {
-            triggerWebhook(session, payment.id).catch(err => {
-                logger.error("Webhook delivery failed:", err);
-            });
+        // Keep the legacy in-memory mirror consistent for any readers of it.
+        const mem = checkoutSessions.get(sessionId);
+        if (mem) {
+            mem.status = "completed";
+            mem.paymentSignature = signature;
+            mem.customerWallet = customerWallet;
+            mem.completedAt = Date.now();
+            checkoutSessions.set(sessionId, mem);
         }
 
         return NextResponse.json({
             success: true,
-            paymentId: payment.id,
+            paymentId: result.paymentId,
             sessionId,
             signature,
+            alreadyCompleted: result.alreadyCompleted || false,
             successUrl: session.successUrl,
         });
-
     } catch (error) {
         logger.error("Error completing checkout:", error);
         return NextResponse.json(
@@ -162,85 +100,4 @@ export async function POST(request: NextRequest) {
             { status: 500 }
         );
     }
-}
-
-/**
- * Trigger webhook to merchant's endpoint
- */
-async function triggerWebhook(session: CheckoutSession, paymentId: string): Promise<void> {
-    if (!session.webhookUrl) return;
-
-    const timestamp = Date.now();
-    const webhookPayload = {
-        event: "payment.completed",
-        data: {
-            paymentId: paymentId,
-            sessionId: session.id,
-            merchantId: session.merchantId,
-            amount: session.amount,
-            currency: session.currency,
-            customerWallet: session.customerWallet,
-            paymentSignature: session.paymentSignature,
-            description: session.description,
-            metadata: session.metadata,
-            completedAt: session.completedAt,
-            receiptUrl: `${process.env.NEXT_PUBLIC_APP_URL || 'https://offbankpay.com'}/receipts/${paymentId}`,
-        },
-        timestamp,
-    };
-
-    // Use merchant's webhook secret or fall back to a default
-    // In production, each merchant would have their own secret
-    const webhookSecret = process.env.OFFBANK_WEBHOOK_SECRET || session.merchantId;
-    const payloadString = JSON.stringify(webhookPayload);
-    const webhookSignature = generateWebhookSignature(`${timestamp}.${payloadString}`, webhookSecret);
-
-    // Retry logic for webhook delivery
-    const maxRetries = 3;
-    let lastError: Error | null = null;
-
-    for (let attempt = 1; attempt <= maxRetries; attempt++) {
-        try {
-            const response = await fetch(session.webhookUrl, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "X-Offbank-Signature": `t=${timestamp},v1=${webhookSignature}`,
-                    "X-Offbank-Timestamp": Date.now().toString(),
-                    "X-Offbank-Event": "checkout.completed",
-                },
-                body: JSON.stringify(webhookPayload),
-            });
-
-            if (response.ok) {
-                logger.info(`Webhook delivered successfully to ${session.webhookUrl}`);
-                return;
-            }
-
-            // Log failed attempt
-            logger.warn(`Webhook attempt ${attempt} failed with status ${response.status}`);
-            lastError = new Error(`HTTP ${response.status}`);
-
-        } catch (error) {
-            logger.warn(`Webhook attempt ${attempt} failed:`, error);
-            lastError = error as Error;
-        }
-
-        // Wait before retry (exponential backoff)
-        if (attempt < maxRetries) {
-            await new Promise(resolve => setTimeout(resolve, Math.pow(2, attempt) * 1000));
-        }
-    }
-
-    throw new Error(`Webhook delivery failed after ${maxRetries} attempts: ${lastError?.message}`);
-}
-
-/**
- * Generate HMAC-SHA256 webhook signature
- */
-function generateWebhookSignature(payload: string, secret: string): string {
-    return crypto
-        .createHmac("sha256", secret)
-        .update(payload)
-        .digest("hex");
 }

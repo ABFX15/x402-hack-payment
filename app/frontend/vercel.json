@@ -11,6 +11,10 @@
     {
       "path": "/api/pipeline/process",
       "schedule": "0 2 * * *"
+    },
+    {
+      "path": "/api/checkout/reconcile",
+      "schedule": "*/5 * * * *"
     }
   ]
 }

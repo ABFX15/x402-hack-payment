@@ -268,6 +268,9 @@ function EmbedCheckout() {
                 reference: reference.toBase58(),
                 ...(resolved.order ? { orderId: resolved.order } : {}),
                 ...(resolved.items.length ? { items: resolved.items } : {}),
+                // Persist the EVM receiving address so the server can verify an
+                // EVM payment on-chain (not just trust the browser).
+                ...(isEvmAddress(resolved.evm) ? { evm: resolved.evm } : {}),
               },
               successUrl: referrer,
               cancelUrl: referrer,
@@ -286,7 +289,7 @@ function EmbedCheckout() {
   }, [params]);
 
   const closeOut = useCallback(
-    (signature: string, customerWallet: string) => {
+    (signature: string, customerWallet: string, evmChainUsed?: EvmChainKey) => {
       if (doneRef.current) return;
       doneRef.current = true;
       // Sandbox payments aren't real, so skip the on-chain-verified /complete.
@@ -298,6 +301,8 @@ function EmbedCheckout() {
             sessionId: sessionIdRef.current,
             signature,
             customerWallet,
+            // Tell the server which EVM chain to verify against (Solana ignores).
+            ...(evmChainUsed ? { chain: evmChainUsed } : {}),
           }),
         }).catch(() => {});
       }
@@ -413,7 +418,7 @@ function EmbedCheckout() {
         );
       }
       // EVM settles to the merchant's EVM wallet directly; notify the parent.
-      closeOut(txHash, from);
+      closeOut(txHash, from, evmChain);
     } catch (e) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const code = (e as any)?.code;

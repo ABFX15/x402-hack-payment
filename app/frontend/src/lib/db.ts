@@ -9,6 +9,20 @@ import { logger } from "@/lib/logger";
 import { supabase, isSupabaseConfigured } from "./supabase";
 import { explorerUrl as buildExplorerUrl } from "./constants";
 
+/**
+ * Money-touching records (checkout sessions, payments) must be durably
+ * persisted. The in-memory fallback is fine for local dev, but in production a
+ * process restart would silently lose payment state — so fail closed rather
+ * than accept money we can't remember.
+ */
+function assertMoneyPersistence(what: string): void {
+    if (process.env.NODE_ENV === "production" && !isSupabaseConfigured()) {
+        throw new Error(
+            `Refusing to ${what} without durable storage — Supabase is not configured in production.`,
+        );
+    }
+}
+
 // Types
 export interface Merchant {
     id: string;
@@ -635,6 +649,7 @@ export function generateReceiptId(paymentId: string): string {
 export async function createCheckoutSession(
     data: Omit<CheckoutSession, "id" | "createdAt" | "status">
 ): Promise<CheckoutSession> {
+    assertMoneyPersistence("create a checkout session");
     const session: CheckoutSession = {
         ...data,
         id: generateSessionId(),
@@ -783,6 +798,72 @@ export async function updateCheckoutSession(
     }
 }
 
+/**
+ * Atomically flip a checkout session pending → completed. Returns the session
+ * only if THIS call won the race (it was still pending). If it returns null,
+ * another completion (client retry, webhook, or the reconciliation sweeper)
+ * already finished it — the caller must not fire the webhook again.
+ *
+ * On Supabase this is a conditional UPDATE (`where status = 'pending'`), which
+ * the database serialises for us. In the in-memory fallback the single-threaded
+ * event loop makes the check-and-set atomic.
+ */
+export async function completeCheckoutSessionAtomic(
+    id: string,
+): Promise<CheckoutSession | null> {
+    if (isSupabaseConfigured()) {
+        const { data } = await supabase
+            .from("checkout_sessions")
+            .update({ status: "completed" })
+            .eq("id", id)
+            .eq("status", "pending")
+            .select("id")
+            .maybeSingle();
+        if (!data) return null; // already completed/expired, or gone
+        return getCheckoutSession(id);
+    }
+    const s = memorySessions.get(id);
+    if (!s || s.status !== "pending") return null;
+    s.status = "completed";
+    memorySessions.set(id, s);
+    return s;
+}
+
+/**
+ * List checkout sessions that are still pending (optionally only those created
+ * before `createdBeforeMs`). Used by the reconciliation sweeper to re-check the
+ * chain for payments the client / webhook missed.
+ */
+export async function listPendingCheckoutSessions(
+    limit = 100,
+    createdBeforeMs?: number,
+): Promise<CheckoutSession[]> {
+    if (isSupabaseConfigured()) {
+        let q = supabase
+            .from("checkout_sessions")
+            .select("id, metadata, amount, created_at, expires_at, status, merchant_id")
+            .eq("status", "pending")
+            .order("created_at", { ascending: true })
+            .limit(limit);
+        if (createdBeforeMs) {
+            q = q.lt("created_at", new Date(createdBeforeMs).toISOString());
+        }
+        const { data } = await q;
+        if (!data) return [];
+        // Hydrate each via getCheckoutSession so merchant wallet/webhook join in.
+        const out: CheckoutSession[] = [];
+        for (const row of data) {
+            const full = await getCheckoutSession(row.id as string);
+            if (full && full.status === "pending") out.push(full);
+        }
+        return out;
+    }
+    const now = createdBeforeMs ?? Date.now();
+    return [...memorySessions.values()]
+        .filter((s) => s.status === "pending" && s.createdAt < now)
+        .slice(0, limit);
+}
+
 // ============================================
 // PAYMENTS
 // ============================================
@@ -790,6 +871,7 @@ export async function updateCheckoutSession(
 export async function createPayment(
     data: Omit<Payment, "id">
 ): Promise<Payment> {
+    assertMoneyPersistence("record a payment");
     const payment: Payment = {
         ...data,
         id: generatePaymentId(),
@@ -826,11 +908,24 @@ export async function createPayment(
             error = retry.error;
         }
 
+        // Idempotency: a UNIQUE index on tx_signature means a duplicate insert
+        // (webhook + client both completing, or a redelivery) collides here.
+        // Treat that as success and return the payment already on record rather
+        // than double-recording or throwing.
+        if (error && (error as any).code === "23505") {
+            const existing = await getPaymentByTxSignature(payment.txSignature);
+            if (existing) return existing;
+        }
+
         if (error) {
             logger.error("Supabase error creating payment:", error);
             throw new Error("Failed to create payment");
         }
     } else {
+        // In-memory idempotency on the signature.
+        for (const p of memoryPayments.values()) {
+            if (p.txSignature && p.txSignature === payment.txSignature) return p;
+        }
         memoryPayments.set(payment.id, payment);
     }
 
