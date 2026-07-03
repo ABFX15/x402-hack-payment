@@ -23,6 +23,12 @@ function assertMoneyPersistence(what: string): void {
     }
 }
 
+const UUID_RE =
+    /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+function isUuid(v: string | undefined | null): boolean {
+    return !!v && UUID_RE.test(v);
+}
+
 // Types
 export interface Merchant {
     id: string;
@@ -658,9 +664,32 @@ export async function createCheckoutSession(
     };
 
     if (isSupabaseConfigured()) {
+        // merchant_id is a UUID FK. The drop-in widget's param mode passes a
+        // wallet address as merchantId — resolve it to a real merchant record
+        // so the row persists (and survives serverless cold starts). We also
+        // store the wallet/name/webhook directly on the session so read-back
+        // doesn't depend on the merchants join.
+        let merchantUuid = session.merchantId;
+        if (!isUuid(merchantUuid)) {
+            try {
+                const m = await getOrCreateMerchantByWallet(
+                    session.merchantWallet || session.merchantId,
+                );
+                merchantUuid = m.id;
+            } catch (e) {
+                logger.error(
+                    "Could not resolve merchant for checkout session:",
+                    e,
+                );
+            }
+        }
+
         const { error } = await supabase.from("checkout_sessions").insert({
             id: session.id,
-            merchant_id: session.merchantId,
+            merchant_id: merchantUuid,
+            merchant_wallet: session.merchantWallet,
+            merchant_name: session.merchantName,
+            webhook_url: session.webhookUrl || null,
             amount: session.amount,
             currency: session.currency,
             description: session.description,
@@ -684,6 +713,10 @@ export async function createCheckoutSession(
                 error,
             );
             memorySessions.set(session.id, session);
+        } else {
+            // Persisted OK — return the resolved UUID so downstream records
+            // (payments) reference a valid merchant.
+            session.merchantId = merchantUuid;
         }
     } else {
         memorySessions.set(session.id, session);
@@ -715,15 +748,17 @@ export async function getCheckoutSession(id: string): Promise<CheckoutSession | 
         return {
             id: data.id,
             merchantId: data.merchant_id,
-            merchantName: merchant?.name || "",
-            merchantWallet: merchant?.wallet_address || "",
+            // Prefer the values stored directly on the session (durable even for
+            // wallet-keyed param-mode sessions); fall back to the merchants join.
+            merchantName: data.merchant_name || merchant?.name || "",
+            merchantWallet: data.merchant_wallet || merchant?.wallet_address || "",
             amount: data.amount,
             currency: data.currency,
             description: data.description || undefined,
             metadata: data.metadata as Record<string, string> | undefined,
             successUrl: data.success_url,
             cancelUrl: data.cancel_url,
-            webhookUrl: merchant?.webhook_url || undefined,
+            webhookUrl: data.webhook_url || merchant?.webhook_url || undefined,
             status: data.status as CheckoutSession["status"],
             createdAt: new Date(data.created_at).getTime(),
             expiresAt: new Date(data.expires_at).getTime(),
