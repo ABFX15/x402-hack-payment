@@ -15,10 +15,12 @@ import {
   ExternalLink,
   Vault,
   Plug,
+  Package,
 } from "lucide-react";
 
 const docsTabs = [
   { id: "quickstart", label: "Getting Started", icon: Rocket },
+  { id: "sdk", label: "SDK Reference", icon: Package },
   { id: "invoices", label: "Invoices & Payments", icon: Book },
   { id: "dashboard", label: "Dashboard", icon: Vault },
   { id: "api", label: "REST API", icon: Code2 },
@@ -29,6 +31,7 @@ const docsTabs = [
 
 type TabId =
   | "quickstart"
+  | "sdk"
   | "invoices"
   | "dashboard"
   | "api"
@@ -124,10 +127,11 @@ function DocsPageInner() {
             <div className="max-w-4xl mx-auto px-6 py-12">
               {/* Hero */}
               <div className="mb-10">
-                <h1 className="text-4xl font-bold mb-4">Operator Docs</h1>
+                <h1 className="text-4xl font-bold mb-4">Documentation</h1>
                 <p className="text-xl text-[#5c5c5c]">
-                  How to send invoices, settle in USDC, and cash out to USD, no
-                  code required.
+                  Accept USDC, send instant payouts, and invoice — from a
+                  one-line widget, the SDK, or the dashboard. Pick a section to
+                  get going.
                 </p>
                 <p className="mt-4 text-sm text-[#8a8a8a]">
                   Building an integration?{" "}
@@ -160,6 +164,7 @@ function DocsPageInner() {
               {/* Content */}
               <div className="prose prose-invert max-w-none">
                 {activeTab === "quickstart" && <QuickStartContent />}
+                {activeTab === "sdk" && <SdkContent />}
                 {activeTab === "invoices" && <InvoicesContent />}
                 {activeTab === "dashboard" && <DashboardContent />}
                 {activeTab === "api" && <APIContent />}
@@ -315,6 +320,375 @@ console.log(session.url);`}
             title="No chargebacks"
             description="On-chain payments are final. Friendly fraud disappears."
           />
+        </div>
+      </section>
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════════
+   SDK REFERENCE
+   ═══════════════════════════════════════════════════════════ */
+
+function SdkParam({
+  name,
+  type,
+  required,
+  children,
+}: {
+  name: string;
+  type: string;
+  required?: boolean;
+  children: ReactNode;
+}) {
+  return (
+    <div className="flex flex-col sm:flex-row sm:gap-4 py-2.5 border-b border-[#f2f2f2] last:border-0">
+      <div className="flex items-baseline gap-2 sm:w-52 flex-shrink-0">
+        <code className="font-mono text-[13px] text-[#212121]">{name}</code>
+        {required ? (
+          <span className="text-[10px] font-bold uppercase tracking-wide text-[#d92d20]">
+            required
+          </span>
+        ) : (
+          <span className="text-[10px] uppercase tracking-wide text-[#8a8a8a]">
+            optional
+          </span>
+        )}
+      </div>
+      <div className="text-[13px] leading-relaxed text-[#8a8a8a]">
+        <code className="font-mono text-[#027a48]">{type}</code>
+        <span className="mx-1.5">—</span>
+        {children}
+      </div>
+    </div>
+  );
+}
+
+function SdkMethod({
+  signature,
+  lead,
+  children,
+}: {
+  signature: string;
+  lead: ReactNode;
+  children: ReactNode;
+}) {
+  return (
+    <div className="mt-12 scroll-mt-24">
+      <div className="mb-3 inline-block rounded-lg bg-[#0d1117] px-3 py-1.5 font-mono text-[13px] text-[#e6edf3]">
+        {signature}
+      </div>
+      <p className="text-[#5c5c5c] text-[15px] leading-relaxed mb-4">{lead}</p>
+      {children}
+    </div>
+  );
+}
+
+function SdkContent() {
+  return (
+    <div className="space-y-6">
+      <section>
+        <h2 className="text-2xl font-bold mb-3">SDK reference</h2>
+        <p className="text-[#8a8a8a] mb-6 leading-relaxed">
+          <code className="font-mono text-[13px] text-[#5c5c5c]">
+            @offbank/sdk
+          </code>{" "}
+          is a small, typed, dependency-free client for your backend. One class,{" "}
+          <code className="font-mono text-[13px] text-[#5c5c5c]">Offbank</code>,
+          with four things on it:{" "}
+          <code className="font-mono text-[13px]">checkout</code>,{" "}
+          <code className="font-mono text-[13px]">invoices</code>,{" "}
+          <code className="font-mono text-[13px]">payouts</code>, and{" "}
+          <code className="font-mono text-[13px]">webhooks</code>. Server-side
+          only — your API key can move money.
+        </p>
+
+        {/* Install */}
+        <h3 className="text-xl font-semibold mb-3 mt-8">Install</h3>
+        <CodeBlock language="bash">{`npm install @offbank/sdk`}</CodeBlock>
+        <p className="text-[13px] text-[#8a8a8a] mt-2">
+          Requires Node 18+ (uses the built-in <code className="font-mono">fetch</code>).
+        </p>
+
+        {/* Initialize */}
+        <h3 className="text-xl font-semibold mb-3 mt-8">Initialize</h3>
+        <CodeBlock language="typescript">
+          {`import { Offbank } from "@offbank/sdk";
+
+const offbank = new Offbank({
+  apiKey: process.env.OFFBANK_API_KEY!,   // from Settings → API keys
+});`}
+        </CodeBlock>
+        <div className="mt-4 rounded-lg border border-[#d3d3d3] p-4">
+          <SdkParam name="apiKey" type="string" required>
+            Your secret key (<code className="font-mono">sk_live_…</code> /{" "}
+            <code className="font-mono">sk_test_…</code>). Never ship it to a
+            browser.
+          </SdkParam>
+          <SdkParam name="baseUrl" type="string">
+            API base URL. Defaults to{" "}
+            <code className="font-mono">https://offbankpay.com</code>.
+          </SdkParam>
+          <SdkParam name="fetchImpl" type="typeof fetch">
+            Custom fetch, for tests or older runtimes. Defaults to global{" "}
+            <code className="font-mono">fetch</code>.
+          </SdkParam>
+        </div>
+
+        {/* Full example */}
+        <h3 className="text-xl font-semibold mb-3 mt-10">
+          A complete checkout, end to end
+        </h3>
+        <p className="text-[#8a8a8a] text-sm mb-3 leading-relaxed">
+          Two files: one creates the payment, one handles the confirmation. This
+          is the whole flow.
+        </p>
+        <CodeBlock language="typescript">
+          {`// 1. checkout.ts — create a session and send the buyer to it
+import { Offbank } from "@offbank/sdk";
+const offbank = new Offbank({ apiKey: process.env.OFFBANK_API_KEY! });
+
+export async function startCheckout(cartTotal: number, orderId: string) {
+  const session = await offbank.checkout.sessions.create({
+    merchantWallet: process.env.MY_WALLET!,
+    merchantName: "My Store",
+    amount: cartTotal,                       // e.g. 74.00
+    successUrl: "https://store.com/thanks",
+    cancelUrl: "https://store.com/cart",
+    webhookUrl: "https://store.com/api/offbank-webhook",
+    metadata: { orderId },
+  });
+  return session.url;   // redirect the buyer here (or pass session.id to the widget)
+}`}
+        </CodeBlock>
+        <CodeBlock language="typescript">
+          {`// 2. app/api/offbank-webhook/route.ts — fulfil when Offbank confirms it
+import { Offbank } from "@offbank/sdk";
+const offbank = new Offbank({ apiKey: process.env.OFFBANK_API_KEY! });
+
+export async function POST(req: Request) {
+  const body = await req.text(); // RAW body — needed to verify the signature
+
+  const ok = offbank.webhooks.verify(
+    body,
+    req.headers.get("X-Offbank-Signature"),
+    process.env.OFFBANK_WEBHOOK_SECRET!,   // Settings → Webhook signing secret
+    300,                                   // reject events older than 5 min
+  );
+  if (!ok) return new Response("bad signature", { status: 400 });
+
+  const event = JSON.parse(body);
+  if (event.event === "payment.completed") {
+    // Offbank already verified this on-chain — safe to ship the order.
+    await fulfilOrder(event.data.metadata.orderId, event.data.paymentSignature);
+  }
+  return Response.json({ received: true });
+}`}
+        </CodeBlock>
+
+        {/* ── Method reference ── */}
+        <div className="mt-14 mb-2 border-t border-[#d3d3d3] pt-8">
+          <h3 className="text-xl font-bold">Methods</h3>
+        </div>
+
+        {/* checkout.sessions.create */}
+        <SdkMethod
+          signature="offbank.checkout.sessions.create(params)"
+          lead="Create a checkout session. The amount is fixed on our server, so the buyer can't change what they owe. Returns a hosted checkout URL and an id you can hand to the embed widget."
+        >
+          <p className="text-[13px] font-semibold text-[#5c5c5c] mb-2">
+            Parameters
+          </p>
+          <div className="rounded-lg border border-[#d3d3d3] p-4 mb-4">
+            <SdkParam name="merchantWallet" type="string" required>
+              Your Solana wallet — where USDC settles.
+            </SdkParam>
+            <SdkParam name="merchantName" type="string" required>
+              Shown to the buyer on the checkout.
+            </SdkParam>
+            <SdkParam name="amount" type="number" required>
+              Amount in whole USDC (e.g. <code className="font-mono">74.0</code>).
+            </SdkParam>
+            <SdkParam name="successUrl / cancelUrl" type="string" required>
+              Where to send the buyer after paying / cancelling.
+            </SdkParam>
+            <SdkParam name="webhookUrl" type="string">
+              Your endpoint for the <code className="font-mono">payment.completed</code>{" "}
+              webhook.
+            </SdkParam>
+            <SdkParam name="metadata" type="object">
+              Anything you want echoed back on the webhook (e.g. an order id).
+            </SdkParam>
+          </div>
+          <p className="text-[13px] font-semibold text-[#5c5c5c] mb-2">
+            Example &amp; response
+          </p>
+          <CodeBlock language="typescript">
+            {`const session = await offbank.checkout.sessions.create({
+  merchantWallet: "DjLFeMQ3...rSQV",
+  merchantName: "My Store",
+  amount: 74.0,
+  successUrl: "https://store.com/thanks",
+  cancelUrl: "https://store.com/cart",
+});
+
+// → {
+//     id: "cs_9hwbf9...",
+//     url: "https://offbankpay.com/checkout/cs_9hwbf9...",
+//     expiresAt: 1752160200000,
+//     status: "pending"
+//   }`}
+          </CodeBlock>
+        </SdkMethod>
+
+        {/* invoices.create */}
+        <SdkMethod
+          signature="offbank.invoices.create(params)"
+          lead="Create an invoice and (by default) email the buyer a hosted USDC pay link. Great for wholesale and net-terms billing."
+        >
+          <p className="text-[13px] font-semibold text-[#5c5c5c] mb-2">
+            Parameters
+          </p>
+          <div className="rounded-lg border border-[#d3d3d3] p-4 mb-4">
+            <SdkParam name="buyerName" type="string" required>
+              Who the invoice is for.
+            </SdkParam>
+            <SdkParam name="buyerEmail" type="string" required>
+              Where the pay link is sent.
+            </SdkParam>
+            <SdkParam name="lineItems" type="LineItem[]" required>
+              Each: <code className="font-mono">{`{ description, quantity, unitPrice }`}</code>.
+              Line + invoice totals are computed for you.
+            </SdkParam>
+            <SdkParam name="dueDate" type="string | Date" required>
+              ISO date or a <code className="font-mono">Date</code>.
+            </SdkParam>
+            <SdkParam name="memo / terms / invoiceNumber" type="string">
+              Optional notes, terms, and a custom number.
+            </SdkParam>
+            <SdkParam name="sendEmail" type="boolean">
+              Email the buyer immediately. Defaults to{" "}
+              <code className="font-mono">true</code>.
+            </SdkParam>
+          </div>
+          <CodeBlock language="typescript">
+            {`const invoice = await offbank.invoices.create({
+  buyerName: "Acme Wholesale",
+  buyerEmail: "ap@acme.com",
+  lineItems: [
+    { description: "VonG (case of 24)", quantity: 10, unitPrice: 1200 },
+  ],
+  dueDate: "2026-08-01",
+  memo: "Net 30",
+});
+
+console.log(invoice.invoiceUrl);   // hosted USDC pay page
+// → { id, invoiceNumber: "INV-202608-7792", status: "sent",
+//     total: 12000, invoiceUrl, createdAt }`}
+          </CodeBlock>
+        </SdkMethod>
+
+        {/* invoices.list / get */}
+        <SdkMethod
+          signature="offbank.invoices.list(params)   ·   offbank.invoices.get(id)"
+          lead="List your invoices (optionally filtered by status) or fetch one by id."
+        >
+          <CodeBlock language="typescript">
+            {`const { invoices, count } = await offbank.invoices.list({
+  status: "sent",   // draft | sent | viewed | paid | overdue | cancelled
+  limit: 20,
+});
+
+const one = await offbank.invoices.get("inv_9hwbf9...");`}
+          </CodeBlock>
+        </SdkMethod>
+
+        {/* payouts.create */}
+        <SdkMethod
+          signature="offbank.payouts.create(params)"
+          lead="Send USDC to anyone by email — iGaming cashouts, affiliate commissions, supplier runs. They claim with any wallet (or one we provision) and it settles in seconds."
+        >
+          <div className="rounded-lg border border-[#d3d3d3] p-4 mb-4">
+            <SdkParam name="email" type="string" required>
+              Recipient — they get a claim link.
+            </SdkParam>
+            <SdkParam name="amount" type="number" required>
+              Amount in whole USDC.
+            </SdkParam>
+            <SdkParam name="memo / metadata" type="string / object">
+              Optional reference shown on the claim + returned to you.
+            </SdkParam>
+          </div>
+          <CodeBlock language="typescript">
+            {`await offbank.payouts.create({
+  email: "player@example.com",
+  amount: 250.0,
+  memo: "Withdrawal #48210",
+});
+
+// Pay a whole run in parallel:
+await Promise.all(
+  winners.map((w) => offbank.payouts.create({ email: w.email, amount: w.amount })),
+);`}
+          </CodeBlock>
+        </SdkMethod>
+
+        {/* webhooks.verify */}
+        <SdkMethod
+          signature="offbank.webhooks.verify(rawBody, signatureHeader, secret, toleranceSeconds?)"
+          lead="Verify a webhook is genuinely from Offbank before you trust it. Returns true only if the HMAC-SHA256 signature matches (constant-time) and — if you pass a tolerance — the timestamp is fresh. Always pass the RAW request body, not a re-serialized object."
+        >
+          <div className="rounded-lg border border-[#d3d3d3] p-4 mb-4">
+            <SdkParam name="rawBody" type="string" required>
+              The exact request body, unparsed.
+            </SdkParam>
+            <SdkParam name="signatureHeader" type="string | null" required>
+              The <code className="font-mono">X-Offbank-Signature</code> header.
+            </SdkParam>
+            <SdkParam name="secret" type="string" required>
+              Your webhook signing secret (Settings → Webhook signing secret).
+            </SdkParam>
+            <SdkParam name="toleranceSeconds" type="number">
+              Reject events older than this many seconds. Recommended:{" "}
+              <code className="font-mono">300</code>.
+            </SdkParam>
+          </div>
+          <p className="text-[13px] text-[#8a8a8a] mb-3">
+            See the full handler in “A complete checkout” above, or the Webhooks
+            tab for the payload shape.
+          </p>
+        </SdkMethod>
+
+        {/* Errors */}
+        <div className="mt-14 border-t border-[#d3d3d3] pt-8">
+          <h3 className="text-xl font-bold mb-3">Error handling</h3>
+          <p className="text-[#8a8a8a] text-sm mb-3 leading-relaxed">
+            Any failed request throws an{" "}
+            <code className="font-mono text-[13px] text-[#5c5c5c]">
+              OffbankError
+            </code>{" "}
+            with a numeric <code className="font-mono">.status</code> and a
+            machine-readable <code className="font-mono">.code</code>.
+          </p>
+          <CodeBlock language="typescript">
+            {`import { Offbank, OffbankError } from "@offbank/sdk";
+
+try {
+  await offbank.payouts.create({ email: "x@y.com", amount: 250 });
+} catch (err) {
+  if (err instanceof OffbankError) {
+    console.error(err.status, err.code, err.message); // e.g. 401 "Invalid API key"
+  } else {
+    throw err;
+  }
+}`}
+          </CodeBlock>
+          <p className="text-[13px] text-[#8a8a8a] mt-3">
+            Fully typed — every method&apos;s params and return value are
+            inferred, and you can import types like{" "}
+            <code className="font-mono">Invoice</code> or{" "}
+            <code className="font-mono">CheckoutSession</code> from the package.
+          </p>
         </div>
       </section>
     </div>
