@@ -95,6 +95,46 @@ function getSolanaProvider(): any | null {
   );
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+interface SolWallet {
+  name: string;
+  icon: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  provider: any;
+}
+
+/** Discover the Solana wallets injected in this browser so the buyer can pick
+ * the one they actually use (Phantom, Solflare, Backpack, …) instead of us
+ * silently grabbing whichever one won the `window.solana` race. */
+function getSolanaWallets(): SolWallet[] {
+  if (typeof window === "undefined") return [];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const w = window as any;
+  const found: SolWallet[] = [];
+  const push = (name: string, provider: unknown, icon = "") => {
+    if (provider && !found.some((f) => f.name === name)) {
+      found.push({ name, provider, icon });
+    }
+  };
+
+  // Phantom exposes itself at window.phantom.solana (and window.solana.isPhantom).
+  push("Phantom", w.phantom?.solana || (w.solana?.isPhantom ? w.solana : null));
+  // Solflare — window.solflare (and sometimes window.solana.isSolflare).
+  push(
+    "Solflare",
+    w.solflare || (w.solana?.isSolflare ? w.solana : null),
+  );
+  // Backpack — window.backpack (xNFT provider) or window.solana.isBackpack.
+  push(
+    "Backpack",
+    w.backpack?.solana || w.backpack || (w.solana?.isBackpack ? w.solana : null),
+  );
+
+  // Fallback: an unbranded injected provider (some wallets only set window.solana).
+  if (found.length === 0 && w.solana) push("Wallet", w.solana);
+  return found;
+}
+
 function EmbedCheckout() {
   const params = useSearchParams();
 
@@ -104,6 +144,7 @@ function EmbedCheckout() {
   const [solanaUrl, setSolanaUrl] = useState("");
   const [copied, setCopied] = useState(false);
   const [hasWallet, setHasWallet] = useState(false);
+  const [solWallets, setSolWallets] = useState<SolWallet[]>([]);
   const [evmWallets, setEvmWallets] = useState<EvmWallet[]>([]);
   const [evmChain, setEvmChain] = useState<EvmChainKey>("base");
   const referenceRef = useRef<PublicKey | null>(null);
@@ -180,6 +221,11 @@ function EmbedCheckout() {
 
       setCfg(resolved);
       setHasWallet(!!getSolanaProvider());
+      setSolWallets(getSolanaWallets());
+      // Some wallet extensions inject a tick after load — re-scan shortly.
+      setTimeout(() => {
+        if (!cancelled) setSolWallets(getSolanaWallets());
+      }, 300);
       if (isEvmAddress(resolved.evm)) {
         setEvmWallets(getEvmWallets());
         // EIP-6963 announcements can arrive a tick late; re-scan shortly.
@@ -276,10 +322,12 @@ function EmbedCheckout() {
   }, [closeOut]);
 
   // ── Path 1: pay with an injected browser wallet ──
-  const payWithWallet = useCallback(async () => {
+  const payWithWallet = useCallback(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    async (provider: any) => {
     if (!cfg) return;
     setError(null);
-    const provider = getSolanaProvider();
+    provider = provider || getSolanaProvider();
     if (!provider) {
       setError("No browser wallet found — scan the QR with your phone instead.");
       return;
@@ -535,28 +583,62 @@ function EmbedCheckout() {
               </button>
             )}
 
-            <button
-              onClick={payWithWallet}
-              disabled={status === "paying"}
-              className={`flex w-full max-w-[18rem] items-center justify-center gap-2 rounded-xl px-5 py-3 text-sm font-semibold transition-colors disabled:opacity-60 ${
-                cfg?.sandbox
-                  ? "border border-[#d0d5dd] bg-white text-[#344054] hover:bg-[#f9fafb]"
-                  : "bg-[#34c759] text-white hover:bg-[#2ba048]"
-              }`}
-            >
-              {status === "paying" ? (
-                <>
-                  <span
-                    className={`h-4 w-4 animate-spin rounded-full border-2 ${cfg?.sandbox ? "border-[#d0d5dd] border-t-[#344054]" : "border-white/40 border-t-white"}`}
-                  />
-                  Confirm in your wallet…
-                </>
-              ) : cfg?.sandbox ? (
-                "Or pay for real (devnet)"
-              ) : (
-                "Pay with wallet"
-              )}
-            </button>
+            {cfg?.sandbox && (
+              <div className="mb-1 w-full max-w-[18rem] text-center text-[12px] text-[#98a2b3]">
+                Or pay for real (devnet):
+              </div>
+            )}
+
+            {/* Solana wallets — one button each, so the buyer picks the wallet
+                they actually use (Phantom / Solflare / Backpack). */}
+            {solWallets.length > 0 ? (
+              <div className="flex w-full max-w-[18rem] flex-col gap-1.5">
+                {solWallets.map((w) => (
+                  <button
+                    key={w.name}
+                    onClick={() => payWithWallet(w.provider)}
+                    disabled={status === "paying"}
+                    className={`flex w-full items-center justify-center gap-2 rounded-xl px-5 py-3 text-sm font-semibold transition-colors disabled:opacity-60 ${
+                      cfg?.sandbox
+                        ? "border border-[#d0d5dd] bg-white text-[#344054] hover:bg-[#f9fafb]"
+                        : "bg-[#34c759] text-white hover:bg-[#2ba048]"
+                    }`}
+                  >
+                    {status === "paying" ? (
+                      <>
+                        <span
+                          className={`h-4 w-4 animate-spin rounded-full border-2 ${cfg?.sandbox ? "border-[#d0d5dd] border-t-[#344054]" : "border-white/40 border-t-white"}`}
+                        />
+                        Confirm in {w.name}…
+                      </>
+                    ) : (
+                      `Pay with ${w.name}`
+                    )}
+                  </button>
+                ))}
+              </div>
+            ) : (
+              <button
+                onClick={() => payWithWallet(null)}
+                disabled={status === "paying"}
+                className={`flex w-full max-w-[18rem] items-center justify-center gap-2 rounded-xl px-5 py-3 text-sm font-semibold transition-colors disabled:opacity-60 ${
+                  cfg?.sandbox
+                    ? "border border-[#d0d5dd] bg-white text-[#344054] hover:bg-[#f9fafb]"
+                    : "bg-[#34c759] text-white hover:bg-[#2ba048]"
+                }`}
+              >
+                {status === "paying" ? (
+                  <>
+                    <span
+                      className={`h-4 w-4 animate-spin rounded-full border-2 ${cfg?.sandbox ? "border-[#d0d5dd] border-t-[#344054]" : "border-white/40 border-t-white"}`}
+                    />
+                    Confirm in your wallet…
+                  </>
+                ) : (
+                  "Pay with wallet"
+                )}
+              </button>
+            )}
             {!hasWallet && status === "awaiting" && (
               <p className="mt-2 max-w-[16rem] text-[12px] text-[#98a2b3]">
                 No browser wallet detected — scan below with your phone.
