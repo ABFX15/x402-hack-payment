@@ -79,7 +79,7 @@ export function Hero() {
                   textShadow: "0 2px 30px rgba(0,0,0,0.7)",
                 }}
               >
-                Get paid in USDC. No bank can freeze it.
+                The payment rail nobody can shut off.
               </h1>
 
               <p
@@ -89,11 +89,13 @@ export function Hero() {
                   textShadow: "0 1px 8px rgba(0,0,0,0.4)",
                 }}
               >
-                Offbank is the payment rail for businesses banks won&apos;t
-                serve. Accept payments, send instant payouts, and invoice in
-                stablecoin — settles in under a second, 1% flat, on a rail no
-                processor can freeze. Cash out to your account when
-                you&apos;re ready.
+                Every rail you use today — bank, Stripe, even crypto processors —
+                is controlled by someone who can freeze you overnight. Offbank
+                can&apos;t: <strong className="font-semibold text-white">you
+                hold the keys, so no one moves your money but you.</strong>{" "}
+                Accept payments, send instant payouts, and invoice in USDC — 1%
+                flat, settled in under a second — with the compliance trail that
+                keeps you bankable.
               </p>
               <p
                 className="mt-3 text-[13px] font-medium"
@@ -133,7 +135,7 @@ export function Hero() {
                 transition={{ ...spring, delay: 0.35 }}
                 className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-2"
               >
-                {["Shutdown-proof", "No debanking risk", "1% all-in"].map(
+                {["Unfreezable by design", "Non-custodial", "Bankable off-ramp"].map(
                   (badge) => (
                     <span
                       key={badge}

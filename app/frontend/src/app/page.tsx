@@ -4,6 +4,11 @@ import { Footer } from "@/components/ui/Footer";
 import { Hero, LogoBar, BentoCards } from "@/components/landing";
 
 /* Below-fold sections, lazy loaded to reduce initial JS bundle */
+const WhyUnfreezable = dynamic(() =>
+  import("@/components/landing/WhyUnfreezable").then((m) => ({
+    default: m.WhyUnfreezable,
+  })),
+);
 const SocialProof = dynamic(() =>
   import("@/components/landing/SocialProof").then((m) => ({
     default: m.SocialProof,
@@ -132,6 +137,7 @@ export default function HomePage() {
         <Hero />
         <LogoBar />
         <BentoCards />
+        <WhyUnfreezable />
         <SocialProof />
         <Features />
         <TabSection />

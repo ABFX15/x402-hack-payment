@@ -1,6 +1,7 @@
 export { Hero } from "./Hero";
 export { LogoBar } from "./LogoBar";
 export { BentoCards } from "./BentoCards";
+export { WhyUnfreezable } from "./WhyUnfreezable";
 export { SocialProof } from "./SocialProof";
 export { Features } from "./Features";
 export { TabSection } from "./TabSection";
