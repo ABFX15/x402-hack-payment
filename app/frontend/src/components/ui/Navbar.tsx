@@ -51,15 +51,9 @@ const resourceLinks = [
   },
   {
     href: "/docs",
-    label: "Operator Docs",
+    label: "Docs",
     icon: BookOpen,
-    description: "How to send invoices and cash out, no code",
-  },
-  {
-    href: "/developers",
-    label: "Developer Docs",
-    icon: BookOpen,
-    description: "REST API, webhooks, and SDK references",
+    description: "SDK, REST API, webhooks & operator guides",
   },
   {
     href: "/compliance",
@@ -121,7 +115,8 @@ const industryLinks = [
     href: "/industries/high-risk-ecommerce",
     label: "High-Risk E-Commerce",
     icon: ShoppingBag,
-    description: "Drop-in USDC checkout + B2B invoicing for stores Stripe drops",
+    description:
+      "Drop-in USDC checkout + B2B invoicing for stores Stripe drops",
   },
   {
     href: "/industries/igaming",

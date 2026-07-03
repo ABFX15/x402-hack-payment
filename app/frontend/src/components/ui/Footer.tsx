@@ -14,7 +14,10 @@ const columns = [
   {
     title: "Industries",
     links: [
-      { href: "/industries/high-risk-ecommerce", label: "High-Risk E-Commerce" },
+      {
+        href: "/industries/high-risk-ecommerce",
+        label: "High-Risk E-Commerce",
+      },
       { href: "/industries/igaming", label: "iGaming" },
       { href: "/industries", label: "All Industries" },
     ],
@@ -23,7 +26,7 @@ const columns = [
     title: "Resources",
     links: [
       { href: "/blog", label: "Blog" },
-      { href: "/docs", label: "Documentation" },
+      { href: "/docs", label: "Docs" },
       { href: "/help", label: "Support" },
       { href: "/learn", label: "Knowledge Hub" },
     ],
