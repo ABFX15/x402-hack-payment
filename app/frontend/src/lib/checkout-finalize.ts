@@ -24,6 +24,7 @@ import { screenPaymentParties } from "@/lib/range";
 import { verifyUsdcTransferToMerchant } from "@/lib/verify-payment";
 import { verifyEvmUsdcTransfer, isEvmTxHash } from "@/lib/evm-verify";
 import { isEvmAddress, EVM_CHAINS, type EvmChainKey } from "@/lib/evm";
+import { deriveMerchantWebhookSecret } from "@/lib/webhook-secret";
 import {
   completeCheckoutSessionAtomic,
   createPayment,
@@ -51,21 +52,6 @@ export interface FinalizeResult {
     | "error";
   error?: string;
   blockedParty?: "payer" | "merchant";
-}
-
-/** Per-merchant webhook signing secret. Prefers an explicit stored secret;
- * otherwise derives a stable, unguessable one from SESSION_SECRET — never the
- * merchant id (which is public). */
-function webhookSecretFor(session: CheckoutSession): string {
-  const base = process.env.SESSION_SECRET || process.env.OFFBANK_WEBHOOK_SECRET;
-  if (base) {
-    return crypto
-      .createHmac("sha256", base)
-      .update(`webhook:${session.merchantId}`)
-      .digest("hex");
-  }
-  // Last resort in a dev environment with no secret configured at all.
-  return `whsec_dev_${session.merchantId}`;
 }
 
 export async function finalizeCheckoutPayment(
@@ -214,7 +200,7 @@ export async function deliverCheckoutWebhook(
     timestamp,
   };
   const body = JSON.stringify(payload);
-  const secret = webhookSecretFor(session);
+  const secret = deriveMerchantWebhookSecret(session.merchantId);
   const sig = signPayload(`${timestamp}.${body}`, secret);
 
   let attempts = 0;

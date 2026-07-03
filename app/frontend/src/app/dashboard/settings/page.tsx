@@ -219,6 +219,11 @@ export default function SettingsPage() {
   const [copiedKey, setCopiedKey] = useState(false);
   const [keyError, setKeyError] = useState<string | null>(null);
 
+  // Webhook signing secret (for verifying webhooks with @offbank/sdk).
+  const [webhookSecret, setWebhookSecret] = useState<string | null>(null);
+  const [revealSecret, setRevealSecret] = useState(false);
+  const [copiedSecret, setCopiedSecret] = useState(false);
+
   const loadKeys = useCallback(async () => {
     if (!wallet) return;
     try {
@@ -229,9 +234,19 @@ export default function SettingsPage() {
     }
   }, [wallet]);
 
+  const loadWebhookSecret = useCallback(async () => {
+    try {
+      const res = await fetch("/api/merchant/webhook-secret");
+      if (res.ok) setWebhookSecret((await res.json()).secret || null);
+    } catch {
+      /* ignore */
+    }
+  }, []);
+
   useEffect(() => {
     loadKeys();
-  }, [loadKeys]);
+    loadWebhookSecret();
+  }, [loadKeys, loadWebhookSecret]);
 
   const createKey = async () => {
     if (!wallet) return;
@@ -820,6 +835,70 @@ export default function SettingsPage() {
             ))}
           </div>
         )}
+      </section>
+
+      {/* ─── Webhook signing secret ─── */}
+      <section className="mb-8 rounded-2xl border border-[#d3d3d3] bg-white p-6">
+        <div className="mb-4 flex items-start gap-3">
+          <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-[#34c759]/10">
+            <KeyRound className="h-5 w-5 text-[#34c759]" />
+          </div>
+          <div>
+            <h2 className="text-base font-semibold text-[#212121]">
+              Webhook signing secret
+            </h2>
+            <p className="text-sm text-[#8a8a8a]">
+              Offbank signs every webhook with this secret. Verify it in your
+              backend with{" "}
+              <code className="rounded bg-[#f2f2f2] px-1 py-0.5 font-mono text-[12px]">
+                offbank.webhooks.verify()
+              </code>{" "}
+              so you only fulfil real, verified payments.
+            </p>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <code className="flex-1 overflow-x-auto rounded-lg bg-[#0d1117] px-3 py-2 font-mono text-[12px] text-[#e6edf3]">
+            {webhookSecret
+              ? revealSecret
+                ? webhookSecret
+                : `whsec_${"•".repeat(24)}`
+              : "Loading…"}
+          </code>
+          <button
+            onClick={() => setRevealSecret((v) => !v)}
+            disabled={!webhookSecret}
+            className="inline-flex items-center gap-1.5 rounded-lg border border-[#d3d3d3] px-3 py-2 text-sm font-medium text-[#212121] hover:bg-[#f2f2f2] disabled:opacity-50"
+          >
+            {revealSecret ? "Hide" : "Reveal"}
+          </button>
+          <button
+            onClick={() => {
+              if (!webhookSecret) return;
+              navigator.clipboard.writeText(webhookSecret);
+              setCopiedSecret(true);
+              setTimeout(() => setCopiedSecret(false), 1500);
+            }}
+            disabled={!webhookSecret}
+            className="inline-flex items-center gap-1.5 rounded-lg bg-[#34c759] px-3 py-2 text-sm font-medium text-white hover:bg-[#2ba048] disabled:opacity-50"
+          >
+            {copiedSecret ? (
+              <Check className="h-4 w-4" />
+            ) : (
+              <Copy className="h-4 w-4" />
+            )}
+            {copiedSecret ? "Copied" : "Copy"}
+          </button>
+        </div>
+        <p className="mt-3 text-[13px] text-[#8a8a8a]">
+          Sent as the{" "}
+          <code className="rounded bg-[#f2f2f2] px-1 py-0.5 font-mono text-[12px]">
+            X-Offbank-Signature
+          </code>{" "}
+          header (HMAC-SHA256). Keep it secret — anyone with it can forge
+          webhooks.
+        </p>
       </section>
 
       {/* ─── Save ─── */}
