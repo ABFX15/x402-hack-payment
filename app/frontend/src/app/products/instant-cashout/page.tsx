@@ -115,12 +115,13 @@ export default function InstantCashoutPage() {
           <div className="mt-8">
             <CodeBlock
               filename="cashout.ts"
-              code={`import { PayoutClient } from "@offbank/sdk";
+              code={`// npm install @offbank/sdk
+import { Offbank } from "@offbank/sdk";
 
-const payouts = new PayoutClient({ apiKey: "sk_live_..." });
+const offbank = new Offbank({ apiKey: process.env.OFFBANK_API_KEY! });
 
 // Player cashes out — settles in USDC, instantly
-await payouts.create({
+await offbank.payouts.create({
   email: "player@example.com",
   amount: 250.0,
   memo: "Withdrawal #48210",

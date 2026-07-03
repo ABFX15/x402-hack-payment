@@ -142,18 +142,22 @@ export default function DevelopersPage() {
             <CodeBlock
               filename="create-invoice.sh"
               code={`curl https://offbankpay.com/api/invoices \\
-  -H "Authorization: Bearer $OFFBANK_API_KEY" \\
+  -H "x-api-key: $OFFBANK_API_KEY" \\
   -H "Content-Type: application/json" \\
   -d '{
-    "amount": 47500,
-    "currency": "USDC",
-    "buyerEmail": "buyer@example.com",
-    "memo": "Wholesale order #4421"
+    "buyerName": "Acme Wholesale",
+    "buyerEmail": "ap@acme.com",
+    "lineItems": [
+      { "description": "Wholesale order #4421", "quantity": 1, "unitPrice": 47500 }
+    ],
+    "dueDate": "2026-08-01",
+    "memo": "Net 30"
   }'`}
             />
             <p className="mt-4 text-sm text-[#5c5c5c]">
-              Returns a payment link your buyer can pay with any Solana wallet.
-              Settlement webhook fires once the on-chain transaction confirms.
+              Returns a hosted invoice link your buyer pays with any Solana
+              wallet. A signed settlement webhook fires once the on-chain payment
+              confirms. Prefer types? <code className="rounded bg-[#f2f2f2] px-1 py-0.5 font-mono text-[12px]">npm install @offbank/sdk</code>.
             </p>
           </div>
 
@@ -167,21 +171,22 @@ export default function DevelopersPage() {
             </div>
             <CodeBlock
               filename="payouts.ts"
-              code={`import { PayoutClient } from "@offbank/sdk";
+              code={`// npm install @offbank/sdk
+import { Offbank } from "@offbank/sdk";
 
-const payouts = new PayoutClient({ apiKey: "sk_live_..." });
+const offbank = new Offbank({ apiKey: process.env.OFFBANK_API_KEY! });
 
 // Affiliate commission, player cashout, supplier payment — same call
-await payouts.create({
+await offbank.payouts.create({
   email: "alice@example.com",
   amount: 250.0,
   memo: "March affiliate commission",
 });
 
-// Or pay a whole run at once
-await payouts.createBatch([
-  { email: "alice@example.com", amount: 250.0 },
-  { email: "bob@example.com",   amount: 180.0 },
+// Pay a whole run at once
+await Promise.all([
+  offbank.payouts.create({ email: "alice@example.com", amount: 250.0 }),
+  offbank.payouts.create({ email: "bob@example.com",   amount: 180.0 }),
 ]);`}
             />
             <p className="mt-4 text-sm text-[#5c5c5c]">

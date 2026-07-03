@@ -687,17 +687,19 @@ function WebhooksContent() {
           {`{
   "event": "payment.completed",
   "data": {
-    "id": "pay_abc123",
-    "status": "completed",
+    "paymentId": "pay_abc123",
+    "sessionId": "cs_9hwbf9pvk2d1",
     "amount": 12500.00,
     "currency": "USDC",
-    "signature": "5xKj...abc",
-    "paidAt": "2025-07-10T14:30:00Z",
+    "customerWallet": "DjLFeMQ3...rSQV",
+    "paymentSignature": "5xKj...abc",
+    "completedAt": 1752158400000,
+    "receiptUrl": "https://offbankpay.com/receipts/pay_abc123",
     "metadata": {
       "buyer_license": "C10-0000002-LIC"
     }
   },
-  "timestamp": "2025-07-10T14:30:01Z"
+  "timestamp": 1752158401000
 }`}
         </CodeBlock>
 
@@ -708,33 +710,27 @@ function WebhooksContent() {
         <CodeBlock language="typescript">
           {`// app/api/webhooks/offbank/route.ts
 import { NextRequest, NextResponse } from 'next/server';
-import crypto from 'crypto';
+import { Offbank } from '@offbank/sdk';
+
+const offbank = new Offbank({ apiKey: process.env.OFFBANK_API_KEY! });
 
 export async function POST(req: NextRequest) {
-  const body = await req.text();
-  const signature = req.headers.get('x-offbank-signature');
+  const body = await req.text(); // raw body — required to verify the signature
 
-  // Verify the webhook signature
-  const expectedSig = crypto
-    .createHmac('sha256', process.env.OFFBANK_WEBHOOK_SECRET!)
-    .update(body)
-    .digest('hex');
-
-  if (signature !== expectedSig) {
+  const ok = offbank.webhooks.verify(
+    body,
+    req.headers.get('X-Offbank-Signature'),
+    process.env.OFFBANK_WEBHOOK_SECRET!, // Dashboard → Settings → Webhook signing secret
+    300,                                 // reject events older than 5 minutes
+  );
+  if (!ok) {
     return NextResponse.json({ error: 'Invalid signature' }, { status: 401 });
   }
 
   const event = JSON.parse(body);
-
-  switch (event.event) {
-    case 'payment.completed':
-      await markInvoicePaid(event.data.id, event.data.signature);
-      break;
-    case 'payment.expired':
-      await handleExpiredInvoice(event.data.id);
-      break;
-    default:
-      console.log('Unhandled event:', event.event);
+  if (event.event === 'payment.completed') {
+    // Offbank already verified this payment on-chain — safe to fulfil.
+    await markPaid(event.data.paymentId, event.data.paymentSignature);
   }
 
   return NextResponse.json({ received: true });
@@ -761,19 +757,21 @@ export async function POST(req: NextRequest) {
                 </td>
               </tr>
               <tr>
-                <td className="px-4 py-3 font-mono text-[#34c759]">
+                <td className="px-4 py-3 font-mono text-[#8a8a8a]">
                   payment.expired
                 </td>
                 <td className="px-4 py-3 text-[#8a8a8a]">
-                  Payment link expired before completion
+                  Payment link expired before completion{" "}
+                  <span className="text-[#d29500]">(planned)</span>
                 </td>
               </tr>
               <tr>
-                <td className="px-4 py-3 font-mono text-[#34c759]">
+                <td className="px-4 py-3 font-mono text-[#8a8a8a]">
                   payment.failed
                 </td>
                 <td className="px-4 py-3 text-[#8a8a8a]">
-                  Payment failed due to an error
+                  Payment failed due to an error{" "}
+                  <span className="text-[#d29500]">(planned)</span>
                 </td>
               </tr>
             </tbody>
