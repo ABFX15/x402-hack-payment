@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, Suspense } from "react";
+import { useState, useEffect, Suspense, type ReactNode } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { Navbar } from "@/components/ui/Navbar";
@@ -186,107 +186,134 @@ function QuickStartContent() {
   return (
     <div className="space-y-8">
       <section>
-        <h2 className="text-2xl font-bold mb-4">Get Started in 5 Minutes</h2>
+        <h2 className="text-2xl font-bold mb-4">Get started</h2>
         <p className="text-[#8a8a8a] mb-6">
-          Offbank automates B2B cannabis payments. Connect your POS system and
-          invoices settle in USDC on Solana, no bank wires, no 30-day net
-          terms, no chargebacks.
+          Offbank is self-custodial USDC payment infrastructure for merchants
+          processors won&apos;t touch — high-risk e-commerce and iGaming. Accept
+          payments, send instant payouts, and invoice in USDC. Funds settle
+          straight to a wallet you control, in under a second, 1% flat.
         </p>
 
-        {/* Direct invoices intro */}
-        <div className="mb-12">
-          <div className="rounded-xl border border-[#34c759]/20 bg-[#34c759]/[0.05] p-5">
-            <span className="inline-block text-[10px] font-bold tracking-widest uppercase bg-[#34c759]/15 text-[#34c759] px-2 py-0.5 rounded-full mb-3">
-              Direct
-            </span>
-            <h3 className="text-lg font-semibold text-[#212121] mb-2">
-              Create Payment Links
-            </h3>
-            <p className="text-sm text-[#8a8a8a] mb-3">
-              Create USDC payment links directly from the dashboard. Works for
-              any cannabis B2B transaction, no POS integration required.
+        {/* Three ways to integrate */}
+        <h3 className="text-xl font-semibold mb-4">Three ways to integrate</h3>
+        <div className="grid md:grid-cols-3 gap-4 mb-12">
+          <div className="rounded-xl border border-[#d3d3d3] p-5">
+            <span className="text-2xl">🛒</span>
+            <h4 className="font-semibold mt-3 mb-1">Checkout widget</h4>
+            <p className="text-sm text-[#8a8a8a]">
+              One <code className="font-mono text-[12px]">&lt;script&gt;</code>{" "}
+              tag adds a “Pay with USDC” button to any store. Best for
+              e-commerce checkout.
             </p>
-            <span className="text-sm text-[#34c759] font-medium">
-              See Invoices tab →
-            </span>
+          </div>
+          <div className="rounded-xl border border-[#d3d3d3] p-5">
+            <span className="text-2xl">⚡</span>
+            <h4 className="font-semibold mt-3 mb-1">SDK / REST API</h4>
+            <p className="text-sm text-[#8a8a8a]">
+              <code className="font-mono text-[12px]">@offbank/sdk</code> for
+              invoices, checkout sessions, and instant payouts. Best for iGaming
+              &amp; backends.
+            </p>
+          </div>
+          <div className="rounded-xl border border-[#d3d3d3] p-5">
+            <span className="text-2xl">🧾</span>
+            <h4 className="font-semibold mt-3 mb-1">Dashboard</h4>
+            <p className="text-sm text-[#8a8a8a]">
+              Create invoices and payment links by hand — no code. Best for
+              wholesale billing and one-offs.
+            </p>
           </div>
         </div>
 
-        {/* Step 1 */}
-        <div className="mb-8">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="w-8 h-8 rounded-full bg-[#34c759]/15 text-[#34c759] flex items-center justify-center font-bold">
-              1
-            </div>
-            <h3 className="text-xl font-semibold">Get Started</h3>
-          </div>
-          <p className="text-[#8a8a8a] mb-4">
-            Offbank is currently invite-only. Submit a request on our waitlist
-            and we&apos;ll review your application. Once approved, you&apos;ll
-            receive an email with a link to sign in and complete onboarding.
-          </p>
-          <a
-            href="/onboarding"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-[#34c759] text-white font-semibold rounded-lg hover:opacity-90 transition-opacity"
-          >
-            Get Started →
-          </a>
-        </div>
-
-        {/* Step 2 */}
-        <div className="mb-8">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="w-8 h-8 rounded-full bg-[#34c759]/15 text-[#34c759] flex items-center justify-center font-bold">
-              2
-            </div>
-            <h3 className="text-xl font-semibold">Complete Onboarding</h3>
-          </div>
-          <p className="text-[#8a8a8a] mb-4">
-            Sign in with your email, complete merchant onboarding (business
-            details, license verification), and you&apos;re ready to invoice.
+        {/* Get an API key */}
+        <div className="rounded-xl border border-[#34c759]/20 bg-[#34c759]/[0.05] p-5 mb-10">
+          <h3 className="text-lg font-semibold text-[#212121] mb-1">
+            1. Get your API key
+          </h3>
+          <p className="text-sm text-[#8a8a8a]">
+            Sign in, then go to{" "}
+            <strong className="text-[#5c5c5c]">Settings → API keys</strong> and
+            create a key (<code className="font-mono text-[12px]">sk_live_…</code>
+            ). Grab your{" "}
+            <strong className="text-[#5c5c5c]">Webhook signing secret</strong>{" "}
+            from the same page. Keep both server-side — they can move money.
           </p>
         </div>
 
-        {/* Step 3 */}
-        <div className="mb-8">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="w-8 h-8 rounded-full bg-[#34c759]/15 text-[#34c759] flex items-center justify-center font-bold">
-              3
-            </div>
-            <h3 className="text-xl font-semibold">Send a Payment Link</h3>
-          </div>
-          <p className="text-[#8a8a8a] mb-4">
-            Create an invoice from the dashboard, share the payment link with
-            your buyer, and the funds settle to your wallet instantly when they
-            pay in USDC.
-          </p>
-          <div className="bg-[#f2f2f2] border border-[#d3d3d3] rounded-lg p-4 font-mono text-sm text-[#5c5c5c]">
-            <div className="space-y-1">
-              <p>Create invoice INV-4821 in dashboard</p>
-              <p>&nbsp;&nbsp;→ Share payment link with buyer</p>
-              <p>&nbsp;&nbsp;→ Buyer pays in USDC (one click)</p>
-              <p>&nbsp;&nbsp;→ Funds settle to your wallet instantly</p>
-              <p>&nbsp;&nbsp;→ On-chain receipt available immediately</p>
-            </div>
-          </div>
-        </div>
+        {/* SDK quickstart */}
+        <h3 className="text-xl font-semibold mb-3">2. Install the SDK</h3>
+        <CodeBlock language="bash">{`npm install @offbank/sdk`}</CodeBlock>
+        <p className="text-[#8a8a8a] text-sm mt-4 mb-3">
+          Create a checkout session — the amount is fixed server-side, so it
+          can&apos;t be tampered with:
+        </p>
+        <CodeBlock language="typescript">
+          {`import { Offbank } from "@offbank/sdk";
+
+const offbank = new Offbank({ apiKey: process.env.OFFBANK_API_KEY! });
+
+const session = await offbank.checkout.sessions.create({
+  merchantWallet: "DjLFeMQ3...rSQV",
+  merchantName: "My Store",
+  amount: 74.0,                      // whole USDC
+  successUrl: "https://store.com/thanks",
+  cancelUrl: "https://store.com/cart",
+  webhookUrl: "https://store.com/api/offbank-webhook",
+});
+
+// Redirect the buyer to session.url — or hand session.id to the widget.
+console.log(session.url);`}
+        </CodeBlock>
+
+        {/* Widget quickstart */}
+        <h3 className="text-xl font-semibold mb-3 mt-10">
+          Or drop in the checkout widget
+        </h3>
+        <p className="text-[#8a8a8a] text-sm mb-3">
+          No build step — add one script and open the checkout with the live
+          cart total. Confirmation is verified on-chain server-side before your
+          webhook fires.
+        </p>
+        <CodeBlock language="html">
+          {`<script src="https://offbankpay.com/embed.js"></script>
+
+<button onclick="OffbankCheckout.open({
+  merchant: 'DjLFeMQ3...rSQV',   // your Solana wallet
+  amount: 74.00,
+  evm: '0x8335...2913',          // optional: also accept USDC on Base/Ethereum
+  onSuccess: (d) => console.log('paid', d.signature)
+})">Pay with USDC</button>`}
+        </CodeBlock>
+
+        {/* Instant payout */}
+        <h3 className="text-xl font-semibold mb-3 mt-10">
+          3. Pay anyone (iGaming cashouts, affiliates, suppliers)
+        </h3>
+        <CodeBlock language="typescript">
+          {`await offbank.payouts.create({
+  email: "player@example.com",
+  amount: 250.0,
+  memo: "Withdrawal #48210",
+});
+// Recipient gets a claim link and picks any wallet — settles in seconds.`}
+        </CodeBlock>
 
         {/* Feature cards */}
         <div className="grid md:grid-cols-3 gap-6 mt-12">
           <FeatureCard
             icon="⚡"
-            title="Instant Settlement"
-            description="USDC settles in under 1 second on Solana. No 30-day net terms."
+            title="Instant settlement"
+            description="USDC settles in under 1 second on Solana. No net terms, no reserves."
           />
           <FeatureCard
-            icon="🔒"
-            title="Compliance Ready"
-            description="METRC tag tracking, license verification, full audit trail."
+            icon="🛡️"
+            title="Can't be frozen"
+            description="Self-custodial — funds land in a wallet only you control."
           />
           <FeatureCard
-            icon="🧾"
-            title="On-chain Receipts"
-            description="Every payment generates a verifiable Solana transaction receipt."
+            icon="🚫"
+            title="No chargebacks"
+            description="On-chain payments are final. Friendly fraud disappears."
           />
         </div>
       </section>
@@ -304,8 +331,9 @@ function InvoicesContent() {
       <section>
         <h2 className="text-2xl font-bold mb-4">Invoices &amp; Payments</h2>
         <p className="text-[#8a8a8a] mb-6">
-          Create USDC invoices for any cannabis B2B transaction. Buyers pay via
-          a one-click payment link and funds settle to your wallet instantly.
+          Create USDC invoices for any B2B transaction — wholesale orders,
+          services, net-terms billing. Buyers pay via a one-click payment link
+          and funds settle to your wallet instantly.
         </p>
 
         {/* How it works */}
@@ -532,14 +560,46 @@ function DashboardContent() {
    REST API
    ═══════════════════════════════════════════════════════════ */
 
+function Endpoint({
+  method,
+  path,
+  children,
+}: {
+  method: "GET" | "POST" | "DELETE";
+  path: string;
+  children: ReactNode;
+}) {
+  const color =
+    method === "POST"
+      ? "text-[#34c759] bg-[#34c759]/15"
+      : method === "DELETE"
+        ? "text-[#d92d20] bg-[#d92d20]/10"
+        : "text-[#2970ff] bg-[#2970ff]/10";
+  return (
+    <div className="border border-[#d3d3d3] rounded-lg overflow-hidden mb-6">
+      <div className="bg-[#f2f2f2] px-4 py-3 flex items-center gap-3">
+        <span className={`px-2 py-1 rounded text-sm font-mono ${color}`}>
+          {method}
+        </span>
+        <code className="text-[#212121]">{path}</code>
+      </div>
+      <div className="p-4 space-y-3">{children}</div>
+    </div>
+  );
+}
+
 function APIContent() {
   return (
     <div className="space-y-8">
       <section>
-        <h2 className="text-2xl font-bold mb-4">REST API Reference</h2>
+        <h2 className="text-2xl font-bold mb-4">REST API reference</h2>
         <p className="text-[#8a8a8a] mb-6">
-          Internal API endpoints for payments and treasury management. All
-          authenticated routes require a valid wallet sign-in session.
+          Everything the SDK does, over plain HTTP. Use it from any language.
+          The{" "}
+          <code className="font-mono text-[13px] text-[#5c5c5c]">
+            @offbank/sdk
+          </code>{" "}
+          package wraps these endpoints with types.
         </p>
 
         {/* Base URL */}
@@ -553,107 +613,107 @@ function APIContent() {
           <h3 className="text-lg font-semibold text-[#212121] mb-2">
             Authentication
           </h3>
-          <p className="text-[#8a8a8a] text-sm">
-            API requests are authenticated via your Solana wallet sign-in
-            session. When calling from the dashboard, authentication is handled
-            automatically. For server-to-server integrations, Offbank supports
-            HMAC signature verification on incoming webhooks.
+          <p className="text-[#8a8a8a] text-sm mb-3">
+            Server-to-server calls authenticate with your{" "}
+            <strong className="text-[#5c5c5c]">API key</strong> — send it as an{" "}
+            <code className="font-mono text-[12px]">x-api-key</code> header (or{" "}
+            <code className="font-mono text-[12px]">
+              Authorization: Bearer
+            </code>
+            ). Create keys in{" "}
+            <strong className="text-[#5c5c5c]">Settings → API keys</strong>.
+            Never expose a key in a browser.
           </p>
+          <CodeBlock language="bash">
+            {`curl https://offbankpay.com/api/invoices \\
+  -H "x-api-key: $OFFBANK_API_KEY"`}
+          </CodeBlock>
         </div>
 
-        {/* Payment Endpoints */}
+        {/* Checkout sessions */}
         <h3 className="text-lg font-semibold text-[#5c5c5c] mt-10 mb-4">
-          Payments &amp; Invoices
+          Checkout sessions
         </h3>
+        <Endpoint method="POST" path="/checkout/sessions">
+          <p className="text-[#8a8a8a] text-sm">
+            Create a checkout session with a server-fixed amount (untamperable).
+            Returns a hosted checkout <code className="font-mono">url</code> and
+            an <code className="font-mono">id</code> for the embed widget.
+          </p>
+          <CodeBlock language="json">
+            {`// request
+{
+  "merchantWallet": "DjLFeMQ3...rSQV",
+  "merchantName": "My Store",
+  "amount": 74.00,
+  "successUrl": "https://store.com/thanks",
+  "cancelUrl": "https://store.com/cart",
+  "webhookUrl": "https://store.com/api/offbank-webhook"
+}`}
+          </CodeBlock>
+          <CodeBlock language="json">
+            {`// response
+{ "id": "cs_9hwbf9...", "url": "https://offbankpay.com/checkout/cs_9hwbf9...", "expiresAt": 1752160200000, "status": "pending" }`}
+          </CodeBlock>
+        </Endpoint>
 
-        <div className="border border-[#d3d3d3] rounded-lg overflow-hidden mb-6">
-          <div className="bg-[#f2f2f2] px-4 py-3 flex items-center gap-3">
-            <span className="bg-[#34c759]/15 text-[#34c759] px-2 py-1 rounded text-sm font-mono">
-              POST
-            </span>
-            <code className="text-[#212121]">/payments</code>
-          </div>
-          <div className="p-4">
-            <p className="text-[#8a8a8a]">
-              Create a USDC payment with a payment link.
-            </p>
-          </div>
-        </div>
-
-        <div className="border border-[#d3d3d3] rounded-lg overflow-hidden mb-6">
-          <div className="bg-[#f2f2f2] px-4 py-3 flex items-center gap-3">
-            <span className="bg-[#34c759]/15 text-[#34c759] px-2 py-1 rounded text-sm font-mono">
-              GET
-            </span>
-            <code className="text-[#212121]">/payments/:id</code>
-          </div>
-          <div className="p-4">
-            <p className="text-[#8a8a8a]">Retrieve a payment by ID.</p>
-          </div>
-        </div>
-
-        <div className="border border-[#d3d3d3] rounded-lg overflow-hidden mb-6">
-          <div className="bg-[#f2f2f2] px-4 py-3 flex items-center gap-3">
-            <span className="bg-[#34c759]/15 text-[#34c759] px-2 py-1 rounded text-sm font-mono">
-              POST
-            </span>
-            <code className="text-[#212121]">/invoices</code>
-          </div>
-          <div className="p-4">
-            <p className="text-[#8a8a8a]">
-              Create a new invoice. Returns a shareable payment link.
-            </p>
-          </div>
-        </div>
-
-        <div className="border border-[#d3d3d3] rounded-lg overflow-hidden mb-6">
-          <div className="bg-[#f2f2f2] px-4 py-3 flex items-center gap-3">
-            <span className="bg-[#34c759]/15 text-[#34c759] px-2 py-1 rounded text-sm font-mono">
-              GET
-            </span>
-            <code className="text-[#212121]">/invoices</code>
-          </div>
-          <div className="p-4">
-            <p className="text-[#8a8a8a]">
-              List all invoices with optional status filter.
-            </p>
-          </div>
-        </div>
-
-        {/* Treasury Endpoints */}
+        {/* Invoices */}
         <h3 className="text-lg font-semibold text-[#5c5c5c] mt-10 mb-4">
-          Treasury
+          Invoices
         </h3>
+        <Endpoint method="POST" path="/invoices">
+          <p className="text-[#8a8a8a] text-sm">
+            Create an invoice and (by default) email the buyer a hosted USDC pay
+            link. Requires an API key.
+          </p>
+          <CodeBlock language="json">
+            {`// request
+{
+  "buyerName": "Acme Wholesale",
+  "buyerEmail": "ap@acme.com",
+  "lineItems": [
+    { "description": "Order #4421", "quantity": 1, "unitPrice": 47500 }
+  ],
+  "dueDate": "2026-08-01",
+  "memo": "Net 30",
+  "sendEmail": true
+}`}
+          </CodeBlock>
+          <CodeBlock language="json">
+            {`// response
+{ "id": "inv_9hwbf9...", "invoiceNumber": "INV-202608-7792", "status": "sent", "total": 47500, "invoiceUrl": "https://offbankpay.com/invoice/ykh2w8...", "createdAt": "2026-07-03T10:00:00Z" }`}
+          </CodeBlock>
+        </Endpoint>
+        <Endpoint method="GET" path="/invoices?status=&limit=&offset=">
+          <p className="text-[#8a8a8a] text-sm">
+            List your invoices. Optional{" "}
+            <code className="font-mono">status</code> filter (draft, sent,
+            viewed, paid, overdue, cancelled). Add{" "}
+            <code className="font-mono">?stats=true</code> for totals.
+          </p>
+        </Endpoint>
 
-        <div className="border border-[#d3d3d3] rounded-lg overflow-hidden mb-6">
-          <div className="bg-[#f2f2f2] px-4 py-3 flex items-center gap-3">
-            <span className="bg-[#34c759]/15 text-[#34c759] px-2 py-1 rounded text-sm font-mono">
-              GET
-            </span>
-            <code className="text-[#212121]">/treasury</code>
-          </div>
-          <div className="p-4">
-            <p className="text-[#8a8a8a] text-sm">
-              Returns treasury balance, platform config (fee BPS, authority,
-              total volume/fees), and PDA addresses.
-            </p>
-          </div>
-        </div>
+        {/* Payouts */}
+        <h3 className="text-lg font-semibold text-[#5c5c5c] mt-10 mb-4">
+          Payouts
+        </h3>
+        <Endpoint method="POST" path="/payouts">
+          <p className="text-[#8a8a8a] text-sm">
+            Send USDC to anyone by email — iGaming cashouts, affiliate
+            commissions, supplier runs. They claim with any wallet (or one we
+            provision) and it settles in seconds. Requires an API key.
+          </p>
+          <CodeBlock language="json">
+            {`// request
+{ "email": "player@example.com", "amount": 250.00, "memo": "Withdrawal #48210" }`}
+          </CodeBlock>
+        </Endpoint>
 
-        <div className="border border-[#d3d3d3] rounded-lg overflow-hidden">
-          <div className="bg-[#f2f2f2] px-4 py-3 flex items-center gap-3">
-            <span className="bg-[#34c759]/15 text-[#34c759] px-2 py-1 rounded text-sm font-mono">
-              POST
-            </span>
-            <code className="text-[#212121]">/fees/claim</code>
-          </div>
-          <div className="p-4">
-            <p className="text-[#8a8a8a] text-sm">
-              Builds an unsigned claim_platform_fees transaction for the
-              authorized signer.
-            </p>
-          </div>
-        </div>
+        <p className="text-[13px] text-[#8a8a8a] mt-4">
+          On success, Offbank verifies every payment on-chain and fires a signed{" "}
+          <code className="font-mono">payment.completed</code> webhook — see the
+          Webhooks tab.
+        </p>
       </section>
     </div>
   );
@@ -800,14 +860,65 @@ function IntegrationsContent() {
   return (
     <div className="space-y-8">
       <section>
-        <h2 className="text-2xl font-bold mb-4">POS Integrations</h2>
+        <h2 className="text-2xl font-bold mb-4">Integrations</h2>
         <p className="text-[#8a8a8a] mb-6">
-          Offbank connects to the cannabis POS and ordering platforms your
-          business already uses. LeafLink is live in beta, Dutchie and Flowhub
-          are on the roadmap.
+          Add Offbank to the stores and platforms you already run. The checkout
+          widget drops into any storefront; the SDK/REST API covers everything
+          else.
         </p>
 
-        {/* Integration cards */}
+        {/* E-commerce / storefronts */}
+        <h3 className="text-lg font-semibold text-[#5c5c5c] mb-4">
+          Online stores
+        </h3>
+        <div className="grid md:grid-cols-3 gap-4 mb-10">
+          <div className="rounded-lg border-2 border-[#34c759]/30 bg-[#34c759]/[0.05] p-5">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="text-2xl">🛒</span>
+              <span className="text-[10px] font-bold tracking-widest uppercase bg-[#34c759]/15 text-[#34c759] px-2 py-0.5 rounded-full">
+                Live
+              </span>
+            </div>
+            <h3 className="font-semibold mb-1">Checkout widget</h3>
+            <p className="text-sm text-[#8a8a8a]">
+              One <code className="font-mono text-[12px]">&lt;script&gt;</code>{" "}
+              tag on any site — Shopify, WooCommerce, or custom. See Getting
+              Started for the snippet.
+            </p>
+          </div>
+          <div className="rounded-lg border-2 border-[#34c759]/30 bg-[#34c759]/[0.05] p-5">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="text-2xl">⚡</span>
+              <span className="text-[10px] font-bold tracking-widest uppercase bg-[#34c759]/15 text-[#34c759] px-2 py-0.5 rounded-full">
+                Live
+              </span>
+            </div>
+            <h3 className="font-semibold mb-1">SDK / REST API</h3>
+            <p className="text-sm text-[#8a8a8a]">
+              <code className="font-mono text-[12px]">@offbank/sdk</code> for
+              checkout sessions, invoices, and instant payouts. See the REST API
+              tab.
+            </p>
+          </div>
+          <div className="rounded-lg border border-[#d3d3d3] bg-[#f2f2f2]/50 p-5">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="text-2xl">🎮</span>
+              <span className="text-[10px] font-bold tracking-widest uppercase bg-[#8a8a8a]/10 text-[#8a8a8a] px-2 py-0.5 rounded-full">
+                iGaming
+              </span>
+            </div>
+            <h3 className="font-semibold mb-1">Deposits &amp; payouts</h3>
+            <p className="text-sm text-[#8a8a8a]">
+              Checkout sessions for deposits, the payouts API for instant player
+              cashouts. Webhook-driven balance crediting.
+            </p>
+          </div>
+        </div>
+
+        {/* Wholesale / POS */}
+        <h3 className="text-lg font-semibold text-[#5c5c5c] mb-4">
+          Wholesale &amp; POS
+        </h3>
         <div className="grid md:grid-cols-3 gap-4 mb-10">
           <div className="rounded-lg border-2 border-[#34c759]/30 bg-[#34c759]/[0.05] p-5">
             <div className="flex items-center gap-2 mb-2">
@@ -819,20 +930,7 @@ function IntegrationsContent() {
             <h3 className="font-semibold mb-1">LeafLink</h3>
             <p className="text-sm text-[#8a8a8a]">
               Wholesale B2B ordering. Auto-creates USDC invoices from purchase
-              orders, syncs settlement status back to LeafLink. Configure in
-              Settings → LeafLink Integration.
-            </p>
-          </div>
-          <div className="rounded-lg border border-[#d3d3d3] bg-[#f2f2f2]/50 p-5">
-            <div className="flex items-center gap-2 mb-2">
-              <span className="text-2xl">🛒</span>
-              <span className="text-[10px] font-bold tracking-widest uppercase bg-[#8a8a8a]/10 text-[#8a8a8a] px-2 py-0.5 rounded-full">
-                Planned
-              </span>
-            </div>
-            <h3 className="font-semibold mb-1">Dutchie</h3>
-            <p className="text-sm text-[#8a8a8a]">
-              Dispensary POS with METRC integration. Planned for Q3 2026.
+              orders and syncs settlement status back. Settings → LeafLink.
             </p>
           </div>
           <div className="rounded-lg border border-[#d3d3d3] bg-[#f2f2f2]/50 p-5">
@@ -842,21 +940,19 @@ function IntegrationsContent() {
                 Planned
               </span>
             </div>
-            <h3 className="font-semibold mb-1">Flowhub</h3>
+            <h3 className="font-semibold mb-1">Dutchie / Flowhub</h3>
             <p className="text-sm text-[#8a8a8a]">
-              Dispensary compliance platform. Planned for Q4 2026.
+              Dispensary POS. On the roadmap for cannabis operators.
             </p>
           </div>
         </div>
 
-        {/* Coming Soon */}
         <div className="bg-[#f2f2f2] border border-[#d3d3d3] rounded-lg p-4 mt-8">
           <h4 className="font-medium text-[#212121] mb-2">
-            Want a different POS integration?
+            Need a platform we don&apos;t list?
           </h4>
           <p className="text-[#8a8a8a] text-sm">
-            We&apos;re actively building out POS integrations for the cannabis
-            industry. If you use a platform not listed here, let us know at{" "}
+            The SDK and REST API cover almost any flow. Tell us what you use at{" "}
             <a
               href="mailto:support@settlr.dev"
               className="text-[#34c759] hover:underline"
