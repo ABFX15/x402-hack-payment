@@ -147,3 +147,70 @@ export async function verifyEvmUsdcTransfer(
 export function isEvmTxHash(sig: string): boolean {
   return typeof sig === "string" && /^0x[0-9a-fA-F]{64}$/.test(sig);
 }
+
+interface EvmLogHit {
+  transactionHash: string;
+  data: string;
+  topics: string[];
+}
+
+/**
+ * Reconciliation helper: scan a chain for a USDC `Transfer` to `merchant` of at
+ * least `totalUsdc`, over the last `lookbackBlocks` blocks. Returns candidate tx
+ * hashes (newest first) so the sweeper can recover an EVM payment whose client
+ * never reported it. EVM has no per-payment reference, so the caller matches by
+ * (recipient, amount) and must skip hashes already recorded against another
+ * session.
+ */
+export async function findEvmPaymentsToMerchant(args: {
+  chain: EvmChainKey;
+  merchant: string;
+  totalUsdc: number;
+  lookbackBlocks?: number;
+}): Promise<{ txHash: string; from: string }[]> {
+  const { chain, merchant, totalUsdc } = args;
+  const lookbackBlocks = args.lookbackBlocks ?? 1500;
+  const c = EVM_CHAINS[chain];
+  if (!c || !isEvmAddress(merchant) || !(totalUsdc > 0)) return [];
+
+  let head: number;
+  try {
+    head = parseInt(await rpcCall<string>(c.rpc, "eth_blockNumber", []), 16);
+  } catch {
+    return [];
+  }
+  const fromBlock = "0x" + Math.max(0, head - lookbackBlocks).toString(16);
+
+  let logs: EvmLogHit[];
+  try {
+    logs = await rpcCall<EvmLogHit[]>(c.rpc, "eth_getLogs", [
+      {
+        address: c.usdc,
+        fromBlock,
+        toBlock: "latest",
+        topics: [TRANSFER_TOPIC, null, addressTopic(merchant)],
+      },
+    ]);
+  } catch {
+    // RPCs that cap getLogs ranges just yield no reconciliation for this pass.
+    return [];
+  }
+
+  const totalBase = BigInt(Math.round(totalUsdc * 1_000_000));
+  const hits: { txHash: string; from: string }[] = [];
+  // Newest first so we prefer the most recent matching payment.
+  for (const log of [...(logs || [])].reverse()) {
+    let value: bigint;
+    try {
+      value = BigInt(log.data);
+    } catch {
+      continue;
+    }
+    if (value >= totalBase && log.transactionHash) {
+      // topics[1] is the indexed `from`, left-padded to 32 bytes.
+      const from = "0x" + (log.topics?.[1] || "").slice(-40);
+      hits.push({ txHash: log.transactionHash, from });
+    }
+  }
+  return hits;
+}

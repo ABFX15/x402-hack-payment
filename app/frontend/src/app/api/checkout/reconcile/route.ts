@@ -21,8 +21,11 @@ import { SOLANA_RPC_URL } from "@/lib/constants";
 import {
   listPendingCheckoutSessions,
   updateCheckoutSession,
+  getPaymentByTxSignature,
 } from "@/lib/db";
 import { finalizeCheckoutPayment } from "@/lib/checkout-finalize";
+import { findEvmPaymentsToMerchant } from "@/lib/evm-verify";
+import { isEvmAddress, EVM_CHAINS, type EvmChainKey } from "@/lib/evm";
 
 export const dynamic = "force-dynamic";
 
@@ -52,8 +55,6 @@ async function handle(request: NextRequest) {
     const reference = (session.metadata as { reference?: string } | undefined)
       ?.reference;
 
-    // EVM-only checkouts have no Solana reference to scan; leave them for the
-    // client/webhook (server-side EVM log scanning is a later enhancement).
     if (reference) {
       try {
         const sigs = await connection.getSignaturesForAddress(
@@ -99,6 +100,47 @@ async function handle(request: NextRequest) {
         stillPending++;
         continue;
       }
+    }
+
+    // EVM recovery: sessions with an EVM receiving address whose payment the
+    // client never reported. EVM has no reference key, so scan each chain for a
+    // USDC transfer to the merchant of the right amount, and match by
+    // (recipient, amount) — skipping any tx already recorded elsewhere.
+    const merchantEvm = (session.metadata as { evm?: string } | undefined)?.evm;
+    if (merchantEvm && isEvmAddress(merchantEvm)) {
+      let recoveredEvm = false;
+      for (const chain of Object.keys(EVM_CHAINS) as EvmChainKey[]) {
+        let candidates: { txHash: string; from: string }[];
+        try {
+          candidates = await findEvmPaymentsToMerchant({
+            chain,
+            merchant: merchantEvm,
+            totalUsdc: session.amount,
+          });
+        } catch {
+          continue;
+        }
+        for (const { txHash, from } of candidates) {
+          // Already recorded → belongs to another session; don't reuse it.
+          if (await getPaymentByTxSignature(txHash)) continue;
+          const res = await finalizeCheckoutPayment({
+            session,
+            signature: txHash,
+            customerWallet: from,
+            evmChain: chain,
+          });
+          if (res.ok && !res.alreadyCompleted) {
+            recovered++;
+            recoveredEvm = true;
+            logger.info(
+              `[reconcile] recovered EVM session ${session.id} via ${chain} ${txHash}`,
+            );
+            break;
+          }
+        }
+        if (recoveredEvm) break;
+      }
+      if (recoveredEvm) continue;
     }
 
     // No confirmed payment found — expire it once past its window.
