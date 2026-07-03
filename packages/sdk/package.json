@@ -6,7 +6,7 @@
   "homepage": "https://offbankpay.com",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ABFX15/offbank"
+    "url": "git+https://github.com/ABFX15/offbank.git"
   },
   "keywords": [
     "offbank",
