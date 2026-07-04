@@ -11,6 +11,15 @@ phantom-wallet.json
 demo-wallet.json
 PRIVATE_SETTLR.md
 SUBMISSION.md
+
+# Internal docs — keep local, don't publish to the public repo
+ANCHORPAY_BUILD_SPEC.md
+DEMO_RUNBOOK.md
+HIGHRISK_PAYOUT_RAIL_BUILD_PROMPTS.md
+OFFRAMP_PARTNERS.md
+PARTNER_ONEPAGER.md
+.superstack/idea-context.md
+
 product-roast.html
 product-review.html
 validation-report.html
