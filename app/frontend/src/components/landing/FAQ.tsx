@@ -2,8 +2,9 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown } from "lucide-react";
+import { Plus } from "lucide-react";
 import { t, spring, springFast } from "./shared";
+import { SectionHeader } from "./SectionHeader";
 
 const faqs = [
   {
@@ -40,30 +41,30 @@ function FAQItem({ q, a, index }: { q: string; a: string; index: number }) {
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-30px" }}
-      transition={{ ...spring, delay: index * 0.06 }}
-      className="border-b"
-      style={{ borderColor: t.border }}
+      transition={{ ...spring, delay: index * 0.05 }}
+      className="rounded-2xl border bg-white transition-colors"
+      style={{ borderColor: open ? t.green : t.hair }}
     >
       <button
         onClick={() => setOpen(!open)}
-        className="flex w-full items-center justify-between gap-4 py-6 text-left"
+        className="flex w-full items-center justify-between gap-4 px-6 py-5 text-left"
       >
         <span
           className="text-[16px] font-semibold leading-snug"
-          style={{ color: t.navy, fontFamily: t.sans }}
+          style={{ color: t.ink, fontFamily: t.sans }}
         >
           {q}
         </span>
         <motion.div
-          animate={{ rotate: open ? 180 : 0 }}
+          animate={{ rotate: open ? 135 : 0 }}
           transition={springFast}
-          className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full"
-          style={{ background: open ? t.green : "#F0F0F0" }}
+          className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border"
+          style={{
+            background: open ? t.green : "#fff",
+            borderColor: open ? t.green : t.hair,
+          }}
         >
-          <ChevronDown
-            className="h-4 w-4"
-            style={{ color: open ? "#fff" : "#5c5c5c" }}
-          />
+          <Plus className="h-4 w-4" style={{ color: open ? "#fff" : t.bodyLight }} />
         </motion.div>
       </button>
       <AnimatePresence initial={false}>
@@ -75,8 +76,8 @@ function FAQItem({ q, a, index }: { q: string; a: string; index: number }) {
             transition={{ ...spring, opacity: { duration: 0.15 } }}
           >
             <p
-              className="pb-6 pr-12 text-[15px] leading-relaxed"
-              style={{ color: "#5c5c5c" }}
+              className="px-6 pb-5 pr-14 text-[15px] leading-relaxed"
+              style={{ color: t.bodyLight }}
             >
               {a}
             </p>
@@ -90,33 +91,16 @@ function FAQItem({ q, a, index }: { q: string; a: string; index: number }) {
 export function FAQ() {
   return (
     <section className="bg-white py-[120px]">
-      <div className="mx-auto max-w-[1200px] px-6">
-        <div className="grid gap-12 lg:grid-cols-[1fr_1.5fr] lg:gap-20">
-          {/* left, heading */}
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-60px" }}
-            transition={spring}
-            className="lg:sticky lg:top-32 lg:self-start"
-          >
-            <h2
-              className="text-[32px] leading-[1.15] tracking-tight font-extrabold sm:text-[44px]"
-              style={{ color: t.navy, fontFamily: t.sans }}
-            >
-              Frequently Asked Questions
-            </h2>
-            <p className="mt-4 max-w-sm text-base" style={{ color: "#5c5c5c" }}>
-              Get answers to common questions about Offbank
-            </p>
-          </motion.div>
-
-          {/* right, accordion */}
-          <div>
-            {faqs.map((faq, i) => (
-              <FAQItem key={faq.q} q={faq.q} a={faq.a} index={i} />
-            ))}
-          </div>
+      <div className="mx-auto max-w-[820px] px-6">
+        <SectionHeader
+          eyebrow="FAQ"
+          title="Frequently asked questions"
+          subtitle="Answers to the common questions about how Offbank settles, stays compliant, and keeps you in control of your funds."
+        />
+        <div className="mt-14 space-y-3">
+          {faqs.map((faq, i) => (
+            <FAQItem key={faq.q} q={faq.q} a={faq.a} index={i} />
+          ))}
         </div>
       </div>
     </section>

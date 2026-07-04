@@ -45,16 +45,26 @@ export function SocialProof() {
     <section className="w-full" style={{ background: "#f7f7f7" }}>
       <div className="mx-auto max-w-[1200px] px-6 py-[120px]">
         {/* headline */}
-        <motion.h2
+        <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-60px" }}
           transition={spring}
-          className="mx-auto max-w-2xl text-center text-[32px] leading-[1.15] tracking-tight font-extrabold sm:text-[44px]"
-          style={{ fontFamily: t.sans, color: "#212121" }}
+          className="mx-auto max-w-2xl text-center"
         >
-          Built for the businesses banks won&apos;t serve
-        </motion.h2>
+          <p
+            className="mb-3 text-[13px] font-semibold uppercase tracking-[0.14em]"
+            style={{ color: t.green }}
+          >
+            By the numbers
+          </p>
+          <h2
+            className="text-[32px] leading-[1.08] tracking-[-0.03em] font-extrabold sm:text-[46px]"
+            style={{ fontFamily: t.sans, color: t.ink }}
+          >
+            Built for the businesses banks won&apos;t serve
+          </h2>
+        </motion.div>
 
         {/* stats row */}
         <div className="mt-16 grid grid-cols-2 gap-y-12 gap-x-8 sm:grid-cols-4">

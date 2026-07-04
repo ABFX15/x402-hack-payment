@@ -4,32 +4,17 @@ import { motion } from "framer-motion";
 import { ArrowRight, TrendingUp, Shield, Zap } from "lucide-react";
 import Link from "next/link";
 import { t, spring } from "./shared";
+import { SectionHeader } from "./SectionHeader";
 
 export function Testimonials() {
   return (
-    <section className="py-[120px]">
+    <section className="py-[120px]" style={{ background: t.bg }}>
       <div className="mx-auto max-w-[1200px] px-6">
-        <motion.div
-          className="text-center"
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-60px" }}
-          transition={spring}
-        >
-          <h2
-            className="text-[32px] leading-[1.15] tracking-tight font-extrabold sm:text-[40px]"
-            style={{ color: t.navy, fontFamily: t.sans }}
-          >
-            Proof, not promises
-          </h2>
-          <p
-            className="mx-auto mt-4 max-w-md text-base font-normal"
-            style={{ color: "#5c5c5c" }}
-          >
-            Every settlement is verifiable on-chain. Here&apos;s what the first
-            one looked like.
-          </p>
-        </motion.div>
+        <SectionHeader
+          eyebrow="Proof"
+          title="Proof, not promises"
+          subtitle="Every settlement is verifiable on-chain. Here's what the first one looked like."
+        />
 
         {/* Case study card */}
         <motion.div
@@ -41,7 +26,7 @@ export function Testimonials() {
         >
           <div
             className="overflow-hidden rounded-3xl border shadow-sm"
-            style={{ borderColor: t.border }}
+            style={{ borderColor: t.hair }}
           >
             {/* top accent bar */}
             <div className="h-1.5" style={{ background: t.green }} />
@@ -94,7 +79,7 @@ export function Testimonials() {
                   <div
                     key={m.label}
                     className="flex items-center gap-2.5 rounded-full border px-4 py-2"
-                    style={{ borderColor: t.border }}
+                    style={{ borderColor: t.hair }}
                   >
                     <m.icon
                       className="h-4 w-4 shrink-0"

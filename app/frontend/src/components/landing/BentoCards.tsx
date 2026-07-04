@@ -58,7 +58,7 @@ const cards = [
     desc: "US high-risk commerce TAM banks won't reliably serve, including high-risk e-commerce, iGaming, CBD, hemp, firearms, cross-border wholesale, and cannabis",
     img: "/nobg-globe.png",
     span: "sm:col-span-2",
-    bg: "#f7f7f7",
+    bg: "#ffffff",
     accent: false,
   },
   {
@@ -69,7 +69,7 @@ const cards = [
     desc: "Unpaid B2B receivables in high-friction wholesale verticals",
     img: "/nobg-dollar.png",
     span: "",
-    bg: "#f7f7f7",
+    bg: "#ffffff",
     accent: false,
   },
   {
@@ -80,7 +80,7 @@ const cards = [
     desc: "Average collection placement time",
     img: "/nobg-clock.png",
     span: "",
-    bg: "#f7f7f7",
+    bg: "#ffffff",
     accent: false,
   },
   {
@@ -102,7 +102,7 @@ const cards = [
     desc: "What high-risk processors charge, because they can",
     img: "/nobg-document.png",
     span: "",
-    bg: "#f7f7f7",
+    bg: "#ffffff",
     accent: false,
   },
 ];
@@ -122,9 +122,15 @@ export function BentoCards() {
           viewport={{ once: true, margin: "-60px" }}
           transition={spring}
         >
+          <p
+            className="mb-3 text-[13px] font-semibold uppercase tracking-[0.14em]"
+            style={{ color: t.green }}
+          >
+            The opportunity
+          </p>
           <h2
-            className="text-[32px] leading-[1.15] tracking-tight font-extrabold sm:text-[44px]"
-            style={{ color: t.navy, fontFamily: t.sans }}
+            className="text-[32px] leading-[1.08] tracking-[-0.03em] font-extrabold sm:text-[46px]"
+            style={{ color: t.ink, fontFamily: t.sans }}
           >
             Your bank can pull the plug tomorrow. The rail you settle on
             shouldn&apos;t.
@@ -148,8 +154,11 @@ export function BentoCards() {
                 scale: 1.02,
                 transition: { duration: 0.25 },
               }}
-              className={`relative flex min-h-[260px] flex-col justify-between overflow-hidden rounded-2xl p-7 ${card.span}`}
-              style={{ background: card.bg }}
+              className={`relative flex min-h-[260px] flex-col justify-between overflow-hidden rounded-2xl border p-7 ${card.span}`}
+              style={{
+                background: card.bg,
+                borderColor: card.accent ? "transparent" : t.hair,
+              }}
             >
               {/* pulsing glow on accent card */}
               {card.accent && (

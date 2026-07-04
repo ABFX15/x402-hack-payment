@@ -8,9 +8,15 @@ import {
   useReducedMotion,
 } from "framer-motion";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Check } from "lucide-react";
 import { t, spring } from "./shared";
 import { DashboardMock } from "./DashboardMock";
+
+const proof = [
+  "1% flat fee",
+  "Settles in under a second",
+  "Non-custodial, you hold the keys",
+];
 
 export function Hero() {
   const reduceMotion = useReducedMotion();
@@ -77,9 +83,27 @@ export function Hero() {
         }}
       />
 
-      <div className="relative z-10 mx-auto max-w-[1100px] px-6 pt-28 text-center sm:pt-32">
+      <div className="relative z-10 mx-auto max-w-[1100px] px-6 pt-24 text-center sm:pt-28">
+        <motion.div {...rise(0)} className="mb-6 flex justify-center">
+          <Link
+            href="/demo"
+            className="group inline-flex items-center gap-2 rounded-full border bg-white/70 py-1.5 pl-2 pr-3.5 text-[13px] font-medium backdrop-blur-sm transition-colors hover:bg-white"
+            style={{ borderColor: t.hair, color: t.ink }}
+          >
+            <span className="relative flex h-4 w-4 items-center justify-center">
+              <span
+                className="absolute inline-flex h-2 w-2 animate-ping rounded-full opacity-70"
+                style={{ background: t.green }}
+              />
+              <span className="relative inline-flex h-2 w-2 rounded-full" style={{ background: t.green }} />
+            </span>
+            Live on Solana · instant USDC settlement
+            <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" style={{ color: t.bodyLight }} />
+          </Link>
+        </motion.div>
+
         <motion.h1
-          {...rise(0)}
+          {...rise(0.06)}
           className="mx-auto max-w-[900px] text-[46px] font-extrabold leading-[1.03] tracking-[-0.03em] sm:text-[64px] lg:text-[78px]"
           style={{ fontFamily: t.sans, color: t.ink }}
         >
@@ -87,7 +111,7 @@ export function Hero() {
         </motion.h1>
 
         <motion.p
-          {...rise(0.08)}
+          {...rise(0.12)}
           className="mx-auto mt-6 max-w-[560px] text-[18px] leading-[1.6] sm:text-[19px]"
           style={{ color: t.bodyLight }}
         >
@@ -96,7 +120,7 @@ export function Hero() {
         </motion.p>
 
         <motion.div
-          {...rise(0.16)}
+          {...rise(0.18)}
           className="mt-9 flex flex-wrap items-center justify-center gap-3"
         >
           <Link
@@ -114,6 +138,22 @@ export function Hero() {
           >
             Watch demo
           </Link>
+        </motion.div>
+
+        <motion.div
+          {...rise(0.24)}
+          className="mt-8 flex flex-wrap items-center justify-center gap-x-7 gap-y-2"
+        >
+          {proof.map((item) => (
+            <span
+              key={item}
+              className="inline-flex items-center gap-1.5 text-[13.5px] font-medium"
+              style={{ color: t.bodyLight }}
+            >
+              <Check className="h-4 w-4" style={{ color: t.green }} strokeWidth={2.5} />
+              {item}
+            </span>
+          ))}
         </motion.div>
       </div>
 

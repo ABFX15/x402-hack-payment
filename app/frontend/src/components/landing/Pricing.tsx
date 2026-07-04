@@ -3,7 +3,8 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { CheckCircle2 } from "lucide-react";
-import { t, spring, fadeUpScale } from "./shared";
+import { t, fadeUpScale } from "./shared";
+import { SectionHeader } from "./SectionHeader";
 
 const features = [
   "Instant USDC settlement",
@@ -18,26 +19,11 @@ export function Pricing() {
   return (
     <section className="py-[120px]" style={{ background: t.bgOff }}>
       <div className="mx-auto max-w-[1200px] px-6">
-        <motion.div
-          className="text-center"
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-60px" }}
-          transition={spring}
-        >
-          <h2
-            className="text-[32px] leading-[1.15] tracking-tight font-extrabold sm:text-[40px]"
-            style={{ color: t.navy, fontFamily: t.sans }}
-          >
-            Simple and transparent pricing
-          </h2>
-          <p
-            className="mx-auto mt-4 max-w-lg text-base font-normal"
-            style={{ color: t.bodyLight }}
-          >
-            One flat rate. No monthly fees, no hidden charges, no minimums.
-          </p>
-        </motion.div>
+        <SectionHeader
+          eyebrow="Pricing"
+          title="Simple and transparent pricing"
+          subtitle="One flat rate. No monthly fees, no hidden charges, no minimums."
+        />
 
         <motion.div
           className="mt-14 mx-auto max-w-md"

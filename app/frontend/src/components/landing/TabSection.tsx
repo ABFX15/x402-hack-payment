@@ -19,27 +19,31 @@ export function TabSection() {
   return (
     <section className="py-[120px]">
       <div className="mx-auto max-w-[1200px] px-6">
-        <motion.div
-          className="text-center"
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-60px" }}
-          transition={spring}
-        >
-          <h2
-            className="text-[32px] leading-[1.15] tracking-tight font-extrabold sm:text-[40px]"
-            style={{ color: t.navy, fontFamily: t.sans }}
-          >
-            From invoice to settlement in seconds
-          </h2>
+        <div className="mx-auto max-w-2xl text-center">
           <p
-            className="mx-auto mt-4 max-w-lg text-base font-normal"
+            className="mb-3 text-[13px] font-semibold uppercase tracking-[0.14em]"
+            style={{ color: t.green }}
+          >
+            One rail, not five
+          </p>
+          <motion.h2
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={spring}
+            className="text-[32px] leading-[1.08] tracking-[-0.03em] font-extrabold sm:text-[46px]"
+            style={{ color: t.ink, fontFamily: t.sans }}
+          >
+            Replace your entire payment stack
+          </motion.h2>
+          <p
+            className="mx-auto mt-4 max-w-lg text-[17px] leading-[1.6]"
             style={{ color: t.bodyLight }}
           >
-            No banks, no holds, no middlemen. See how Offbank replaces your
-            entire payment stack with one USDC rail.
+            No banks, no holds, no middlemen. One USDC rail for accepting,
+            invoicing, and paying out.
           </p>
-        </motion.div>
+        </div>
 
         {/* pill tabs */}
         <motion.div

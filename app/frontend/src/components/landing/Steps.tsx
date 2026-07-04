@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { FileCheck, Send, Zap } from "lucide-react";
 import { t, spring } from "./shared";
+import { SectionHeader } from "./SectionHeader";
 
 const steps = [
   {
@@ -38,27 +39,11 @@ export function Steps() {
   return (
     <section className="bg-white py-[120px]">
       <div className="mx-auto max-w-[1200px] px-6">
-        {/* heading */}
-        <motion.div
-          className="mx-auto max-w-2xl text-center"
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-60px" }}
-          transition={spring}
-        >
-          <h2
-            className="text-[32px] leading-[1.15] tracking-tight font-extrabold sm:text-[44px]"
-            style={{ color: t.navy, fontFamily: t.sans }}
-          >
-            How It Works
-          </h2>
-          <p
-            className="mx-auto mt-4 max-w-md text-base"
-            style={{ color: "#5c5c5c" }}
-          >
-            From invoice to settlement in under 5 seconds
-          </p>
-        </motion.div>
+        <SectionHeader
+          eyebrow="How it works"
+          title="From invoice to settled in seconds"
+          subtitle="Connect, send, and settle. No bank account, no wallet for your recipient, no waiting."
+        />
 
         {/* steps row */}
         <div className="relative mt-16 grid gap-8 md:grid-cols-3">
@@ -67,7 +52,7 @@ export function Steps() {
             className="pointer-events-none absolute top-[52px] left-[16.66%] right-[16.66%] hidden h-px md:block origin-left"
             style={{
               backgroundImage:
-                "repeating-linear-gradient(to right, #d3d3d3 0, #d3d3d3 8px, transparent 8px, transparent 16px)",
+                "repeating-linear-gradient(to right, #dfe3e8 0, #dfe3e8 8px, transparent 8px, transparent 16px)",
             }}
             initial={{ scaleX: 0 }}
             whileInView={{ scaleX: 1 }}
@@ -114,7 +99,8 @@ export function Steps() {
 
               {/* icon */}
               <motion.div
-                className="mt-6 flex h-12 w-12 items-center justify-center rounded-xl bg-[#F0F0F0]"
+                className="mt-6 flex h-12 w-12 items-center justify-center rounded-xl"
+                style={{ background: t.greenWash }}
                 whileHover={{
                   rotate: 8,
                   scale: 1.05,
@@ -127,7 +113,7 @@ export function Steps() {
               {/* text */}
               <h3
                 className="mt-5 text-[18px] font-bold leading-snug"
-                style={{ color: t.navy, fontFamily: t.sans }}
+                style={{ color: t.ink, fontFamily: t.sans }}
               >
                 {s.title}
               </h3>
