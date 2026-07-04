@@ -65,18 +65,15 @@ const socials = [
 
 export function Footer() {
   return (
-    <footer style={{ background: "#f7f7f7" }}>
-      <div className="mx-auto max-w-[1200px] px-6 pt-16 pb-10">
+    <footer style={{ background: "#0d0d0f" }}>
+      <div className="mx-auto max-w-[1200px] px-6 pt-20 pb-10">
         <div className="grid gap-10 lg:grid-cols-[1.4fr_1fr_1fr_1fr_1fr] lg:gap-8">
           {/* brand */}
           <div>
             <Link href="/" className="inline-block">
-              <OffbankLogo size="sm" variant="dark" />
+              <OffbankLogo size="sm" variant="light" />
             </Link>
-            <p
-              className="mt-4 max-w-[240px] text-sm leading-relaxed"
-              style={{ color: "#8a8a8a" }}
-            >
+            <p className="mt-4 max-w-[240px] text-sm leading-relaxed text-white/50">
               Non-custodial USDC invoicing and B2B settlement for restricted
               commerce. Built on Solana.
             </p>
@@ -88,7 +85,7 @@ export function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={s.label}
-                  className="text-[#8a8a8a] transition-colors hover:text-[#212121]"
+                  className="text-white/50 transition-colors hover:text-white"
                 >
                   {s.icon}
                 </a>
@@ -99,10 +96,7 @@ export function Footer() {
           {/* link columns */}
           {columns.map((col) => (
             <div key={col.title}>
-              <p
-                className="mb-4 text-sm font-semibold"
-                style={{ color: "#212121" }}
-              >
+              <p className="mb-4 text-sm font-semibold text-white">
                 {col.title}
               </p>
               <ul className="space-y-3">
@@ -110,8 +104,7 @@ export function Footer() {
                   <li key={link.href + link.label}>
                     <Link
                       href={link.href}
-                      className="text-sm transition-colors hover:text-[#212121]"
-                      style={{ color: "#8a8a8a" }}
+                      className="text-sm text-white/50 transition-colors hover:text-white"
                     >
                       {link.label}
                     </Link>
@@ -123,14 +116,11 @@ export function Footer() {
         </div>
 
         {/* bottom bar */}
-        <div
-          className="mt-14 flex flex-col items-center justify-between gap-4 border-t pt-8 sm:flex-row"
-          style={{ borderColor: "#d3d3d3" }}
-        >
-          <p className="text-sm" style={{ color: "#8a8a8a" }}>
+        <div className="mt-16 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-8 sm:flex-row">
+          <p className="text-sm text-white/40">
             &copy; {new Date().getFullYear()} Offbank. All rights reserved.
           </p>
-          <p className="text-xs" style={{ color: "#8a8a8a" }}>
+          <p className="text-xs text-white/40">
             Offbank is not a bank or money transmitter. Settlement is
             peer-to-peer via USDC on Solana.
           </p>

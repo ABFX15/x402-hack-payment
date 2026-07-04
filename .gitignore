@@ -13,6 +13,8 @@ PRIVATE_SETTLR.md
 SUBMISSION.md
 
 # Internal docs — keep local, don't publish to the public repo
+OFFBANK_STRATEGY.md
+OFFBANK_COPY.md
 ANCHORPAY_BUILD_SPEC.md
 DEMO_RUNBOOK.md
 HIGHRISK_PAYOUT_RAIL_BUILD_PROMPTS.md

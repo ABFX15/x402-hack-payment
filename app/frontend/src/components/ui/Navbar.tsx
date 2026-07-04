@@ -157,8 +157,9 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, [isHome]);
 
-  // When transparent (top of homepage): white text, no bg
-  const transparent = isHome && !scrolled;
+  // Hero is now light, so the navbar is always solid white with dark text
+  // (a transparent/white-text bar would vanish against the light hero).
+  const transparent = false;
 
   const isActive = (href: string) => {
     if (href === "/") return pathname === "/";

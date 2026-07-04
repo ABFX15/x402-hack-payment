@@ -5,16 +5,29 @@ import { type Variants } from "framer-motion";
 /* ── design tokens ─────────────────────────────────────── */
 export const t = {
     green: "#34c759",
+    greenHover: "#2ba048",
     greenLight: "#D8F3DC",
     greenPale: "#B7E4C7",
+    /** Faint green wash for tinted eyebrows / pills */
+    greenWash: "#eafaf0",
     dark: "#212121",
     navy: "#212121",
+    /** Near-black for big display headlines (Metafi-style) */
+    ink: "#0d0d0f",
     bodyLight: "#5c5c5c",
     bodyDark: "#8a8a8a",
     muted: "#8a8a8a",
     border: "#d3d3d3",
+    /** Hairline border for airy cards */
+    hair: "#ececef",
     cardBg: "#f2f2f2",
     bgOff: "#f2f2f2",
+    /** Page background (clean near-white) */
+    bg: "#ffffff",
+    /** Soft tinted inner panel that holds product mocks */
+    panel: "#f5f6f8",
+    /** Dark footer / dark surfaces */
+    footer: "#0d0d0f",
     /** Deep base behind dark hero imagery - keeps text legible if the
      *  background image is slow or fails to load. */
     heroBase: "#0a0a0a",
