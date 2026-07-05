@@ -5,6 +5,7 @@
  * Falls back to in-memory storage if Supabase is not configured.
  */
 
+import { createHash, randomBytes } from "crypto";
 import { logger } from "@/lib/logger";
 import { supabase, isSupabaseConfigured } from "./supabase";
 import { explorerUrl as buildExplorerUrl } from "./constants";
@@ -1443,7 +1444,6 @@ export async function createMerchant(
 // ============================================
 
 function hashApiKey(key: string): string {
-    const { createHash } = require("crypto");
     return createHash("sha256").update(key).digest("hex");
 }
 
@@ -1516,7 +1516,6 @@ export async function validateApiKey(rawKey: string): Promise<{
 }
 
 function generateRawApiKey(): string {
-    const { randomBytes } = require("crypto");
     return "sk_live_" + randomBytes(24).toString("hex");
 }
 
@@ -2092,6 +2091,7 @@ export async function createPayout(
         batchId?: string;
     }
 ): Promise<Payout> {
+    assertMoneyPersistence("create a payout");
     const id = generatePayoutId();
     const claimToken = generateClaimToken();
     const now = new Date();
@@ -2280,6 +2280,7 @@ export async function createPayoutBatch(
     }>,
     merchantWallet: string
 ): Promise<{ batch: PayoutBatch; payouts: Payout[] }> {
+    assertMoneyPersistence("create a payout batch");
     const batchId = generateBatchId();
     const totalAmount = payouts.reduce((sum, p) => sum + p.amount, 0);
 
@@ -2868,6 +2869,7 @@ export async function getOrCreateMerchantBalance(
     merchantId: string,
     currency: string = "USDC"
 ): Promise<MerchantBalance> {
+    assertMoneyPersistence("read or create a merchant balance");
     if (isSupabaseConfigured()) {
         // Try to get existing
         const { data, error } = await supabase

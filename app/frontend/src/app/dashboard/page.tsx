@@ -279,7 +279,7 @@ export default function DashboardPage() {
             Finish setting up your account
           </h2>
           <p className="text-[#8a8a8a] mb-6 text-sm">
-            Your wallet is connected, but you haven't completed onboarding yet.
+            Your wallet is connected, but you haven&apos;t completed onboarding yet.
             It takes about 60 seconds - KYB only happens at first settlement.
           </p>
           <div className="flex gap-2 justify-center">

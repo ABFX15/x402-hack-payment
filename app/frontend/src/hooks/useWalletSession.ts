@@ -126,7 +126,10 @@ export function useWalletSession(): WalletSessionValue {
     const ctx = useContext(WalletSessionContext);
     if (ctx) return ctx;
     // Fallback: not wrapped in provider (e.g. /admin which uses the hook
-    // directly). Run the local sign-in flow inline. Safe as long as only
-    // one component on the page calls the hook.
+    // directly). Run the local sign-in flow inline. This conditional hook call
+    // is safe because a component's position relative to the provider is fixed
+    // for its whole lifetime — `ctx` is either always present or always absent
+    // for a given mount, so hook order never changes between renders.
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     return useWalletSessionInternal();
 }

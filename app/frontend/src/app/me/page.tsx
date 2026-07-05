@@ -275,7 +275,7 @@ export default function RecipientDashboard() {
               </p>
               <p className="text-[#8a8a8a] text-sm">
                 The link expires in 15 minutes. Check your spam folder if you
-                don't see it.
+                don&apos;t see it.
               </p>
               <button
                 onClick={() => setStep("email")}

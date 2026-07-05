@@ -1,5 +1,9 @@
 "use client";
 
+/* eslint-disable react/jsx-no-comment-textnodes --
+   The "//" prefixes below are intentional terminal-style label text in a mock
+   console UI, not JavaScript comments. */
+
 import { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Navbar } from "@/components/ui/Navbar";

@@ -137,7 +137,10 @@ export default function RootLayout({
         style={{ background: "#FFFFFF" }}
       >
         <ClientLayout>{children}</ClientLayout>
-        {/* SSR-rendered navigation for search engine crawlers (visually hidden) */}
+        {/* SSR-rendered navigation for search engine crawlers (visually hidden).
+            Plain <a> is intentional: this is a pure-SSR SEO element and should
+            not ship client-side routing JS. */}
+        {/* eslint-disable @next/next/no-html-link-for-pages */}
         <nav aria-label="Site navigation" className="sr-only">
           <a href="/">Home</a>
           <a href="/products/payment-links">Payment Links</a>
@@ -169,6 +172,7 @@ export default function RootLayout({
           <a href="/onboarding">Get started</a>
           <a href="/privacy">Privacy Policy</a>
         </nav>
+        {/* eslint-enable @next/next/no-html-link-for-pages */}
       </body>
     </html>
   );

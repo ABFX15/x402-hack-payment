@@ -93,6 +93,9 @@ export interface Payment {
     merchant: PublicKey;
     amount: BN;
     fee: BN;
+    // Anchor serialises unit enum variants as `{ variant: {} }` — the empty
+    // objects are the correct representation here.
+    // eslint-disable-next-line @typescript-eslint/no-empty-object-type
     status: { pending: {} } | { completed: {} } | { refunded: {} };
     createdAt: BN;
     bump: number;

@@ -253,7 +253,7 @@ export default function TeamPage() {
               Invite a team member
             </h2>
             <p className="mt-1 text-sm text-[#5c5c5c]">
-              They'll receive an email with a link to claim their seat. They
+              They&apos;ll receive an email with a link to claim their seat. They
               sign in with their own email.
             </p>
 
