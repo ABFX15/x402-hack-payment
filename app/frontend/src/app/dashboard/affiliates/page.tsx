@@ -19,6 +19,7 @@ import {
   Wallet,
   ExternalLink,
   CheckCircle2,
+  ClipboardPaste,
 } from "lucide-react";
 
 interface Affiliate {
@@ -38,6 +39,55 @@ interface PayResult {
 const fmtUSD = (n: number) =>
   n.toLocaleString("en-US", { style: "currency", currency: "USD" });
 
+/**
+ * Parse a pasted block into affiliates. Deliberately forgiving: one row per
+ * line, columns split on comma / tab / multiple spaces, in any order. The email
+ * is whatever contains "@", the amount is a numeric token (with optional $ and
+ * thousands commas), and the rest becomes the name. Handles what an operator
+ * copies straight off an affiliate report or spreadsheet, no CSV export needed.
+ */
+function parsePasted(text: string): Affiliate[] {
+  const out: Affiliate[] = [];
+  const seen = new Set<string>();
+  for (const raw of text.split(/\r?\n/)) {
+    const line = raw.trim();
+    if (!line) continue;
+    const parts = (
+      line.includes("\t")
+        ? line.split("\t")
+        : line.includes(",")
+          ? line.split(",")
+          : line.split(/\s{2,}|\s(?=\$?\d)/)
+    )
+      .map((p) => p.trim())
+      .filter(Boolean);
+
+    const email = parts.find((p) => /\S+@\S+\.\S+/.test(p));
+    if (!email) continue;
+    const key = email.toLowerCase();
+    if (seen.has(key)) continue;
+
+    let amount = "";
+    for (let i = parts.length - 1; i >= 0; i--) {
+      if (parts[i] === email) continue;
+      const n = parts[i].replace(/[$,]/g, "");
+      if (n !== "" && !isNaN(Number(n)) && Number(n) > 0) {
+        amount = n;
+        break;
+      }
+    }
+    const name =
+      parts
+        .filter((p) => p !== email && p.replace(/[$,]/g, "") !== amount)
+        .join(" ")
+        .trim() || email.split("@")[0];
+
+    seen.add(key);
+    out.push({ name, email, commission: amount });
+  }
+  return out;
+}
+
 export default function AffiliatesPage() {
   const { publicKey, connected } = useActiveWallet();
   const { setVisible: openWalletModal } = useWalletModal();
@@ -48,6 +98,8 @@ export default function AffiliatesPage() {
   const [payingOne, setPayingOne] = useState<string | null>(null);
   const [results, setResults] = useState<PayResult[]>([]);
   const [flash, setFlash] = useState<string | null>(null);
+  const [pasteOpen, setPasteOpen] = useState(false);
+  const [pasteText, setPasteText] = useState("");
 
   const storageKey = publicKey ? `offbank:affiliates:${publicKey}` : "";
 
@@ -80,6 +132,41 @@ export default function AffiliatesPage() {
       },
     ]);
     setForm({ name: "", email: "", commission: "" });
+  };
+
+  const importPasted = () => {
+    const parsed = parsePasted(pasteText);
+    if (parsed.length === 0) {
+      setFlash("Couldn't find any email + amount rows to import.");
+      setTimeout(() => setFlash(null), 3000);
+      return;
+    }
+    const byEmail = new Map(affiliates.map((a) => [a.email.toLowerCase(), a]));
+    let added = 0;
+    let updated = 0;
+    for (const p of parsed) {
+      const existing = byEmail.get(p.email.toLowerCase());
+      if (existing) {
+        byEmail.set(p.email.toLowerCase(), {
+          ...existing,
+          name: existing.name || p.name,
+          commission: p.commission || existing.commission,
+        });
+        updated++;
+      } else {
+        byEmail.set(p.email.toLowerCase(), p);
+        added++;
+      }
+    }
+    persist([...byEmail.values()]);
+    setPasteText("");
+    setPasteOpen(false);
+    setFlash(
+      `Imported ${added} affiliate${added === 1 ? "" : "s"}` +
+        (updated ? `, updated ${updated}` : "") +
+        ". Review the amounts, then Pay all.",
+    );
+    setTimeout(() => setFlash(null), 4500);
   };
 
   const removeAffiliate = (email: string) =>
@@ -166,6 +253,7 @@ export default function AffiliatesPage() {
     (s, a) => s + (parseFloat(a.commission || "") || 0),
     0,
   );
+  const pasteCount = pasteText.trim() ? parsePasted(pasteText).length : 0;
 
   return (
     <div className="mx-auto max-w-2xl">
@@ -199,6 +287,69 @@ export default function AffiliatesPage() {
           {flash}
         </div>
       )}
+
+      {/* Paste a list — the frictionless bulk import */}
+      <div className="mb-4 rounded-2xl border border-[#eaecf0] bg-white p-5">
+        {!pasteOpen ? (
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <p className="text-sm font-semibold text-[#101828]">
+                Paste your affiliate list
+              </p>
+              <p className="mt-0.5 text-[13px] text-[#667085]">
+                Copy rows from anywhere — email and amount, any order. No CSV
+                needed.
+              </p>
+            </div>
+            <button
+              onClick={() => setPasteOpen(true)}
+              className="inline-flex flex-shrink-0 items-center gap-1.5 rounded-xl border border-[#d0d5dd] px-4 py-2.5 text-sm font-medium text-[#344054] hover:bg-[#f9fafb]"
+            >
+              <ClipboardPaste className="h-4 w-4" />
+              Paste list
+            </button>
+          </div>
+        ) : (
+          <div>
+            <textarea
+              autoFocus
+              value={pasteText}
+              onChange={(e) => setPasteText(e.target.value)}
+              rows={6}
+              placeholder={
+                "Sarah Lee, sarah@aff.com, 1200\nmike@partner.io  850\njohn@casinoaffs.com,$500"
+              }
+              className="w-full resize-y rounded-xl border border-[#d0d5dd] px-3.5 py-3 font-mono text-[13px] leading-relaxed outline-none focus:border-[#34c759]"
+            />
+            <div className="mt-3 flex items-center justify-between gap-3">
+              <p className="text-[12px] text-[#98a2b3]">
+                {pasteCount > 0
+                  ? `${pasteCount} row${pasteCount === 1 ? "" : "s"} detected`
+                  : "One affiliate per line"}
+              </p>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => {
+                    setPasteOpen(false);
+                    setPasteText("");
+                  }}
+                  className="rounded-xl px-3 py-2 text-sm font-medium text-[#667085] hover:bg-[#f9fafb]"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={importPasted}
+                  disabled={pasteCount === 0}
+                  className="inline-flex items-center gap-1.5 rounded-xl bg-[#34c759] px-4 py-2 text-sm font-semibold text-white hover:bg-[#2ba048] disabled:opacity-50"
+                >
+                  <Plus className="h-4 w-4" />
+                  Import {pasteCount > 0 ? pasteCount : ""}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
 
       {/* Add affiliate */}
       <div className="mb-6 rounded-2xl border border-[#eaecf0] bg-white p-5">
