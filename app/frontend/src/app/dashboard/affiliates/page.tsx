@@ -20,6 +20,7 @@ import {
   ExternalLink,
   CheckCircle2,
   ClipboardPaste,
+  Link2,
 } from "lucide-react";
 
 interface Affiliate {
@@ -100,6 +101,7 @@ export default function AffiliatesPage() {
   const [flash, setFlash] = useState<string | null>(null);
   const [pasteOpen, setPasteOpen] = useState(false);
   const [pasteText, setPasteText] = useState("");
+  const [merchantName, setMerchantName] = useState("Your business");
 
   const storageKey = publicKey ? `offbank:affiliates:${publicKey}` : "";
 
@@ -120,6 +122,63 @@ export default function AffiliatesPage() {
     },
     [storageKey],
   );
+
+  // Pull in affiliates who onboarded themselves via the invite link, and learn
+  // this merchant's display name for the shareable URL.
+  useEffect(() => {
+    if (!publicKey) return;
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await fetch("/api/affiliates/registered", {
+          credentials: "same-origin",
+        });
+        if (!res.ok || cancelled) return;
+        const data = await res.json();
+        if (cancelled) return;
+        if (data.merchantName) setMerchantName(data.merchantName);
+        const registered = (data.affiliates || []) as {
+          name: string;
+          email: string;
+        }[];
+        if (registered.length === 0 || !storageKey) return;
+        const raw = localStorage.getItem(storageKey);
+        const current: Affiliate[] = raw ? JSON.parse(raw) : [];
+        const byEmail = new Map(
+          current.map((a) => [a.email.toLowerCase(), a]),
+        );
+        let changed = false;
+        for (const r of registered) {
+          if (!byEmail.has(r.email.toLowerCase())) {
+            byEmail.set(r.email.toLowerCase(), {
+              name: r.name,
+              email: r.email,
+              commission: "",
+            });
+            changed = true;
+          }
+        }
+        if (changed) persist([...byEmail.values()]);
+      } catch {
+        /* offline / not signed in — silent */
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [publicKey, storageKey, persist]);
+
+  const shareInvite = async () => {
+    if (!publicKey) return;
+    const url = `${window.location.origin}/join/${publicKey}?org=${encodeURIComponent(merchantName)}`;
+    try {
+      await navigator.clipboard.writeText(url);
+      setFlash("Invite link copied — share it with your affiliates.");
+    } catch {
+      setFlash(url);
+    }
+    setTimeout(() => setFlash(null), 4500);
+  };
 
   const addAffiliate = () => {
     if (!form.name.trim() || !form.email.includes("@")) return;
@@ -266,20 +325,29 @@ export default function AffiliatesPage() {
             Pay affiliates instantly in USDC - any amount, no minimum, anywhere.
           </p>
         </div>
-        {affiliates.length > 0 && (
+        <div className="flex flex-shrink-0 items-center gap-2">
           <button
-            onClick={() => pay(affiliates)}
-            disabled={payingAll || totalPending <= 0}
-            className="inline-flex flex-shrink-0 items-center gap-2 rounded-xl bg-[#34c759] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[#2ba048] disabled:opacity-50"
+            onClick={shareInvite}
+            className="inline-flex items-center gap-2 rounded-xl border border-[#d0d5dd] px-4 py-2.5 text-sm font-medium text-[#344054] hover:bg-[#f9fafb]"
           >
-            {payingAll ? (
-              <Loader2 className="h-4 w-4 animate-spin" />
-            ) : (
-              <Send className="h-4 w-4" />
-            )}
-            Pay all ({fmtUSD(totalPending)})
+            <Link2 className="h-4 w-4" />
+            Share invite link
           </button>
-        )}
+          {affiliates.length > 0 && (
+            <button
+              onClick={() => pay(affiliates)}
+              disabled={payingAll || totalPending <= 0}
+              className="inline-flex items-center gap-2 rounded-xl bg-[#34c759] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[#2ba048] disabled:opacity-50"
+            >
+              {payingAll ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                <Send className="h-4 w-4" />
+              )}
+              Pay all ({fmtUSD(totalPending)})
+            </button>
+          )}
+        </div>
       </div>
 
       {flash && (
@@ -379,7 +447,14 @@ export default function AffiliatesPage() {
       {/* Affiliate list */}
       {affiliates.length === 0 ? (
         <p className="text-sm text-[#8a8a8a]">
-          No affiliates yet. Add one above to pay them in seconds.
+          No affiliates yet. Paste a list or add one above — or hit{" "}
+          <button
+            onClick={shareInvite}
+            className="font-medium text-[#34c759] hover:underline"
+          >
+            Share invite link
+          </button>{" "}
+          and let affiliates add themselves.
         </p>
       ) : (
         <div className="divide-y divide-[#f2f4f7] rounded-2xl border border-[#eaecf0] bg-white">
