@@ -91,6 +91,12 @@ const config: IndustryConfig = {
       a: "No. Offbank is non-custodial payment infrastructure - funds move wallet-to-wallet, we never hold them. You remain responsible for your gaming licenses and jurisdictional rules; we give you the rails, KYC/AML screening, and the audit trail to satisfy your bank and regulator.",
     },
   ],
+  relatedReading: [
+    {
+      href: "/blog/stablecoin-payments-igaming-affiliates-invoicing",
+      label: "Stablecoin Payments in iGaming: Affiliates & Invoicing",
+    },
+  ],
 };
 
 export default function IGamingClient() {

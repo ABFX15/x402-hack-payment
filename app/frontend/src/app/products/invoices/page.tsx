@@ -781,6 +781,24 @@ export default function InvoicesPage() {
         </div>
       </section>
 
+      {/* ═══════ RELATED READING ═══════ */}
+      <section className="border-t border-[#ececef] bg-white py-16">
+        <div className="mx-auto max-w-5xl px-6">
+          <R>
+            <p className="mb-4 text-[13px] font-semibold uppercase tracking-[0.14em] text-[#34c759]">
+              Related reading
+            </p>
+            <Link
+              href="/blog/stablecoin-payments-igaming-affiliates-invoicing"
+              className="group inline-flex items-center gap-2 text-[17px] font-semibold text-[#0d0d0f] hover:text-[#2ba048]"
+            >
+              Stablecoin Payments in iGaming: Affiliates &amp; Invoicing
+              <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
+            </Link>
+          </R>
+        </div>
+      </section>
+
       {/* ═══════ FINAL CTA ═══════ */}
       <section className="py-32 sm:py-48">
         <div className="mx-auto max-w-5xl px-6">

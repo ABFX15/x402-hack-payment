@@ -47,6 +47,8 @@ export type IndustryConfig = {
   complianceBullets: string[];
   /** FAQ entries specific to this industry */
   faqs: IndustryFAQ[];
+  /** Optional "Related reading" links (e.g. relevant blog posts) */
+  relatedReading?: { href: string; label: string }[];
 };
 
 export function IndustryTemplate({ config }: { config: IndustryConfig }) {
@@ -60,6 +62,7 @@ export function IndustryTemplate({ config }: { config: IndustryConfig }) {
     useCases,
     complianceBullets,
     faqs,
+    relatedReading,
   } = config;
 
   return (
@@ -294,6 +297,30 @@ export function IndustryTemplate({ config }: { config: IndustryConfig }) {
           </div>
         </div>
       </section>
+
+      {/* ─── Related reading ─────────────────────────────── */}
+      {relatedReading && relatedReading.length > 0 && (
+        <section className="border-t border-[#ececef] bg-white py-16">
+          <div className="mx-auto max-w-[820px] px-6">
+            <p className="mb-4 text-[13px] font-semibold uppercase tracking-[0.14em] text-[#34c759]">
+              Related reading
+            </p>
+            <ul className="space-y-3">
+              {relatedReading.map((r) => (
+                <li key={r.href}>
+                  <Link
+                    href={r.href}
+                    className="group inline-flex items-center gap-2 text-[17px] font-semibold text-[#0d0d0f] hover:text-[#2ba048]"
+                  >
+                    {r.label}
+                    <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+      )}
 
       {/* ─── CTA ─────────────────────────────────────────── */}
       <section className="relative overflow-hidden bg-[#0b0f0c] py-24">
