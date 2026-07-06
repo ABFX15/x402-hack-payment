@@ -59,7 +59,7 @@ export const posts: BlogPost[] = [
 
       <p>Because the numbers stopped being ignorable. Stablecoin transaction volume hit a record <a href="https://www.bloomberg.com/news/articles/2026-01-08/stablecoin-transactions-rose-to-record-33-trillion-led-by-usdc" target="_blank" rel="noopener noreferrer">$33 trillion in 2025</a>, up 72% year-over-year and larger than Visa's annual throughput, with USDC alone accounting for $18.3 trillion. Q1 2026 set <a href="https://www.forbes.com/sites/digital-assets/2026/04/29/nearly-two-thirds-stablecoins-suddenly-hit-45t-q1-volume-record/" target="_blank" rel="noopener noreferrer">another record at $4.5 trillion</a>, two-thirds of it flowing through Asia, a region where a huge share of iGaming affiliate traffic originates.</p>
 
-      <p>iGaming was always going to be an early adopter. The industry is:</p>
+      <p><a href="/industries/igaming">iGaming</a> was always going to be an early adopter. The industry is:</p>
 
       <ul>
         <li><strong>Cross-border by default.</strong> Your affiliates are in Manila, your ops team is in Malta, your payment provider is in London.</li>
@@ -71,7 +71,7 @@ export const posts: BlogPost[] = [
 
       <h2>How Do Bulk Affiliate Payouts Work With Stablecoins?</h2>
 
-      <p><strong>Short answer: one batch transaction replaces hundreds of wires.</strong> You upload a payout file (wallet address, amount, currency), the payment platform executes the batch on-chain, and every affiliate is paid within minutes, regardless of country.</p>
+      <p><strong>Short answer: one batch transaction replaces hundreds of wires.</strong> You upload a payout file (wallet address, amount, currency), a <a href="/send-payments">stablecoin payout platform</a> executes the batch on-chain, and every affiliate is paid within minutes, regardless of country.</p>
 
       <p>Compare that to the traditional run. <a href="https://nowpayments.io/blog/navigating-crypto-payments-for-igaming-operators" target="_blank" rel="noopener noreferrer">One iGaming payments provider calculates</a> that paying 500 affiliates by wire at $35 per transfer costs $17,500 per month in fees alone, before you count FX spread, failed payments, and the finance hours spent chasing them.</p>
 
@@ -81,7 +81,7 @@ export const posts: BlogPost[] = [
         <li><strong>Export</strong> your payout report from your affiliate platform (Income Access, MyAffiliates, etc.).</li>
         <li><strong>Map</strong> each affiliate to a verified wallet address, collected during onboarding alongside KYC.</li>
         <li><strong>Batch</strong> the payments through a stablecoin payout tool or API; most support CSV upload or direct integration.</li>
-        <li><strong>Settle</strong> in USDC or USDT; affiliates receive funds in seconds and can hold, convert to local currency, or off-ramp to their bank.</li>
+        <li><strong>Settle</strong> in USDC or USDT; affiliates receive funds in seconds and can hold, convert to local currency, or <a href="/products/instant-cashout">cash out to their bank</a>.</li>
         <li><strong>Reconcile</strong> automatically: every payment has an on-chain transaction hash, so your audit trail builds itself.</li>
       </ol>
 
@@ -93,7 +93,7 @@ export const posts: BlogPost[] = [
 
       <h2>Can Stablecoins Handle B2B Invoicing, Not Just Payouts?</h2>
 
-      <p>Yes, and for many operators, invoicing is the bigger unlock. Affiliate payouts are outbound; invoicing covers everything else: platform providers, game studios, media buys, white-label fees, and payments <em>between</em> group entities.</p>
+      <p>Yes, and for many operators, <a href="/products/invoices">stablecoin invoicing</a> is the bigger unlock. Affiliate payouts are outbound; invoicing covers everything else: platform providers, game studios, media buys, white-label fees, and payments <em>between</em> group entities.</p>
 
       <p>Stablecoin invoicing gives you:</p>
 
@@ -158,7 +158,7 @@ export const posts: BlogPost[] = [
 
       <p>You don't need to rip out your payment stack to start. Pick one monthly affiliate run, offer USDC or USDT as an opt-in payout method, and measure the fee savings and affiliate feedback. Most operators who run that pilot never go back to wires.</p>
 
-      <p><strong>Ready to modernize your payouts?</strong> Offbank pays your affiliates in USDC in one batch, settles B2B invoices the same day, and never holds your funds, so no bank or processor can freeze them. Your Q4 affiliate run could cost 90% less than your Q3 one.</p>
+      <p><strong>Ready to modernize your payouts?</strong> Offbank <a href="/send-payments">pays your affiliates in USDC</a> in one batch, <a href="/products/invoices">settles B2B invoices</a> the same day, and never holds your funds, so no bank or processor can freeze them. <a href="/onboarding">Get started</a> and your Q4 affiliate run could cost 90% less than your Q3 one.</p>
 
       <p style="font-size:0.85rem;color:#8a8a8a;margin-top:2rem;">Sources: <a href="https://www.bloomberg.com/news/articles/2026-01-08/stablecoin-transactions-rose-to-record-33-trillion-led-by-usdc" target="_blank" rel="noopener noreferrer">Bloomberg</a>, <a href="https://www.forbes.com/sites/digital-assets/2026/04/29/nearly-two-thirds-stablecoins-suddenly-hit-45t-q1-volume-record/" target="_blank" rel="noopener noreferrer">Forbes</a>, <a href="https://www.pymnts.com/cryptocurrency/2026/paysafe-debuts-crypto-payments-for-us-igaming-operations/" target="_blank" rel="noopener noreferrer">PYMNTS</a>, <a href="https://nowpayments.io/blog/navigating-crypto-payments-for-igaming-operators" target="_blank" rel="noopener noreferrer">NOWPayments</a>, <a href="https://bvnk.com/blog/global-stablecoin-regulations-2026" target="_blank" rel="noopener noreferrer">BVNK</a>, <a href="https://www.kucoin.com/blog/en-stablecoin-regulation-updates-2026-genius-act-mica-enforcement-global-compliance-trends" target="_blank" rel="noopener noreferrer">KuCoin</a>, <a href="https://www.payram.com/blog/best-crypto-payment-gateway-for-casinos-and-igaming" target="_blank" rel="noopener noreferrer">PayRam</a>, <a href="https://thepaypers.com/crypto-web3-and-cbdc/news/paysafe-rolls-out-crypto-payment-solution-for-us-igaming-operators-via-moonpay" target="_blank" rel="noopener noreferrer">The Paypers</a></p>
     `,
