@@ -98,6 +98,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
         // ── Industries ──
         {
+            url: `${baseUrl}/industries/igaming`,
+            lastModified,
+            changeFrequency: 'weekly',
+            priority: 0.9,
+        },
+        {
             url: `${baseUrl}/industries/cannabis`,
             lastModified,
             changeFrequency: 'weekly',

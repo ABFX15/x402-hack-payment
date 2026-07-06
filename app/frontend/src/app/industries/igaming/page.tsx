@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   description:
     "USDC payment infrastructure for iGaming: crypto deposits at checkout and instant player withdrawals by email or wallet. 1% flat, no chargebacks, no processor to freeze you.",
   alternates: { canonical: "/industries/igaming" },
-  robots: { index: false, follow: true },
+  robots: { index: true, follow: true },
   openGraph: {
     title: "iGaming Payments - Instant USDC Deposits & Payouts",
     description:
