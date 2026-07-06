@@ -18,6 +18,18 @@ const proof = [
   "Non-custodial, you hold the keys",
 ];
 
+const headline = "The payment rail nobody can shut off.";
+
+/* Scrolling proof band under the hero (Optimus-style marquee). */
+const marqueeStats = [
+  { value: "<1s", label: "settlement finality" },
+  { value: "1%", label: "flat fee, all-in" },
+  { value: "190+", label: "countries you can pay" },
+  { value: "0", label: "chargebacks, ever" },
+  { value: "$0", label: "frozen by a bank" },
+  { value: "24/7", label: "instant USDC payouts" },
+];
+
 export function Hero() {
   const reduceMotion = useReducedMotion();
   const mockRef = useRef<HTMLDivElement>(null);
@@ -84,31 +96,40 @@ export function Hero() {
       />
 
       <div className="relative z-10 mx-auto max-w-[1100px] px-6 pt-24 text-center sm:pt-28">
-        <motion.div {...rise(0)} className="mb-6 flex justify-center">
+        <motion.div {...rise(0)} className="mb-7 flex justify-center">
           <Link
             href="/demo"
-            className="group inline-flex items-center gap-2 rounded-full border bg-white/70 py-1.5 pl-2 pr-3.5 text-[13px] font-medium backdrop-blur-sm transition-colors hover:bg-white"
-            style={{ borderColor: t.hair, color: t.ink }}
+            className="group inline-flex items-center gap-2.5 text-[12px] font-medium uppercase tracking-[0.16em] transition-colors"
+            style={{ fontFamily: "var(--font-jetbrains), monospace", color: t.bodyLight }}
           >
-            <span className="relative flex h-4 w-4 items-center justify-center">
+            <span className="h-px w-8" style={{ background: t.border }} />
+            <span className="relative flex h-2 w-2 items-center justify-center">
               <span
                 className="absolute inline-flex h-2 w-2 animate-ping rounded-full opacity-70"
                 style={{ background: t.green }}
               />
               <span className="relative inline-flex h-2 w-2 rounded-full" style={{ background: t.green }} />
             </span>
-            Live on Solana · instant USDC settlement
-            <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" style={{ color: t.bodyLight }} />
+            <span className="transition-colors group-hover:text-[#0d0d0f]">
+              Live on Solana · instant USDC settlement
+            </span>
           </Link>
         </motion.div>
 
-        <motion.h1
-          {...rise(0.06)}
-          className="mx-auto max-w-[900px] text-[46px] font-extrabold leading-[1.03] tracking-[-0.03em] sm:text-[64px] lg:text-[78px]"
+        <h1
+          className="mx-auto max-w-[960px] text-[clamp(2.75rem,8.4vw,92px)] font-extrabold leading-[0.98] tracking-[-0.035em]"
           style={{ fontFamily: t.sans, color: t.ink }}
         >
-          The payment rail nobody can shut off.
-        </motion.h1>
+          {headline.split(" ").map((word, wi) => (
+            <span
+              key={wi}
+              className={`mr-[0.26em] inline-block${reduceMotion ? "" : " char-blur-in"}`}
+              style={reduceMotion ? undefined : { animationDelay: `${0.12 + wi * 0.07}s` }}
+            >
+              {word}
+            </span>
+          ))}
+        </h1>
 
         <motion.p
           {...rise(0.12)}
@@ -243,6 +264,50 @@ export function Hero() {
             }}
           />
         </motion.div>
+      </div>
+
+      {/* scrolling proof band — Optimus-style marquee of key metrics */}
+      <div
+        className="relative z-10 mt-20 overflow-hidden border-y"
+        style={{ borderColor: t.hair }}
+      >
+        {/* edge fades so the strip melts into the page */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-y-0 left-0 z-10 w-24"
+          style={{ background: "linear-gradient(to right, #ffffff, transparent)" }}
+        />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-y-0 right-0 z-10 w-24"
+          style={{ background: "linear-gradient(to left, #ffffff, transparent)" }}
+        />
+        <div className={`flex w-max${reduceMotion ? "" : " marquee-track"}`}>
+          {[0, 1].map((dup) => (
+            <div key={dup} className="flex shrink-0" aria-hidden={dup === 1}>
+              {marqueeStats.map((s) => (
+                <div
+                  key={`${dup}-${s.label}`}
+                  className="flex items-baseline gap-2.5 whitespace-nowrap px-8 py-5"
+                >
+                  <span
+                    className="text-[26px] font-extrabold tracking-[-0.02em]"
+                    style={{ color: t.ink }}
+                  >
+                    {s.value}
+                  </span>
+                  <span
+                    className="text-[12px] uppercase tracking-[0.12em]"
+                    style={{ fontFamily: "var(--font-jetbrains), monospace", color: t.bodyLight }}
+                  >
+                    {s.label}
+                  </span>
+                  <span className="ml-4 h-1 w-1 rounded-full" style={{ background: t.green }} />
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
       </div>
 
       <p className="sr-only">

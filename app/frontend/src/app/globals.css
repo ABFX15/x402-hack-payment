@@ -169,6 +169,41 @@ pre,
   background-size: 256px 256px;
 }
 
+/* ═══ Marquee strip (Optimus-style scrolling stats) ═══ */
+.marquee-track {
+  animation: marquee-scroll 38s linear infinite;
+}
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+@keyframes marquee-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* ═══ Character blur-in reveal (Optimus hero headline) ═══ */
+@keyframes char-blur-in {
+  0% {
+    opacity: 0;
+    filter: blur(14px);
+    transform: translateY(0.4em);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
+}
+.char-blur-in {
+  display: inline-block;
+  opacity: 0;
+  animation: char-blur-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
 /* ═══ Inset card — pressed-into-paper look ═══ */
 .card-inset {
   background: var(--card-inset);
