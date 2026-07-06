@@ -80,9 +80,7 @@ export const metadata: Metadata = {
     },
   },
   verification: {
-    // Add these when you have them:
-    // google: "your-google-verification-code",
-    // yandex: "your-yandex-verification-code",
+    google: "Frx2X8n3O_tmEfyTddihQJmV-4iOdYz5eX8uxtAiDdQ",
   },
   category: "technology",
 };
