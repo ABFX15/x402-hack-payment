@@ -1,11 +1,17 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { t, spring } from "./shared";
+import { useReducedMotion } from "framer-motion";
+import { t } from "./shared";
 
 /**
- * Shared section header: green eyebrow → big ink headline → gray subtext.
+ * Shared section header: mono green eyebrow (with dash) → big ink headline
+ * that reveals word-by-word with a blur-in → gray subtext.
  * Centered by default. Keeps every section on the same rhythm.
+ *
+ * The headline reveal uses the CSS `.char-blur-in` animation (same as the
+ * hero) rather than framer `whileInView`: it needs no IntersectionObserver
+ * and its resting state is visible, so the headline can never be left
+ * permanently hidden if anything about the reveal fails to run.
  */
 export function SectionHeader({
   eyebrow,
@@ -18,15 +24,15 @@ export function SectionHeader({
   subtitle?: string;
   align?: "center" | "left";
 }) {
+  const reduceMotion = useReducedMotion();
   const alignCls = align === "center" ? "mx-auto text-center" : "text-left";
+
+  // Split keeping whitespace so accessible text (copy-paste / SEO) keeps its
+  // spaces; only non-space tokens animate.
+  let wordIdx = -1;
+
   return (
-    <motion.div
-      className={`${alignCls} max-w-2xl`}
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-60px" }}
-      transition={spring}
-    >
+    <div className={`${alignCls} max-w-2xl`}>
       {eyebrow && (
         <p
           className={`mb-4 flex items-center gap-2.5 text-[12px] uppercase tracking-[0.16em] ${
@@ -42,7 +48,21 @@ export function SectionHeader({
         className="text-[34px] font-extrabold leading-[1.04] tracking-[-0.035em] sm:text-[52px]"
         style={{ color: t.ink, fontFamily: t.sans }}
       >
-        {title}
+        {reduceMotion
+          ? title
+          : title.split(/(\s+)/).map((tok, i) => {
+              if (/^\s+$/.test(tok)) return tok;
+              wordIdx += 1;
+              return (
+                <span
+                  key={i}
+                  className="char-blur-in inline-block"
+                  style={{ animationDelay: `${0.05 + wordIdx * 0.06}s` }}
+                >
+                  {tok}
+                </span>
+              );
+            })}
       </h2>
       {subtitle && (
         <p
@@ -52,6 +72,6 @@ export function SectionHeader({
           {subtitle}
         </p>
       )}
-    </motion.div>
+    </div>
   );
 }

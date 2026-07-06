@@ -120,15 +120,21 @@ export function Hero() {
           className="mx-auto max-w-[960px] text-[clamp(2.75rem,8.4vw,92px)] font-extrabold leading-[0.98] tracking-[-0.035em]"
           style={{ fontFamily: t.sans, color: t.ink }}
         >
-          {headline.split(" ").map((word, wi) => (
-            <span
-              key={wi}
-              className={`mr-[0.26em] inline-block${reduceMotion ? "" : " char-blur-in"}`}
-              style={reduceMotion ? undefined : { animationDelay: `${0.12 + wi * 0.07}s` }}
-            >
-              {word}
-            </span>
-          ))}
+          {reduceMotion
+            ? headline
+            : headline.split(/(\s+)/).map((tok, wi) =>
+                /^\s+$/.test(tok) ? (
+                  tok
+                ) : (
+                  <span
+                    key={wi}
+                    className="char-blur-in inline-block"
+                    style={{ animationDelay: `${0.12 + (wi / 2) * 0.07}s` }}
+                  >
+                    {tok}
+                  </span>
+                ),
+              )}
         </h1>
 
         <motion.p
