@@ -81,12 +81,16 @@ export function WhyUnfreezable() {
           viewport={{ once: true, margin: "-60px" }}
           transition={spring}
         >
-          <p className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#34c759]/30 bg-[#34c759]/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-[#34c759]">
+          <p
+            className="mb-4 flex items-center justify-center gap-2.5 text-[12px] uppercase tracking-[0.16em] text-[#34c759]"
+            style={{ fontFamily: "var(--font-jetbrains), monospace" }}
+          >
+            <span className="h-px w-7 shrink-0 bg-[#34c759]/55" />
             <KeyRound className="h-3.5 w-3.5" />
             Why you can&apos;t be frozen
           </p>
           <h2
-            className="text-[32px] font-extrabold leading-[1.12] tracking-tight text-white sm:text-[44px]"
+            className="text-[34px] font-extrabold leading-[1.05] tracking-[-0.035em] text-white sm:text-[52px]"
             style={{ fontFamily: t.sans }}
           >
             Everyone makes you choose. We don&apos;t.

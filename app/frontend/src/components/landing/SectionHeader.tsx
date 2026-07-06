@@ -29,14 +29,17 @@ export function SectionHeader({
     >
       {eyebrow && (
         <p
-          className="mb-3 text-[13px] font-semibold uppercase tracking-[0.14em]"
-          style={{ color: t.green }}
+          className={`mb-4 flex items-center gap-2.5 text-[12px] uppercase tracking-[0.16em] ${
+            align === "center" ? "justify-center" : ""
+          }`}
+          style={{ fontFamily: "var(--font-jetbrains), monospace", color: t.green }}
         >
+          <span className="h-px w-7 shrink-0" style={{ background: t.green, opacity: 0.55 }} />
           {eyebrow}
         </p>
       )}
       <h2
-        className="text-[32px] font-extrabold leading-[1.08] tracking-[-0.03em] sm:text-[46px]"
+        className="text-[34px] font-extrabold leading-[1.04] tracking-[-0.035em] sm:text-[52px]"
         style={{ color: t.ink, fontFamily: t.sans }}
       >
         {title}

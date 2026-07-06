@@ -123,13 +123,14 @@ export function BentoCards() {
           transition={spring}
         >
           <p
-            className="mb-3 text-[13px] font-semibold uppercase tracking-[0.14em]"
-            style={{ color: t.green }}
+            className="mb-4 flex items-center justify-center gap-2.5 text-[12px] uppercase tracking-[0.16em]"
+            style={{ fontFamily: "var(--font-jetbrains), monospace", color: t.green }}
           >
+            <span className="h-px w-7 shrink-0" style={{ background: t.green, opacity: 0.55 }} />
             The opportunity
           </p>
           <h2
-            className="text-[32px] leading-[1.08] tracking-[-0.03em] font-extrabold sm:text-[46px]"
+            className="text-[34px] leading-[1.04] tracking-[-0.035em] font-extrabold sm:text-[52px]"
             style={{ color: t.ink, fontFamily: t.sans }}
           >
             Your bank can pull the plug tomorrow. The rail you settle on
